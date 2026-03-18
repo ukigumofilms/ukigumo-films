@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — ukigumo films</title>
+  <meta name="description" content="浮雲ウェディング — お問い合わせ・ご予約。撮影までの流れとご依頼方法。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Page Hero */
+    .page-hero {
+      position: relative;
+      height: 65vh;
+      min-height: 450px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .page-hero__image {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transform: scale(1);
+      transition: transform 12s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      will-change: transform;
+    }
+
+    .page-hero.active .page-hero__image {
+      transform: scale(1.1);
+    }
+
+    .page-hero__overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4);
+      z-index: 1;
+    }
+
+    .page-hero__content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      color: white;
+    }
+
+    .page-hero__title {
+      font-family: var(--font-serif);
+      font-size: clamp(2.5rem, 8vw, 4rem);
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      color: #fff;
+      opacity: 0;
+      filter: blur(3px);
+      transition: opacity 0.8s ease, filter 0.6s ease;
+    }
+
+    .page-hero__title.show {
+      opacity: 1;
+      filter: blur(0);
+      transition: opacity 1.5s cubic-bezier(0.19, 1, 0.22, 1), filter 1.2s ease;
+    }
+
+    .page-hero__subtitle {
+      font-family: var(--font-jp-serif);
+      font-size: clamp(0.75rem, 2vw, 0.9rem);
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      margin-top: 1rem;
+      color: rgba(255,255,255,0.55);
+      opacity: 0;
+      filter: blur(3px);
+      transition: opacity 0.8s ease, filter 0.6s ease;
+    }
+
+    .page-hero__subtitle.show {
+      opacity: 0.55;
+      filter: blur(0);
+      transition: opacity 1.5s cubic-bezier(0.19, 1, 0.22, 1), filter 1.2s ease;
+    }
+
+    /* Timeline Styles */
+    .timeline {
+      position: relative;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Pattern D: ゴールドドット＋Step ラベル */
+    .timeline::before {
+      display: none;
+    }
+
+    .timeline-step {
+      display: flex;
+      gap: 0.6rem;
+      align-items: flex-start;
+      margin-bottom: 0.8rem;
+      opacity: 0;
+      animation: fadeInItem 1.2s ease forwards;
+    }
+
+    .timeline.stagger-children .timeline-step:nth-child(1) { animation-delay: 0.2s; }
+    .timeline.stagger-children .timeline-step:nth-child(2) { animation-delay: 0.5s; }
+    .timeline.stagger-children .timeline-step:nth-child(3) { animation-delay: 0.7s; }
+    .timeline.stagger-children .timeline-step:nth-child(4) { animation-delay: 0.95s; }
+    .timeline.stagger-children .timeline-step:nth-child(5) { animation-delay: 1.2s; }
+    .timeline.stagger-children .timeline-step:nth-child(6) { animation-delay: 1.45s; }
+    .timeline.stagger-children .timeline-step:nth-child(7) { animation-delay: 1.7s; }
+
+    .timeline-step:last-child {
+      margin-bottom: 0;
+    }
+
+    .timeline-step__dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: rgba(201,169,110,0.5);
+      margin-top: 0.35rem;
+      flex-shrink: 0;
+    }
+
+    .timeline-step__content {
+      flex: 1;
+    }
+
+    @keyframes fadeInItem {
+      from {
+        opacity: 0;
+        filter: blur(3px);
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(0);
+      }
+    }
+
+    .timeline-step__label {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.45rem;
+      font-weight: 400;
+      color: rgba(201,169,110,0.55);
+      letter-spacing: 0.08em;
+      margin-bottom: 0.05rem;
+    }
+
+    .timeline-step__title {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.62rem;
+      font-weight: 300;
+      margin-bottom: 0.1rem;
+      color: #2a2420;
+      letter-spacing: 0.04em;
+    }
+
+    .timeline-step__description {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.52rem;
+      font-weight: 300;
+      color: rgba(61,53,48,0.42);
+      line-height: 1.7;
+      letter-spacing: 0.02em;
+    }
+
+    /* Photo Break */
+    .timeline-photo-break {
+      margin: 1.5rem -1.5rem;
+      height: 25vh;
+      width: calc(100% + 3rem);
+      position: relative;
+      overflow: hidden;
+      clip-path: inset(0 0 0 0);
+      animation: clipReveal 1.4s ease forwards;
+    }
+
+    .timeline-photo-break img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      animation: imgFadeScale 1.4s ease forwards;
+    }
+
+    .timeline-photo-break::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
+    @keyframes clipReveal {
+      from {
+        clip-path: inset(10% 0 10% 0);
+      }
+      to {
+        clip-path: inset(0 0 0 0);
+      }
+    }
+
+    @keyframes imgFadeScale {
+      from {
+        opacity: 0.8;
+        transform: scale(1.05);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Info Items Grid */
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      max-width: 650px;
+      margin: 2rem auto 0;
+    }
+
+    .info-item {
+      padding: 1.5rem;
+      background: transparent;
+      border-radius: 0;
+      opacity: 0;
+      animation: fadeInItem 1.2s ease forwards;
+    }
+
+    .info-grid.stagger-children .info-item:nth-child(1) { animation-delay: 0.2s; }
+    .info-grid.stagger-children .info-item:nth-child(2) { animation-delay: 0.5s; }
+    .info-grid.stagger-children .info-item:nth-child(3) { animation-delay: 0.7s; }
+    .info-grid.stagger-children .info-item:nth-child(4) { animation-delay: 0.95s; }
+
+    .info-item__number {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: rgba(61,53,48,0.4);
+      margin-bottom: 0.5rem;
+    }
+
+    .info-item__title {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: #2a2420;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    .info-item__description {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.8rem;
+      font-weight: 300;
+      color: rgba(61,53,48,0.55);
+      line-height: 2;
+      letter-spacing: 0.03em;
+    }
+
+    /* Note Box */
+    .note-box {
+      max-width: 600px;
+      margin: 0 auto;
+      background: transparent;
+      padding: 2rem;
+      border-radius: 0;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .note-box.reveal {
+      animation: revealFadeUp 1.2s ease forwards;
+    }
+
+    .note-box__title {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: #2a2420;
+      margin-bottom: 1.2rem;
+      letter-spacing: 0.1em;
+    }
+
+    .note-box__content {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.8rem;
+      font-weight: 300;
+      line-height: 2.2;
+      color: rgba(61,53,48,0.55);
+      letter-spacing: 0.03em;
+    }
+
+    @keyframes revealFadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .timeline-step {
+        gap: 0.5rem;
+        margin-bottom: 0.6rem;
+      }
+
+      .info-grid {
+        gap: 1.5rem;
+      }
+
+      .timeline-photo-break {
+        height: 25vh;
+      }
+
+      .est-card {
+        max-width: 100%;
+        padding: 1.2rem 1rem 1rem;
+      }
+    }
+
+    /* Button styles now unified in style.css */
+
+    /* Instagram CTA */
+    .instagram-cta {
+      text-align: center;
+    }
+
+    .instagram-cta__icon {
+      width: 2rem;
+      height: 2rem;
+      margin: 0 auto 1.5rem;
+      opacity: 0.6;
+      transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    .instagram-cta:hover .instagram-cta__icon {
+      transform: scale(1.05);
+      opacity: 0.8;
+    }
+
+    /* ===== Estimate Request Section ===== */
+    .est-card {
+      background: #fff;
+      border: 1px solid rgba(155,145,135,0.35);
+      border-radius: 14px;
+      padding: 1.4rem 1.5rem 1.2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .est-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(to right, #c9a96e, #e0d5c0);
+    }
+    .est-card__items {
+      max-width: 280px;
+      margin: 0 auto;
+    }
+    .est-card__item {
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem;
+      padding: 0.3rem 0;
+    }
+    .est-card__num {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: #c9a96e;
+      min-width: 1.3rem;
+      opacity: 0.7;
+    }
+    .est-card__label {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.62rem;
+      font-weight: 300;
+      color: #2a2420;
+      letter-spacing: 0.04em;
+    }
+    .est-card__footer {
+      margin-top: 0.8rem;
+      padding-top: 0.6rem;
+      border-top: 1px solid rgba(61,53,48,0.06);
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.55rem;
+      font-weight: 300;
+      color: rgba(61,53,48,0.5);
+      line-height: 1.8;
+      margin-bottom: 0.6rem;
+    }
+    .est-card .ig-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      color: #2a2420;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      transition: color 0.3s;
+    }
+    .est-card .ig-link:hover { color: #c9a96e; }
+    .est-card .ig-link svg { opacity: 0.6; }
+
+    /* works-more button (unified CTA — 線 + テキスト + 矢印) */
+    .works-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: #2a2420;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.2em;
+      cursor: pointer;
+    }
+    .works-more__line {
+      display: inline-block;
+      width: 35px;
+      height: 1px;
+      background: #2a2420;
+      transition: width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .works-more:hover .works-more__line { width: 60px; }
+    .works-more__text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.92rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+    }
+    .works-more__arrow {
+      transition: transform 0.3s ease;
+    }
+    .works-more:hover .works-more__arrow { transform: translateX(5px); }
+
+    /* Reduce section padding for tighter layout */
+    .section { padding-top: 1rem; padding-bottom: 0.8rem; }
+
+    /* Section Divider: 縦ライン — NO pseudo-element, div itself is the line */
+    .section-divider {
+      width: 1px;
+      height: 40px;
+      margin: 1.5rem auto;
+      background-color: #2a2420;
+      opacity: 0.3;
+    }
+
+    /* Divider 1: 納品 → 見積り依頼 */
+    .section-divider--1 { margin: 1.5rem auto; }
+    /* Divider 2: 見積り依頼 → 重要なお知らせ (hidden) */
+    .section-divider--2 { display: none; }
+    /* Divider 3: 重要なお知らせ → Q&A (hidden) */
+    .section-divider--3 { display: none; }
+
+    /* Note + FAQ sections tighter */
+    .section--note { padding: 0; margin: 0; }
+    .section--faq { padding-top: 0; padding-bottom: 10rem; }
+
+    /* Note box compact */
+    .note-box { padding: 0.8rem 1.5rem; }
+    .note-box__title { font-size: 0.7rem; margin-bottom: 0.6rem; }
+    .note-box__content { font-size: 0.65rem; line-height: 1.9; }
+  </style>
+</head>
+<body>
+
+  <!-- Side Labels -->
+  <span class="side-text side-text--left side-text--dark">contact</span>
+  <span class="side-text side-text--right side-text--dark">ukigumo films &mdash; all rights reserved.</span>
+
+  <!-- Navigation -->
+  <nav class="nav nav--light">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">
+        <img src="images/logo/logo-white.png" alt="ukigumo" class="nav__logo-light">
+        <img src="images/logo/logo-black.png" alt="ukigumo" class="nav__logo-dark">
+      </a>
+      <div class="nav__links">
+        <a href="plan.html">Plan / Price</a>
+        <a href="dress.html">Dress</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="qa.html">Q&A</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <button class="nav__hamburger" aria-label="メニュー">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="nav__menu">
+    <a href="index.html">Home</a>
+    <a href="plan.html">Plan / Price</a>
+    <div class="nav__menu-subs">
+      <a href="plan-japan.html">Japan</a>
+      <a href="plan-paris.html">Paris</a>
+      <a href="plan-europa.html">Europa</a>
+    </div>
+    <a href="gallery.html">Gallery</a>
+    <a href="dress.html">Dress</a>
+    <a href="qa.html">Q&A</a>
+    <a href="contact.html">Contact</a>
+    <a href="https://www.instagram.com/ukigumo_films/" target="_blank" rel="noopener" class="nav-instagram"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+    <span class="nav__menu-brand">ukigumo films — Tokyo</span>
+  </div>
+
+  <!-- Page Hero -->
+  <div class="page-hero" data-nav-dark>
+    <img src="images/hero-contact.jpg" alt="Contact" class="page-hero__image">
+    <div class="page-hero__overlay"></div>
+    <div class="page-hero__content reveal">
+      <h1 class="page-hero__title">Contact</h1>
+      <p class="page-hero__subtitle">お 問 い 合 わ せ</p>
+    </div>
+  </div>
+
+  <!-- Timeline Section -->
+  <section class="section reveal">
+    <div class="container">
+      <div style="text-align:center; margin-bottom:2rem;">
+        <h2 style="font-family:'Cormorant Garamond',serif; font-weight:300; font-size:clamp(1.2rem,3.5vw,1.8rem); letter-spacing:0.2em; color:#2a2420; margin-bottom:8px;">撮影までの流れ</h2>
+        <p style="font-family:'Noto Serif JP',serif; font-size:0.6rem; font-weight:300; color:rgba(61,53,48,0.4); letter-spacing:0.25em;">7つのステップ</p>
+      </div>
+
+      <div class="timeline stagger-children">
+        <div class="timeline-step">
+          <div class="timeline-step__dot"></div>
+          <div class="timeline-step__content">
+            <div class="timeline-step__label">Step 01</div>
+            <h3 class="timeline-step__title">Instagram DMよりお問い合わせ</h3>
+            <p class="timeline-step__description">@ukigumo_filmsへ、お気軽にお問い合わせください。</p>
+          </div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="timeline-step__dot"></div>
+          <div class="timeline-step__content">
+            <div class="timeline-step__label">Step 02</div>
+            <h3 class="timeline-step__title">お見積り・スケジュール調整</h3>
+            <p class="timeline-step__description">ご希望のプランと日程に合わせてお見積りさせていただきます。</p>
+          </div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="timeline-step__dot"></div>
+          <div class="timeline-step__content">
+            <div class="timeline-step__label">Step 03</div>
+            <h3 class="timeline-step__title">前金のご入金（ご予約確定）</h3>
+            <p class="timeline-step__description">前金をお振込みいただくことで、ご予約が確定いたします。</p>
+          </div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="timeline-step__dot"></div>
+          <div class="timeline-step__content">
+            <div class="timeline-step__label">Step 04</div>
+            <h3 class="timeline-step__title">グループLINE作成・お打ち合わせ</h3>
+            <p class="timeline-step__description">撮影に向けて、詳細なお打ち合わせをいたします。</p>
+          </div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="timeline-step__dot"></div>
+          <div class="timeline-step__content">
+            <div class="timeline-step__label">Step 05</div>
+            <h3 class="timeline-step__title">撮影</h3>
+            <p class="timeline-step__description">いよいよ撮影当日です。思い出に残る最高の時間をお作りします。</p>
+          </div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="timeline-step__dot"></div>
+          <div class="timeline-step__content">
+            <div class="timeline-step__label">Step 06</div>
+            <h3 class="timeline-step__title">撮影後 残金のご案内</h3>
+            <p class="timeline-step__description">撮影後、残金の請求書をお送りいたします。<br>1週間以内のお支払いをお願いしております。</p>
+          </div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="timeline-step__dot"></div>
+          <div class="timeline-step__content">
+            <div class="timeline-step__label">Step 07</div>
+            <h3 class="timeline-step__title">納品</h3>
+            <p class="timeline-step__description">お写真はGoogle Photoにて、<br>映像はギガファイル便にて、それぞれ約8週間を目安に納品いたします。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider section-divider--1"></div>
+
+  <!-- Request Section -->
+  <section class="section reveal">
+    <div class="container">
+      <div class="est-card">
+        <h2 style="font-family:'Cormorant Garamond',serif; font-weight:300; font-size:1.05rem; letter-spacing:0.2em; color:#2a2420; margin-bottom:0.15rem;">見積り依頼</h2>
+        <p style="font-family:'Cormorant Garamond',serif; font-size:0.55rem; color:rgba(61,53,48,0.35); letter-spacing:0.25em; text-transform:uppercase; margin-bottom:1rem;">Estimate Request</p>
+        <div class="est-card__items">
+          <div class="est-card__item"><span class="est-card__num">01</span><span class="est-card__label">お名前</span></div>
+          <div class="est-card__item"><span class="est-card__num">02</span><span class="est-card__label">ご希望撮影地</span></div>
+          <div class="est-card__item"><span class="est-card__num">03</span><span class="est-card__label">ご希望プラン</span></div>
+          <div class="est-card__item"><span class="est-card__num">04</span><span class="est-card__label">日程（第3希望まで）</span></div>
+          <div class="est-card__item"><span class="est-card__num">05</span><span class="est-card__label">オプション（後から追加可能）</span></div>
+        </div>
+        <p class="est-card__footer">上記の内容をInstagram DMにてお送りいただけますと<br>スムーズにお見積りを作成いたします。</p>
+        <a href="https://www.instagram.com/ukigumo_films/" target="_blank" rel="noopener" class="ig-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+          ukigumo_films
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider section-divider--2"></div>
+
+  <!-- Important Note Section -->
+  <section class="section section--note reveal" style="padding-bottom:0;">
+    <div class="container">
+      <div class="note-box">
+        <div class="note-box__title">⚠ 重要なお知らせ</div>
+        <div class="note-box__content">
+          クオリティ優先のため撮影枠に限りがございます。先着順のご案内ですので、お早めにお問い合わせください。ご予約状況により、ご希望の日程がご案内できない場合もございます。予めご了承ください。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Link Section -->
+  <section class="section section--faq reveal">
+    <div class="container" style="text-align:center;">
+      <h2 style="font-family:'Cormorant Garamond',serif; font-weight:300; font-size:clamp(1.8rem,5vw,3rem); letter-spacing:0.25em; color:#2a2420; margin-bottom:0.5rem;">Q & A</h2>
+      <p style="font-family:'Noto Serif JP',serif; font-size:0.7rem; font-weight:300; color:rgba(61,53,48,0.4); letter-spacing:0.25em; margin-bottom:1rem;">よくあるご質問</p>
+      <a href="qa.html" class="cta-pill">view questions</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" style="background:#fff;">
+    <div class="footer__logo">
+      <a href="index.html"><img src="images/logo/logo-black.png" alt="ukigumo"></a>
+    </div>
+    <div class="footer__links">
+      <a href="plan.html">Plan & Price</a>
+      <a href="dress.html">Dress</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="qa.html">Q&A / Policy</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <p class="footer__copy">&copy; 2026 ukigumo films. All rights reserved.</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    // Trigger hero zoom on page load + blur-fade text (matching index.html slideshow behavior)
+    window.addEventListener('load', function() {
+      var hero = document.querySelector('.page-hero');
+      if (hero) {
+        setTimeout(function() { hero.classList.add('active'); }, 100);
+      }
+      var heroTitle = document.querySelector('.page-hero__title');
+      var heroSub = document.querySelector('.page-hero__subtitle');
+      setTimeout(function() { if (heroTitle) heroTitle.classList.add('show'); }, 300);
+      setTimeout(function() { if (heroSub) heroSub.classList.add('show'); }, 300);
+    });
+  </script>
+</body>
+</html>

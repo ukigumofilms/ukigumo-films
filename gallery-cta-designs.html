@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery CTA — 10 Design Patterns</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Noto+Serif+JP:wght@300;400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; }
+
+  .pattern {
+    background: #f5f3ef;
+    padding: 4rem 5%;
+    border-bottom: 1px solid #ddd;
+  }
+  .label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: #c9a96e;
+    margin-bottom: 2rem;
+  }
+
+  /* Context text to simulate the section */
+  .context {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.78rem;
+    line-height: 2;
+    color: #aaa;
+    margin-bottom: 40px;
+    letter-spacing: 0.05em;
+  }
+
+  /* ===== C1: Line + Dark text (fix current issue) ===== */
+  .c1 a {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    color: #2a2420;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.2em;
+    transition: color 0.3s;
+  }
+  .c1 a::before {
+    content: '';
+    display: inline-block;
+    width: 35px;
+    height: 1px;
+    background: #2a2420;
+    transition: width 0.5s ease;
+  }
+  .c1 a:hover::before { width: 60px; }
+  .c1 a:hover { color: #c9a96e; }
+
+  /* ===== C2: Gold accent line + text ===== */
+  .c2 a {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    color: #c9a96e;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.2em;
+    transition: color 0.3s;
+  }
+  .c2 a::before {
+    content: '';
+    display: inline-block;
+    width: 35px;
+    height: 1px;
+    background: #c9a96e;
+    transition: width 0.5s ease;
+  }
+  .c2 a:hover::before { width: 60px; }
+  .c2 a:hover { color: #b08a50; }
+
+  /* ===== C3: Underline style ===== */
+  .c3 a {
+    text-decoration: none;
+    color: #2a2420;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    letter-spacing: 0.25em;
+    border-bottom: 1px solid #2a2420;
+    padding-bottom: 4px;
+    transition: all 0.3s;
+  }
+  .c3 a:hover {
+    color: #c9a96e;
+    border-color: #c9a96e;
+  }
+
+  /* ===== C4: Pill border button ===== */
+  .c4 a {
+    display: inline-block;
+    text-decoration: none;
+    color: #2a2420;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.25em;
+    border: 1px solid rgba(42,36,32,0.3);
+    padding: 12px 36px;
+    border-radius: 30px;
+    transition: all 0.4s;
+  }
+  .c4 a:hover {
+    border-color: #c9a96e;
+    color: #c9a96e;
+    background: rgba(201,169,110,0.05);
+  }
+
+  /* ===== C5: Rectangular border button ===== */
+  .c5 a {
+    display: inline-block;
+    text-decoration: none;
+    color: #2a2420;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.3em;
+    border: 1px solid #2a2420;
+    padding: 14px 42px;
+    transition: all 0.4s;
+  }
+  .c5 a:hover {
+    background: #2a2420;
+    color: #f5f3ef;
+  }
+
+  /* ===== C6: Arrow circle ===== */
+  .c6 a {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    text-decoration: none;
+    color: #2a2420;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.2em;
+    transition: color 0.3s;
+  }
+  .c6 .arrow-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(42,36,32,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    transition: all 0.4s;
+  }
+  .c6 a:hover .arrow-circle {
+    background: #2a2420;
+    color: #fff;
+    border-color: #2a2420;
+  }
+
+  /* ===== C7: Filled dark button ===== */
+  .c7 a {
+    display: inline-block;
+    text-decoration: none;
+    color: #f5f3ef;
+    background: #2a2420;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.3em;
+    padding: 14px 40px;
+    transition: all 0.4s;
+  }
+  .c7 a:hover {
+    background: #c9a96e;
+  }
+
+  /* ===== C8: Text only + arrow, darker color ===== */
+  .c8 a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: #4a4a3a;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    letter-spacing: 0.15em;
+    font-weight: 400;
+    transition: all 0.3s;
+  }
+  .c8 a span.arrow {
+    font-size: 1.2rem;
+    transition: transform 0.3s;
+  }
+  .c8 a:hover { color: #c9a96e; }
+  .c8 a:hover span.arrow { transform: translateX(6px); }
+
+  /* ===== C9: Gold filled pill ===== */
+  .c9 a {
+    display: inline-block;
+    text-decoration: none;
+    color: #fff;
+    background: #c9a96e;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.3em;
+    padding: 12px 36px;
+    border-radius: 30px;
+    transition: all 0.4s;
+  }
+  .c9 a:hover {
+    background: #b08a50;
+  }
+
+  /* ===== C10: Line above + text below ===== */
+  .c10 a {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    text-decoration: none;
+    color: #2a2420;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.25em;
+    transition: color 0.3s;
+  }
+  .c10 a::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: #c9a96e;
+    transition: width 0.5s ease;
+  }
+  .c10 a:hover::before { width: 70px; }
+  .c10 a:hover { color: #c9a96e; }
+</style>
+</head>
+<body>
+
+<div class="pattern c1">
+  <div class="label">C1 — Line + Dark text（現行をダーク化）</div>
+  <p class="context">We chose the road without a map.<br>Wrong turns, detours — none of it mattered,<br>because you were right there beside me.</p>
+  <a href="#">—— gallery →</a>
+</div>
+
+<div class="pattern c2">
+  <div class="label">C2 — Gold line + Gold text</div>
+  <p class="context">We chose the road without a map.<br>Wrong turns, detours — none of it mattered,<br>because you were right there beside me.</p>
+  <a href="#">—— gallery →</a>
+</div>
+
+<div class="pattern c3">
+  <div class="label">C3 — Underline text</div>
+  <p class="context">We chose the road without a map.<br>Wrong turns, detours — none of it mattered,<br>because you were right there beside me.</p>
+  <a href="#">gallery →</a>
+</div>
+
+<div class="pattern c4">
+  <div class="label">C4 — Pill border button</div>
+  <p class="context">We chose the road without a map.<br>Wrong turns, detours — none of it mattered,<br>because you were right there beside me.</p>
+  <a href="#">gallery →</a>
+</div>
+
+<div class="pattern c5">
+  <div class="label">C5 — Rectangular border button</div>
+  <p class="context">We chose the road without a map.<br>Wrong turns, detours — none of it mattered,<br>because you were right there beside me.</p>
+  <a href="#">gallery →</a>
+</div>
+
+<div class="pattern c6">
+  <div class="label">C6 — Text + Arrow circle</div>
+  <p class="context">We chose the road without a map.<br>Wrong turns, detours — none of it mattered,<br>because you were right there beside me.</p>
+  <a href="#">gallery <span class="arrow-circle">→</span></a>
+</div>
+
+<div class="pattern c7">
+  <div class="label">C7 — Filled dark button</div>
+  <p class="context">We chose the road without a map.<br>Wrong turns, detours — none of it mattered,<br>because you were right there beside me.</p>
+  <a href="#">gallery →</a>
+</div>
+
+<div class="pattern c8">
+  <div class="label">C8 — Text only + arrow（シンプル濃い色）</div>
+  <p class="context">We chose the road without a map.<br>Wrong turns, detours — none of it mattered,<br>because you were right there beside me.</p>
+  <a href="#">gallery <span class="arrow">→</span></a>
+</div>
+
+<div class="pattern c9">
+  <div class="label">C9 — Gold filled pill</div>
+  <p class="context">We chose the road without a map.<br>Wrong turns, detours — none of it mattered,<br>because you were right there beside me.</p>
+  <a href="#">gallery →</a>
+</div>
+
+<div class="pattern c10">
+  <div class="label">C10 — Gold line above + text below</div>
+  <p class="context">We chose the road without a map.<br>Wrong turns, detours — none of it mattered,<br>because you were right there beside me.</p>
+  <a href="#">gallery →</a>
+</div>
+
+</body>
+</html>

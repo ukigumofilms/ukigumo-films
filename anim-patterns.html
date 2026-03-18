@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pattern H — Animation 10 Patterns</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #111; font-family: 'Noto Serif JP', serif; }
+
+.label {
+  color: #c9a96e;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.2em;
+  text-align: center;
+  padding: 2.5rem 1rem 0.5rem;
+  border-top: 1px solid rgba(201,169,110,0.25);
+}
+.label span {
+  font-size: 0.65rem;
+  color: #999;
+  display: block;
+  margin-top: 0.3rem;
+  font-family: sans-serif;
+  letter-spacing: 0.02em;
+}
+.replay-btn {
+  display: block;
+  margin: 0.5rem auto 1rem;
+  padding: 6px 20px;
+  background: none;
+  border: 1px solid rgba(201,169,110,0.4);
+  color: #c9a96e;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.card {
+  position: relative;
+  width: 390px;
+  height: 720px;
+  margin: 0 auto 3rem;
+  overflow: hidden;
+  border-radius: 6px;
+}
+.card img {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.card .ov {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.75) 100%);
+}
+.card .ct {
+  position: relative;
+  z-index: 2;
+  width: 100%; height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 7%;
+}
+
+/* Pattern H base text styles */
+.h1t { font-family: 'Noto Serif JP', serif; font-weight: 200; font-size: 1.15rem; line-height: 1.8; letter-spacing: 0.1em; color: rgba(255,255,255,0.92); margin-bottom: 22px; }
+.bdt { font-family: 'Noto Serif JP', serif; font-weight: 300; font-size: 0.65rem; line-height: 2.2; letter-spacing: 0.03em; color: rgba(255,255,255,0.55); margin-bottom: 28px; }
+.clt { font-family: 'Noto Serif JP', serif; font-weight: 200; font-size: 1.2rem; line-height: 1.7; letter-spacing: 0.12em; color: rgba(255,255,255,0.92); margin-bottom: 32px; }
+.gld { width: 50px; height: 1px; background: linear-gradient(to right, transparent, rgba(201,169,110,0.5), transparent); margin: 0 auto 30px; }
+.ent { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 0.54rem; line-height: 2.5; letter-spacing: 0.12em; color: rgba(255,255,255,0.3); }
+
+/* ============================================================
+   ANIMATION 1 — フェードアップ（王道）
+   下から順にふわっと浮き上がる
+   ============================================================ */
+.a1 .ct > * { opacity: 0; transform: translateY(18px); }
+.a1.go .h1t { animation: a1in 1.2s ease forwards 0.3s; }
+.a1.go .bdt { animation: a1in 1.2s ease forwards 0.8s; }
+.a1.go .clt { animation: a1in 1.2s ease forwards 1.4s; }
+.a1.go .gld { animation: a1in 1.2s ease forwards 2.0s; }
+.a1.go .ent:nth-of-type(1) { animation: a1in 1s ease forwards 2.4s; }
+.a1.go .ent:nth-of-type(2) { animation: a1in 1s ease forwards 2.6s; }
+.a1.go .ent:nth-of-type(3) { animation: a1in 1s ease forwards 2.8s; }
+.a1.go .ent:nth-of-type(4) { animation: a1in 1s ease forwards 3.0s; }
+.a1.go .ent:nth-of-type(5) { animation: a1in 1s ease forwards 3.2s; }
+@keyframes a1in { to { opacity: 1; transform: translateY(0); } }
+
+/* ============================================================
+   ANIMATION 2 — フェード＋ブラー（霧の中から）
+   ぼかし状態からじわっとクリアに
+   ============================================================ */
+.a2 .ct > * { opacity: 0; filter: blur(8px); }
+.a2.go .h1t { animation: a2in 1.8s cubic-bezier(0.25,0.46,0.45,0.94) forwards 0.2s; }
+.a2.go .bdt { animation: a2in 1.8s cubic-bezier(0.25,0.46,0.45,0.94) forwards 0.9s; }
+.a2.go .clt { animation: a2in 1.8s cubic-bezier(0.25,0.46,0.45,0.94) forwards 1.6s; }
+.a2.go .gld { animation: a2in 1.5s cubic-bezier(0.25,0.46,0.45,0.94) forwards 2.3s; }
+.a2.go .ent { animation: a2in 1.5s cubic-bezier(0.25,0.46,0.45,0.94) forwards 2.8s; }
+@keyframes a2in { to { opacity: 1; filter: blur(0); } }
+
+/* ============================================================
+   ANIMATION 3 — 一文字ずつマスク揃い（クリップ）
+   上からカーテンが開くように
+   ============================================================ */
+.a3 .ct > * { clip-path: inset(0 0 100% 0); opacity: 0; }
+.a3.go .h1t { animation: a3clip 1s ease forwards 0.3s, a3fade 0.6s ease forwards 0.3s; }
+.a3.go .bdt { animation: a3clip 1s ease forwards 0.9s, a3fade 0.6s ease forwards 0.9s; }
+.a3.go .clt { animation: a3clip 1s ease forwards 1.5s, a3fade 0.6s ease forwards 1.5s; }
+.a3.go .gld { animation: a3clip 0.8s ease forwards 2.1s, a3fade 0.5s ease forwards 2.1s; }
+.a3.go .ent:nth-of-type(1) { animation: a3clip 0.8s ease forwards 2.5s, a3fade 0.5s ease forwards 2.5s; }
+.a3.go .ent:nth-of-type(2) { animation: a3clip 0.8s ease forwards 2.7s, a3fade 0.5s ease forwards 2.7s; }
+.a3.go .ent:nth-of-type(3) { animation: a3clip 0.8s ease forwards 2.9s, a3fade 0.5s ease forwards 2.9s; }
+.a3.go .ent:nth-of-type(4) { animation: a3clip 0.8s ease forwards 3.1s, a3fade 0.5s ease forwards 3.1s; }
+.a3.go .ent:nth-of-type(5) { animation: a3clip 0.8s ease forwards 3.3s, a3fade 0.5s ease forwards 3.3s; }
+@keyframes a3clip { to { clip-path: inset(0 0 0 0); } }
+@keyframes a3fade { to { opacity: 1; } }
+
+/* ============================================================
+   ANIMATION 4 — スケールイン（呼吸するように）
+   微かに拡大→等倍で落ち着く
+   ============================================================ */
+.a4 .ct > * { opacity: 0; transform: scale(1.08); }
+.a4.go .h1t { animation: a4in 1.5s cubic-bezier(0.19,1,0.22,1) forwards 0.3s; }
+.a4.go .bdt { animation: a4in 1.5s cubic-bezier(0.19,1,0.22,1) forwards 1.0s; }
+.a4.go .clt { animation: a4in 1.5s cubic-bezier(0.19,1,0.22,1) forwards 1.7s; }
+.a4.go .gld { animation: a4in 1.2s cubic-bezier(0.19,1,0.22,1) forwards 2.4s; }
+.a4.go .ent { animation: a4in 1.2s cubic-bezier(0.19,1,0.22,1) forwards 2.9s; }
+@keyframes a4in { to { opacity: 1; transform: scale(1); } }
+
+/* ============================================================
+   ANIMATION 5 — 左右交互フェード
+   見出し左から、本文右から、交互に
+   ============================================================ */
+.a5 .ct > * { opacity: 0; }
+.a5 .h1t { transform: translateX(-20px); }
+.a5 .bdt { transform: translateX(20px); }
+.a5 .clt { transform: translateX(-20px); }
+.a5 .gld { transform: scaleX(0); }
+.a5 .ent { transform: translateX(12px); }
+.a5.go .h1t { animation: a5L 1.2s ease forwards 0.3s; }
+.a5.go .bdt { animation: a5R 1.2s ease forwards 0.9s; }
+.a5.go .clt { animation: a5L 1.2s ease forwards 1.5s; }
+.a5.go .gld { animation: a5line 1s ease forwards 2.1s; }
+.a5.go .ent:nth-of-type(1) { animation: a5R 1s ease forwards 2.5s; }
+.a5.go .ent:nth-of-type(2) { animation: a5R 1s ease forwards 2.7s; }
+.a5.go .ent:nth-of-type(3) { animation: a5R 1s ease forwards 2.9s; }
+.a5.go .ent:nth-of-type(4) { animation: a5R 1s ease forwards 3.1s; }
+.a5.go .ent:nth-of-type(5) { animation: a5R 1s ease forwards 3.3s; }
+@keyframes a5L { to { opacity: 1; transform: translateX(0); } }
+@keyframes a5R { to { opacity: 1; transform: translateX(0); } }
+@keyframes a5line { to { opacity: 1; transform: scaleX(1); } }
+
+/* ============================================================
+   ANIMATION 6 — 超スロー一括フェード
+   全体がゆっくり3秒かけて現れる
+   ============================================================ */
+.a6 .ct { opacity: 0; }
+.a6.go .ct { animation: a6in 3.5s cubic-bezier(0.25,0.46,0.45,0.94) forwards 0.2s; }
+@keyframes a6in { to { opacity: 1; } }
+
+/* ============================================================
+   ANIMATION 7 — タイプライター風ステップ
+   見出し→間→本文→間→締め→線→英語と段階的に
+   ============================================================ */
+.a7 .ct > * { opacity: 0; transform: translateY(6px); }
+.a7.go .h1t { animation: a7in 0.8s ease forwards 0.5s; }
+.a7.go .bdt { animation: a7in 0.8s ease forwards 1.8s; }
+.a7.go .clt { animation: a7in 0.8s ease forwards 3.0s; }
+.a7.go .gld { animation: a7in 0.6s ease forwards 4.0s; }
+.a7.go .ent:nth-of-type(1) { animation: a7in 0.6s ease forwards 4.6s; }
+.a7.go .ent:nth-of-type(2) { animation: a7in 0.6s ease forwards 4.9s; }
+.a7.go .ent:nth-of-type(3) { animation: a7in 0.6s ease forwards 5.2s; }
+.a7.go .ent:nth-of-type(4) { animation: a7in 0.6s ease forwards 5.5s; }
+.a7.go .ent:nth-of-type(5) { animation: a7in 0.6s ease forwards 5.8s; }
+@keyframes a7in { to { opacity: 1; transform: translateY(0); } }
+
+/* ============================================================
+   ANIMATION 8 — フェードアップ＋ブラー＋スケール（映画的）
+   ぼかし＋縮小から、クリアに浮き上がる
+   ============================================================ */
+.a8 .ct > * { opacity: 0; filter: blur(6px); transform: translateY(14px) scale(0.97); }
+.a8.go .h1t { animation: a8in 1.6s cubic-bezier(0.25,0.46,0.45,0.94) forwards 0.3s; }
+.a8.go .bdt { animation: a8in 1.6s cubic-bezier(0.25,0.46,0.45,0.94) forwards 1.0s; }
+.a8.go .clt { animation: a8in 1.6s cubic-bezier(0.25,0.46,0.45,0.94) forwards 1.8s; }
+.a8.go .gld { animation: a8in 1.2s cubic-bezier(0.25,0.46,0.45,0.94) forwards 2.6s; }
+.a8.go .ent:nth-of-type(1) { animation: a8in 1.2s cubic-bezier(0.25,0.46,0.45,0.94) forwards 3.0s; }
+.a8.go .ent:nth-of-type(2) { animation: a8in 1.2s cubic-bezier(0.25,0.46,0.45,0.94) forwards 3.2s; }
+.a8.go .ent:nth-of-type(3) { animation: a8in 1.2s cubic-bezier(0.25,0.46,0.45,0.94) forwards 3.4s; }
+.a8.go .ent:nth-of-type(4) { animation: a8in 1.2s cubic-bezier(0.25,0.46,0.45,0.94) forwards 3.6s; }
+.a8.go .ent:nth-of-type(5) { animation: a8in 1.2s cubic-bezier(0.25,0.46,0.45,0.94) forwards 3.8s; }
+@keyframes a8in { to { opacity: 1; filter: blur(0); transform: translateY(0) scale(1); } }
+
+/* ============================================================
+   ANIMATION 9 — 行ごとクリップ（横マスク）
+   左から右にスライドして文字が現れる
+   ============================================================ */
+.a9 .ct > * { opacity: 0; clip-path: inset(0 100% 0 0); }
+.a9.go .h1t { animation: a9in 1.2s cubic-bezier(0.77,0,0.175,1) forwards 0.3s; }
+.a9.go .bdt { animation: a9in 1.4s cubic-bezier(0.77,0,0.175,1) forwards 0.9s; }
+.a9.go .clt { animation: a9in 1.2s cubic-bezier(0.77,0,0.175,1) forwards 1.7s; }
+.a9.go .gld { animation: a9in 0.8s cubic-bezier(0.77,0,0.175,1) forwards 2.4s; }
+.a9.go .ent:nth-of-type(1) { animation: a9in 1s cubic-bezier(0.77,0,0.175,1) forwards 2.8s; }
+.a9.go .ent:nth-of-type(2) { animation: a9in 1s cubic-bezier(0.77,0,0.175,1) forwards 3.0s; }
+.a9.go .ent:nth-of-type(3) { animation: a9in 1s cubic-bezier(0.77,0,0.175,1) forwards 3.2s; }
+.a9.go .ent:nth-of-type(4) { animation: a9in 1s cubic-bezier(0.77,0,0.175,1) forwards 3.4s; }
+.a9.go .ent:nth-of-type(5) { animation: a9in 1s cubic-bezier(0.77,0,0.175,1) forwards 3.6s; }
+@keyframes a9in { to { opacity: 1; clip-path: inset(0 0 0 0); } }
+
+/* ============================================================
+   ANIMATION 10 — 見出しだけ遅延ブラー、他は素早く
+   見出しが3秒かけてゆっくり浮かび、残りは一気に
+   ============================================================ */
+.a10 .ct > * { opacity: 0; }
+.a10 .h1t { filter: blur(12px); transform: scale(1.05); }
+.a10 .bdt, .a10 .clt, .a10 .gld, .a10 .ent { transform: translateY(10px); }
+.a10.go .h1t { animation: a10hero 3s cubic-bezier(0.25,0.46,0.45,0.94) forwards 0.2s; }
+.a10.go .bdt { animation: a10sub 0.8s ease forwards 2.5s; }
+.a10.go .clt { animation: a10sub 0.8s ease forwards 2.8s; }
+.a10.go .gld { animation: a10sub 0.6s ease forwards 3.2s; }
+.a10.go .ent:nth-of-type(1) { animation: a10sub 0.6s ease forwards 3.5s; }
+.a10.go .ent:nth-of-type(2) { animation: a10sub 0.6s ease forwards 3.7s; }
+.a10.go .ent:nth-of-type(3) { animation: a10sub 0.6s ease forwards 3.9s; }
+.a10.go .ent:nth-of-type(4) { animation: a10sub 0.6s ease forwards 4.1s; }
+.a10.go .ent:nth-of-type(5) { animation: a10sub 0.6s ease forwards 4.3s; }
+@keyframes a10hero { to { opacity: 1; filter: blur(0); transform: scale(1); } }
+@keyframes a10sub { to { opacity: 1; transform: translateY(0); } }
+
+</style>
+</head>
+<body>
+
+<div style="text-align:center;padding:2rem 1rem 0.5rem;">
+  <span style="color:#c9a96e;font-family:'Cormorant Garamond',serif;font-size:1.4rem;letter-spacing:0.2em;">Pattern H — Animation Variations</span>
+  <p style="color:#777;font-size:0.65rem;margin-top:0.5rem;font-family:sans-serif;">「Replay」ボタンでアニメーション再生</p>
+</div>
+
+<!-- 1 -->
+<p class="label">Animation 1<span>フェードアップ（王道） — 下からふわっと順に浮き上がる</span></p>
+<button class="replay-btn" onclick="replay('c1')">Replay</button>
+<div class="card a1 go" id="c1">
+  <img src="images/london/05.jpg"><div class="ov"></div>
+  <div class="ct">
+    <p class="h1t">光と記憶を、映像にする。</p>
+    <p class="bdt">浮雲 ── ukigumo films は、写真と映像をひとつのチームで届けるウェディングフィルムブランドです。<br>日本全国、そして世界へ。その作品が時間と距離を飛び越えて、あなたの人生を支える"杖"のような存在となりますように。</p>
+    <p class="clt">ふたりの物語を、一枚、一秒に。</p>
+    <div class="gld"></div>
+    <p class="ent">Capturing light and memory, weaving them into film.</p>
+    <p class="ent">Photo and cinema, delivered as one.</p>
+    <p class="ent">From Japan to the world, transcending time and distance.</p>
+    <p class="ent">May our work become a gentle staff for your journey.</p>
+    <p class="ent">Your story — in every frame, every second.</p>
+  </div>
+</div>
+
+<!-- 2 -->
+<p class="label">Animation 2<span>霧の中から — ぼかし状態からじわっとクリアに</span></p>
+<button class="replay-btn" onclick="replay('c2')">Replay</button>
+<div class="card a2 go" id="c2">
+  <img src="images/london/05.jpg"><div class="ov"></div>
+  <div class="ct">
+    <p class="h1t">光と記憶を、映像にする。</p>
+    <p class="bdt">浮雲 ── ukigumo films は、写真と映像をひとつのチームで届けるウェディングフィルムブランドです。<br>日本全国、そして世界へ。その作品が時間と距離を飛び越えて、あなたの人生を支える"杖"のような存在となりますように。</p>
+    <p class="clt">ふたりの物語を、一枚、一秒に。</p>
+    <div class="gld"></div>
+    <p class="ent">Capturing light and memory, weaving them into film.</p>
+    <p class="ent">Photo and cinema, delivered as one.</p>
+    <p class="ent">From Japan to the world, transcending time and distance.</p>
+    <p class="ent">May our work become a gentle staff for your journey.</p>
+    <p class="ent">Your story — in every frame, every second.</p>
+  </div>
+</div>
+
+<!-- 3 -->
+<p class="label">Animation 3<span>カーテン揃い — 上からクリップが開くように現れる</span></p>
+<button class="replay-btn" onclick="replay('c3')">Replay</button>
+<div class="card a3 go" id="c3">
+  <img src="images/london/05.jpg"><div class="ov"></div>
+  <div class="ct">
+    <p class="h1t">光と記憶を、映像にする。</p>
+    <p class="bdt">浮雲 ── ukigumo films は、写真と映像をひとつのチームで届けるウェディングフィルムブランドです。<br>日本全国、そして世界へ。その作品が時間と距離を飛び越えて、あなたの人生を支える"杖"のような存在となりますように。</p>
+    <p class="clt">ふたりの物語を、一枚、一秒に。</p>
+    <div class="gld"></div>
+    <p class="ent">Capturing light and memory, weaving them into film.</p>
+    <p class="ent">Photo and cinema, delivered as one.</p>
+    <p class="ent">From Japan to the world, transcending time and distance.</p>
+    <p class="ent">May our work become a gentle staff for your journey.</p>
+    <p class="ent">Your story — in every frame, every second.</p>
+  </div>
+</div>
+
+<!-- 4 -->
+<p class="label">Animation 4<span>呼吸するように — 微かに拡大から等倍へ落ち着く</span></p>
+<button class="replay-btn" onclick="replay('c4')">Replay</button>
+<div class="card a4 go" id="c4">
+  <img src="images/london/05.jpg"><div class="ov"></div>
+  <div class="ct">
+    <p class="h1t">光と記憶を、映像にする。</p>
+    <p class="bdt">浮雲 ── ukigumo films は、写真と映像をひとつのチームで届けるウェディングフィルムブランドです。<br>日本全国、そして世界へ。その作品が時間と距離を飛び越えて、あなたの人生を支える"杖"のような存在となりますように。</p>
+    <p class="clt">ふたりの物語を、一枚、一秒に。</p>
+    <div class="gld"></div>
+    <p class="ent">Capturing light and memory, weaving them into film.</p>
+    <p class="ent">Photo and cinema, delivered as one.</p>
+    <p class="ent">From Japan to the world, transcending time and distance.</p>
+    <p class="ent">May our work become a gentle staff for your journey.</p>
+    <p class="ent">Your story — in every frame, every second.</p>
+  </div>
+</div>
+
+<!-- 5 -->
+<p class="label">Animation 5<span>左右交互 — 見出し左から、本文右から交互に登場</span></p>
+<button class="replay-btn" onclick="replay('c5')">Replay</button>
+<div class="card a5 go" id="c5">
+  <img src="images/london/05.jpg"><div class="ov"></div>
+  <div class="ct">
+    <p class="h1t">光と記憶を、映像にする。</p>
+    <p class="bdt">浮雲 ── ukigumo films は、写真と映像をひとつのチームで届けるウェディングフィルムブランドです。<br>日本全国、そして世界へ。その作品が時間と距離を飛び越えて、あなたの人生を支える"杖"のような存在となりますように。</p>
+    <p class="clt">ふたりの物語を、一枚、一秒に。</p>
+    <div class="gld"></div>
+    <p class="ent">Capturing light and memory, weaving them into film.</p>
+    <p class="ent">Photo and cinema, delivered as one.</p>
+    <p class="ent">From Japan to the world, transcending time and distance.</p>
+    <p class="ent">May our work become a gentle staff for your journey.</p>
+    <p class="ent">Your story — in every frame, every second.</p>
+  </div>
+</div>
+
+<!-- 6 -->
+<p class="label">Animation 6<span>超スロー一括 — 全体が3.5秒かけてじわっと一気に</span></p>
+<button class="replay-btn" onclick="replay('c6')">Replay</button>
+<div class="card a6 go" id="c6">
+  <img src="images/london/05.jpg"><div class="ov"></div>
+  <div class="ct">
+    <p class="h1t">光と記憶を、映像にする。</p>
+    <p class="bdt">浮雲 ── ukigumo films は、写真と映像をひとつのチームで届けるウェディングフィルムブランドです。<br>日本全国、そして世界へ。その作品が時間と距離を飛び越えて、あなたの人生を支える"杖"のような存在となりますように。</p>
+    <p class="clt">ふたりの物語を、一枚、一秒に。</p>
+    <div class="gld"></div>
+    <p class="ent">Capturing light and memory, weaving them into film.</p>
+    <p class="ent">Photo and cinema, delivered as one.</p>
+    <p class="ent">From Japan to the world, transcending time and distance.</p>
+    <p class="ent">May our work become a gentle staff for your journey.</p>
+    <p class="ent">Your story — in every frame, every second.</p>
+  </div>
+</div>
+
+<!-- 7 -->
+<p class="label">Animation 7<span>タイプライター風 — ゆっくり間をあけて段階的に</span></p>
+<button class="replay-btn" onclick="replay('c7')">Replay</button>
+<div class="card a7 go" id="c7">
+  <img src="images/london/05.jpg"><div class="ov"></div>
+  <div class="ct">
+    <p class="h1t">光と記憶を、映像にする。</p>
+    <p class="bdt">浮雲 ── ukigumo films は、写真と映像をひとつのチームで届けるウェディングフィルムブランドです。<br>日本全国、そして世界へ。その作品が時間と距離を飛び越えて、あなたの人生を支える"杖"のような存在となりますように。</p>
+    <p class="clt">ふたりの物語を、一枚、一秒に。</p>
+    <div class="gld"></div>
+    <p class="ent">Capturing light and memory, weaving them into film.</p>
+    <p class="ent">Photo and cinema, delivered as one.</p>
+    <p class="ent">From Japan to the world, transcending time and distance.</p>
+    <p class="ent">May our work become a gentle staff for your journey.</p>
+    <p class="ent">Your story — in every frame, every second.</p>
+  </div>
+</div>
+
+<!-- 8 -->
+<p class="label">Animation 8<span>映画的 — ぼかし＋縮小からクリアに浮き上がる</span></p>
+<button class="replay-btn" onclick="replay('c8')">Replay</button>
+<div class="card a8 go" id="c8">
+  <img src="images/london/05.jpg"><div class="ov"></div>
+  <div class="ct">
+    <p class="h1t">光と記憶を、映像にする。</p>
+    <p class="bdt">浮雲 ── ukigumo films は、写真と映像をひとつのチームで届けるウェディングフィルムブランドです。<br>日本全国、そして世界へ。その作品が時間と距離を飛び越えて、あなたの人生を支える"杖"のような存在となりますように。</p>
+    <p class="clt">ふたりの物語を、一枚、一秒に。</p>
+    <div class="gld"></div>
+    <p class="ent">Capturing light and memory, weaving them into film.</p>
+    <p class="ent">Photo and cinema, delivered as one.</p>
+    <p class="ent">From Japan to the world, transcending time and distance.</p>
+    <p class="ent">May our work become a gentle staff for your journey.</p>
+    <p class="ent">Your story — in every frame, every second.</p>
+  </div>
+</div>
+
+<!-- 9 -->
+<p class="label">Animation 9<span>横マスク — 左から右にスライドして文字が現れる</span></p>
+<button class="replay-btn" onclick="replay('c9')">Replay</button>
+<div class="card a9 go" id="c9">
+  <img src="images/london/05.jpg"><div class="ov"></div>
+  <div class="ct">
+    <p class="h1t">光と記憶を、映像にする。</p>
+    <p class="bdt">浮雲 ── ukigumo films は、写真と映像をひとつのチームで届けるウェディングフィルムブランドです。<br>日本全国、そして世界へ。その作品が時間と距離を飛び越えて、あなたの人生を支える"杖"のような存在となりますように。</p>
+    <p class="clt">ふたりの物語を、一枚、一秒に。</p>
+    <div class="gld"></div>
+    <p class="ent">Capturing light and memory, weaving them into film.</p>
+    <p class="ent">Photo and cinema, delivered as one.</p>
+    <p class="ent">From Japan to the world, transcending time and distance.</p>
+    <p class="ent">May our work become a gentle staff for your journey.</p>
+    <p class="ent">Your story — in every frame, every second.</p>
+  </div>
+</div>
+
+<!-- 10 -->
+<p class="label">Animation 10<span>見出しだけ遅延ブラー — 見出し3秒ゆっくり→残り一気に</span></p>
+<button class="replay-btn" onclick="replay('c10')">Replay</button>
+<div class="card a10 go" id="c10">
+  <img src="images/london/05.jpg"><div class="ov"></div>
+  <div class="ct">
+    <p class="h1t">光と記憶を、映像にする。</p>
+    <p class="bdt">浮雲 ── ukigumo films は、写真と映像をひとつのチームで届けるウェディングフィルムブランドです。<br>日本全国、そして世界へ。その作品が時間と距離を飛び越えて、あなたの人生を支える"杖"のような存在となりますように。</p>
+    <p class="clt">ふたりの物語を、一枚、一秒に。</p>
+    <div class="gld"></div>
+    <p class="ent">Capturing light and memory, weaving them into film.</p>
+    <p class="ent">Photo and cinema, delivered as one.</p>
+    <p class="ent">From Japan to the world, transcending time and distance.</p>
+    <p class="ent">May our work become a gentle staff for your journey.</p>
+    <p class="ent">Your story — in every frame, every second.</p>
+  </div>
+</div>
+
+<div style="height:4rem;"></div>
+
+<script>
+function replay(id) {
+  var el = document.getElementById(id);
+  el.classList.remove('go');
+  void el.offsetWidth;
+  el.classList.add('go');
+}
+</script>
+</body>
+</html>

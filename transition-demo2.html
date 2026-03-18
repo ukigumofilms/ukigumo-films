@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slide Transition Candidates v2</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Noto+Sans:wght@300;400&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#1a1a1a; color:#fff; font-family:'Noto Sans',sans-serif; }
+
+  .header { text-align:center; padding:2rem 1rem 1rem; font-family:'Cormorant Garamond',serif; }
+  .header h1 { font-size:1.5rem; font-weight:300; letter-spacing:0.15em; margin-bottom:0.3rem; }
+  .header p { font-size:0.75rem; opacity:0.5; letter-spacing:0.1em; }
+
+  .tabs { display:flex; flex-wrap:wrap; justify-content:center; gap:0.5rem; padding:1rem 1rem 1.5rem; max-width:900px; margin:0 auto; }
+  .tab { padding:0.5rem 1.2rem; border:1px solid rgba(255,255,255,0.2); background:transparent; color:#fff; font-size:0.8rem; cursor:pointer; letter-spacing:0.05em; transition:all 0.3s; }
+  .tab:hover { border-color:rgba(255,255,255,0.5); }
+  .tab.active { background:rgba(255,255,255,0.15); border-color:rgba(255,255,255,0.6); }
+
+  .stage { width:100%; max-width:700px; aspect-ratio:16/9; margin:0 auto; position:relative; overflow:hidden; background:#000; }
+  .stage .slide { position:absolute; top:0; left:0; width:100%; height:100%; opacity:0; z-index:1; }
+  .stage .slide img { width:100%; height:100%; object-fit:cover; display:block; }
+  .stage .slide.active { opacity:1; z-index:2; }
+  .stage .overlay {
+    position:absolute; top:0; left:0; width:100%; height:100%;
+    background:linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0.5) 100%);
+    z-index:10; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  }
+  .stage .city { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,5vw,3.5rem); font-weight:300; letter-spacing:0.15em; opacity:0; }
+  .stage .latlng { font-family:'Noto Sans',sans-serif; font-size:0.6rem; letter-spacing:0.25em; text-transform:uppercase; opacity:0; margin-top:0.5rem; }
+
+  .desc { text-align:center; padding:1.2rem 1rem; max-width:700px; margin:0 auto; }
+  .desc h3 { font-size:0.95rem; font-weight:400; letter-spacing:0.08em; margin-bottom:0.4rem; }
+  .desc p { font-size:0.75rem; opacity:0.5; line-height:1.6; }
+  .footer { text-align:center; padding:2rem; font-size:0.65rem; opacity:0.3; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Transition Candidates v2</h1>
+  <p>スライド切替パターン 10種（新規）</p>
+</div>
+
+<div class="tabs" id="tabs"></div>
+
+<div class="stage" id="stage">
+  <div class="slide active"><img src="images/japan/01.jpg" alt=""></div>
+  <div class="slide"><img src="images/paris/02.jpg" alt=""></div>
+  <div class="slide"><img src="images/london/01.jpg" alt=""></div>
+  <div class="overlay">
+    <div class="city" id="city"></div>
+    <div class="latlng" id="latlng"></div>
+  </div>
+</div>
+
+<div class="desc"><h3 id="descTitle"></h3><p id="descText"></p></div>
+<div class="footer">ukigumo — transition preview v2</div>
+
+<script>
+const cities = [
+  { name:'Japan', lat:'35.6762° N', lng:'139.6503° E' },
+  { name:'Paris', lat:'48.8566° N', lng:'2.3522° E' },
+  { name:'London', lat:'51.5074° N', lng:'0.1278° W' },
+];
+
+const stage = document.getElementById('stage');
+const slidesEl = stage.querySelectorAll('.slide');
+const cityEl = document.getElementById('city');
+const latlngEl = document.getElementById('latlng');
+const descTitle = document.getElementById('descTitle');
+const descText = document.getElementById('descText');
+
+let currentSlide = 0;
+let currentPattern = 0;
+let autoInterval = null;
+
+// ============================================
+// 各パターンのトランジション関数
+// ============================================
+
+function resetAll() {
+  slidesEl.forEach(s => {
+    s.style.cssText = '';
+    s.className = 'slide';
+  });
+  cityEl.style.cssText = '';
+  latlngEl.style.cssText = '';
+  cityEl.style.opacity = '0';
+  latlngEl.style.opacity = '0';
+  currentSlide = 0;
+  slidesEl[0].classList.add('active');
+  slidesEl[0].style.opacity = '1';
+  cityEl.textContent = cities[0].name;
+  latlngEl.textContent = cities[0].lat + '  ' + cities[0].lng;
+  requestAnimationFrame(() => {
+    cityEl.style.transition = 'opacity 1s ease, filter 0.8s ease';
+    latlngEl.style.transition = 'opacity 1s ease, filter 0.8s ease';
+    cityEl.style.opacity = '1';
+    cityEl.style.filter = 'blur(0)';
+    latlngEl.style.opacity = '0.7';
+    latlngEl.style.filter = 'blur(0)';
+  });
+}
+
+// #01 — ゆっくりクロスフェード + 文字は途中でふわっと入替
+function t01(next) {
+  const cur = slidesEl[currentSlide], nx = slidesEl[next];
+  cur.style.transition = 'opacity 2s ease';
+  nx.style.transition = 'opacity 2s ease';
+  cur.style.opacity = '0'; cur.classList.remove('active');
+  nx.style.opacity = '1'; nx.classList.add('active'); nx.style.zIndex = 2;
+  // 写真がクロスフェード途中（1秒後）に文字を入替
+  setTimeout(() => {
+    cityEl.style.transition = 'opacity 0.6s ease';
+    latlngEl.style.transition = 'opacity 0.6s ease';
+    cityEl.style.opacity = '0'; latlngEl.style.opacity = '0';
+  }, 1000);
+  setTimeout(() => {
+    cityEl.textContent = cities[next].name;
+    latlngEl.textContent = cities[next].lat+'  '+cities[next].lng;
+    cityEl.style.transition = 'opacity 1s ease';
+    latlngEl.style.transition = 'opacity 1s ease';
+    cityEl.style.opacity = '1'; latlngEl.style.opacity = '0.7';
+  }, 1700);
+  currentSlide = next;
+}
+
+// #02 — 写真ゆっくりズームアウトしながらフェード + 文字同時フェード
+function t02(next) {
+  const cur = slidesEl[currentSlide], nx = slidesEl[next];
+  cur.style.transition = 'opacity 1.5s ease, transform 1.5s ease';
+  cur.style.opacity = '0'; cur.style.transform = 'scale(0.95)';
+  cur.classList.remove('active');
+  nx.style.transition = 'none'; nx.style.opacity = '0'; nx.style.transform = 'scale(1)';
+  nx.classList.add('active'); nx.style.zIndex = 2;
+  cityEl.style.transition = 'opacity 0.5s ease'; latlngEl.style.transition = 'opacity 0.5s ease';
+  cityEl.style.opacity = '0'; latlngEl.style.opacity = '0';
+  requestAnimationFrame(() => {
+    nx.style.transition = 'opacity 1.5s ease';
+    nx.style.opacity = '1';
+  });
+  setTimeout(() => {
+    cityEl.textContent = cities[next].name; latlngEl.textContent = cities[next].lat+'  '+cities[next].lng;
+    cityEl.style.transition = 'opacity 1.2s ease'; latlngEl.style.transition = 'opacity 1.2s ease';
+    cityEl.style.opacity = '1'; latlngEl.style.opacity = '0.7';
+  }, 800);
+  currentSlide = next;
+}
+
+// #03 — 写真スライド左 + 文字フェード
+function t03(next) {
+  const cur = slidesEl[currentSlide], nx = slidesEl[next];
+  cur.style.transition = 'transform 1s cubic-bezier(0.4,0,0.2,1), opacity 0.8s ease';
+  cur.style.transform = 'translateX(-100%)'; cur.style.opacity = '0';
+  nx.style.transition = 'none'; nx.style.transform = 'translateX(100%)'; nx.style.opacity = '1';
+  nx.classList.add('active'); nx.style.zIndex = 2;
+  cityEl.style.transition = 'opacity 0.3s ease'; latlngEl.style.transition = 'opacity 0.3s ease';
+  cityEl.style.opacity = '0'; latlngEl.style.opacity = '0';
+  requestAnimationFrame(() => {
+    nx.style.transition = 'transform 1s cubic-bezier(0.4,0,0.2,1)';
+    nx.style.transform = 'translateX(0)';
+  });
+  setTimeout(() => {
+    cur.classList.remove('active'); cur.style.transform = '';
+    cityEl.textContent = cities[next].name; latlngEl.textContent = cities[next].lat+'  '+cities[next].lng;
+    cityEl.style.transition = 'opacity 0.8s ease'; latlngEl.style.transition = 'opacity 0.8s ease';
+    cityEl.style.opacity = '1'; latlngEl.style.opacity = '0.7';
+  }, 500);
+  currentSlide = next;
+}
+
+// #04 — ケン・バーンズ（ゆっくりズームしながら次へ）
+function t04(next) {
+  const cur = slidesEl[currentSlide], nx = slidesEl[next];
+  cur.style.transition = 'opacity 1.8s ease, transform 3s ease';
+  cur.style.transform = 'scale(1.1)'; cur.style.opacity = '0';
+  nx.style.transition = 'none'; nx.style.opacity = '0'; nx.style.transform = 'scale(1.05)';
+  nx.classList.add('active'); nx.style.zIndex = 2;
+  cityEl.style.transition = 'opacity 0.8s ease, filter 0.6s ease';
+  latlngEl.style.transition = 'opacity 0.8s ease, filter 0.6s ease';
+  cityEl.style.opacity = '0'; cityEl.style.filter = 'blur(3px)';
+  latlngEl.style.opacity = '0'; latlngEl.style.filter = 'blur(3px)';
+  requestAnimationFrame(() => {
+    nx.style.transition = 'opacity 1.8s ease, transform 6s linear';
+    nx.style.opacity = '1'; nx.style.transform = 'scale(1)';
+  });
+  setTimeout(() => {
+    cur.classList.remove('active'); cur.style.transform = '';
+    cityEl.textContent = cities[next].name; latlngEl.textContent = cities[next].lat+'  '+cities[next].lng;
+    cityEl.style.transition = 'opacity 1.5s cubic-bezier(0.19,1,0.22,1), filter 1.2s ease';
+    latlngEl.style.transition = 'opacity 1.5s cubic-bezier(0.19,1,0.22,1), filter 1.2s ease';
+    cityEl.style.opacity = '1'; cityEl.style.filter = 'blur(0)';
+    latlngEl.style.opacity = '0.7'; latlngEl.style.filter = 'blur(0)';
+  }, 1000);
+  currentSlide = next;
+}
+
+// #05 — フリッカー（一瞬暗くなってパッと次）
+function t05(next) {
+  const cur = slidesEl[currentSlide], nx = slidesEl[next];
+  cur.style.transition = 'opacity 0.2s ease';
+  cur.style.opacity = '0';
+  cityEl.style.transition = 'opacity 0.2s ease'; latlngEl.style.transition = 'opacity 0.2s ease';
+  cityEl.style.opacity = '0'; latlngEl.style.opacity = '0';
+  setTimeout(() => {
+    cur.classList.remove('active');
+    nx.style.transition = 'none'; nx.style.opacity = '0';
+    nx.classList.add('active'); nx.style.zIndex = 2;
+    cityEl.textContent = cities[next].name; latlngEl.textContent = cities[next].lat+'  '+cities[next].lng;
+    requestAnimationFrame(() => {
+      nx.style.transition = 'opacity 0.6s ease';
+      nx.style.opacity = '1';
+      cityEl.style.transition = 'opacity 0.8s ease 0.2s';
+      latlngEl.style.transition = 'opacity 0.8s ease 0.2s';
+      cityEl.style.opacity = '1'; latlngEl.style.opacity = '0.7';
+    });
+  }, 300);
+  currentSlide = next;
+}
+
+// #06 — 写真そのまま残り → ブラーで溶けて → 次が鮮明に
+function t06(next) {
+  const cur = slidesEl[currentSlide], nx = slidesEl[next];
+  cur.style.transition = 'filter 1s ease, opacity 0.8s ease 0.5s';
+  cur.style.filter = 'blur(15px)'; cur.style.opacity = '0';
+  nx.style.transition = 'none'; nx.style.opacity = '1'; nx.style.filter = 'blur(15px)';
+  nx.classList.add('active'); nx.style.zIndex = 2;
+  cityEl.style.transition = 'opacity 0.6s ease, filter 0.5s ease';
+  latlngEl.style.transition = 'opacity 0.6s ease, filter 0.5s ease';
+  cityEl.style.opacity = '0'; cityEl.style.filter = 'blur(5px)';
+  latlngEl.style.opacity = '0'; latlngEl.style.filter = 'blur(5px)';
+  setTimeout(() => {
+    nx.style.transition = 'filter 1.2s cubic-bezier(0.19,1,0.22,1)';
+    nx.style.filter = 'blur(0)';
+    cityEl.textContent = cities[next].name; latlngEl.textContent = cities[next].lat+'  '+cities[next].lng;
+    cityEl.style.transition = 'opacity 1.2s cubic-bezier(0.19,1,0.22,1), filter 1s ease';
+    latlngEl.style.transition = 'opacity 1.2s cubic-bezier(0.19,1,0.22,1), filter 1s ease';
+    cityEl.style.opacity = '1'; cityEl.style.filter = 'blur(0)';
+    latlngEl.style.opacity = '0.7'; latlngEl.style.filter = 'blur(0)';
+  }, 800);
+  setTimeout(() => { cur.classList.remove('active'); cur.style.filter = ''; }, 2000);
+  currentSlide = next;
+}
+
+// #07 — ワイプ（右から左へ覆い被さる）
+function t07(next) {
+  const cur = slidesEl[currentSlide], nx = slidesEl[next];
+  nx.style.transition = 'none';
+  nx.style.clipPath = 'inset(0 100% 0 0)';
+  nx.style.opacity = '1';
+  nx.classList.add('active'); nx.style.zIndex = 3;
+  cityEl.style.transition = 'opacity 0.3s ease'; latlngEl.style.transition = 'opacity 0.3s ease';
+  cityEl.style.opacity = '0'; latlngEl.style.opacity = '0';
+  requestAnimationFrame(() => {
+    nx.style.transition = 'clip-path 1.2s cubic-bezier(0.4,0,0.2,1)';
+    nx.style.clipPath = 'inset(0 0 0 0)';
+  });
+  setTimeout(() => {
+    cur.classList.remove('active'); cur.style.opacity = '0';
+    cityEl.textContent = cities[next].name; latlngEl.textContent = cities[next].lat+'  '+cities[next].lng;
+    cityEl.style.transition = 'opacity 0.8s ease'; latlngEl.style.transition = 'opacity 0.8s ease';
+    cityEl.style.opacity = '1'; latlngEl.style.opacity = '0.7';
+  }, 600);
+  setTimeout(() => { nx.style.clipPath = ''; }, 1400);
+  currentSlide = next;
+}
+
+// #08 — じわっとオーバーラップ（次が上からゆっくり重なる）
+function t08(next) {
+  const cur = slidesEl[currentSlide], nx = slidesEl[next];
+  nx.style.transition = 'none'; nx.style.opacity = '0';
+  nx.classList.add('active'); nx.style.zIndex = 3;
+  cityEl.style.transition = 'opacity 0.8s ease, filter 0.6s ease';
+  latlngEl.style.transition = 'opacity 0.8s ease, filter 0.6s ease';
+  cityEl.style.opacity = '0'; cityEl.style.filter = 'blur(4px)';
+  latlngEl.style.opacity = '0'; latlngEl.style.filter = 'blur(4px)';
+  requestAnimationFrame(() => {
+    nx.style.transition = 'opacity 2.5s cubic-bezier(0.19,1,0.22,1)';
+    nx.style.opacity = '1';
+  });
+  setTimeout(() => {
+    cityEl.textContent = cities[next].name; latlngEl.textContent = cities[next].lat+'  '+cities[next].lng;
+    cityEl.style.transition = 'opacity 2s cubic-bezier(0.19,1,0.22,1), filter 1.5s ease';
+    latlngEl.style.transition = 'opacity 2s cubic-bezier(0.19,1,0.22,1), filter 1.5s ease';
+    cityEl.style.opacity = '1'; cityEl.style.filter = 'blur(0)';
+    latlngEl.style.opacity = '0.7'; latlngEl.style.filter = 'blur(0)';
+  }, 1200);
+  setTimeout(() => { cur.classList.remove('active'); cur.style.opacity='0'; }, 2800);
+  currentSlide = next;
+}
+
+// #09 — 文字が先にスッと消える → 写真ゆるやかチェンジ → 文字じわっと
+function t09(next) {
+  const cur = slidesEl[currentSlide], nx = slidesEl[next];
+  // まず文字をスッと消す
+  cityEl.style.transition = 'opacity 0.4s ease'; latlngEl.style.transition = 'opacity 0.4s ease';
+  cityEl.style.opacity = '0'; latlngEl.style.opacity = '0';
+  // 0.5秒後に写真チェンジ
+  setTimeout(() => {
+    cur.style.transition = 'opacity 1.2s ease';
+    nx.style.transition = 'opacity 1.2s ease';
+    cur.style.opacity = '0'; cur.classList.remove('active');
+    nx.style.opacity = '1'; nx.classList.add('active'); nx.style.zIndex = 2;
+  }, 500);
+  // 1.2秒後に文字じわっと
+  setTimeout(() => {
+    cityEl.textContent = cities[next].name; latlngEl.textContent = cities[next].lat+'  '+cities[next].lng;
+    cityEl.style.transition = 'opacity 1.5s cubic-bezier(0.19,1,0.22,1)';
+    latlngEl.style.transition = 'opacity 1.5s cubic-bezier(0.19,1,0.22,1)';
+    cityEl.style.opacity = '1'; latlngEl.style.opacity = '0.7';
+  }, 1200);
+  currentSlide = next;
+}
+
+// #10 — すべて超スロー（3秒かけてゆっくり全部チェンジ）
+function t10(next) {
+  const cur = slidesEl[currentSlide], nx = slidesEl[next];
+  cur.style.transition = 'opacity 3s cubic-bezier(0.19,1,0.22,1)';
+  nx.style.transition = 'opacity 3s cubic-bezier(0.19,1,0.22,1)';
+  cur.style.opacity = '0'; cur.classList.remove('active');
+  nx.style.opacity = '1'; nx.classList.add('active'); nx.style.zIndex = 2;
+  cityEl.style.transition = 'opacity 2.5s cubic-bezier(0.19,1,0.22,1), filter 2s ease';
+  latlngEl.style.transition = 'opacity 2.5s cubic-bezier(0.19,1,0.22,1), filter 2s ease';
+  cityEl.style.opacity = '0'; cityEl.style.filter = 'blur(6px)';
+  latlngEl.style.opacity = '0'; latlngEl.style.filter = 'blur(6px)';
+  setTimeout(() => {
+    cityEl.textContent = cities[next].name; latlngEl.textContent = cities[next].lat+'  '+cities[next].lng;
+    cityEl.style.opacity = '1'; cityEl.style.filter = 'blur(0)';
+    latlngEl.style.opacity = '0.7'; latlngEl.style.filter = 'blur(0)';
+  }, 1800);
+  currentSlide = next;
+}
+
+const transitionFns = [t01,t02,t03,t04,t05,t06,t07,t08,t09,t10];
+
+const patterns = [
+  { title:'#01 — クロスフェード途中で文字入替', desc:'写真が2秒かけてゆっくり溶け合い、ちょうど半分あたりで文字がふわっと入れ替わる。' },
+  { title:'#02 — ズームアウト・フェード', desc:'現在の写真が少し引きながら消え、次の写真がふわっと登場。文字は同時にフェード。' },
+  { title:'#03 — スライド（横移動）', desc:'現在の写真が左に滑り出し、次の写真が右から入ってくる。文字はフェードで切替。' },
+  { title:'#04 — ケン・バーンズ', desc:'写真がゆっくりズームしながらフェード。映画のドキュメンタリーのような動き。文字はブラーからじわっと。' },
+  { title:'#05 — フリッカー', desc:'一瞬暗くなり、パッと次の写真が現れる。フィルムカメラのコマ送りのような切替。' },
+  { title:'#06 — ブラー・ディゾルブ', desc:'写真がぼやけて溶け、次の写真がぼやけた状態からゆっくり鮮明に。夢の中のような演出。' },
+  { title:'#07 — ワイプ（右→左）', desc:'次の写真が右端から左へ覆い被さるように登場。シネマティックな切替。' },
+  { title:'#08 — スローオーバーラップ', desc:'次の写真がとてもゆっくり上に重なる。文字はブラーからじゅわーっと。上品で静か。' },
+  { title:'#09 — 文字先消え→写真→文字じわっと', desc:'文字がスッと消え、少し間を置いて写真がチェンジ、その後文字がじわっと浮かぶ。3段階の呼吸。' },
+  { title:'#10 — 超スローフェード', desc:'全て3秒かけてゆーっくり。急がず、余韻を大切にした切替。瞑想的。' },
+];
+
+// Build tabs
+const tabsEl = document.getElementById('tabs');
+patterns.forEach((p, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'tab' + (i === 0 ? ' active' : '');
+  btn.textContent = '#' + String(i+1).padStart(2, '0');
+  btn.onclick = () => selectPattern(i);
+  tabsEl.appendChild(btn);
+});
+
+function selectPattern(idx) {
+  currentPattern = idx;
+  document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+  descTitle.textContent = patterns[idx].title;
+  descText.textContent = patterns[idx].desc;
+  clearInterval(autoInterval);
+  resetAll();
+  setTimeout(() => {
+    autoInterval = setInterval(() => {
+      const next = (currentSlide + 1) % cities.length;
+      transitionFns[currentPattern](next);
+    }, 3500);
+  }, 2000);
+}
+
+selectPattern(0);
+</script>
+</body>
+</html>

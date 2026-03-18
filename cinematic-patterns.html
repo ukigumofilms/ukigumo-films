@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Cinematic — 10 Patterns</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400&family=Noto+Sans+JP:wght@200;300&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #111; font-family: 'Noto Serif JP', serif; }
+
+.pattern-label {
+  color: #c9a96e;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  letter-spacing: 0.2em;
+  text-align: center;
+  padding: 2.5rem 0 0.8rem;
+  border-top: 1px solid rgba(201,169,110,0.3);
+}
+.pattern-label span {
+  font-size: 0.7rem;
+  color: #999;
+  display: block;
+  margin-top: 0.3rem;
+  font-family: 'Noto Sans JP', sans-serif;
+  letter-spacing: 0.05em;
+}
+
+.card {
+  position: relative;
+  width: 390px;
+  height: 750px;
+  margin: 1rem auto 3rem;
+  overflow: hidden;
+  border-radius: 8px;
+}
+.card img {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.card .overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.75) 100%);
+}
+.card .content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 7%;
+}
+
+/* ============================
+   共通テキストクラス
+   ============================ */
+.jp-heading {
+  font-family: 'Noto Serif JP', serif;
+  color: rgba(255,255,255,0.92);
+  letter-spacing: 0.1em;
+}
+.jp-body {
+  font-family: 'Noto Serif JP', serif;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 0.03em;
+}
+.jp-closing {
+  font-family: 'Noto Serif JP', serif;
+  color: rgba(255,255,255,0.88);
+  letter-spacing: 0.1em;
+}
+.en-line {
+  font-family: 'Cormorant Garamond', serif;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.12em;
+}
+.gold-line {
+  background: linear-gradient(to right, transparent, rgba(201,169,110,0.5), transparent);
+  margin: 0 auto;
+}
+
+/* ============================
+   Pattern A — クラシック中央揃え
+   大きめ見出し、ゆったり余白
+   ============================ */
+.pa .content {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.pa .jp-heading {
+  font-weight: 200;
+  font-size: 1.25rem;
+  line-height: 1.8;
+  margin-bottom: 24px;
+}
+.pa .jp-body {
+  font-weight: 300;
+  font-size: 0.72rem;
+  line-height: 2.2;
+  margin-bottom: 24px;
+}
+.pa .jp-closing {
+  font-weight: 200;
+  font-size: 0.95rem;
+  line-height: 1.8;
+  margin-bottom: 28px;
+}
+.pa .gold-line {
+  width: 60px;
+  height: 1px;
+  margin-bottom: 28px;
+}
+.pa .en-line {
+  font-weight: 300;
+  font-size: 0.58rem;
+  line-height: 2.6;
+}
+
+/* ============================
+   Pattern B — コンパクト上寄せ
+   上部にまとめ、下に余白
+   ============================ */
+.pb .content {
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
+  padding-top: 18%;
+}
+.pb .jp-heading {
+  font-weight: 200;
+  font-size: 1.15rem;
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+.pb .jp-body {
+  font-weight: 300;
+  font-size: 0.68rem;
+  line-height: 2.0;
+  margin-bottom: 18px;
+}
+.pb .jp-closing {
+  font-weight: 200;
+  font-size: 0.88rem;
+  line-height: 1.8;
+  margin-bottom: 24px;
+}
+.pb .gold-line {
+  width: 40px;
+  height: 1px;
+  margin-bottom: 22px;
+}
+.pb .en-line {
+  font-weight: 300;
+  font-size: 0.52rem;
+  line-height: 2.4;
+  color: rgba(255,255,255,0.25);
+}
+
+/* ============================
+   Pattern C — 見出し大＋本文小
+   見出しを際立たせる
+   ============================ */
+.pc .content {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.pc .jp-heading {
+  font-weight: 200;
+  font-size: 1.5rem;
+  line-height: 1.8;
+  margin-bottom: 32px;
+}
+.pc .jp-body {
+  font-weight: 300;
+  font-size: 0.62rem;
+  line-height: 2.0;
+  margin-bottom: 20px;
+  color: rgba(255,255,255,0.5);
+}
+.pc .jp-closing {
+  font-weight: 200;
+  font-size: 0.82rem;
+  line-height: 1.8;
+  margin-bottom: 32px;
+}
+.pc .gold-line {
+  width: 80px;
+  height: 1px;
+  margin-bottom: 32px;
+}
+.pc .en-line {
+  font-weight: 300;
+  font-size: 0.55rem;
+  line-height: 2.8;
+}
+
+/* ============================
+   Pattern D — 左揃え
+   全テキスト左寄せ、モード感
+   ============================ */
+.pd .content {
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+}
+.pd .jp-heading {
+  font-weight: 200;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  margin-bottom: 22px;
+}
+.pd .jp-body {
+  font-weight: 300;
+  font-size: 0.68rem;
+  line-height: 2.2;
+  margin-bottom: 22px;
+}
+.pd .jp-closing {
+  font-weight: 200;
+  font-size: 0.9rem;
+  line-height: 1.8;
+  margin-bottom: 28px;
+}
+.pd .gold-line {
+  width: 50px;
+  height: 1px;
+  margin: 0 0 26px 0;
+}
+.pd .en-line {
+  font-weight: 300;
+  font-size: 0.54rem;
+  line-height: 2.4;
+}
+
+/* ============================
+   Pattern E — 見出し＋英語上、本文下
+   上下二段構成
+   ============================ */
+.pe .content {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.pe .jp-heading {
+  font-weight: 200;
+  font-size: 1.35rem;
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
+.pe .en-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 30px;
+}
+.pe .jp-body {
+  font-weight: 300;
+  font-size: 0.68rem;
+  line-height: 2.2;
+  margin-bottom: 22px;
+}
+.pe .jp-closing {
+  font-weight: 200;
+  font-size: 0.9rem;
+  line-height: 1.8;
+  margin-bottom: 28px;
+}
+.pe .gold-line {
+  width: 50px;
+  height: 1px;
+  margin-bottom: 26px;
+}
+.pe .en-line {
+  font-weight: 300;
+  font-size: 0.54rem;
+  line-height: 2.5;
+}
+
+/* ============================
+   Pattern F — ミニマル余白多め
+   テキスト小さく、余白で魅せる
+   ============================ */
+.pf .content {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.pf .jp-heading {
+  font-weight: 200;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 36px;
+}
+.pf .jp-body {
+  font-weight: 300;
+  font-size: 0.6rem;
+  line-height: 2.4;
+  margin-bottom: 36px;
+  color: rgba(255,255,255,0.5);
+}
+.pf .jp-closing {
+  font-weight: 200;
+  font-size: 0.82rem;
+  line-height: 1.8;
+  margin-bottom: 40px;
+}
+.pf .gold-line {
+  width: 30px;
+  height: 1px;
+  margin-bottom: 36px;
+}
+.pf .en-line {
+  font-weight: 300;
+  font-size: 0.5rem;
+  line-height: 2.6;
+  color: rgba(255,255,255,0.22);
+}
+
+/* ============================
+   Pattern G — 見出しのみ大、他統一小
+   見出しを圧倒的に大きく
+   ============================ */
+.pg .content {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.pg .jp-heading {
+  font-weight: 200;
+  font-size: 1.7rem;
+  line-height: 1.6;
+  margin-bottom: 36px;
+  letter-spacing: 0.15em;
+}
+.pg .jp-body {
+  font-weight: 300;
+  font-size: 0.62rem;
+  line-height: 2.0;
+  margin-bottom: 18px;
+  color: rgba(255,255,255,0.5);
+}
+.pg .jp-closing {
+  font-weight: 300;
+  font-size: 0.72rem;
+  line-height: 1.8;
+  margin-bottom: 30px;
+  color: rgba(255,255,255,0.7);
+}
+.pg .gold-line {
+  width: 45px;
+  height: 1px;
+  margin-bottom: 28px;
+}
+.pg .en-line {
+  font-weight: 300;
+  font-size: 0.5rem;
+  line-height: 2.6;
+  color: rgba(255,255,255,0.22);
+}
+
+/* ============================
+   Pattern H — 締め文大きめ
+   クロージングを強調
+   ============================ */
+.ph .content {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.ph .jp-heading {
+  font-weight: 200;
+  font-size: 1.15rem;
+  line-height: 1.8;
+  margin-bottom: 22px;
+}
+.ph .jp-body {
+  font-weight: 300;
+  font-size: 0.65rem;
+  line-height: 2.2;
+  margin-bottom: 28px;
+  color: rgba(255,255,255,0.55);
+}
+.ph .jp-closing {
+  font-weight: 200;
+  font-size: 1.2rem;
+  line-height: 1.7;
+  margin-bottom: 32px;
+  letter-spacing: 0.12em;
+}
+.ph .gold-line {
+  width: 50px;
+  height: 1px;
+  margin-bottom: 30px;
+}
+.ph .en-line {
+  font-weight: 300;
+  font-size: 0.54rem;
+  line-height: 2.5;
+}
+
+/* ============================
+   Pattern I — 英語大きめ、日英均等
+   英文を目立たせるバイリンガル
+   ============================ */
+.pi .content {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.pi .jp-heading {
+  font-weight: 200;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  margin-bottom: 22px;
+}
+.pi .jp-body {
+  font-weight: 300;
+  font-size: 0.65rem;
+  line-height: 2.2;
+  margin-bottom: 20px;
+}
+.pi .jp-closing {
+  font-weight: 200;
+  font-size: 0.88rem;
+  line-height: 1.8;
+  margin-bottom: 26px;
+}
+.pi .gold-line {
+  width: 60px;
+  height: 1px;
+  margin-bottom: 26px;
+}
+.pi .en-line {
+  font-weight: 300;
+  font-size: 0.72rem;
+  line-height: 2.4;
+  color: rgba(255,255,255,0.4);
+  font-style: italic;
+}
+
+/* ============================
+   Pattern J — 本文なし、キャッチ＋英語のみ
+   超ミニマル
+   ============================ */
+.pj .content {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.pj .jp-heading {
+  font-weight: 200;
+  font-size: 1.4rem;
+  line-height: 1.8;
+  margin-bottom: 16px;
+  letter-spacing: 0.12em;
+}
+.pj .jp-closing {
+  font-weight: 200;
+  font-size: 1rem;
+  line-height: 1.8;
+  margin-bottom: 36px;
+}
+.pj .gold-line {
+  width: 50px;
+  height: 1px;
+  margin-bottom: 32px;
+}
+.pj .en-line {
+  font-weight: 300;
+  font-size: 0.62rem;
+  line-height: 2.6;
+  color: rgba(255,255,255,0.3);
+}
+
+</style>
+</head>
+<body>
+
+<!-- ===== PATTERN A ===== -->
+<p class="pattern-label">Pattern A<span>クラシック中央揃え — 大きめ見出し、ゆったり余白</span></p>
+<div class="card pa">
+  <img src="images/london/05.jpg" alt="">
+  <div class="overlay"></div>
+  <div class="content">
+    <p class="jp-heading">光と記憶を、映像にする。</p>
+    <p class="jp-body">浮雲 ── ukigumo films は、写真と映像をひとつのチームで届けるウェディングフィルムブランドです。<br>日本全国、そして世界へ。その作品が時間と距離を飛び越えて、あなたの人生を支える"杖"のような存在となりますように。</p>
+    <p class="jp-closing">ふたりの物語を、一枚、一秒に。</p>
+    <div class="gold-line"></div>
+    <p class="en-line">Capturing light and memory, weaving them into film.</p>
+    <p class="en-line">Photo and cinema, delivered as one.</p>
+    <p class="en-line">From Japan to the world, transcending time and distance.</p>
+    <p class="en-line">May our work become a gentle staff for your journey.</p>
+    <p class="en-line">Your story — in every frame, every second.</p>
+  </div>
+</div>
+
+<!-- ===== PATTERN B ===== -->
+<p class="pattern-label">Pattern B<span>コンパクト上寄せ — 上部にまとめ、下に写真余白</span></p>
+<div class="card pb">
+  <img src="images/london/05.jpg" alt="">
+  <div class="overlay"></div>
+  <div class="content">
+    <p class="jp-heading">光と記憶を、映像にする。</p>
+    <p class="jp-body">浮雲 ── ukigumo films は、写真と映像をひとつのチームで届けるウェディングフィルムブランドです。<br>日本全国、そして世界へ。その作品が時間と距離を飛び越えて、あなたの人生を支える"杖"のような存在となりますように。</p>
+    <p class="jp-closing">ふたりの物語を、一枚、一秒に。</p>
+    <div class="gold-line"></div>
+    <p class="en-line">Capturing light and memory, weaving them into film.</p>
+    <p class="en-line">Photo and cinema, delivered as one.</p>
+    <p class="en-line">From Japan to the world, transcending time and distance.</p>
+    <p class="en-line">May our work become a gentle staff for your journey.</p>
+    <p class="en-line">Your story — in every frame, every second.</p>
+  </div>
+</div>
+
+<!-- ===== PATTERN C ===== -->
+<p class="pattern-label">Pattern C<span>見出し大＋本文小 — 見出しを際立たせる</span></p>
+<div class="card pc">
+  <img src="images/london/05.jpg" alt="">
+  <div class="overlay"></div>
+  <div class="content">
+    <p class="jp-heading">光と記憶を、映像にする。</p>
+    <p class="jp-body">浮雲 ── ukigumo films は、写真と映像をひとつのチームで届けるウェディングフィルムブランドです。<br>日本全国、そして世界へ。その作品が時間と距離を飛び越えて、あなたの人生を支える"杖"のような存在となりますように。</p>
+    <p class="jp-closing">ふたりの物語を、一枚、一秒に。</p>
+    <div class="gold-line"></div>
+    <p class="en-line">Capturing light and memory, weaving them into film.</p>
+    <p class="en-line">Photo and cinema, delivered as one.</p>
+    <p class="en-line">From Japan to the world, transcending time and distance.</p>
+    <p class="en-line">May our work become a gentle staff for your journey.</p>
+    <p class="en-line">Your story — in every frame, every second.</p>
+  </div>
+</div>
+
+<!-- ===== PATTERN D ===== -->
+<p class="pattern-label">Pattern D<span>左揃え — 全テキスト左寄せ、モード感</span></p>
+<div class="card pd">
+  <img src="images/london/05.jpg" alt="">
+  <div class="overlay"></div>
+  <div class="content">
+    <p class="jp-heading">光と記憶を、映像にする。</p>
+    <p class="jp-body">浮雲 ── ukigumo films は、写真と映像を<br>ひとつのチームで届けるウェディング<br>フィルムブランドです。<br>日本全国、そして世界へ。<br>その作品が時間と距離を飛び越えて、<br>あなたの人生を支える"杖"のような<br>存在となりますように。</p>
+    <p class="jp-closing">ふたりの物語を、一枚、一秒に。</p>
+    <div class="gold-line"></div>
+    <p class="en-line">Capturing light and memory, weaving them into film.</p>
+    <p class="en-line">Photo and cinema, delivered as one.</p>
+    <p class="en-line">From Japan to the world, transcending time and distance.</p>
+    <p class="en-line">May our work become a gentle staff for your journey.</p>
+    <p class="en-line">Your story — in every frame, every second.</p>
+  </div>
+</div>
+
+<!-- ===== PATTERN E ===== -->
+<p class="pattern-label">Pattern E<span>見出し＋英語サブ — 上部に英語添え</span></p>
+<div class="card pe">
+  <img src="images/london/05.jpg" alt="">
+  <div class="overlay"></div>
+  <div class="content">
+    <p class="jp-heading">光と記憶を、映像にする。</p>
+    <p class="en-subtitle">— Capturing light and memory, in motion —</p>
+    <p class="jp-body">浮雲 ── ukigumo films は、写真と映像をひとつのチームで届けるウェディングフィルムブランドです。<br>日本全国、そして世界へ。その作品が時間と距離を飛び越えて、あなたの人生を支える"杖"のような存在となりますように。</p>
+    <p class="jp-closing">ふたりの物語を、一枚、一秒に。</p>
+    <div class="gold-line"></div>
+    <p class="en-line">Photo and cinema, delivered as one.</p>
+    <p class="en-line">From Japan to the world, transcending time and distance.</p>
+    <p class="en-line">May our work become a gentle staff for your journey.</p>
+    <p class="en-line">Your story — in every frame, every second.</p>
+  </div>
+</div>
+
+<!-- ===== PATTERN F ===== -->
+<p class="pattern-label">Pattern F<span>ミニマル余白多め — テキスト小さく、余白で魅せる</span></p>
+<div class="card pf">
+  <img src="images/london/05.jpg" alt="">
+  <div class="overlay"></div>
+  <div class="content">
+    <p class="jp-heading">光と記憶を、映像にする。</p>
+    <p class="jp-body">浮雲 ── ukigumo films は、写真と映像をひとつのチームで届けるウェディングフィルムブランドです。<br>日本全国、そして世界へ。その作品が時間と距離を飛び越えて、あなたの人生を支える"杖"のような存在となりますように。</p>
+    <p class="jp-closing">ふたりの物語を、一枚、一秒に。</p>
+    <div class="gold-line"></div>
+    <p class="en-line">Capturing light and memory, weaving them into film.</p>
+    <p class="en-line">Photo and cinema, delivered as one.</p>
+    <p class="en-line">From Japan to the world, transcending time and distance.</p>
+    <p class="en-line">May our work become a gentle staff for your journey.</p>
+    <p class="en-line">Your story — in every frame, every second.</p>
+  </div>
+</div>
+
+<!-- ===== PATTERN G ===== -->
+<p class="pattern-label">Pattern G<span>見出し圧倒的 — 見出しのみ大、他は統一小</span></p>
+<div class="card pg">
+  <img src="images/london/05.jpg" alt="">
+  <div class="overlay"></div>
+  <div class="content">
+    <p class="jp-heading">光と記憶を、<br>映像にする。</p>
+    <p class="jp-body">浮雲 ── ukigumo films は、写真と映像をひとつのチームで届けるウェディングフィルムブランドです。<br>日本全国、そして世界へ。その作品が時間と距離を飛び越えて、あなたの人生を支える"杖"のような存在となりますように。</p>
+    <p class="jp-closing">ふたりの物語を、一枚、一秒に。</p>
+    <div class="gold-line"></div>
+    <p class="en-line">Capturing light and memory, weaving them into film.</p>
+    <p class="en-line">Photo and cinema, delivered as one.</p>
+    <p class="en-line">From Japan to the world, transcending time and distance.</p>
+    <p class="en-line">May our work become a gentle staff for your journey.</p>
+    <p class="en-line">Your story — in every frame, every second.</p>
+  </div>
+</div>
+
+<!-- ===== PATTERN H ===== -->
+<p class="pattern-label">Pattern H<span>締め文強調 — クロージングを大きく</span></p>
+<div class="card ph">
+  <img src="images/london/05.jpg" alt="">
+  <div class="overlay"></div>
+  <div class="content">
+    <p class="jp-heading">光と記憶を、映像にする。</p>
+    <p class="jp-body">浮雲 ── ukigumo films は、写真と映像をひとつのチームで届けるウェディングフィルムブランドです。<br>日本全国、そして世界へ。その作品が時間と距離を飛び越えて、あなたの人生を支える"杖"のような存在となりますように。</p>
+    <p class="jp-closing">ふたりの物語を、一枚、一秒に。</p>
+    <div class="gold-line"></div>
+    <p class="en-line">Capturing light and memory, weaving them into film.</p>
+    <p class="en-line">Photo and cinema, delivered as one.</p>
+    <p class="en-line">From Japan to the world, transcending time and distance.</p>
+    <p class="en-line">May our work become a gentle staff for your journey.</p>
+    <p class="en-line">Your story — in every frame, every second.</p>
+  </div>
+</div>
+
+<!-- ===== PATTERN I ===== -->
+<p class="pattern-label">Pattern I<span>英語大きめ — 日英均等バイリンガル</span></p>
+<div class="card pi">
+  <img src="images/london/05.jpg" alt="">
+  <div class="overlay"></div>
+  <div class="content">
+    <p class="jp-heading">光と記憶を、映像にする。</p>
+    <p class="jp-body">浮雲 ── ukigumo films は、写真と映像をひとつのチームで届けるウェディングフィルムブランドです。<br>日本全国、そして世界へ。その作品が時間と距離を飛び越えて、あなたの人生を支える"杖"のような存在となりますように。</p>
+    <p class="jp-closing">ふたりの物語を、一枚、一秒に。</p>
+    <div class="gold-line"></div>
+    <p class="en-line">Capturing light and memory, weaving them into film.</p>
+    <p class="en-line">Photo and cinema, delivered as one.</p>
+    <p class="en-line">From Japan to the world, transcending time and distance.</p>
+    <p class="en-line">May our work become a gentle staff for your journey.</p>
+    <p class="en-line">Your story — in every frame, every second.</p>
+  </div>
+</div>
+
+<!-- ===== PATTERN J ===== -->
+<p class="pattern-label">Pattern J<span>超ミニマル — 本文なし、キャッチ＋英語のみ</span></p>
+<div class="card pj">
+  <img src="images/london/05.jpg" alt="">
+  <div class="overlay"></div>
+  <div class="content">
+    <p class="jp-heading">光と記憶を、映像にする。</p>
+    <p class="jp-closing">ふたりの物語を、一枚、一秒に。</p>
+    <div class="gold-line"></div>
+    <p class="en-line">Capturing light and memory, weaving them into film.</p>
+    <p class="en-line">Photo and cinema, delivered as one.</p>
+    <p class="en-line">From Japan to the world, transcending time and distance.</p>
+    <p class="en-line">May our work become a gentle staff for your journey.</p>
+    <p class="en-line">Your story — in every frame, every second.</p>
+  </div>
+</div>
+
+<div style="height:4rem;"></div>
+
+</body>
+</html>

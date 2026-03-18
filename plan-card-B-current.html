@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pattern B — Current Fonts</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #fff; font-family: 'Noto Sans JP', sans-serif; font-weight: 300; }
+
+  .card {
+    max-width: 400px;
+    margin: 60px auto;
+    padding: 0 20px;
+  }
+  .card-inner {
+    background: #FAF8F5;
+    border-radius: 16px;
+    padding: 36px 28px 32px;
+    border: 1px solid rgba(155,145,135,0.3);
+    box-shadow: 0 4px 24px rgba(61,53,48,0.06);
+    text-align: left;
+  }
+
+  /* プラン名 — 現在と同じ Cormorant Garamond */
+  .card-name {
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(1.6rem, 4vw, 1.8rem);
+    font-weight: 300;
+    letter-spacing: 0.06em;
+    color: #2e2519;
+    margin-bottom: 0.5rem;
+  }
+
+  /* セパレーター — 現在と同じ */
+  .card-sep {
+    width: 35px;
+    height: 1px;
+    background: rgba(61,53,48,0.15);
+    margin-bottom: 0.8rem;
+  }
+
+  /* 価格 — 現在と同じ Cormorant Garamond */
+  .card-price-wrap {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 1.2rem;
+  }
+  .card-price {
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(1.8rem, 4vw, 2.2rem);
+    font-weight: 300;
+    color: #2e2519;
+    letter-spacing: 0.03em;
+  }
+  .card-tax {
+    font-family: "Noto Serif JP", serif;
+    font-size: 0.58rem;
+    font-weight: 300;
+    color: rgba(61,53,48,0.7);
+  }
+
+  /* セクションヘッダー — 現在と同じ Noto Serif JP */
+  .block { margin-bottom: 1rem; }
+  .block-header {
+    font-family: "Noto Serif JP", serif;
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    color: #2a2420;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid rgba(61,53,48,0.1);
+    margin-bottom: 0.5rem;
+  }
+
+  /* 行 — 現在と同じフォント */
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.35rem 0;
+  }
+  .row + .row {
+    border-top: 1px solid rgba(61,53,48,0.04);
+  }
+  .row-label {
+    font-family: "Noto Serif JP", serif;
+    font-size: 0.73rem;
+    font-weight: 300;
+    color: rgba(61,53,48,0.95);
+  }
+  .row-val {
+    font-family: "Noto Serif JP", serif;
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #2a2420;
+    letter-spacing: 0.02em;
+  }
+
+  /* 注釈 — 現在と同じ */
+  .note {
+    font-family: "Noto Serif JP", serif;
+    font-size: 0.66rem;
+    font-weight: 300;
+    color: rgba(61,53,48,0.85);
+    margin-top: 0.3rem;
+    line-height: 1.7;
+  }
+
+  /* バッジ — 現在と同じ */
+  .badge {
+    display: inline-block;
+    font-family: "Noto Serif JP", serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.03em;
+    padding: 0.15rem 0.5rem;
+    background: #2e2519;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-weight: 300;
+    margin-left: 0.4rem;
+  }
+</style>
+</head>
+<body>
+
+<!-- Basic Plan -->
+<div class="card"><div class="card-inner">
+  <div class="card-name">Basic Plan</div>
+  <div class="card-sep"></div>
+  <div class="card-price-wrap">
+    <div class="card-price">¥168,000</div>
+    <div class="card-tax">税込</div>
+  </div>
+  <div class="block">
+    <div class="block-header">撮影プラン</div>
+    <div class="row"><span class="row-label">Photo + Movie</span><span class="row-val">¥168,000</span></div>
+    <div class="row"><span class="row-label">Photo Only / Movie Only</span><span class="row-val">¥128,000</span></div>
+    <div class="note">※ Photo Only / Movie Only は ¥40,000 OFF</div>
+  </div>
+  <div class="block">
+    <div class="block-header">含まれるもの</div>
+    <div class="row"><span class="row-label">前撮り撮影</span><span class="row-val">✓</span></div>
+    <div class="row"><span class="row-label">200カット以上</span><span class="row-val">✓</span></div>
+    <div class="row"><span class="row-label">撮影データ全納品</span><span class="row-val">✓</span></div>
+    <div class="row"><span class="row-label">3分のショートフィルム</span><span class="row-val">✓</span></div>
+  </div>
+</div></div>
+
+<!-- Hairmake Plan -->
+<div class="card"><div class="card-inner">
+  <div class="card-name">Hairmake Plan</div>
+  <div class="card-sep"></div>
+  <div class="card-price-wrap">
+    <div class="card-price">¥198,000</div>
+    <div class="card-tax">税込</div>
+  </div>
+  <div class="block">
+    <div class="block-header">撮影プラン <span class="badge">人気 No.1</span></div>
+    <div class="row"><span class="row-label">Photo + Movie</span><span class="row-val">¥198,000</span></div>
+    <div class="row"><span class="row-label">Photo Only / Movie Only</span><span class="row-val">¥158,000</span></div>
+  </div>
+  <div class="block">
+    <div class="block-header">含まれるもの</div>
+    <div class="row"><span class="row-label">前撮り撮影</span><span class="row-val">✓</span></div>
+    <div class="row"><span class="row-label">200カット以上</span><span class="row-val">✓</span></div>
+    <div class="row"><span class="row-label">撮影データ全納品</span><span class="row-val">✓</span></div>
+    <div class="row"><span class="row-label">3分のショートフィルム</span><span class="row-val">✓</span></div>
+    <div class="row"><span class="row-label">プロのヘアメイク</span><span class="row-val">✓</span></div>
+  </div>
+</div></div>
+
+<!-- Premium Plan -->
+<div class="card"><div class="card-inner">
+  <div class="card-name">Premium Plan</div>
+  <div class="card-sep"></div>
+  <div class="card-price-wrap">
+    <div class="card-price">¥298,000</div>
+    <div class="card-tax">税込</div>
+  </div>
+  <div class="block">
+    <div class="block-header">撮影プラン <span class="badge">月3組限定</span></div>
+    <div class="row"><span class="row-label">Photo + Movie</span><span class="row-val">¥298,000</span></div>
+    <div class="row"><span class="row-label">Photo Only / Movie Only</span><span class="row-val">¥258,000</span></div>
+  </div>
+  <div class="block">
+    <div class="block-header">含まれるもの</div>
+    <div class="row"><span class="row-label">前撮り撮影</span><span class="row-val">✓</span></div>
+    <div class="row"><span class="row-label">200カット以上</span><span class="row-val">✓</span></div>
+    <div class="row"><span class="row-label">撮影データ全納品</span><span class="row-val">✓</span></div>
+    <div class="row"><span class="row-label">3分のショートフィルム</span><span class="row-val">✓</span></div>
+    <div class="row"><span class="row-label">プロのヘアメイク</span><span class="row-val">✓</span></div>
+    <div class="row"><span class="row-label">ドレス＆タキシード</span><span class="row-val">✓</span></div>
+    <div class="row"><span class="row-label">小物一式</span><span class="row-val">✓</span></div>
+  </div>
+</div></div>
+
+<div style="height: 60px;"></div>
+</body>
+</html>

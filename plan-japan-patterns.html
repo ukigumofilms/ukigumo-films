@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plan Japan — 20 Design Patterns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400&family=Playfair+Display:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Noto Serif JP", serif;
+      background: #f5f3ef;
+      color: #2a2420;
+    }
+
+    /* Page Header */
+    .page-header {
+      text-align: center;
+      padding: 4rem 2rem 3rem;
+      background: #2a2420;
+      color: #fff;
+    }
+    .page-header h1 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 2.2rem;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      margin-bottom: 0.5rem;
+    }
+    .page-header p {
+      font-size: 0.7rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.2em;
+    }
+
+    /* Pattern Section */
+    .pattern-section {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+      border-bottom: 1px solid rgba(61,53,48,0.08);
+    }
+    .pattern-label {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.75rem;
+      font-weight: 400;
+      color: rgba(61,53,48,0.4);
+      letter-spacing: 0.15em;
+      margin-bottom: 0.4rem;
+    }
+    .pattern-title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.4rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: #2e2519;
+      margin-bottom: 0.3rem;
+    }
+    .pattern-desc {
+      font-size: 0.68rem;
+      font-weight: 300;
+      color: rgba(61,53,48,0.5);
+      margin-bottom: 2rem;
+      letter-spacing: 0.02em;
+    }
+
+    /* Shared image */
+    .demo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ===========================
+       PATTERN 01: Current (Beige Card + Side Photo)
+       =========================== */
+    .p01-card {
+      background: #ede4d6;
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+    }
+    .p01-card__img {
+      flex: 0 0 45%;
+      position: relative;
+      min-height: 380px;
+    }
+    .p01-card__img img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+    .p01-card__body {
+      padding: 2.5rem 2rem;
+      flex: 1;
+    }
+    .p01-num { font-family: "Cormorant Garamond", serif; font-size: 0.7rem; color: rgba(61,53,48,0.4); letter-spacing: 0.15em; margin-bottom: 0.5rem; }
+    .p01-name { font-family: "Cormorant Garamond", serif; font-size: 1.8rem; font-weight: 400; letter-spacing: 0.04em; margin-bottom: 0.2rem; }
+    .p01-price { font-family: "Cormorant Garamond", serif; font-size: 2rem; font-weight: 300; margin-bottom: 0.2rem; }
+    .p01-tax { font-size: 0.6rem; font-weight: 300; color: rgba(61,53,48,0.45); margin-bottom: 1rem; }
+    .p01-block { background: rgba(255,255,255,0.7); border-radius: 12px; padding: 1rem 1.2rem; margin-bottom: 0.6rem; }
+    .p01-block-h { font-size: 0.7rem; font-weight: 400; border-bottom: 1px solid rgba(61,53,48,0.08); padding-bottom: 0.4rem; margin-bottom: 0.4rem; }
+    .p01-row { display: flex; justify-content: space-between; font-size: 0.7rem; padding: 0.25rem 0; color: rgba(61,53,48,0.7); }
+    .p01-row span:last-child { font-weight: 400; color: #2a2420; }
+
+    /* ===========================
+       PATTERN 02: Full White + Thin Border
+       =========================== */
+    .p02-card {
+      background: #fff;
+      border: 1px solid rgba(61,53,48,0.08);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+    }
+    .p02-card__img {
+      flex: 0 0 42%;
+      position: relative;
+      min-height: 380px;
+    }
+    .p02-card__img img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+    .p02-card__body { padding: 2.5rem 2rem; flex: 1; }
+    .p02-name { font-family: "Cormorant Garamond", serif; font-size: 1.6rem; font-weight: 300; letter-spacing: 0.06em; margin-bottom: 0.8rem; }
+    .p02-sep { width: 30px; height: 1px; background: rgba(61,53,48,0.2); margin-bottom: 1rem; }
+    .p02-price { font-family: "Cormorant Garamond", serif; font-size: 2.2rem; font-weight: 300; letter-spacing: 0.03em; }
+    .p02-tax { font-size: 0.6rem; color: rgba(61,53,48,0.4); margin-bottom: 1.2rem; }
+    .p02-row { display: flex; justify-content: space-between; font-size: 0.68rem; padding: 0.35rem 0; border-bottom: 1px solid rgba(61,53,48,0.04); color: rgba(61,53,48,0.65); }
+    .p02-row span:last-child { color: #2a2420; }
+
+    /* ===========================
+       PATTERN 03: Dark Elegant
+       =========================== */
+    .p03-card {
+      background: #2a2420;
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      color: #fff;
+    }
+    .p03-card__img { flex: 0 0 45%; position: relative; min-height: 380px; }
+    .p03-card__img img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+    .p03-card__body { padding: 2.5rem 2rem; flex: 1; }
+    .p03-num { font-family: "Cormorant Garamond", serif; font-size: 0.7rem; color: rgba(255,255,255,0.35); letter-spacing: 0.15em; margin-bottom: 0.5rem; }
+    .p03-name { font-family: "Cormorant Garamond", serif; font-size: 1.8rem; font-weight: 300; letter-spacing: 0.06em; margin-bottom: 0.2rem; }
+    .p03-price { font-family: "Cormorant Garamond", serif; font-size: 2.2rem; font-weight: 300; color: #d4c5a9; margin-bottom: 0.15rem; }
+    .p03-tax { font-size: 0.6rem; color: rgba(255,255,255,0.35); margin-bottom: 1.2rem; }
+    .p03-block { background: rgba(255,255,255,0.06); border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 0.6rem; }
+    .p03-block-h { font-size: 0.7rem; font-weight: 300; color: rgba(255,255,255,0.5); border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.4rem; margin-bottom: 0.4rem; }
+    .p03-row { display: flex; justify-content: space-between; font-size: 0.7rem; padding: 0.25rem 0; color: rgba(255,255,255,0.55); }
+    .p03-row span:last-child { color: #d4c5a9; }
+
+    /* ===========================
+       PATTERN 04: Stacked Vertical (no side image)
+       =========================== */
+    .p04-card {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 24px rgba(0,0,0,0.04);
+    }
+    .p04-card__img { height: 240px; position: relative; }
+    .p04-card__img img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+    .p04-card__overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 2rem; background: linear-gradient(to top, rgba(0,0,0,0.5), transparent); color: #fff; }
+    .p04-card__overlay h3 { font-family: "Cormorant Garamond", serif; font-size: 1.8rem; font-weight: 300; }
+    .p04-card__overlay span { font-size: 0.6rem; color: rgba(255,255,255,0.6); }
+    .p04-card__body { padding: 2rem 2rem 2rem; }
+    .p04-price { font-family: "Cormorant Garamond", serif; font-size: 2.4rem; font-weight: 300; text-align: center; margin-bottom: 0.2rem; }
+    .p04-tax { font-size: 0.6rem; color: rgba(61,53,48,0.4); text-align: center; margin-bottom: 1.5rem; }
+    .p04-items { list-style: none; }
+    .p04-items li { font-size: 0.7rem; font-weight: 300; color: rgba(61,53,48,0.65); padding: 0.4rem 0; border-bottom: 1px solid rgba(61,53,48,0.05); display: flex; justify-content: space-between; }
+    .p04-items li span { color: #2a2420; }
+
+    /* ===========================
+       PATTERN 05: Minimal Line + Left Accent
+       =========================== */
+    .p05-card {
+      background: #fff;
+      border-left: 3px solid #c5b99b;
+      padding: 2rem 2.5rem;
+    }
+    .p05-name { font-family: "Cormorant Garamond", serif; font-size: 1.5rem; font-weight: 300; letter-spacing: 0.08em; margin-bottom: 0.6rem; }
+    .p05-price { font-family: "Cormorant Garamond", serif; font-size: 2rem; font-weight: 300; color: #2e2519; margin-bottom: 0.15rem; }
+    .p05-tax { font-size: 0.6rem; color: rgba(61,53,48,0.4); margin-bottom: 1.2rem; }
+    .p05-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.3rem 1.5rem; }
+    .p05-item { font-size: 0.7rem; font-weight: 300; color: rgba(61,53,48,0.6); padding: 0.35rem 0; border-bottom: 1px solid rgba(61,53,48,0.05); }
+
+    /* ===========================
+       PATTERN 06: Magazine Full-Width
+       =========================== */
+    .p06-wrap { position: relative; min-height: 420px; border-radius: 16px; overflow: hidden; }
+    .p06-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+    .p06-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.25) 100%); }
+    .p06-content { position: relative; z-index: 2; padding: 3rem; color: #fff; max-width: 50%; }
+    .p06-num { font-family: "Cormorant Garamond", serif; font-size: 0.7rem; color: rgba(255,255,255,0.4); letter-spacing: 0.15em; margin-bottom: 0.5rem; }
+    .p06-name { font-family: "Cormorant Garamond", serif; font-size: 2rem; font-weight: 300; letter-spacing: 0.08em; margin-bottom: 0.5rem; }
+    .p06-price { font-family: "Cormorant Garamond", serif; font-size: 2.5rem; font-weight: 300; color: #d4c5a9; margin-bottom: 1.2rem; }
+    .p06-item { font-size: 0.7rem; font-weight: 300; color: rgba(255,255,255,0.65); padding: 0.3rem 0; }
+
+    /* ===========================
+       PATTERN 07: Floating Price Tag
+       =========================== */
+    .p07-card {
+      background: #f9f7f3;
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      position: relative;
+    }
+    .p07-card__img { flex: 0 0 50%; position: relative; min-height: 400px; }
+    .p07-card__img img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+    .p07-price-tag {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255,255,255,0.95);
+      border-radius: 50%;
+      width: 130px;
+      height: 130px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+      z-index: 3;
+    }
+    .p07-price-tag__price { font-family: "Cormorant Garamond", serif; font-size: 1.3rem; font-weight: 400; color: #2e2519; }
+    .p07-price-tag__tax { font-size: 0.55rem; color: rgba(61,53,48,0.4); }
+    .p07-card__body { padding: 2.5rem 2rem; flex: 1; }
+    .p07-name { font-family: "Cormorant Garamond", serif; font-size: 1.6rem; font-weight: 300; margin-bottom: 1rem; }
+    .p07-row { font-size: 0.7rem; font-weight: 300; color: rgba(61,53,48,0.6); padding: 0.35rem 0; border-bottom: 1px solid rgba(61,53,48,0.06); display: flex; gap: 0.5rem; }
+    .p07-check { color: #8a7e6b; }
+
+    /* ===========================
+       PATTERN 08: Two-Tone Split (Cream + White)
+       =========================== */
+    .p08-card { display: flex; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 20px rgba(0,0,0,0.04); }
+    .p08-left { flex: 0 0 40%; background: #ede4d6; padding: 2.5rem 2rem; display: flex; flex-direction: column; justify-content: center; }
+    .p08-right { flex: 1; background: #fff; padding: 2.5rem 2rem; }
+    .p08-name { font-family: "Cormorant Garamond", serif; font-size: 1.8rem; font-weight: 300; letter-spacing: 0.06em; margin-bottom: 0.5rem; }
+    .p08-price { font-family: "Cormorant Garamond", serif; font-size: 2.4rem; font-weight: 300; margin-bottom: 0.2rem; }
+    .p08-tax { font-size: 0.6rem; color: rgba(61,53,48,0.4); }
+    .p08-badge { display: inline-block; font-size: 0.58rem; padding: 0.15rem 0.5rem; background: rgba(61,53,48,0.08); border-radius: 10px; color: rgba(61,53,48,0.6); margin-top: 0.8rem; }
+    .p08-h { font-size: 0.72rem; font-weight: 400; margin-bottom: 0.6rem; padding-bottom: 0.4rem; border-bottom: 1px solid rgba(61,53,48,0.08); }
+    .p08-row { display: flex; justify-content: space-between; font-size: 0.7rem; padding: 0.3rem 0; color: rgba(61,53,48,0.65); }
+    .p08-row span:last-child { color: #2a2420; }
+
+    /* ===========================
+       PATTERN 09: Glassmorphism
+       =========================== */
+    .p09-wrap { position: relative; min-height: 420px; border-radius: 16px; overflow: hidden; }
+    .p09-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+    .p09-glass {
+      position: absolute;
+      right: 2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 380px;
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 16px;
+      padding: 2rem;
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      z-index: 2;
+    }
+    .p09-name { font-family: "Cormorant Garamond", serif; font-size: 1.6rem; font-weight: 300; margin-bottom: 0.4rem; }
+    .p09-price { font-family: "Cormorant Garamond", serif; font-size: 2.2rem; font-weight: 300; margin-bottom: 1rem; }
+    .p09-row { font-size: 0.68rem; font-weight: 300; padding: 0.3rem 0; border-bottom: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.8); display: flex; justify-content: space-between; }
+    .p09-row span:last-child { color: #fff; }
+
+    /* ===========================
+       PATTERN 10: Outlined Minimal
+       =========================== */
+    .p10-card {
+      border: 1px solid rgba(61,53,48,0.12);
+      background: transparent;
+      padding: 2.5rem;
+      display: flex;
+      gap: 3rem;
+      align-items: flex-start;
+    }
+    .p10-left { flex: 0 0 auto; text-align: center; min-width: 160px; }
+    .p10-num { font-family: "Cormorant Garamond", serif; font-size: 3rem; font-weight: 300; color: rgba(61,53,48,0.15); line-height: 1; margin-bottom: 0.5rem; }
+    .p10-name { font-family: "Cormorant Garamond", serif; font-size: 1.2rem; font-weight: 400; letter-spacing: 0.06em; margin-bottom: 0.8rem; }
+    .p10-price { font-family: "Cormorant Garamond", serif; font-size: 1.8rem; font-weight: 300; }
+    .p10-tax { font-size: 0.58rem; color: rgba(61,53,48,0.4); }
+    .p10-right { flex: 1; }
+    .p10-row { font-size: 0.7rem; font-weight: 300; color: rgba(61,53,48,0.6); padding: 0.4rem 0; border-bottom: 1px solid rgba(61,53,48,0.05); display: flex; justify-content: space-between; }
+    .p10-row span:last-child { color: #2a2420; font-size: 0.72rem; }
+
+    /* ===========================
+       PATTERN 11: Olive Accent
+       =========================== */
+    .p11-card {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.04);
+    }
+    .p11-card__img { flex: 0 0 42%; position: relative; min-height: 380px; }
+    .p11-card__img img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+    .p11-card__body { padding: 2.5rem 2rem; flex: 1; }
+    .p11-name { font-family: "Cormorant Garamond", serif; font-size: 1.6rem; font-weight: 300; margin-bottom: 0.5rem; }
+    .p11-price { font-family: "Cormorant Garamond", serif; font-size: 2.2rem; font-weight: 300; color: #6b7c5e; margin-bottom: 0.15rem; }
+    .p11-tax { font-size: 0.6rem; color: rgba(61,53,48,0.4); margin-bottom: 1.2rem; }
+    .p11-tag { display: inline-block; font-size: 0.6rem; padding: 0.2rem 0.6rem; background: #6b7c5e; color: #fff; border-radius: 20px; margin-bottom: 1rem; }
+    .p11-block { background: #f5f3ef; border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 0.5rem; }
+    .p11-row { display: flex; justify-content: space-between; font-size: 0.7rem; padding: 0.25rem 0; color: rgba(61,53,48,0.65); }
+    .p11-row span:last-child { color: #6b7c5e; font-weight: 400; }
+
+    /* ===========================
+       PATTERN 12: Horizontal Scroll Cards (3 cards side by side)
+       =========================== */
+    .p12-scroll { display: flex; gap: 1rem; overflow-x: auto; padding-bottom: 1rem; }
+    .p12-card { min-width: 280px; flex: 0 0 280px; background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.04); }
+    .p12-card__img { height: 160px; position: relative; }
+    .p12-card__img img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+    .p12-card__body { padding: 1.5rem; text-align: center; }
+    .p12-name { font-family: "Cormorant Garamond", serif; font-size: 1.2rem; font-weight: 300; margin-bottom: 0.5rem; }
+    .p12-price { font-family: "Cormorant Garamond", serif; font-size: 1.8rem; font-weight: 300; margin-bottom: 0.2rem; }
+    .p12-tax { font-size: 0.55rem; color: rgba(61,53,48,0.4); margin-bottom: 0.8rem; }
+    .p12-item { font-size: 0.65rem; font-weight: 300; color: rgba(61,53,48,0.55); padding: 0.25rem 0; }
+
+    /* ===========================
+       PATTERN 13: Large Number + Minimal
+       =========================== */
+    .p13-card { display: flex; align-items: center; gap: 2.5rem; padding: 2rem 0; border-bottom: 1px solid rgba(61,53,48,0.08); }
+    .p13-big-num { font-family: "Cormorant Garamond", serif; font-size: 5rem; font-weight: 300; color: rgba(61,53,48,0.08); line-height: 1; flex-shrink: 0; }
+    .p13-center { flex: 1; }
+    .p13-name { font-family: "Cormorant Garamond", serif; font-size: 1.4rem; font-weight: 300; letter-spacing: 0.06em; margin-bottom: 0.3rem; }
+    .p13-desc { font-size: 0.68rem; font-weight: 300; color: rgba(61,53,48,0.5); line-height: 1.8; }
+    .p13-price-area { text-align: right; flex-shrink: 0; }
+    .p13-price { font-family: "Cormorant Garamond", serif; font-size: 2rem; font-weight: 300; }
+    .p13-tax { font-size: 0.55rem; color: rgba(61,53,48,0.4); }
+
+    /* ===========================
+       PATTERN 14: Warm Gradient Card
+       =========================== */
+    .p14-card {
+      background: linear-gradient(135deg, #f5ede0 0%, #e8dfd0 50%, #ddd4c4 100%);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+    }
+    .p14-card__img { flex: 0 0 45%; position: relative; min-height: 380px; }
+    .p14-card__img img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+    .p14-card__body { padding: 2.5rem 2rem; flex: 1; }
+    .p14-name { font-family: "Cormorant Garamond", serif; font-size: 1.8rem; font-weight: 300; margin-bottom: 0.4rem; }
+    .p14-sep { width: 35px; height: 1px; background: rgba(61,53,48,0.25); margin-bottom: 1rem; }
+    .p14-price { font-family: "Cormorant Garamond", serif; font-size: 2.2rem; font-weight: 300; margin-bottom: 0.15rem; }
+    .p14-tax { font-size: 0.6rem; color: rgba(61,53,48,0.45); margin-bottom: 1.2rem; }
+    .p14-block { background: rgba(255,255,255,0.5); border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 0.5rem; }
+    .p14-row { display: flex; justify-content: space-between; font-size: 0.7rem; padding: 0.25rem 0; color: rgba(61,53,48,0.6); }
+    .p14-row span:last-child { color: #2a2420; }
+
+    /* ===========================
+       PATTERN 15: Centered Elegant
+       =========================== */
+    .p15-card { text-align: center; padding: 3rem 2rem; background: #fff; border-radius: 16px; box-shadow: 0 2px 20px rgba(0,0,0,0.03); }
+    .p15-name { font-family: "Cormorant Garamond", serif; font-size: 1.8rem; font-weight: 300; letter-spacing: 0.12em; margin-bottom: 0.5rem; }
+    .p15-sep { width: 40px; height: 1px; background: rgba(61,53,48,0.2); margin: 0 auto 1rem; }
+    .p15-price { font-family: "Cormorant Garamond", serif; font-size: 2.8rem; font-weight: 300; margin-bottom: 0.2rem; }
+    .p15-tax { font-size: 0.6rem; color: rgba(61,53,48,0.4); margin-bottom: 1.5rem; }
+    .p15-items { max-width: 400px; margin: 0 auto; }
+    .p15-row { display: flex; justify-content: space-between; font-size: 0.7rem; font-weight: 300; color: rgba(61,53,48,0.6); padding: 0.4rem 0; border-bottom: 1px solid rgba(61,53,48,0.05); }
+    .p15-row span:last-child { color: #2a2420; }
+
+    /* ===========================
+       PATTERN 16: Photo Top + Floating Info
+       =========================== */
+    .p16-wrap { position: relative; }
+    .p16-img { height: 280px; border-radius: 16px; overflow: hidden; position: relative; }
+    .p16-img img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+    .p16-info {
+      background: #fff;
+      border-radius: 14px;
+      padding: 2rem 2rem 1.5rem;
+      margin: -3rem 2rem 0;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      display: flex;
+      gap: 2rem;
+    }
+    .p16-left { flex: 0 0 auto; }
+    .p16-name { font-family: "Cormorant Garamond", serif; font-size: 1.5rem; font-weight: 300; margin-bottom: 0.3rem; }
+    .p16-price { font-family: "Cormorant Garamond", serif; font-size: 2rem; font-weight: 300; }
+    .p16-tax { font-size: 0.58rem; color: rgba(61,53,48,0.4); }
+    .p16-right { flex: 1; }
+    .p16-row { display: flex; justify-content: space-between; font-size: 0.68rem; padding: 0.3rem 0; border-bottom: 1px solid rgba(61,53,48,0.05); color: rgba(61,53,48,0.6); }
+    .p16-row span:last-child { color: #2a2420; }
+
+    /* ===========================
+       PATTERN 17: Mocha + Gold Accents
+       =========================== */
+    .p17-card {
+      background: #3d3530;
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      color: #f0e8da;
+    }
+    .p17-card__img { flex: 0 0 45%; position: relative; min-height: 400px; }
+    .p17-card__img img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+    .p17-card__body { padding: 2.5rem 2rem; flex: 1; }
+    .p17-name { font-family: "Cormorant Garamond", serif; font-size: 1.8rem; font-weight: 300; color: #c9a96e; letter-spacing: 0.06em; margin-bottom: 0.5rem; }
+    .p17-price { font-family: "Cormorant Garamond", serif; font-size: 2.4rem; font-weight: 300; color: #c9a96e; margin-bottom: 0.15rem; }
+    .p17-tax { font-size: 0.6rem; color: rgba(240,232,218,0.35); margin-bottom: 1.2rem; }
+    .p17-block { background: rgba(255,255,255,0.05); border: 1px solid rgba(201,169,110,0.15); border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 0.5rem; }
+    .p17-row { display: flex; justify-content: space-between; font-size: 0.7rem; padding: 0.25rem 0; color: rgba(240,232,218,0.55); }
+    .p17-row span:last-child { color: #c9a96e; }
+
+    /* ===========================
+       PATTERN 18: Soft Blush
+       =========================== */
+    .p18-card {
+      background: #f3ebe5;
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+    }
+    .p18-card__img { flex: 0 0 44%; position: relative; min-height: 380px; }
+    .p18-card__img img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+    .p18-card__body { padding: 2.5rem 2rem; flex: 1; }
+    .p18-num { font-family: "Cormorant Garamond", serif; font-size: 0.7rem; color: rgba(61,53,48,0.35); letter-spacing: 0.15em; margin-bottom: 0.5rem; }
+    .p18-name { font-family: "Playfair Display", serif; font-size: 1.6rem; font-weight: 300; letter-spacing: 0.04em; margin-bottom: 0.4rem; color: #4a3f32; }
+    .p18-price { font-family: "Playfair Display", serif; font-size: 2rem; font-weight: 300; color: #8b6f5c; margin-bottom: 0.15rem; }
+    .p18-tax { font-size: 0.6rem; color: rgba(61,53,48,0.4); margin-bottom: 1.2rem; }
+    .p18-block { background: rgba(255,255,255,0.6); border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 0.5rem; }
+    .p18-block-h { font-size: 0.7rem; font-weight: 400; color: #8b6f5c; border-bottom: 1px solid rgba(61,53,48,0.08); padding-bottom: 0.4rem; margin-bottom: 0.4rem; }
+    .p18-row { display: flex; justify-content: space-between; font-size: 0.7rem; padding: 0.25rem 0; color: rgba(61,53,48,0.6); }
+    .p18-row span:last-child { color: #4a3f32; }
+
+    /* ===========================
+       PATTERN 19: Asymmetric Overlap
+       =========================== */
+    .p19-wrap { display: flex; align-items: center; gap: 0; position: relative; }
+    .p19-img { flex: 0 0 55%; height: 400px; border-radius: 16px; overflow: hidden; position: relative; }
+    .p19-img img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+    .p19-card {
+      flex: 0 0 50%;
+      margin-left: -5%;
+      background: #fff;
+      border-radius: 14px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.08);
+      position: relative;
+      z-index: 2;
+    }
+    .p19-name { font-family: "Cormorant Garamond", serif; font-size: 1.6rem; font-weight: 300; margin-bottom: 0.5rem; }
+    .p19-sep { width: 30px; height: 1px; background: rgba(61,53,48,0.2); margin-bottom: 1rem; }
+    .p19-price { font-family: "Cormorant Garamond", serif; font-size: 2.2rem; font-weight: 300; margin-bottom: 0.15rem; }
+    .p19-tax { font-size: 0.6rem; color: rgba(61,53,48,0.4); margin-bottom: 1.2rem; }
+    .p19-row { display: flex; justify-content: space-between; font-size: 0.7rem; padding: 0.3rem 0; border-bottom: 1px solid rgba(61,53,48,0.05); color: rgba(61,53,48,0.6); }
+    .p19-row span:last-child { color: #2a2420; }
+
+    /* ===========================
+       PATTERN 20: Taupe + Serif Luxury
+       =========================== */
+    .p20-card {
+      background: #d5cdc0;
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+    }
+    .p20-card__img { flex: 0 0 45%; position: relative; min-height: 400px; }
+    .p20-card__img img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+    .p20-card__body { padding: 2.5rem 2rem; flex: 1; }
+    .p20-name { font-family: "Cormorant Garamond", serif; font-size: 2rem; font-weight: 400; letter-spacing: 0.06em; color: #2e2519; margin-bottom: 0.3rem; }
+    .p20-subtitle { font-size: 0.65rem; color: rgba(46,37,25,0.5); letter-spacing: 0.1em; margin-bottom: 1rem; }
+    .p20-price { font-family: "Cormorant Garamond", serif; font-size: 2.4rem; font-weight: 300; color: #2e2519; margin-bottom: 0.15rem; }
+    .p20-tax { font-size: 0.6rem; color: rgba(46,37,25,0.4); margin-bottom: 1.2rem; }
+    .p20-block { background: rgba(255,255,255,0.45); border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 0.5rem; }
+    .p20-block-h { font-size: 0.7rem; font-weight: 400; color: #2e2519; border-bottom: 1px solid rgba(46,37,25,0.1); padding-bottom: 0.4rem; margin-bottom: 0.4rem; }
+    .p20-row { display: flex; justify-content: space-between; font-size: 0.7rem; padding: 0.25rem 0; color: rgba(46,37,25,0.6); }
+    .p20-row span:last-child { color: #2e2519; font-weight: 400; }
+
+    @media (max-width: 768px) {
+      .p01-card, .p02-card, .p03-card, .p07-card, .p08-card, .p11-card, .p14-card, .p17-card, .p18-card, .p20-card { flex-direction: column; }
+      .p01-card__img, .p02-card__img, .p03-card__img, .p07-card__img, .p08-left, .p11-card__img, .p14-card__img, .p17-card__img, .p18-card__img, .p20-card__img { flex: none; width: 100%; height: 220px; min-height: 220px; }
+      .p06-content { max-width: 100%; }
+      .p09-glass { width: calc(100% - 2rem); right: 1rem; }
+      .p10-card { flex-direction: column; gap: 1.5rem; }
+      .p13-card { flex-direction: column; gap: 1rem; }
+      .p16-info { flex-direction: column; margin: -2rem 1rem 0; }
+      .p19-wrap { flex-direction: column; }
+      .p19-img { flex: none; width: 100%; height: 220px; }
+      .p19-card { margin-left: 0; margin-top: -2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Plan Card — 20 Patterns</h1>
+  <p>高級感 · おしゃれ · 見やすさ</p>
+</div>
+
+<!-- ==================== PATTERN 01 ==================== -->
+<div class="pattern-section">
+  <div class="pattern-label">PATTERN 01</div>
+  <div class="pattern-title">Beige Card + Side Photo</div>
+  <div class="pattern-desc">現在のデザイン。ドレスページと統一感のあるベージュカード</div>
+  <div class="p01-card">
+    <div class="p01-card__img"><img src="images/hero/hero-01.jpg" alt=""></div>
+    <div class="p01-card__body">
+      <div class="p01-num">01</div>
+      <div class="p01-name">Basic Plan</div>
+      <div class="p01-price">&yen;168,000</div>
+      <div class="p01-tax">税込</div>
+      <div class="p01-block">
+        <div class="p01-block-h">含まれるもの</div>
+        <div class="p01-row"><span>前撮り撮影</span><span>&#10003;</span></div>
+        <div class="p01-row"><span>200カット以上</span><span>&#10003;</span></div>
+        <div class="p01-row"><span>撮影データ全納品</span><span>&#10003;</span></div>
+        <div class="p01-row"><span>3分のショートフィルム</span><span>&#10003;</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PATTERN 02 ==================== -->
+<div class="pattern-section">
+  <div class="pattern-label">PATTERN 02</div>
+  <div class="pattern-title">White + Thin Border</div>
+  <div class="pattern-desc">白背景に薄いボーダー。クリーンで上品</div>
+  <div class="p02-card">
+    <div class="p02-card__img"><img src="images/hero/hero-01.jpg" alt=""></div>
+    <div class="p02-card__body">
+      <div class="p02-name">Basic Plan</div>
+      <div class="p02-sep"></div>
+      <div class="p02-price">&yen;168,000</div>
+      <div class="p02-tax">税込</div>
+      <div class="p02-row"><span>前撮り撮影</span><span>&#10003;</span></div>
+      <div class="p02-row"><span>200カット以上</span><span>&#10003;</span></div>
+      <div class="p02-row"><span>撮影データ全納品</span><span>&#10003;</span></div>
+      <div class="p02-row"><span>3分のショートフィルム</span><span>&#10003;</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PATTERN 03 ==================== -->
+<div class="pattern-section">
+  <div class="pattern-label">PATTERN 03</div>
+  <div class="pattern-title">Dark Elegant</div>
+  <div class="pattern-desc">ダークブラウンにゴールド系テキスト。重厚でラグジュアリー</div>
+  <div class="p03-card">
+    <div class="p03-card__img"><img src="images/paris/04.jpg" alt=""></div>
+    <div class="p03-card__body">
+      <div class="p03-num">01</div>
+      <div class="p03-name">Basic Plan</div>
+      <div class="p03-price">&yen;168,000</div>
+      <div class="p03-tax">税込</div>
+      <div class="p03-block">
+        <div class="p03-block-h">含まれるもの</div>
+        <div class="p03-row"><span>前撮り撮影</span><span>&#10003;</span></div>
+        <div class="p03-row"><span>200カット以上</span><span>&#10003;</span></div>
+        <div class="p03-row"><span>撮影データ全納品</span><span>&#10003;</span></div>
+        <div class="p03-row"><span>3分のショートフィルム</span><span>&#10003;</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PATTERN 04 ==================== -->
+<div class="pattern-section">
+  <div class="pattern-label">PATTERN 04</div>
+  <div class="pattern-title">Stacked Vertical</div>
+  <div class="pattern-desc">写真が上、コンテンツが下の縦積み。料金を中央大きく表示</div>
+  <div class="p04-card" style="max-width:400px;">
+    <div class="p04-card__img">
+      <img src="images/hero/hero-01.jpg" alt="">
+      <div class="p04-card__overlay"><h3>Basic Plan</h3><span>photo + movie</span></div>
+    </div>
+    <div class="p04-card__body">
+      <div class="p04-price">&yen;168,000</div>
+      <div class="p04-tax">税込</div>
+      <ul class="p04-items">
+        <li>前撮り撮影<span>&#10003;</span></li>
+        <li>200カット以上<span>&#10003;</span></li>
+        <li>撮影データ全納品<span>&#10003;</span></li>
+        <li>3分のショートフィルム<span>&#10003;</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PATTERN 05 ==================== -->
+<div class="pattern-section">
+  <div class="pattern-label">PATTERN 05</div>
+  <div class="pattern-title">Minimal Line + Left Accent</div>
+  <div class="pattern-desc">左にゴールドラインのアクセント。写真なしのミニマル構成</div>
+  <div class="p05-card">
+    <div class="p05-name">Basic Plan</div>
+    <div class="p05-price">&yen;168,000</div>
+    <div class="p05-tax">税込</div>
+    <div class="p05-grid">
+      <div class="p05-item">前撮り撮影 &#10003;</div>
+      <div class="p05-item">200カット以上 &#10003;</div>
+      <div class="p05-item">撮影データ全納品 &#10003;</div>
+      <div class="p05-item">3分のショートフィルム &#10003;</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PATTERN 06 ==================== -->
+<div class="pattern-section">
+  <div class="pattern-label">PATTERN 06</div>
+  <div class="pattern-title">Magazine Full-Width</div>
+  <div class="pattern-desc">写真フルワイドにオーバーレイ。雑誌のような迫力</div>
+  <div class="p06-wrap">
+    <img src="images/paris/04.jpg" alt="" class="p06-bg">
+    <div class="p06-overlay"></div>
+    <div class="p06-content">
+      <div class="p06-num">01</div>
+      <div class="p06-name">Basic Plan</div>
+      <div class="p06-price">&yen;168,000</div>
+      <div class="p06-item">&#10003; 前撮り撮影</div>
+      <div class="p06-item">&#10003; 200カット以上</div>
+      <div class="p06-item">&#10003; 撮影データ全納品</div>
+      <div class="p06-item">&#10003; 3分のショートフィルム</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PATTERN 07 ==================== -->
+<div class="pattern-section">
+  <div class="pattern-label">PATTERN 07</div>
+  <div class="pattern-title">Floating Price Circle</div>
+  <div class="pattern-desc">写真とカードの境目に浮く円形プライスタグ</div>
+  <div class="p07-card">
+    <div class="p07-card__img"><img src="images/hero/hero-01.jpg" alt=""></div>
+    <div class="p07-price-tag">
+      <div class="p07-price-tag__price">&yen;168,000</div>
+      <div class="p07-price-tag__tax">税込</div>
+    </div>
+    <div class="p07-card__body">
+      <div class="p07-name">Basic Plan</div>
+      <div class="p07-row"><span class="p07-check">&#10003;</span> 前撮り撮影</div>
+      <div class="p07-row"><span class="p07-check">&#10003;</span> 200カット以上</div>
+      <div class="p07-row"><span class="p07-check">&#10003;</span> 撮影データ全納品</div>
+      <div class="p07-row"><span class="p07-check">&#10003;</span> 3分のショートフィルム</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PATTERN 08 ==================== -->
+<div class="pattern-section">
+  <div class="pattern-label">PATTERN 08</div>
+  <div class="pattern-title">Two-Tone Split</div>
+  <div class="pattern-desc">左クリーム（料金）+ 右ホワイト（詳細）の2トーン構成</div>
+  <div class="p08-card">
+    <div class="p08-left">
+      <div class="p08-name">Basic Plan</div>
+      <div class="p08-price">&yen;168,000</div>
+      <div class="p08-tax">税込</div>
+    </div>
+    <div class="p08-right">
+      <div class="p08-h">含まれるもの</div>
+      <div class="p08-row"><span>前撮り撮影</span><span>&#10003;</span></div>
+      <div class="p08-row"><span>200カット以上</span><span>&#10003;</span></div>
+      <div class="p08-row"><span>撮影データ全納品</span><span>&#10003;</span></div>
+      <div class="p08-row"><span>3分のショートフィルム</span><span>&#10003;</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PATTERN 09 ==================== -->
+<div class="pattern-section">
+  <div class="pattern-label">PATTERN 09</div>
+  <div class="pattern-title">Glassmorphism</div>
+  <div class="pattern-desc">写真の上にすりガラス風カード。モダンで透明感</div>
+  <div class="p09-wrap">
+    <img src="images/firenze/03.jpg" alt="" class="p09-bg">
+    <div class="p09-glass">
+      <div class="p09-name">Basic Plan</div>
+      <div class="p09-price">&yen;168,000<span style="font-size:0.5em; opacity:0.5;"> 税込</span></div>
+      <div class="p09-row"><span>前撮り撮影</span><span>&#10003;</span></div>
+      <div class="p09-row"><span>200カット以上</span><span>&#10003;</span></div>
+      <div class="p09-row"><span>撮影データ全納品</span><span>&#10003;</span></div>
+      <div class="p09-row"><span>3分のショートフィルム</span><span>&#10003;</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PATTERN 10 ==================== -->
+<div class="pattern-section">
+  <div class="pattern-label">PATTERN 10</div>
+  <div class="pattern-title">Outlined Minimal</div>
+  <div class="pattern-desc">写真なし。大きなナンバー＋細いボーダーのみのミニマル</div>
+  <div class="p10-card">
+    <div class="p10-left">
+      <div class="p10-num">01</div>
+      <div class="p10-name">Basic Plan</div>
+      <div class="p10-price">&yen;168,000</div>
+      <div class="p10-tax">税込</div>
+    </div>
+    <div class="p10-right">
+      <div class="p10-row"><span>前撮り撮影</span><span>&#10003;</span></div>
+      <div class="p10-row"><span>200カット以上</span><span>&#10003;</span></div>
+      <div class="p10-row"><span>撮影データ全納品</span><span>&#10003;</span></div>
+      <div class="p10-row"><span>3分のショートフィルム</span><span>&#10003;</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PATTERN 11 ==================== -->
+<div class="pattern-section">
+  <div class="pattern-label">PATTERN 11</div>
+  <div class="pattern-title">Olive Accent</div>
+  <div class="pattern-desc">オリーブグリーンをアクセントに。ナチュラルで上品</div>
+  <div class="p11-card">
+    <div class="p11-card__img"><img src="images/hero/hero-01.jpg" alt=""></div>
+    <div class="p11-card__body">
+      <div class="p11-name">Basic Plan</div>
+      <div class="p11-tag">Photo + Movie</div>
+      <div class="p11-price">&yen;168,000</div>
+      <div class="p11-tax">税込</div>
+      <div class="p11-block">
+        <div class="p11-row"><span>前撮り撮影</span><span>&#10003;</span></div>
+        <div class="p11-row"><span>200カット以上</span><span>&#10003;</span></div>
+        <div class="p11-row"><span>撮影データ全納品</span><span>&#10003;</span></div>
+        <div class="p11-row"><span>3分のショートフィルム</span><span>&#10003;</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PATTERN 12 ==================== -->
+<div class="pattern-section">
+  <div class="pattern-label">PATTERN 12</div>
+  <div class="pattern-title">Horizontal Scroll Cards</div>
+  <div class="pattern-desc">3プランを横スクロールカードで一覧表示</div>
+  <div class="p12-scroll">
+    <div class="p12-card">
+      <div class="p12-card__img"><img src="images/hero/hero-01.jpg" alt=""></div>
+      <div class="p12-card__body">
+        <div class="p12-name">Basic</div>
+        <div class="p12-price">&yen;168,000</div>
+        <div class="p12-tax">税込</div>
+        <div class="p12-item">前撮り撮影</div>
+        <div class="p12-item">200カット以上</div>
+        <div class="p12-item">ショートフィルム</div>
+      </div>
+    </div>
+    <div class="p12-card">
+      <div class="p12-card__img"><img src="images/paris/04.jpg" alt=""></div>
+      <div class="p12-card__body">
+        <div class="p12-name">Hairmake</div>
+        <div class="p12-price">&yen;198,000</div>
+        <div class="p12-tax">税込</div>
+        <div class="p12-item">Basic全内容</div>
+        <div class="p12-item">プロのヘアメイク</div>
+      </div>
+    </div>
+    <div class="p12-card">
+      <div class="p12-card__img"><img src="images/firenze/03.jpg" alt=""></div>
+      <div class="p12-card__body">
+        <div class="p12-name">Premium</div>
+        <div class="p12-price">&yen;298,000</div>
+        <div class="p12-tax">税込</div>
+        <div class="p12-item">Hairmake全内容</div>
+        <div class="p12-item">ドレス＆タキシード</div>
+        <div class="p12-item">小物一式</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PATTERN 13 ==================== -->
+<div class="pattern-section">
+  <div class="pattern-label">PATTERN 13</div>
+  <div class="pattern-title">Large Number + Minimal</div>
+  <div class="pattern-desc">超大きなナンバーが背景に。余白を活かしたレイアウト</div>
+  <div class="p13-card">
+    <div class="p13-big-num">01</div>
+    <div class="p13-center">
+      <div class="p13-name">Basic Plan</div>
+      <div class="p13-desc">前撮り撮影 / 200カット以上 / 撮影データ全納品 / 3分のショートフィルム</div>
+    </div>
+    <div class="p13-price-area">
+      <div class="p13-price">&yen;168,000</div>
+      <div class="p13-tax">税込</div>
+    </div>
+  </div>
+  <div class="p13-card">
+    <div class="p13-big-num">02</div>
+    <div class="p13-center">
+      <div class="p13-name">Hairmake Plan</div>
+      <div class="p13-desc">Basic全内容 + プロのヘアメイク</div>
+    </div>
+    <div class="p13-price-area">
+      <div class="p13-price">&yen;198,000</div>
+      <div class="p13-tax">税込</div>
+    </div>
+  </div>
+  <div class="p13-card" style="border-bottom:none;">
+    <div class="p13-big-num">03</div>
+    <div class="p13-center">
+      <div class="p13-name">Premium Plan</div>
+      <div class="p13-desc">Hairmake全内容 + ドレス＆タキシード + 小物一式</div>
+    </div>
+    <div class="p13-price-area">
+      <div class="p13-price">&yen;298,000</div>
+      <div class="p13-tax">税込</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PATTERN 14 ==================== -->
+<div class="pattern-section">
+  <div class="pattern-label">PATTERN 14</div>
+  <div class="pattern-title">Warm Gradient Card</div>
+  <div class="pattern-desc">暖色系グラデーション背景。やわらかく品のある印象</div>
+  <div class="p14-card">
+    <div class="p14-card__img"><img src="images/paris/04.jpg" alt=""></div>
+    <div class="p14-card__body">
+      <div class="p14-name">Basic Plan</div>
+      <div class="p14-sep"></div>
+      <div class="p14-price">&yen;168,000</div>
+      <div class="p14-tax">税込</div>
+      <div class="p14-block">
+        <div class="p14-row"><span>前撮り撮影</span><span>&#10003;</span></div>
+        <div class="p14-row"><span>200カット以上</span><span>&#10003;</span></div>
+        <div class="p14-row"><span>撮影データ全納品</span><span>&#10003;</span></div>
+        <div class="p14-row"><span>3分のショートフィルム</span><span>&#10003;</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PATTERN 15 ==================== -->
+<div class="pattern-section">
+  <div class="pattern-label">PATTERN 15</div>
+  <div class="pattern-title">Centered Elegant</div>
+  <div class="pattern-desc">中央揃え。大きな価格表示とセパレーター</div>
+  <div class="p15-card">
+    <div class="p15-name">Basic Plan</div>
+    <div class="p15-sep"></div>
+    <div class="p15-price">&yen;168,000</div>
+    <div class="p15-tax">税込</div>
+    <div class="p15-items">
+      <div class="p15-row"><span>前撮り撮影</span><span>&#10003;</span></div>
+      <div class="p15-row"><span>200カット以上</span><span>&#10003;</span></div>
+      <div class="p15-row"><span>撮影データ全納品</span><span>&#10003;</span></div>
+      <div class="p15-row"><span>3分のショートフィルム</span><span>&#10003;</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PATTERN 16 ==================== -->
+<div class="pattern-section">
+  <div class="pattern-label">PATTERN 16</div>
+  <div class="pattern-title">Photo Top + Floating Info</div>
+  <div class="pattern-desc">上部に写真、その上にフロートする白カード</div>
+  <div class="p16-wrap">
+    <div class="p16-img"><img src="images/firenze/03.jpg" alt=""></div>
+    <div class="p16-info">
+      <div class="p16-left">
+        <div class="p16-name">Basic Plan</div>
+        <div class="p16-price">&yen;168,000</div>
+        <div class="p16-tax">税込</div>
+      </div>
+      <div class="p16-right">
+        <div class="p16-row"><span>前撮り撮影</span><span>&#10003;</span></div>
+        <div class="p16-row"><span>200カット以上</span><span>&#10003;</span></div>
+        <div class="p16-row"><span>撮影データ全納品</span><span>&#10003;</span></div>
+        <div class="p16-row"><span>3分のショートフィルム</span><span>&#10003;</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PATTERN 17 ==================== -->
+<div class="pattern-section">
+  <div class="pattern-label">PATTERN 17</div>
+  <div class="pattern-title">Mocha + Gold</div>
+  <div class="pattern-desc">モカブラウンにゴールドアクセント。最上級のラグジュアリー</div>
+  <div class="p17-card">
+    <div class="p17-card__img"><img src="images/paris/04.jpg" alt=""></div>
+    <div class="p17-card__body">
+      <div class="p17-name">Basic Plan</div>
+      <div class="p17-price">&yen;168,000</div>
+      <div class="p17-tax">税込</div>
+      <div class="p17-block">
+        <div class="p17-row"><span>前撮り撮影</span><span>&#10003;</span></div>
+        <div class="p17-row"><span>200カット以上</span><span>&#10003;</span></div>
+        <div class="p17-row"><span>撮影データ全納品</span><span>&#10003;</span></div>
+        <div class="p17-row"><span>3分のショートフィルム</span><span>&#10003;</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PATTERN 18 ==================== -->
+<div class="pattern-section">
+  <div class="pattern-label">PATTERN 18</div>
+  <div class="pattern-title">Soft Blush</div>
+  <div class="pattern-desc">ソフトピンクベージュ + Playfair Display。フェミニンで洗練</div>
+  <div class="p18-card">
+    <div class="p18-card__img"><img src="images/hero/hero-01.jpg" alt=""></div>
+    <div class="p18-card__body">
+      <div class="p18-num">01</div>
+      <div class="p18-name">Basic Plan</div>
+      <div class="p18-price">&yen;168,000</div>
+      <div class="p18-tax">税込</div>
+      <div class="p18-block">
+        <div class="p18-block-h">含まれるもの</div>
+        <div class="p18-row"><span>前撮り撮影</span><span>&#10003;</span></div>
+        <div class="p18-row"><span>200カット以上</span><span>&#10003;</span></div>
+        <div class="p18-row"><span>撮影データ全納品</span><span>&#10003;</span></div>
+        <div class="p18-row"><span>3分のショートフィルム</span><span>&#10003;</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PATTERN 19 ==================== -->
+<div class="pattern-section">
+  <div class="pattern-label">PATTERN 19</div>
+  <div class="pattern-title">Asymmetric Overlap</div>
+  <div class="pattern-desc">写真の上に白カードが重なるオーバーラップ。立体的でおしゃれ</div>
+  <div class="p19-wrap">
+    <div class="p19-img"><img src="images/firenze/03.jpg" alt=""></div>
+    <div class="p19-card">
+      <div class="p19-name">Basic Plan</div>
+      <div class="p19-sep"></div>
+      <div class="p19-price">&yen;168,000</div>
+      <div class="p19-tax">税込</div>
+      <div class="p19-row"><span>前撮り撮影</span><span>&#10003;</span></div>
+      <div class="p19-row"><span>200カット以上</span><span>&#10003;</span></div>
+      <div class="p19-row"><span>撮影データ全納品</span><span>&#10003;</span></div>
+      <div class="p19-row"><span>3分のショートフィルム</span><span>&#10003;</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PATTERN 20 ==================== -->
+<div class="pattern-section" style="border-bottom: none;">
+  <div class="pattern-label">PATTERN 20</div>
+  <div class="pattern-title">Taupe + Serif Luxury</div>
+  <div class="pattern-desc">トープカラー（灰みがかったベージュ）。落ち着いた高級感</div>
+  <div class="p20-card">
+    <div class="p20-card__img"><img src="images/paris/04.jpg" alt=""></div>
+    <div class="p20-card__body">
+      <div class="p20-name">Basic Plan</div>
+      <div class="p20-subtitle">PHOTO + MOVIE</div>
+      <div class="p20-price">&yen;168,000</div>
+      <div class="p20-tax">税込</div>
+      <div class="p20-block">
+        <div class="p20-block-h">含まれるもの</div>
+        <div class="p20-row"><span>前撮り撮影</span><span>&#10003;</span></div>
+        <div class="p20-row"><span>200カット以上</span><span>&#10003;</span></div>
+        <div class="p20-row"><span>撮影データ全納品</span><span>&#10003;</span></div>
+        <div class="p20-row"><span>3分のショートフィルム</span><span>&#10003;</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

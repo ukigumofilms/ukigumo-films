@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Policy Section — 10 Design Patterns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #f5f3ef;
+      color: #2a2420;
+      padding: 3rem 1.5rem;
+    }
+    h1 {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 300;
+      font-size: 1.8rem;
+      text-align: center;
+      letter-spacing: 0.15em;
+      margin-bottom: 0.5rem;
+    }
+    .page-subtitle {
+      text-align: center;
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.75rem;
+      color: rgba(61,53,48,0.4);
+      margin-bottom: 4rem;
+      letter-spacing: 0.1em;
+    }
+
+    /* Pattern container */
+    .pattern-wrap {
+      max-width: 780px;
+      margin: 0 auto 5rem;
+      position: relative;
+    }
+    .pattern-label {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.7rem;
+      color: rgba(61,53,48,0.35);
+      letter-spacing: 0.15em;
+      margin-bottom: 0.6rem;
+    }
+    .pattern-title {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 300;
+      font-size: 1.1rem;
+      letter-spacing: 0.1em;
+      color: #2a2420;
+      margin-bottom: 2rem;
+    }
+
+    /* ─── Shared base ─── */
+    .demo-section h2 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.8rem;
+      color: #2a2420;
+      margin-bottom: 3rem;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      text-align: center;
+    }
+
+    /* ===========================
+       PATTERN 01 — Elegant Border Left (Refined)
+       =========================== */
+    .p01 .subsection {
+      margin-bottom: 2.5rem;
+      padding: 2rem 2.5rem;
+      background: rgba(245,243,239,0.5);
+      border-left: 2px solid rgba(61,53,48,0.2);
+    }
+    .p01 .subsection h3 {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.9rem;
+      color: #2a2420;
+      margin-bottom: 1.5rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+    }
+    .p01 table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.2rem;
+    }
+    .p01 th, .p01 td {
+      padding: 0.8rem 1rem;
+      text-align: left;
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.8rem;
+      font-weight: 300;
+      line-height: 1.8;
+    }
+    .p01 th {
+      background: rgba(61,53,48,0.05);
+      font-weight: 400;
+      color: #2a2420;
+      border-bottom: 1px solid rgba(61,53,48,0.12);
+    }
+    .p01 td {
+      color: rgba(61,53,48,0.75);
+      border-bottom: 1px solid rgba(61,53,48,0.06);
+    }
+    .p01 .note {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 300;
+      color: rgba(61,53,48,0.7);
+      line-height: 2;
+      font-size: 0.8rem;
+    }
+
+    /* ===========================
+       PATTERN 02 — Card Style with Shadow
+       =========================== */
+    .p02 .subsection {
+      margin-bottom: 2rem;
+      padding: 2.5rem 2.5rem;
+      background: #fff;
+      box-shadow: 0 2px 20px rgba(61,53,48,0.06);
+      border-radius: 2px;
+    }
+    .p02 .subsection h3 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.05rem;
+      color: #2a2420;
+      margin-bottom: 1.5rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid rgba(61,53,48,0.1);
+    }
+    .p02 table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.2rem;
+    }
+    .p02 th, .p02 td {
+      padding: 0.85rem 1.2rem;
+      text-align: left;
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.8rem;
+      font-weight: 300;
+      line-height: 1.8;
+    }
+    .p02 th {
+      color: #2a2420;
+      font-weight: 400;
+      background: rgba(245,243,239,0.8);
+      border-bottom: 1px solid rgba(61,53,48,0.08);
+    }
+    .p02 td {
+      color: rgba(61,53,48,0.75);
+      border-bottom: 1px solid rgba(61,53,48,0.05);
+    }
+    .p02 .note {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 300;
+      color: rgba(61,53,48,0.7);
+      line-height: 2;
+      font-size: 0.8rem;
+    }
+
+    /* ===========================
+       PATTERN 03 — Minimal Top Border Accent
+       =========================== */
+    .p03 .subsection {
+      margin-bottom: 2.5rem;
+      padding: 2rem 2rem;
+      border-top: 1px solid rgba(61,53,48,0.15);
+    }
+    .p03 .subsection h3 {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.85rem;
+      color: #2a2420;
+      margin-bottom: 1.5rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+    }
+    .p03 table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.2rem;
+    }
+    .p03 th, .p03 td {
+      padding: 0.8rem 1rem;
+      text-align: left;
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.8rem;
+      font-weight: 300;
+      line-height: 1.8;
+    }
+    .p03 th {
+      color: rgba(61,53,48,0.5);
+      font-weight: 300;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      border-bottom: 1px solid rgba(61,53,48,0.1);
+    }
+    .p03 td {
+      color: rgba(61,53,48,0.75);
+      border-bottom: 1px solid rgba(61,53,48,0.05);
+    }
+    .p03 .note {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 300;
+      color: rgba(61,53,48,0.7);
+      line-height: 2;
+      font-size: 0.8rem;
+    }
+
+    /* ===========================
+       PATTERN 04 — Full-Width Bands
+       =========================== */
+    .p04 .subsection {
+      margin-bottom: 0;
+      padding: 2.5rem 2.5rem;
+    }
+    .p04 .subsection:nth-child(odd) {
+      background: rgba(245,243,239,0.6);
+    }
+    .p04 .subsection:nth-child(even) {
+      background: #fff;
+    }
+    .p04 .subsection h3 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1rem;
+      color: #2a2420;
+      margin-bottom: 1.2rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+    }
+    .p04 .subsection h3 .jp {
+      display: block;
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.75rem;
+      font-weight: 300;
+      color: rgba(61,53,48,0.5);
+      margin-top: 0.3rem;
+      letter-spacing: 0.05em;
+    }
+    .p04 table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.2rem;
+    }
+    .p04 th, .p04 td {
+      padding: 0.8rem 1rem;
+      text-align: left;
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.8rem;
+      font-weight: 300;
+      line-height: 1.8;
+    }
+    .p04 th {
+      font-weight: 400;
+      color: #2a2420;
+      border-bottom: 1px solid rgba(61,53,48,0.1);
+    }
+    .p04 td {
+      color: rgba(61,53,48,0.75);
+      border-bottom: 1px solid rgba(61,53,48,0.06);
+    }
+    .p04 .note {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 300;
+      color: rgba(61,53,48,0.65);
+      line-height: 2;
+      font-size: 0.8rem;
+    }
+
+    /* ===========================
+       PATTERN 05 — Numbered Sections
+       =========================== */
+    .p05 .subsection {
+      margin-bottom: 2.5rem;
+      padding: 2rem 2rem 2rem 4rem;
+      position: relative;
+      background: rgba(245,243,239,0.3);
+    }
+    .p05 .subsection::before {
+      content: attr(data-num);
+      position: absolute;
+      left: 1.5rem;
+      top: 2rem;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.4rem;
+      font-weight: 300;
+      color: rgba(61,53,48,0.18);
+      letter-spacing: 0;
+    }
+    .p05 .subsection h3 {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.88rem;
+      color: #2a2420;
+      margin-bottom: 1.5rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+    }
+    .p05 table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.2rem;
+    }
+    .p05 th, .p05 td {
+      padding: 0.8rem 1rem;
+      text-align: left;
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.8rem;
+      font-weight: 300;
+      line-height: 1.8;
+    }
+    .p05 th {
+      font-weight: 400;
+      color: #2a2420;
+      background: rgba(61,53,48,0.03);
+      border-bottom: 1px solid rgba(61,53,48,0.1);
+    }
+    .p05 td {
+      color: rgba(61,53,48,0.75);
+      border-bottom: 1px solid rgba(61,53,48,0.05);
+    }
+    .p05 .note {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 300;
+      color: rgba(61,53,48,0.7);
+      line-height: 2;
+      font-size: 0.8rem;
+    }
+
+    /* ===========================
+       PATTERN 06 — Accordion Style
+       =========================== */
+    .p06 .subsection {
+      margin-bottom: 0;
+      border-bottom: 1px solid rgba(61,53,48,0.1);
+    }
+    .p06 .subsection h3 {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.88rem;
+      color: #2a2420;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      padding: 1.5rem 2rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.3s;
+    }
+    .p06 .subsection h3:hover {
+      background: rgba(245,243,239,0.5);
+    }
+    .p06 .subsection h3::after {
+      content: "＋";
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1rem;
+      color: rgba(61,53,48,0.3);
+      transition: transform 0.3s;
+    }
+    .p06 .subsection.open h3::after {
+      content: "−";
+    }
+    .p06 .content {
+      padding: 0 2rem 2rem;
+    }
+    .p06 table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.2rem;
+    }
+    .p06 th, .p06 td {
+      padding: 0.8rem 1rem;
+      text-align: left;
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.8rem;
+      font-weight: 300;
+      line-height: 1.8;
+    }
+    .p06 th {
+      font-weight: 400;
+      color: #2a2420;
+      border-bottom: 1px solid rgba(61,53,48,0.1);
+    }
+    .p06 td {
+      color: rgba(61,53,48,0.75);
+      border-bottom: 1px solid rgba(61,53,48,0.05);
+    }
+    .p06 .note {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 300;
+      color: rgba(61,53,48,0.7);
+      line-height: 2;
+      font-size: 0.8rem;
+    }
+
+    /* ===========================
+       PATTERN 07 — Serif Italic Headers + Fine Lines
+       =========================== */
+    .p07 .subsection {
+      margin-bottom: 2.5rem;
+      padding: 0 0 2rem;
+      border-bottom: 1px solid rgba(61,53,48,0.08);
+    }
+    .p07 .subsection:last-child {
+      border-bottom: none;
+    }
+    .p07 .subsection h3 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.1rem;
+      color: #2a2420;
+      margin-bottom: 1.5rem;
+      font-weight: 300;
+      font-style: italic;
+      letter-spacing: 0.08em;
+    }
+    .p07 .subsection h3 .jp-title {
+      display: inline;
+      font-family: "Noto Serif JP", serif;
+      font-style: normal;
+      font-size: 0.85rem;
+      margin-left: 0.8rem;
+      color: rgba(61,53,48,0.5);
+    }
+    .p07 table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.2rem;
+    }
+    .p07 th, .p07 td {
+      padding: 0.8rem 1rem;
+      text-align: left;
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.8rem;
+      font-weight: 300;
+      line-height: 1.8;
+    }
+    .p07 th {
+      font-weight: 300;
+      color: rgba(61,53,48,0.5);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      border-bottom: 1px solid rgba(61,53,48,0.08);
+    }
+    .p07 td {
+      color: rgba(61,53,48,0.75);
+      border-bottom: 1px solid rgba(61,53,48,0.04);
+    }
+    .p07 .note {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 300;
+      color: rgba(61,53,48,0.65);
+      line-height: 2;
+      font-size: 0.78rem;
+    }
+
+    /* ===========================
+       PATTERN 08 — Dark Inset
+       =========================== */
+    .p08 {
+      background: #2a2420;
+      padding: 4rem 2.5rem;
+      margin-left: -1.5rem;
+      margin-right: -1.5rem;
+    }
+    .p08 h2 {
+      color: rgba(255,255,255,0.85) !important;
+    }
+    .p08 .subsection {
+      margin-bottom: 2.5rem;
+      padding: 2rem 2.5rem;
+      background: rgba(255,255,255,0.04);
+      border-left: 1px solid rgba(255,255,255,0.12);
+    }
+    .p08 .subsection h3 {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 1.5rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+    }
+    .p08 table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.2rem;
+    }
+    .p08 th, .p08 td {
+      padding: 0.8rem 1rem;
+      text-align: left;
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.8rem;
+      font-weight: 300;
+      line-height: 1.8;
+    }
+    .p08 th {
+      font-weight: 400;
+      color: rgba(255,255,255,0.6);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .p08 td {
+      color: rgba(255,255,255,0.55);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .p08 .note {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 300;
+      color: rgba(255,255,255,0.5);
+      line-height: 2;
+      font-size: 0.8rem;
+    }
+
+    /* ===========================
+       PATTERN 09 — Boxed Grid with Icon
+       =========================== */
+    .p09 .subsection {
+      margin-bottom: 2rem;
+      padding: 2.5rem;
+      border: 1px solid rgba(61,53,48,0.1);
+      position: relative;
+    }
+    .p09 .subsection .icon {
+      display: inline-block;
+      width: 2.2rem;
+      height: 2.2rem;
+      border: 1px solid rgba(61,53,48,0.15);
+      border-radius: 50%;
+      text-align: center;
+      line-height: 2.2rem;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.75rem;
+      color: rgba(61,53,48,0.4);
+      margin-bottom: 1.2rem;
+    }
+    .p09 .subsection h3 {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.88rem;
+      color: #2a2420;
+      margin-bottom: 1.5rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+    }
+    .p09 table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.2rem;
+    }
+    .p09 th, .p09 td {
+      padding: 0.8rem 1rem;
+      text-align: left;
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.8rem;
+      font-weight: 300;
+      line-height: 1.8;
+    }
+    .p09 th {
+      font-weight: 400;
+      color: #2a2420;
+      background: rgba(245,243,239,0.5);
+      border-bottom: 1px solid rgba(61,53,48,0.08);
+    }
+    .p09 td {
+      color: rgba(61,53,48,0.75);
+      border-bottom: 1px solid rgba(61,53,48,0.05);
+    }
+    .p09 .note {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 300;
+      color: rgba(61,53,48,0.7);
+      line-height: 2;
+      font-size: 0.8rem;
+    }
+
+    /* ===========================
+       PATTERN 10 — Centered Elegant
+       =========================== */
+    .p10 .subsection {
+      margin-bottom: 3rem;
+      padding: 2rem 2rem;
+      text-align: center;
+    }
+    .p10 .subsection h3 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.05rem;
+      color: #2a2420;
+      margin-bottom: 0.4rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+    }
+    .p10 .subsection .h3-sub {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.68rem;
+      color: rgba(61,53,48,0.4);
+      margin-bottom: 1.8rem;
+      letter-spacing: 0.08em;
+    }
+    .p10 .subsection::after {
+      content: "";
+      display: block;
+      width: 30px;
+      height: 1px;
+      background: rgba(61,53,48,0.2);
+      margin: 0 auto;
+      margin-top: 2rem;
+    }
+    .p10 .subsection:last-child::after {
+      display: none;
+    }
+    .p10 table {
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto 1.2rem;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    .p10 th, .p10 td {
+      padding: 0.8rem 1rem;
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.8rem;
+      font-weight: 300;
+      line-height: 1.8;
+    }
+    .p10 th {
+      font-weight: 400;
+      color: #2a2420;
+      border-bottom: 1px solid rgba(61,53,48,0.1);
+    }
+    .p10 td {
+      color: rgba(61,53,48,0.75);
+      border-bottom: 1px solid rgba(61,53,48,0.05);
+    }
+    .p10 .note {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 300;
+      color: rgba(61,53,48,0.65);
+      line-height: 2;
+      font-size: 0.78rem;
+      text-align: left;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* ─── Separator between patterns ─── */
+    .sep {
+      width: 1px;
+      height: 50px;
+      background: rgba(61,53,48,0.15);
+      margin: 4rem auto;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Policy Section</h1>
+  <p class="page-subtitle">ポリシーセクション デザイン — 10パターン</p>
+
+  <!-- ======================== PATTERN 01 ======================== -->
+  <div class="sep"></div>
+  <div class="pattern-wrap">
+    <p class="pattern-label">PATTERN 01</p>
+    <p class="pattern-title">Elegant Border Left — 読みやすさ重視の左線アクセント</p>
+
+    <div class="demo-section p01">
+      <h2>Policy</h2>
+
+      <div class="subsection">
+        <h3>キャンセルポリシー</h3>
+        <table>
+          <thead><tr><th>キャンセル時期</th><th>キャンセル料</th></tr></thead>
+          <tbody>
+            <tr><td>ご成約〜3ヶ月前</td><td>料金の30%</td></tr>
+            <tr><td>3ヶ月前〜1ヶ月前</td><td>料金の50%</td></tr>
+            <tr><td>1ヶ月前〜1週間前</td><td>料金の80%</td></tr>
+            <tr><td>1週間前〜当日</td><td>料金の100%</td></tr>
+          </tbody>
+        </table>
+        <p class="note">※ 交通機関・宿泊施設のキャンセル料は各所規定に基づき別途発生いたします。</p>
+      </div>
+
+      <div class="subsection">
+        <h3>天候について</h3>
+        <p class="note"><strong>国内撮影：</strong>前日または前々日に催行判断をさせていただきます。雨天の場合は無料で日程変更が可能です。</p>
+        <p class="note"><strong>海外撮影：</strong>原則雨天決行となります。時間変更やルート変更で対応することが多く、日程変更は原則承っておりません。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== PATTERN 02 ======================== -->
+  <div class="sep"></div>
+  <div class="pattern-wrap">
+    <p class="pattern-label">PATTERN 02</p>
+    <p class="pattern-title">Card Shadow — 白カード＋シャドウで浮遊感</p>
+
+    <div class="demo-section p02">
+      <h2>Policy</h2>
+
+      <div class="subsection">
+        <h3>Cancellation Policy</h3>
+        <table>
+          <thead><tr><th>キャンセル時期</th><th>キャンセル料</th></tr></thead>
+          <tbody>
+            <tr><td>ご成約〜3ヶ月前</td><td>料金の30%</td></tr>
+            <tr><td>3ヶ月前〜1ヶ月前</td><td>料金の50%</td></tr>
+            <tr><td>1ヶ月前〜1週間前</td><td>料金の80%</td></tr>
+            <tr><td>1週間前〜当日</td><td>料金の100%</td></tr>
+          </tbody>
+        </table>
+        <p class="note">※ 交通機関・宿泊施設のキャンセル料は各所規定に基づき別途発生いたします。</p>
+      </div>
+
+      <div class="subsection">
+        <h3>Weather Policy</h3>
+        <p class="note"><strong>国内撮影：</strong>前日または前々日に催行判断をさせていただきます。雨天の場合は無料で日程変更が可能です。</p>
+        <p class="note"><strong>海外撮影：</strong>原則雨天決行となります。時間変更やルート変更で対応することが多く、日程変更は原則承っておりません。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== PATTERN 03 ======================== -->
+  <div class="sep"></div>
+  <div class="pattern-wrap">
+    <p class="pattern-label">PATTERN 03</p>
+    <p class="pattern-title">Minimal Top Line — ミニマルな上線区切り</p>
+
+    <div class="demo-section p03">
+      <h2>Policy</h2>
+
+      <div class="subsection">
+        <h3>キャンセルポリシー</h3>
+        <table>
+          <thead><tr><th>キャンセル時期</th><th>キャンセル料</th></tr></thead>
+          <tbody>
+            <tr><td>ご成約〜3ヶ月前</td><td>料金の30%</td></tr>
+            <tr><td>3ヶ月前〜1ヶ月前</td><td>料金の50%</td></tr>
+            <tr><td>1ヶ月前〜1週間前</td><td>料金の80%</td></tr>
+            <tr><td>1週間前〜当日</td><td>料金の100%</td></tr>
+          </tbody>
+        </table>
+        <p class="note">※ 交通機関・宿泊施設のキャンセル料は各所規定に基づき別途発生いたします。</p>
+      </div>
+
+      <div class="subsection">
+        <h3>天候について</h3>
+        <p class="note"><strong>国内撮影：</strong>前日または前々日に催行判断をさせていただきます。雨天の場合は無料で日程変更が可能です。</p>
+        <p class="note"><strong>海外撮影：</strong>原則雨天決行となります。時間変更やルート変更で対応することが多く、日程変更は原則承っておりません。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== PATTERN 04 ======================== -->
+  <div class="sep"></div>
+  <div class="pattern-wrap">
+    <p class="pattern-label">PATTERN 04</p>
+    <p class="pattern-title">Alternating Bands — 交互背景で視認性アップ</p>
+
+    <div class="demo-section p04">
+      <h2>Policy</h2>
+
+      <div class="subsection">
+        <h3>Cancellation <span class="jp">キャンセルポリシー</span></h3>
+        <table>
+          <thead><tr><th>キャンセル時期</th><th>キャンセル料</th></tr></thead>
+          <tbody>
+            <tr><td>ご成約〜3ヶ月前</td><td>料金の30%</td></tr>
+            <tr><td>3ヶ月前〜1ヶ月前</td><td>料金の50%</td></tr>
+            <tr><td>1ヶ月前〜1週間前</td><td>料金の80%</td></tr>
+            <tr><td>1週間前〜当日</td><td>料金の100%</td></tr>
+          </tbody>
+        </table>
+        <p class="note">※ 交通機関・宿泊施設のキャンセル料は各所規定に基づき別途発生いたします。</p>
+      </div>
+
+      <div class="subsection">
+        <h3>Weather <span class="jp">天候について</span></h3>
+        <p class="note"><strong>国内撮影：</strong>前日または前々日に催行判断をさせていただきます。雨天の場合は無料で日程変更が可能です。</p>
+        <p class="note"><strong>海外撮影：</strong>原則雨天決行となります。時間変更やルート変更で対応することが多く、日程変更は原則承っておりません。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== PATTERN 05 ======================== -->
+  <div class="sep"></div>
+  <div class="pattern-wrap">
+    <p class="pattern-label">PATTERN 05</p>
+    <p class="pattern-title">Numbered — セクション番号付き</p>
+
+    <div class="demo-section p05">
+      <h2>Policy</h2>
+
+      <div class="subsection" data-num="01">
+        <h3>キャンセルポリシー</h3>
+        <table>
+          <thead><tr><th>キャンセル時期</th><th>キャンセル料</th></tr></thead>
+          <tbody>
+            <tr><td>ご成約〜3ヶ月前</td><td>料金の30%</td></tr>
+            <tr><td>3ヶ月前〜1ヶ月前</td><td>料金の50%</td></tr>
+            <tr><td>1ヶ月前〜1週間前</td><td>料金の80%</td></tr>
+            <tr><td>1週間前〜当日</td><td>料金の100%</td></tr>
+          </tbody>
+        </table>
+        <p class="note">※ 交通機関・宿泊施設のキャンセル料は各所規定に基づき別途発生いたします。</p>
+      </div>
+
+      <div class="subsection" data-num="02">
+        <h3>天候について</h3>
+        <p class="note"><strong>国内撮影：</strong>前日または前々日に催行判断をさせていただきます。雨天の場合は無料で日程変更が可能です。</p>
+        <p class="note"><strong>海外撮影：</strong>原則雨天決行となります。時間変更やルート変更で対応することが多く、日程変更は原則承っておりません。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== PATTERN 06 ======================== -->
+  <div class="sep"></div>
+  <div class="pattern-wrap">
+    <p class="pattern-label">PATTERN 06</p>
+    <p class="pattern-title">Accordion — 開閉式でコンパクト</p>
+
+    <div class="demo-section p06">
+      <h2>Policy</h2>
+
+      <div class="subsection open">
+        <h3 onclick="this.parentElement.classList.toggle('open')">キャンセルポリシー</h3>
+        <div class="content">
+          <table>
+            <thead><tr><th>キャンセル時期</th><th>キャンセル料</th></tr></thead>
+            <tbody>
+              <tr><td>ご成約〜3ヶ月前</td><td>料金の30%</td></tr>
+              <tr><td>3ヶ月前〜1ヶ月前</td><td>料金の50%</td></tr>
+              <tr><td>1ヶ月前〜1週間前</td><td>料金の80%</td></tr>
+              <tr><td>1週間前〜当日</td><td>料金の100%</td></tr>
+            </tbody>
+          </table>
+          <p class="note">※ 交通機関・宿泊施設のキャンセル料は各所規定に基づき別途発生いたします。</p>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3 onclick="this.parentElement.classList.toggle('open')">天候について</h3>
+        <div class="content" style="display:none;">
+          <p class="note"><strong>国内撮影：</strong>前日または前々日に催行判断をさせていただきます。雨天の場合は無料で日程変更が可能です。</p>
+          <p class="note"><strong>海外撮影：</strong>原則雨天決行となります。時間変更やルート変更で対応することが多く、日程変更は原則承っておりません。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== PATTERN 07 ======================== -->
+  <div class="sep"></div>
+  <div class="pattern-wrap">
+    <p class="pattern-label">PATTERN 07</p>
+    <p class="pattern-title">Italic Serif Headers — イタリック見出しの優雅さ</p>
+
+    <div class="demo-section p07">
+      <h2>Policy</h2>
+
+      <div class="subsection">
+        <h3>Cancellation <span class="jp-title">— キャンセルポリシー</span></h3>
+        <table>
+          <thead><tr><th>キャンセル時期</th><th>キャンセル料</th></tr></thead>
+          <tbody>
+            <tr><td>ご成約〜3ヶ月前</td><td>料金の30%</td></tr>
+            <tr><td>3ヶ月前〜1ヶ月前</td><td>料金の50%</td></tr>
+            <tr><td>1ヶ月前〜1週間前</td><td>料金の80%</td></tr>
+            <tr><td>1週間前〜当日</td><td>料金の100%</td></tr>
+          </tbody>
+        </table>
+        <p class="note">※ 交通機関・宿泊施設のキャンセル料は各所規定に基づき別途発生いたします。</p>
+      </div>
+
+      <div class="subsection">
+        <h3>Weather <span class="jp-title">— 天候について</span></h3>
+        <p class="note"><strong>国内撮影：</strong>前日または前々日に催行判断をさせていただきます。雨天の場合は無料で日程変更が可能です。</p>
+        <p class="note"><strong>海外撮影：</strong>原則雨天決行となります。時間変更やルート変更で対応することが多く、日程変更は原則承っておりません。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== PATTERN 08 ======================== -->
+  <div class="sep"></div>
+  <div class="pattern-wrap">
+    <p class="pattern-label">PATTERN 08</p>
+    <p class="pattern-title">Dark Inset — ダークトーンで高級感</p>
+
+    <div class="demo-section p08">
+      <h2>Policy</h2>
+
+      <div class="subsection">
+        <h3>キャンセルポリシー</h3>
+        <table>
+          <thead><tr><th>キャンセル時期</th><th>キャンセル料</th></tr></thead>
+          <tbody>
+            <tr><td>ご成約〜3ヶ月前</td><td>料金の30%</td></tr>
+            <tr><td>3ヶ月前〜1ヶ月前</td><td>料金の50%</td></tr>
+            <tr><td>1ヶ月前〜1週間前</td><td>料金の80%</td></tr>
+            <tr><td>1週間前〜当日</td><td>料金の100%</td></tr>
+          </tbody>
+        </table>
+        <p class="note">※ 交通機関・宿泊施設のキャンセル料は各所規定に基づき別途発生いたします。</p>
+      </div>
+
+      <div class="subsection">
+        <h3>天候について</h3>
+        <p class="note"><strong>国内撮影：</strong>前日または前々日に催行判断をさせていただきます。雨天の場合は無料で日程変更が可能です。</p>
+        <p class="note"><strong>海外撮影：</strong>原則雨天決行となります。時間変更やルート変更で対応することが多く、日程変更は原則承っておりません。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== PATTERN 09 ======================== -->
+  <div class="sep"></div>
+  <div class="pattern-wrap">
+    <p class="pattern-label">PATTERN 09</p>
+    <p class="pattern-title">Boxed with Circle Icon — 枠線＋丸アイコン</p>
+
+    <div class="demo-section p09">
+      <h2>Policy</h2>
+
+      <div class="subsection">
+        <div class="icon">01</div>
+        <h3>キャンセルポリシー</h3>
+        <table>
+          <thead><tr><th>キャンセル時期</th><th>キャンセル料</th></tr></thead>
+          <tbody>
+            <tr><td>ご成約〜3ヶ月前</td><td>料金の30%</td></tr>
+            <tr><td>3ヶ月前〜1ヶ月前</td><td>料金の50%</td></tr>
+            <tr><td>1ヶ月前〜1週間前</td><td>料金の80%</td></tr>
+            <tr><td>1週間前〜当日</td><td>料金の100%</td></tr>
+          </tbody>
+        </table>
+        <p class="note">※ 交通機関・宿泊施設のキャンセル料は各所規定に基づき別途発生いたします。</p>
+      </div>
+
+      <div class="subsection">
+        <div class="icon">02</div>
+        <h3>天候について</h3>
+        <p class="note"><strong>国内撮影：</strong>前日または前々日に催行判断をさせていただきます。雨天の場合は無料で日程変更が可能です。</p>
+        <p class="note"><strong>海外撮影：</strong>原則雨天決行となります。時間変更やルート変更で対応することが多く、日程変更は原則承っておりません。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== PATTERN 10 ======================== -->
+  <div class="sep"></div>
+  <div class="pattern-wrap">
+    <p class="pattern-label">PATTERN 10</p>
+    <p class="pattern-title">Centered Elegant — センター揃えの上品レイアウト</p>
+
+    <div class="demo-section p10">
+      <h2>Policy</h2>
+
+      <div class="subsection">
+        <h3>Cancellation Policy</h3>
+        <p class="h3-sub">キャンセルポリシー</p>
+        <table>
+          <thead><tr><th>キャンセル時期</th><th>キャンセル料</th></tr></thead>
+          <tbody>
+            <tr><td>ご成約〜3ヶ月前</td><td>料金の30%</td></tr>
+            <tr><td>3ヶ月前〜1ヶ月前</td><td>料金の50%</td></tr>
+            <tr><td>1ヶ月前〜1週間前</td><td>料金の80%</td></tr>
+            <tr><td>1週間前〜当日</td><td>料金の100%</td></tr>
+          </tbody>
+        </table>
+        <p class="note">※ 交通機関・宿泊施設のキャンセル料は各所規定に基づき別途発生いたします。</p>
+      </div>
+
+      <div class="subsection">
+        <h3>Weather Policy</h3>
+        <p class="h3-sub">天候について</p>
+        <p class="note"><strong>国内撮影：</strong>前日または前々日に催行判断をさせていただきます。雨天の場合は無料で日程変更が可能です。</p>
+        <p class="note"><strong>海外撮影：</strong>原則雨天決行となります。時間変更やルート変更で対応することが多く、日程変更は原則承っておりません。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <script>
+    // Pattern 06 accordion
+    document.querySelectorAll('.p06 .subsection h3').forEach(h3 => {
+      h3.addEventListener('click', () => {
+        const sub = h3.parentElement;
+        const content = sub.querySelector('.content');
+        const isOpen = sub.classList.contains('open');
+        if (isOpen) {
+          sub.classList.remove('open');
+          content.style.display = 'none';
+        } else {
+          sub.classList.add('open');
+          content.style.display = '';
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

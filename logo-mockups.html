@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ukigumo Logo Motif — 30 Patterns</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #f5f3f0; font-family: 'Cormorant Garamond', serif; color: #3D3530; }
+.header { text-align: center; padding: 60px 20px 40px; }
+.header h1 { font-weight: 300; font-size: 2.4rem; letter-spacing: 0.2em; margin-bottom: 10px; }
+.header p { font-weight: 300; font-size: 1rem; color: #888; letter-spacing: 0.05em; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 0;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px 80px;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 30px 30px;
+  border: 1px solid rgba(0,0,0,0.06);
+  background: #fff;
+  position: relative;
+}
+.card:nth-child(even) { background: #faf9f7; }
+.card__num {
+  position: absolute;
+  top: 14px;
+  left: 18px;
+  font-size: 0.75rem;
+  font-weight: 300;
+  color: #bbb;
+  letter-spacing: 0.1em;
+}
+.card__logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.card__logo svg { width: 60px; height: 60px; }
+.card__logo-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: 1.3rem;
+  letter-spacing: 0.15em;
+  color: #3D3530;
+}
+.card__dark {
+  background: #2a2522;
+  border-radius: 8px;
+  padding: 24px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+.card__dark svg { width: 60px; height: 60px; }
+.card__dark .card__logo-text { color: #fff; }
+.card__desc {
+  margin-top: 14px;
+  font-size: 0.8rem;
+  color: #999;
+  text-align: center;
+  font-weight: 300;
+  letter-spacing: 0.03em;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>UKIGUMO MOTIF</h1>
+  <p>30 Patterns — 浮き雲モチーフ ロゴデザイン</p>
+</div>
+
+<div class="grid">
+
+<!-- Pattern 01: Minimal Single Cloud -->
+<div class="card">
+  <span class="card__num">01</span>
+  <div class="card__logo">
+    <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M15 38c-4 0-7-3-7-7s3-7 7-7c0.5-5 5-9 10-9 4 0 7.5 2.5 9 6 1-0.5 2-0.8 3-0.8 4 0 7 3 7 7s-3 7-7 7H15z" stroke="#3D3530" stroke-width="1.2" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__dark">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M15 38c-4 0-7-3-7-7s3-7 7-7c0.5-5 5-9 10-9 4 0 7.5 2.5 9 6 1-0.5 2-0.8 3-0.8 4 0 7 3 7 7s-3 7-7 7H15z" stroke="#fff" stroke-width="1.2" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__desc">ミニマル 一筆雲</div>
+</div>
+
+<!-- Pattern 02: Geometric Cloud Circles -->
+<div class="card">
+  <span class="card__num">02</span>
+  <div class="card__logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <circle cx="22" cy="32" r="10" stroke="#3D3530" stroke-width="1"/>
+      <circle cx="35" cy="30" r="12" stroke="#3D3530" stroke-width="1"/>
+      <circle cx="45" cy="34" r="8" stroke="#3D3530" stroke-width="1"/>
+      <line x1="10" y1="42" x2="53" y2="42" stroke="#3D3530" stroke-width="0.8"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__dark">
+    <svg viewBox="0 0 60 60" fill="none">
+      <circle cx="22" cy="32" r="10" stroke="#fff" stroke-width="1"/>
+      <circle cx="35" cy="30" r="12" stroke="#fff" stroke-width="1"/>
+      <circle cx="45" cy="34" r="8" stroke="#fff" stroke-width="1"/>
+      <line x1="10" y1="42" x2="53" y2="42" stroke="#fff" stroke-width="0.8"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__desc">幾何学 円構成</div>
+</div>
+
+<!-- Pattern 03: Japanese Traditional Kumo -->
+<div class="card">
+  <span class="card__num">03</span>
+  <div class="card__logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M12 36 Q12 28 20 28 Q20 20 30 20 Q40 20 40 28 Q48 28 48 36 Q48 40 44 40 L16 40 Q12 40 12 36Z" stroke="#3D3530" stroke-width="1.2" fill="none"/>
+      <path d="M20 28 Q20 32 24 32" stroke="#3D3530" stroke-width="0.6" opacity="0.4"/>
+      <path d="M40 28 Q40 32 36 32" stroke="#3D3530" stroke-width="0.6" opacity="0.4"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__dark">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M12 36 Q12 28 20 28 Q20 20 30 20 Q40 20 40 28 Q48 28 48 36 Q48 40 44 40 L16 40 Q12 40 12 36Z" stroke="#fff" stroke-width="1.2" fill="none"/>
+      <path d="M20 28 Q20 32 24 32" stroke="#fff" stroke-width="0.6" opacity="0.4"/>
+      <path d="M40 28 Q40 32 36 32" stroke="#fff" stroke-width="0.6" opacity="0.4"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__desc">和風雲 伝統</div>
+</div>
+
+<!-- Pattern 04: Abstract Flowing Lines -->
+<div class="card">
+  <span class="card__num">04</span>
+  <div class="card__logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M8 35 C15 25, 25 20, 30 25 S45 35, 52 28" stroke="#3D3530" stroke-width="1.2" fill="none"/>
+      <path d="M8 40 C15 30, 25 25, 30 30 S45 40, 52 33" stroke="#3D3530" stroke-width="0.8" opacity="0.5" fill="none"/>
+      <path d="M8 45 C15 35, 25 30, 30 35 S45 45, 52 38" stroke="#3D3530" stroke-width="0.5" opacity="0.25" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__dark">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M8 35 C15 25, 25 20, 30 25 S45 35, 52 28" stroke="#fff" stroke-width="1.2" fill="none"/>
+      <path d="M8 40 C15 30, 25 25, 30 30 S45 40, 52 33" stroke="#fff" stroke-width="0.8" opacity="0.5" fill="none"/>
+      <path d="M8 45 C15 35, 25 30, 30 35 S45 45, 52 38" stroke="#fff" stroke-width="0.5" opacity="0.25" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__desc">流線 グラデーション</div>
+</div>
+
+<!-- Pattern 05: Dot Cloud -->
+<div class="card">
+  <span class="card__num">05</span>
+  <div class="card__logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <circle cx="20" cy="30" r="1.5" fill="#3D3530"/>
+      <circle cx="26" cy="26" r="1.5" fill="#3D3530"/>
+      <circle cx="33" cy="24" r="1.5" fill="#3D3530"/>
+      <circle cx="40" cy="26" r="1.5" fill="#3D3530"/>
+      <circle cx="46" cy="30" r="1.5" fill="#3D3530"/>
+      <circle cx="44" cy="36" r="1.5" fill="#3D3530"/>
+      <circle cx="37" cy="38" r="1.5" fill="#3D3530"/>
+      <circle cx="30" cy="37" r="1.5" fill="#3D3530"/>
+      <circle cx="23" cy="36" r="1.5" fill="#3D3530"/>
+      <circle cx="16" cy="34" r="1.5" fill="#3D3530"/>
+      <circle cx="30" cy="30" r="1.5" fill="#3D3530" opacity="0.4"/>
+      <circle cx="36" cy="31" r="1.5" fill="#3D3530" opacity="0.4"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__dark">
+    <svg viewBox="0 0 60 60" fill="none">
+      <circle cx="20" cy="30" r="1.5" fill="#fff"/>
+      <circle cx="26" cy="26" r="1.5" fill="#fff"/>
+      <circle cx="33" cy="24" r="1.5" fill="#fff"/>
+      <circle cx="40" cy="26" r="1.5" fill="#fff"/>
+      <circle cx="46" cy="30" r="1.5" fill="#fff"/>
+      <circle cx="44" cy="36" r="1.5" fill="#fff"/>
+      <circle cx="37" cy="38" r="1.5" fill="#fff"/>
+      <circle cx="30" cy="37" r="1.5" fill="#fff"/>
+      <circle cx="23" cy="36" r="1.5" fill="#fff"/>
+      <circle cx="16" cy="34" r="1.5" fill="#fff"/>
+      <circle cx="30" cy="30" r="1.5" fill="#fff" opacity="0.4"/>
+      <circle cx="36" cy="31" r="1.5" fill="#fff" opacity="0.4"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__desc">ドット雲</div>
+</div>
+
+<!-- Pattern 06: Overlapping Arcs -->
+<div class="card">
+  <span class="card__num">06</span>
+  <div class="card__logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M14 40 A14 14 0 0 1 42 40" stroke="#3D3530" stroke-width="1" fill="none"/>
+      <path d="M22 40 A10 10 0 0 1 42 40" stroke="#3D3530" stroke-width="1" fill="none"/>
+      <path d="M18 40 A16 16 0 0 1 50 40" stroke="#3D3530" stroke-width="0.7" opacity="0.4" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__dark">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M14 40 A14 14 0 0 1 42 40" stroke="#fff" stroke-width="1" fill="none"/>
+      <path d="M22 40 A10 10 0 0 1 42 40" stroke="#fff" stroke-width="1" fill="none"/>
+      <path d="M18 40 A16 16 0 0 1 50 40" stroke="#fff" stroke-width="0.7" opacity="0.4" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__desc">重なるアーチ</div>
+</div>
+
+<!-- Pattern 07: Single Line Cloud Continuous -->
+<div class="card">
+  <span class="card__num">07</span>
+  <div class="card__logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M8 38 Q8 30 16 30 Q16 22 24 22 Q30 22 32 26 Q34 22 40 22 Q48 22 48 30 Q54 30 54 38 Z" stroke="#3D3530" stroke-width="1" fill="none" stroke-linejoin="round"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__dark">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M8 38 Q8 30 16 30 Q16 22 24 22 Q30 22 32 26 Q34 22 40 22 Q48 22 48 30 Q54 30 54 38 Z" stroke="#fff" stroke-width="1" fill="none" stroke-linejoin="round"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__desc">一筆書き 連続雲</div>
+</div>
+
+<!-- Pattern 08: Hexagonal Cloud -->
+<div class="card">
+  <span class="card__num">08</span>
+  <div class="card__logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <polygon points="22,22 38,22 46,32 38,42 22,42 14,32" stroke="#3D3530" stroke-width="1" fill="none"/>
+      <circle cx="30" cy="32" r="6" stroke="#3D3530" stroke-width="0.7" opacity="0.4" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__dark">
+    <svg viewBox="0 0 60 60" fill="none">
+      <polygon points="22,22 38,22 46,32 38,42 22,42 14,32" stroke="#fff" stroke-width="1" fill="none"/>
+      <circle cx="30" cy="32" r="6" stroke="#fff" stroke-width="0.7" opacity="0.4" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__desc">六角形 クラウド</div>
+</div>
+
+<!-- Pattern 09: Spiral Cloud -->
+<div class="card">
+  <span class="card__num">09</span>
+  <div class="card__logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M30 30 C30 26 34 24 36 26 C38 28 38 32 34 34 C30 36 26 34 26 30 C26 24 30 20 36 20 C44 20 46 28 46 32 C46 40 38 44 30 44 C20 44 16 36 16 30 C16 20 24 14 34 14" stroke="#3D3530" stroke-width="1" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__dark">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M30 30 C30 26 34 24 36 26 C38 28 38 32 34 34 C30 36 26 34 26 30 C26 24 30 20 36 20 C44 20 46 28 46 32 C46 40 38 44 30 44 C20 44 16 36 16 30 C16 20 24 14 34 14" stroke="#fff" stroke-width="1" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__desc">渦巻き スパイラル</div>
+</div>
+
+<!-- Pattern 10: Layered Clouds -->
+<div class="card">
+  <span class="card__num">10</span>
+  <div class="card__logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M10 42 Q10 36 18 36 Q18 30 26 30 Q34 30 34 36 Q42 36 42 42 Z" stroke="#3D3530" stroke-width="1" fill="none"/>
+      <path d="M22 36 Q22 30 28 28 Q34 26 38 30 Q44 28 48 32 Q52 32 52 36" stroke="#3D3530" stroke-width="0.7" opacity="0.4" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__dark">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M10 42 Q10 36 18 36 Q18 30 26 30 Q34 30 34 36 Q42 36 42 42 Z" stroke="#fff" stroke-width="1" fill="none"/>
+      <path d="M22 36 Q22 30 28 28 Q34 26 38 30 Q44 28 48 32 Q52 32 52 36" stroke="#fff" stroke-width="0.7" opacity="0.4" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__desc">レイヤー雲</div>
+</div>
+
+<!-- Pattern 11: Cloud with Moon -->
+<div class="card">
+  <span class="card__num">11</span>
+  <div class="card__logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <circle cx="42" cy="20" r="6" stroke="#3D3530" stroke-width="0.8" fill="none"/>
+      <circle cx="44" cy="18" r="5.5" fill="#fff" stroke="none"/>
+      <path d="M12 40 Q12 34 18 32 Q18 24 28 24 Q36 24 38 30 Q42 28 46 32 Q50 32 50 38 Q50 42 46 42 L16 42 Q12 42 12 40Z" stroke="#3D3530" stroke-width="1" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__dark">
+    <svg viewBox="0 0 60 60" fill="none">
+      <circle cx="42" cy="20" r="6" stroke="#fff" stroke-width="0.8" fill="none"/>
+      <circle cx="44" cy="18" r="5.5" fill="#2a2522" stroke="none"/>
+      <path d="M12 40 Q12 34 18 32 Q18 24 28 24 Q36 24 38 30 Q42 28 46 32 Q50 32 50 38 Q50 42 46 42 L16 42 Q12 42 12 40Z" stroke="#fff" stroke-width="1" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__desc">雲と三日月</div>
+</div>
+
+<!-- Pattern 12: Abstract U + Cloud -->
+<div class="card">
+  <span class="card__num">12</span>
+  <div class="card__logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M18 20 L18 34 Q18 44 30 44 Q42 44 42 34 L42 20" stroke="#3D3530" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <path d="M14 24 Q14 18 22 18 Q26 18 28 20" stroke="#3D3530" stroke-width="0.8" opacity="0.5" fill="none"/>
+      <path d="M32 20 Q34 18 38 18 Q46 18 46 24" stroke="#3D3530" stroke-width="0.8" opacity="0.5" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__dark">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M18 20 L18 34 Q18 44 30 44 Q42 44 42 34 L42 20" stroke="#fff" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <path d="M14 24 Q14 18 22 18 Q26 18 28 20" stroke="#fff" stroke-width="0.8" opacity="0.5" fill="none"/>
+      <path d="M32 20 Q34 18 38 18 Q46 18 46 24" stroke="#fff" stroke-width="0.8" opacity="0.5" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__desc">U字 + 雲モチーフ</div>
+</div>
+
+<!-- Pattern 13: Concentric Cloud Rings -->
+<div class="card">
+  <span class="card__num">13</span>
+  <div class="card__logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <ellipse cx="30" cy="32" rx="20" ry="12" stroke="#3D3530" stroke-width="0.6" opacity="0.25" fill="none"/>
+      <ellipse cx="30" cy="32" rx="14" ry="8" stroke="#3D3530" stroke-width="0.8" opacity="0.5" fill="none"/>
+      <ellipse cx="30" cy="32" rx="8" ry="5" stroke="#3D3530" stroke-width="1.1" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__dark">
+    <svg viewBox="0 0 60 60" fill="none">
+      <ellipse cx="30" cy="32" rx="20" ry="12" stroke="#fff" stroke-width="0.6" opacity="0.25" fill="none"/>
+      <ellipse cx="30" cy="32" rx="14" ry="8" stroke="#fff" stroke-width="0.8" opacity="0.5" fill="none"/>
+      <ellipse cx="30" cy="32" rx="8" ry="5" stroke="#fff" stroke-width="1.1" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__desc">同心楕円 雲リング</div>
+</div>
+
+<!-- Pattern 14: Brush Stroke Cloud -->
+<div class="card">
+  <span class="card__num">14</span>
+  <div class="card__logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M10 36 C12 28 18 24 24 24 C26 20 32 18 36 22 C40 18 48 22 48 28 C52 28 54 34 50 38 C48 42 12 42 10 36Z" stroke="#3D3530" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__dark">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M10 36 C12 28 18 24 24 24 C26 20 32 18 36 22 C40 18 48 22 48 28 C52 28 54 34 50 38 C48 42 12 42 10 36Z" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__desc">筆タッチ 雲</div>
+</div>
+
+<!-- Pattern 15: Diamond Cloud -->
+<div class="card">
+  <span class="card__num">15</span>
+  <div class="card__logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M30 16 L46 32 L30 48 L14 32 Z" stroke="#3D3530" stroke-width="0.8" fill="none"/>
+      <path d="M16 38 Q16 32 22 30 Q22 24 30 24 Q38 24 38 30 Q44 32 44 38" stroke="#3D3530" stroke-width="1" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__dark">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M30 16 L46 32 L30 48 L14 32 Z" stroke="#fff" stroke-width="0.8" fill="none"/>
+      <path d="M16 38 Q16 32 22 30 Q22 24 30 24 Q38 24 38 30 Q44 32 44 38" stroke="#fff" stroke-width="1" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__desc">ダイヤモンド 雲</div>
+</div>
+
+<!-- Pattern 16: Parallel Lines Cloud -->
+<div class="card">
+  <span class="card__num">16</span>
+  <div class="card__logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M12 34 Q18 22 30 22 Q42 22 48 34" stroke="#3D3530" stroke-width="1" fill="none"/>
+      <line x1="12" y1="37" x2="48" y2="37" stroke="#3D3530" stroke-width="0.6" opacity="0.6"/>
+      <line x1="15" y1="40" x2="45" y2="40" stroke="#3D3530" stroke-width="0.4" opacity="0.35"/>
+      <line x1="18" y1="43" x2="42" y2="43" stroke="#3D3530" stroke-width="0.3" opacity="0.2"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__dark">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M12 34 Q18 22 30 22 Q42 22 48 34" stroke="#fff" stroke-width="1" fill="none"/>
+      <line x1="12" y1="37" x2="48" y2="37" stroke="#fff" stroke-width="0.6" opacity="0.6"/>
+      <line x1="15" y1="40" x2="45" y2="40" stroke="#fff" stroke-width="0.4" opacity="0.35"/>
+      <line x1="18" y1="43" x2="42" y2="43" stroke="#fff" stroke-width="0.3" opacity="0.2"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__desc">平行線 雲</div>
+</div>
+
+<!-- Pattern 17: Cloud Monogram -->
+<div class="card">
+  <span class="card__num">17</span>
+  <div class="card__logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <circle cx="30" cy="30" r="20" stroke="#3D3530" stroke-width="0.8" fill="none"/>
+      <path d="M18 34 Q18 28 24 26 Q24 20 32 20 Q38 22 38 26 Q44 28 44 34" stroke="#3D3530" stroke-width="1.2" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__dark">
+    <svg viewBox="0 0 60 60" fill="none">
+      <circle cx="30" cy="30" r="20" stroke="#fff" stroke-width="0.8" fill="none"/>
+      <path d="M18 34 Q18 28 24 26 Q24 20 32 20 Q38 22 38 26 Q44 28 44 34" stroke="#fff" stroke-width="1.2" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__desc">円形モノグラム</div>
+</div>
+
+<!-- Pattern 18: Scattered Clouds -->
+<div class="card">
+  <span class="card__num">18</span>
+  <div class="card__logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M6 36 Q6 32 10 30 Q10 26 16 26 Q20 26 20 30 Q24 30 24 34 L8 36Z" stroke="#3D3530" stroke-width="0.8" fill="none"/>
+      <path d="M26 30 Q26 24 32 22 Q38 20 42 24 Q46 22 50 26 Q54 28 52 32 L28 32Z" stroke="#3D3530" stroke-width="1" fill="none"/>
+      <path d="M34 42 Q34 38 40 38 Q44 38 44 42Z" stroke="#3D3530" stroke-width="0.6" opacity="0.4" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__dark">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M6 36 Q6 32 10 30 Q10 26 16 26 Q20 26 20 30 Q24 30 24 34 L8 36Z" stroke="#fff" stroke-width="0.8" fill="none"/>
+      <path d="M26 30 Q26 24 32 22 Q38 20 42 24 Q46 22 50 26 Q54 28 52 32 L28 32Z" stroke="#fff" stroke-width="1" fill="none"/>
+      <path d="M34 42 Q34 38 40 38 Q44 38 44 42Z" stroke="#fff" stroke-width="0.6" opacity="0.4" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__desc">散在する雲</div>
+</div>
+
+<!-- Pattern 19: Wave Cloud -->
+<div class="card">
+  <span class="card__num">19</span>
+  <div class="card__logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M6 32 Q14 24 22 32 Q30 40 38 32 Q46 24 54 32" stroke="#3D3530" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <path d="M6 38 Q14 30 22 38 Q30 46 38 38 Q46 30 54 38" stroke="#3D3530" stroke-width="0.6" opacity="0.3" fill="none" stroke-linecap="round"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__dark">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M6 32 Q14 24 22 32 Q30 40 38 32 Q46 24 54 32" stroke="#fff" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <path d="M6 38 Q14 30 22 38 Q30 46 38 38 Q46 30 54 38" stroke="#fff" stroke-width="0.6" opacity="0.3" fill="none" stroke-linecap="round"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__desc">波 ウェーブ</div>
+</div>
+
+<!-- Pattern 20: Triangular Cloud -->
+<div class="card">
+  <span class="card__num">20</span>
+  <div class="card__logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M30 16 L50 44 L10 44 Z" stroke="#3D3530" stroke-width="0.7" fill="none"/>
+      <path d="M18 38 Q22 30 28 30 Q32 30 34 34 Q38 30 42 34 Q44 34 44 38" stroke="#3D3530" stroke-width="1" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__dark">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M30 16 L50 44 L10 44 Z" stroke="#fff" stroke-width="0.7" fill="none"/>
+      <path d="M18 38 Q22 30 28 30 Q32 30 34 34 Q38 30 42 34 Q44 34 44 38" stroke="#fff" stroke-width="1" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__desc">三角形 雲</div>
+</div>
+
+<!-- Pattern 21: Thin Wisps -->
+<div class="card">
+  <span class="card__num">21</span>
+  <div class="card__logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M10 28 C18 26 24 30 30 28 C36 26 42 30 50 28" stroke="#3D3530" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+      <path d="M14 34 C20 32 26 36 32 34 C38 32 44 36 50 34" stroke="#3D3530" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <path d="M10 40 C16 38 22 42 28 40 C34 38 40 42 46 40" stroke="#3D3530" stroke-width="0.5" opacity="0.4" fill="none" stroke-linecap="round"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__dark">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M10 28 C18 26 24 30 30 28 C36 26 42 30 50 28" stroke="#fff" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+      <path d="M14 34 C20 32 26 36 32 34 C38 32 44 36 50 34" stroke="#fff" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <path d="M10 40 C16 38 22 42 28 40 C34 38 40 42 46 40" stroke="#fff" stroke-width="0.5" opacity="0.4" fill="none" stroke-linecap="round"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__desc">すじ雲 たなびき</div>
+</div>
+
+<!-- Pattern 22: Cloud + Horizon -->
+<div class="card">
+  <span class="card__num">22</span>
+  <div class="card__logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <line x1="4" y1="42" x2="56" y2="42" stroke="#3D3530" stroke-width="0.6"/>
+      <path d="M16 36 Q16 28 24 26 Q26 20 34 20 Q42 22 42 28 Q48 28 48 36" stroke="#3D3530" stroke-width="1.2" fill="none"/>
+      <circle cx="48" cy="18" r="2" stroke="#3D3530" stroke-width="0.8" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__dark">
+    <svg viewBox="0 0 60 60" fill="none">
+      <line x1="4" y1="42" x2="56" y2="42" stroke="#fff" stroke-width="0.6"/>
+      <path d="M16 36 Q16 28 24 26 Q26 20 34 20 Q42 22 42 28 Q48 28 48 36" stroke="#fff" stroke-width="1.2" fill="none"/>
+      <circle cx="48" cy="18" r="2" stroke="#fff" stroke-width="0.8" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__desc">雲 + 地平線</div>
+</div>
+
+<!-- Pattern 23: Double Cloud Outline -->
+<div class="card">
+  <span class="card__num">23</span>
+  <div class="card__logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M12 38 Q12 30 20 28 Q20 20 30 20 Q40 20 40 28 Q48 30 48 38Z" stroke="#3D3530" stroke-width="1" fill="none"/>
+      <path d="M16 36 Q16 30 22 28 Q22 24 30 24 Q38 24 38 28 Q44 30 44 36Z" stroke="#3D3530" stroke-width="0.6" opacity="0.4" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__dark">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M12 38 Q12 30 20 28 Q20 20 30 20 Q40 20 40 28 Q48 30 48 38Z" stroke="#fff" stroke-width="1" fill="none"/>
+      <path d="M16 36 Q16 30 22 28 Q22 24 30 24 Q38 24 38 28 Q44 30 44 36Z" stroke="#fff" stroke-width="0.6" opacity="0.4" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__desc">二重線 アウトライン</div>
+</div>
+
+<!-- Pattern 24: Cloud Grid Pattern -->
+<div class="card">
+  <span class="card__num">24</span>
+  <div class="card__logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M12 38 Q12 30 20 28 Q20 20 30 20 Q40 20 40 28 Q48 30 48 38Z" stroke="#3D3530" stroke-width="1" fill="none"/>
+      <line x1="20" y1="20" x2="20" y2="38" stroke="#3D3530" stroke-width="0.3" opacity="0.2"/>
+      <line x1="30" y1="20" x2="30" y2="38" stroke="#3D3530" stroke-width="0.3" opacity="0.2"/>
+      <line x1="40" y1="20" x2="40" y2="38" stroke="#3D3530" stroke-width="0.3" opacity="0.2"/>
+      <line x1="12" y1="30" x2="48" y2="30" stroke="#3D3530" stroke-width="0.3" opacity="0.2"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__dark">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M12 38 Q12 30 20 28 Q20 20 30 20 Q40 20 40 28 Q48 30 48 38Z" stroke="#fff" stroke-width="1" fill="none"/>
+      <line x1="20" y1="20" x2="20" y2="38" stroke="#fff" stroke-width="0.3" opacity="0.2"/>
+      <line x1="30" y1="20" x2="30" y2="38" stroke="#fff" stroke-width="0.3" opacity="0.2"/>
+      <line x1="40" y1="20" x2="40" y2="38" stroke="#fff" stroke-width="0.3" opacity="0.2"/>
+      <line x1="12" y1="30" x2="48" y2="30" stroke="#fff" stroke-width="0.3" opacity="0.2"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__desc">グリッド雲</div>
+</div>
+
+<!-- Pattern 25: Minimal Arc -->
+<div class="card">
+  <span class="card__num">25</span>
+  <div class="card__logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M14 38 Q14 22 30 22 Q46 22 46 38" stroke="#3D3530" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__dark">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M14 38 Q14 22 30 22 Q46 22 46 38" stroke="#fff" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__desc">ミニマル アーチ</div>
+</div>
+
+<!-- Pattern 26: Cloud with Sparkles -->
+<div class="card">
+  <span class="card__num">26</span>
+  <div class="card__logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M12 38 Q12 30 20 28 Q20 20 30 20 Q40 20 40 28 Q48 30 48 38" stroke="#3D3530" stroke-width="1" fill="none"/>
+      <line x1="50" y1="16" x2="50" y2="22" stroke="#3D3530" stroke-width="0.6"/>
+      <line x1="47" y1="19" x2="53" y2="19" stroke="#3D3530" stroke-width="0.6"/>
+      <line x1="8" y1="20" x2="8" y2="24" stroke="#3D3530" stroke-width="0.5" opacity="0.5"/>
+      <line x1="6" y1="22" x2="10" y2="22" stroke="#3D3530" stroke-width="0.5" opacity="0.5"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__dark">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M12 38 Q12 30 20 28 Q20 20 30 20 Q40 20 40 28 Q48 30 48 38" stroke="#fff" stroke-width="1" fill="none"/>
+      <line x1="50" y1="16" x2="50" y2="22" stroke="#fff" stroke-width="0.6"/>
+      <line x1="47" y1="19" x2="53" y2="19" stroke="#fff" stroke-width="0.6"/>
+      <line x1="8" y1="20" x2="8" y2="24" stroke="#fff" stroke-width="0.5" opacity="0.5"/>
+      <line x1="6" y1="22" x2="10" y2="22" stroke="#fff" stroke-width="0.5" opacity="0.5"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__desc">雲 + きらめき</div>
+</div>
+
+<!-- Pattern 27: Japanese Mon Style -->
+<div class="card">
+  <span class="card__num">27</span>
+  <div class="card__logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <circle cx="30" cy="30" r="22" stroke="#3D3530" stroke-width="0.6" fill="none"/>
+      <circle cx="30" cy="30" r="20" stroke="#3D3530" stroke-width="0.6" fill="none"/>
+      <path d="M16 34 Q20 24 26 24 Q30 24 30 28 Q30 24 34 24 Q40 24 44 34" stroke="#3D3530" stroke-width="1.2" fill="none"/>
+      <path d="M20 34 Q24 28 30 28 Q36 28 40 34" stroke="#3D3530" stroke-width="0.7" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__dark">
+    <svg viewBox="0 0 60 60" fill="none">
+      <circle cx="30" cy="30" r="22" stroke="#fff" stroke-width="0.6" fill="none"/>
+      <circle cx="30" cy="30" r="20" stroke="#fff" stroke-width="0.6" fill="none"/>
+      <path d="M16 34 Q20 24 26 24 Q30 24 30 28 Q30 24 34 24 Q40 24 44 34" stroke="#fff" stroke-width="1.2" fill="none"/>
+      <path d="M20 34 Q24 28 30 28 Q36 28 40 34" stroke="#fff" stroke-width="0.7" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__desc">家紋スタイル</div>
+</div>
+
+<!-- Pattern 28: Floating Particles -->
+<div class="card">
+  <span class="card__num">28</span>
+  <div class="card__logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <circle cx="18" cy="28" r="4" stroke="#3D3530" stroke-width="0.8" fill="none"/>
+      <circle cx="30" cy="24" r="6" stroke="#3D3530" stroke-width="1" fill="none"/>
+      <circle cx="42" cy="30" r="5" stroke="#3D3530" stroke-width="0.8" fill="none"/>
+      <circle cx="24" cy="38" r="3" stroke="#3D3530" stroke-width="0.6" opacity="0.5" fill="none"/>
+      <circle cx="38" cy="40" r="2.5" stroke="#3D3530" stroke-width="0.5" opacity="0.35" fill="none"/>
+      <circle cx="14" cy="36" r="2" stroke="#3D3530" stroke-width="0.4" opacity="0.25" fill="none"/>
+      <circle cx="48" cy="22" r="1.5" stroke="#3D3530" stroke-width="0.4" opacity="0.25" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__dark">
+    <svg viewBox="0 0 60 60" fill="none">
+      <circle cx="18" cy="28" r="4" stroke="#fff" stroke-width="0.8" fill="none"/>
+      <circle cx="30" cy="24" r="6" stroke="#fff" stroke-width="1" fill="none"/>
+      <circle cx="42" cy="30" r="5" stroke="#fff" stroke-width="0.8" fill="none"/>
+      <circle cx="24" cy="38" r="3" stroke="#fff" stroke-width="0.6" opacity="0.5" fill="none"/>
+      <circle cx="38" cy="40" r="2.5" stroke="#fff" stroke-width="0.5" opacity="0.35" fill="none"/>
+      <circle cx="14" cy="36" r="2" stroke="#fff" stroke-width="0.4" opacity="0.25" fill="none"/>
+      <circle cx="48" cy="22" r="1.5" stroke="#fff" stroke-width="0.4" opacity="0.25" fill="none"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__desc">浮遊パーティクル</div>
+</div>
+
+<!-- Pattern 29: Cloud Stamp / Seal -->
+<div class="card">
+  <span class="card__num">29</span>
+  <div class="card__logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <rect x="10" y="14" width="40" height="36" rx="3" stroke="#3D3530" stroke-width="0.8" fill="none"/>
+      <path d="M18 36 Q18 28 26 26 Q28 20 34 22 Q40 20 42 26 Q46 28 46 34" stroke="#3D3530" stroke-width="1.2" fill="none"/>
+      <line x1="18" y1="42" x2="42" y2="42" stroke="#3D3530" stroke-width="0.5" opacity="0.4"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__dark">
+    <svg viewBox="0 0 60 60" fill="none">
+      <rect x="10" y="14" width="40" height="36" rx="3" stroke="#fff" stroke-width="0.8" fill="none"/>
+      <path d="M18 36 Q18 28 26 26 Q28 20 34 22 Q40 20 42 26 Q46 28 46 34" stroke="#fff" stroke-width="1.2" fill="none"/>
+      <line x1="18" y1="42" x2="42" y2="42" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__desc">スタンプ / 印鑑風</div>
+</div>
+
+<!-- Pattern 30: Abstract Cloud Fragment -->
+<div class="card">
+  <span class="card__num">30</span>
+  <div class="card__logo">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M14 34 Q18 22 30 20" stroke="#3D3530" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <path d="M30 20 Q42 22 46 34" stroke="#3D3530" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <path d="M20 38 Q30 34 40 38" stroke="#3D3530" stroke-width="0.6" opacity="0.4" fill="none" stroke-linecap="round"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__dark">
+    <svg viewBox="0 0 60 60" fill="none">
+      <path d="M14 34 Q18 22 30 20" stroke="#fff" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <path d="M30 20 Q42 22 46 34" stroke="#fff" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <path d="M20 38 Q30 34 40 38" stroke="#fff" stroke-width="0.6" opacity="0.4" fill="none" stroke-linecap="round"/>
+    </svg>
+    <span class="card__logo-text">ukigumo</span>
+  </div>
+  <div class="card__desc">抽象 フラグメント</div>
+</div>
+
+</div><!-- grid -->
+
+</body>
+</html>

@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery Mobile V3 — 20枚×10 Patterns</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #f0efed;
+    max-width: 430px;
+    margin: 0 auto;
+  }
+  .hd {
+    text-align: center;
+    padding: 2rem 1rem 0.6rem;
+    background: #fff;
+    border-bottom: 1px solid #e5e5e5;
+  }
+  .hd h1 { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 300; letter-spacing: 0.12em; }
+  .hd p { font-size: 0.5rem; color: #aaa; margin-top: 0.2rem; }
+
+  .sec {
+    margin-bottom: 1.2rem;
+    background: #fff;
+    border-top: 1px solid #eee;
+  }
+  .sec-t {
+    padding: 0.7rem 0.8rem 0.2rem;
+    font-size: 0.55rem;
+    letter-spacing: 0.08em;
+    color: #999;
+    display: flex;
+    justify-content: space-between;
+  }
+  .sec-t b { color: #c9a96e; font-weight: 400; }
+  .sec-d { padding: 0 0.8rem 0.5rem; font-size: 0.45rem; color: #bbb; }
+
+  /* Shared */
+  .g { width: 100%; overflow: hidden; background: #fff; }
+  .g img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .i { overflow: hidden; position: relative; cursor: pointer; }
+  .i .ov {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0);
+    transition: background 0.35s ease;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .i:hover .ov { background: rgba(0,0,0,0.5); }
+  .i .ov .n {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem; font-weight: 300; letter-spacing: 0.1em; color: #fff;
+    opacity: 0; transform: translateY(5px);
+    transition: all 0.35s ease 0.03s;
+  }
+  .i:hover .ov .n { opacity: 1; transform: translateY(0); }
+  .i .ov .c {
+    font-size: 0.4rem; letter-spacing: 0.12em; color: rgba(255,255,255,0);
+    margin-top: 0.15rem; transition: color 0.35s ease 0.08s;
+  }
+  .i:hover .ov .c { color: rgba(255,255,255,0.55); }
+
+  /* Helper: photo with overlay */
+
+  /* ===== P1: Flex Chaos — 完全ランダムサイズwrap ===== */
+  .p1 .g { display: flex; flex-wrap: wrap; gap: 4px; padding: 4px; }
+  .p1 .s1 { width: calc(38% - 2px); aspect-ratio: 3/4; }
+  .p1 .s2 { width: calc(62% - 2px); aspect-ratio: 4/3; }
+  .p1 .s3 { width: calc(28% - 2px); aspect-ratio: 1/1; }
+  .p1 .s4 { width: calc(44% - 2px); aspect-ratio: 4/5; }
+  .p1 .s5 { width: calc(28% - 2px); aspect-ratio: 2/3; }
+  .p1 .s6 { width: 100%; aspect-ratio: 21/9; }
+  .p1 .s7 { width: calc(55% - 2px); aspect-ratio: 16/10; }
+  .p1 .s8 { width: calc(45% - 2px); aspect-ratio: 1/1; }
+  .p1 .s9 { width: calc(33% - 2px); aspect-ratio: 3/4; }
+
+  /* ===== P2: Tight Mosaic — 3列小タイル密集 ===== */
+  .p2 .g { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; padding: 3px; }
+  .p2 .w2 { grid-column: span 2; }
+  .p2 .h2 { grid-row: span 2; }
+  .p2 .i { aspect-ratio: 1/1; }
+  .p2 .w2 { aspect-ratio: 2/1; }
+  .p2 .h2 { aspect-ratio: 1/2; }
+
+  /* ===== P3: Brick Irregular — レンガ不規則 ===== */
+  .p3 .g { display: flex; flex-wrap: wrap; gap: 4px; padding: 4px; }
+  .p3 .a { width: calc(65% - 2px); aspect-ratio: 4/3; }
+  .p3 .b { width: calc(35% - 2px); aspect-ratio: 2/3; }
+  .p3 .c { width: calc(40% - 2px); aspect-ratio: 3/4; }
+  .p3 .d { width: calc(60% - 2px); aspect-ratio: 1/1; }
+  .p3 .e { width: calc(33.33% - 3px); aspect-ratio: 1/1; }
+  .p3 .f { width: 100%; aspect-ratio: 16/7; }
+
+  /* ===== P4: Pinterest 2-col — 高さバラバラmasonry ===== */
+  .p4 .g { columns: 2; column-gap: 4px; padding: 4px; }
+  .p4 .i { break-inside: avoid; margin-bottom: 4px; display: block; }
+  .p4 .i img { height: auto; }
+  .p4 .v { aspect-ratio: 2/3; }
+  .p4 .sq { aspect-ratio: 1/1; }
+  .p4 .h { aspect-ratio: 4/3; }
+  .p4 .tv { aspect-ratio: 3/5; }
+
+  /* ===== P5: Offset 2-col — ずらしグリッド ===== */
+  .p5 .g { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; padding: 5px; }
+  .p5 .i { aspect-ratio: 3/4; }
+  .p5 .i:nth-child(even) { margin-top: 20px; }
+  .p5 .sp { grid-column: span 2; aspect-ratio: 16/9; margin-top: 0 !important; }
+
+  /* ===== P6: Contact Sheet — フィルムコンタクト ===== */
+  .p6 .g { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; padding: 2px; background: #0a0a0a; }
+  .p6 .i { aspect-ratio: 3/4; }
+  .p6 .w2 { grid-column: span 2; aspect-ratio: 3/2; }
+
+  /* ===== P7: Scatter Flow — 左右振り分けフロー ===== */
+  .p7 .g { padding: 6px; }
+  .p7 .r { display: flex; gap: 5px; margin-bottom: 5px; }
+  .p7 .rl { justify-content: flex-start; }
+  .p7 .rr { justify-content: flex-end; }
+  .p7 .rc { justify-content: center; }
+  .p7 .i40 { width: 40%; aspect-ratio: 3/4; }
+  .p7 .i55 { width: 55%; aspect-ratio: 4/5; }
+  .p7 .i70 { width: 70%; aspect-ratio: 16/10; }
+  .p7 .i30 { width: 30%; aspect-ratio: 2/3; }
+  .p7 .i100 { width: 100%; aspect-ratio: 21/9; }
+  .p7 .i50 { width: 48%; aspect-ratio: 1/1; }
+
+  /* ===== P8: Mixed Grid — 不規則CSS Grid ===== */
+  .p8 .g { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; padding: 4px; }
+  .p8 .c2 { grid-column: span 2; aspect-ratio: 1/1; }
+  .p8 .c3 { grid-column: span 3; aspect-ratio: 4/3; }
+  .p8 .c4 { grid-column: span 4; aspect-ratio: 16/9; }
+  .p8 .c6 { grid-column: span 6; aspect-ratio: 21/9; }
+  .p8 .r2 { grid-row: span 2; }
+
+  /* ===== P9: Polaroid Scatter — ポラロイド風バラまき ===== */
+  .p9 .g { position: relative; height: 1400px; background: #f7f6f3; overflow: hidden; }
+  .p9 .i {
+    position: absolute;
+    background: #fff;
+    padding: 5px 5px 22px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+  }
+  .p9 .i img { width: 100%; height: calc(100% - 17px); object-fit: cover; }
+  .p9 .i .ov { top: 0; left: 0; width: 100%; height: calc(100% - 17px); }
+
+  /* positions for 20 polaroids */
+  .p9 .i:nth-child(1)  { width: 42%; top: 10px; left: 3%; transform: rotate(-3deg); }
+  .p9 .i:nth-child(2)  { width: 38%; top: 20px; right: 5%; transform: rotate(4deg); }
+  .p9 .i:nth-child(3)  { width: 35%; top: 180px; left: 15%; transform: rotate(-6deg); }
+  .p9 .i:nth-child(4)  { width: 40%; top: 200px; right: 3%; transform: rotate(2deg); }
+  .p9 .i:nth-child(5)  { width: 44%; top: 370px; left: 2%; transform: rotate(5deg); }
+  .p9 .i:nth-child(6)  { width: 36%; top: 390px; right: 8%; transform: rotate(-4deg); }
+  .p9 .i:nth-child(7)  { width: 40%; top: 540px; left: 12%; transform: rotate(-2deg); }
+  .p9 .i:nth-child(8)  { width: 38%; top: 560px; right: 2%; transform: rotate(6deg); }
+  .p9 .i:nth-child(9)  { width: 42%; top: 710px; left: 1%; transform: rotate(3deg); }
+  .p9 .i:nth-child(10) { width: 37%; top: 730px; right: 6%; transform: rotate(-5deg); }
+  .p9 .i:nth-child(11) { width: 39%; top: 880px; left: 10%; transform: rotate(-1deg); }
+  .p9 .i:nth-child(12) { width: 41%; top: 900px; right: 4%; transform: rotate(4deg); }
+  .p9 .i:nth-child(13) { width: 36%; top: 1040px; left: 4%; transform: rotate(5deg); }
+  .p9 .i:nth-child(14) { width: 43%; top: 1050px; right: 2%; transform: rotate(-3deg); }
+  .p9 .i:nth-child(15) { width: 40%; top: 1200px; left: 8%; transform: rotate(-4deg); }
+  .p9 .i:nth-child(16) { width: 38%; top: 1180px; right: 5%; transform: rotate(2deg); }
+  .p9 .i:nth-child(17) { width: 35%; top: 1340px; left: 2%; transform: rotate(6deg); }
+  .p9 .i:nth-child(18) { width: 42%; top: 1350px; right: 3%; transform: rotate(-2deg); }
+  .p9 .i:nth-child(19) { width: 44%; top: 1500px; left: 6%; transform: rotate(-5deg); }
+  .p9 .i:nth-child(20) { width: 37%; top: 1490px; right: 7%; transform: rotate(3deg); }
+
+  /* ===== P10: Broken Grid — 崩れたグリッド ===== */
+  .p10 .g { display: flex; flex-wrap: wrap; gap: 3px; padding: 3px; }
+  .p10 .xa { width: calc(42% - 2px); aspect-ratio: 4/5; }
+  .p10 .xb { width: calc(58% - 2px); aspect-ratio: 3/4; }
+  .p10 .xc { width: calc(30% - 2px); aspect-ratio: 1/1; }
+  .p10 .xd { width: calc(30% - 2px); aspect-ratio: 2/3; }
+  .p10 .xe { width: calc(40% - 2px); aspect-ratio: 4/3; }
+  .p10 .xf { width: calc(55% - 2px); aspect-ratio: 16/10; }
+  .p10 .xg { width: calc(45% - 2px); aspect-ratio: 3/4; }
+  .p10 .xh { width: 100%; aspect-ratio: 21/9; }
+  .p10 .xi { width: calc(25% - 2px); aspect-ratio: 1/1; }
+  .p10 .xj { width: calc(50% - 2px); aspect-ratio: 4/5; }
+  .p10 .xk { width: calc(25% - 2px); aspect-ratio: 2/3; }
+</style>
+</head>
+<body>
+
+<div class="hd">
+  <h1>Gallery Mobile V3</h1>
+  <p>20枚前後 × 10パターン — ランダムコラージュ + ホバーで場所表示</p>
+</div>
+
+<!-- ===== P1: Flex Chaos ===== -->
+<div class="sec p1">
+  <div class="sec-t">P1 — Flex Chaos <b>20枚</b></div>
+  <div class="sec-d">完全ランダムサイズ。一番バラバラ感が出るフレックス</div>
+  <div class="g">
+    <div class="i s1"><img src="images/paris/03.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i s2"><img src="images/malta/07.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i s3"><img src="images/firenze/05.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i s4"><img src="images/london/02.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i s5"><img src="images/paris/06.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i s6"><img src="images/firenze/01.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i s7"><img src="images/london/08.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i s8"><img src="images/malta/03.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i s9"><img src="images/paris/01.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i s9"><img src="images/firenze/08.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i s9"><img src="images/london/05.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i s2"><img src="images/malta/01.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i s1"><img src="images/paris/04.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i s4"><img src="images/malta/06.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i s3"><img src="images/firenze/03.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i s5"><img src="images/london/04.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i s8"><img src="images/paris/08.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i s7"><img src="images/malta/05.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i s1"><img src="images/firenze/07.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i s2"><img src="images/london/01.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+  </div>
+</div>
+
+<!-- ===== P2: Tight Mosaic ===== -->
+<div class="sec p2">
+  <div class="sec-t">P2 — Tight Mosaic <b>20枚</b></div>
+  <div class="sec-d">3列の小タイル。span2やspan2で変化をつける</div>
+  <div class="g">
+    <div class="i"><img src="images/paris/03.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i w2"><img src="images/malta/07.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i h2"><img src="images/firenze/05.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i"><img src="images/london/02.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i"><img src="images/paris/06.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i"><img src="images/firenze/01.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i w2"><img src="images/london/08.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i"><img src="images/malta/03.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i"><img src="images/paris/01.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i"><img src="images/firenze/08.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i w2"><img src="images/london/05.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i h2"><img src="images/malta/01.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i"><img src="images/paris/04.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i"><img src="images/malta/06.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i"><img src="images/firenze/03.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i"><img src="images/london/04.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i w2"><img src="images/paris/08.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i"><img src="images/malta/05.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i"><img src="images/firenze/07.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i"><img src="images/london/01.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+  </div>
+</div>
+
+<!-- ===== P3: Brick Irregular ===== -->
+<div class="sec p3">
+  <div class="sec-t">P3 — Brick Irregular <b>20枚</b></div>
+  <div class="sec-d">不規則レンガ積み。大中小が混在</div>
+  <div class="g">
+    <div class="i a"><img src="images/paris/03.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i b"><img src="images/malta/07.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i c"><img src="images/firenze/05.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i d"><img src="images/london/02.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i e"><img src="images/paris/06.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i e"><img src="images/firenze/01.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i e"><img src="images/london/08.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i f"><img src="images/malta/03.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i b"><img src="images/paris/01.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i a"><img src="images/firenze/08.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i d"><img src="images/london/05.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i c"><img src="images/malta/01.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i e"><img src="images/paris/04.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i e"><img src="images/malta/06.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i e"><img src="images/firenze/03.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i a"><img src="images/london/04.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i b"><img src="images/paris/08.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i c"><img src="images/malta/05.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i d"><img src="images/firenze/07.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i f"><img src="images/london/01.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+  </div>
+</div>
+
+<!-- ===== P4: Pinterest ===== -->
+<div class="sec p4">
+  <div class="sec-t">P4 — Pinterest Masonry <b>20枚</b></div>
+  <div class="sec-d">2列masonry。高さバラバラで自然なコラージュ</div>
+  <div class="g">
+    <div class="i v"><img src="images/paris/03.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i sq"><img src="images/malta/07.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i h"><img src="images/firenze/05.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i tv"><img src="images/london/02.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i sq"><img src="images/paris/06.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i v"><img src="images/firenze/01.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i h"><img src="images/london/08.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i v"><img src="images/malta/03.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i sq"><img src="images/paris/01.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i h"><img src="images/firenze/08.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i tv"><img src="images/london/05.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i v"><img src="images/malta/01.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i sq"><img src="images/paris/04.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i h"><img src="images/malta/06.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i v"><img src="images/firenze/03.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i sq"><img src="images/london/04.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i tv"><img src="images/paris/08.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i h"><img src="images/malta/05.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i v"><img src="images/firenze/07.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i sq"><img src="images/london/01.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+  </div>
+</div>
+
+<!-- ===== P5: Offset 2-col ===== -->
+<div class="sec p5">
+  <div class="sec-t">P5 — Offset Columns <b>20枚</b></div>
+  <div class="sec-d">ずらし2列。偶数が下にオフセット＋時々フル幅</div>
+  <div class="g">
+    <div class="i"><img src="images/paris/03.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i"><img src="images/malta/07.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i"><img src="images/firenze/05.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i"><img src="images/london/02.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i sp"><img src="images/paris/06.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i"><img src="images/firenze/01.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i"><img src="images/london/08.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i"><img src="images/malta/03.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i"><img src="images/paris/01.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i"><img src="images/firenze/08.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i"><img src="images/london/05.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i sp"><img src="images/malta/01.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i"><img src="images/paris/04.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i"><img src="images/malta/06.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i"><img src="images/firenze/03.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i"><img src="images/london/04.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i"><img src="images/paris/08.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i"><img src="images/malta/05.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i sp"><img src="images/firenze/07.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i"><img src="images/london/01.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+  </div>
+</div>
+
+<!-- ===== P6: Contact Sheet ===== -->
+<div class="sec p6">
+  <div class="sec-t">P6 — Contact Sheet <b>20枚</b></div>
+  <div class="sec-d">黒背景4列。フィルムの密着焼き風</div>
+  <div class="g">
+    <div class="i w2"><img src="images/paris/03.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i"><img src="images/malta/07.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i"><img src="images/firenze/05.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i"><img src="images/london/02.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i"><img src="images/paris/06.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i w2"><img src="images/firenze/01.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i"><img src="images/london/08.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i"><img src="images/malta/03.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i"><img src="images/paris/01.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i"><img src="images/firenze/08.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i w2"><img src="images/london/05.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i"><img src="images/malta/01.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i"><img src="images/paris/04.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i"><img src="images/malta/06.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i"><img src="images/firenze/03.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i w2"><img src="images/london/04.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i"><img src="images/paris/08.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i"><img src="images/malta/05.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i"><img src="images/firenze/07.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i"><img src="images/london/01.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+  </div>
+</div>
+
+<!-- ===== P7: Scatter Flow ===== -->
+<div class="sec p7">
+  <div class="sec-t">P7 — Scatter Flow <b>18枚</b></div>
+  <div class="sec-d">左右に振り分け。サイズも位置もバラバラ</div>
+  <div class="g">
+    <div class="r rl"><div class="i i55"><img src="images/paris/03.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div></div>
+    <div class="r rr"><div class="i i40"><img src="images/malta/07.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div></div>
+    <div class="r rl"><div class="i i70"><img src="images/firenze/05.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div></div>
+    <div class="r rr"><div class="i i55"><img src="images/london/02.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div></div>
+    <div class="r rc"><div class="i i100"><img src="images/paris/06.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div></div>
+    <div class="r rl"><div class="i i30"><img src="images/firenze/01.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div><div class="i i30"><img src="images/london/08.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div></div>
+    <div class="r rr"><div class="i i40"><img src="images/malta/03.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div></div>
+    <div class="r rl"><div class="i i55"><img src="images/paris/01.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div></div>
+    <div class="r rr"><div class="i i70"><img src="images/firenze/08.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div></div>
+    <div class="r rl"><div class="i i40"><img src="images/london/05.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div></div>
+    <div class="r rc"><div class="i i50"><img src="images/malta/01.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div><div class="i i50"><img src="images/paris/04.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div></div>
+    <div class="r rr"><div class="i i55"><img src="images/malta/06.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div></div>
+    <div class="r rl"><div class="i i70"><img src="images/firenze/03.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div></div>
+    <div class="r rr"><div class="i i40"><img src="images/london/04.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div></div>
+    <div class="r rl"><div class="i i55"><img src="images/paris/08.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div></div>
+  </div>
+</div>
+
+<!-- ===== P8: Mixed Grid ===== -->
+<div class="sec p8">
+  <div class="sec-t">P8 — Mixed Grid <b>20枚</b></div>
+  <div class="sec-d">6列CSSグリッドでspan変化。不規則パズル</div>
+  <div class="g">
+    <div class="i c3"><img src="images/paris/03.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i c3"><img src="images/malta/07.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i c2"><img src="images/firenze/05.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i c4"><img src="images/london/02.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i c6"><img src="images/paris/06.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i c4"><img src="images/firenze/01.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i c2"><img src="images/london/08.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i c3"><img src="images/malta/03.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i c3"><img src="images/paris/01.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i c2"><img src="images/firenze/08.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i c2"><img src="images/london/05.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i c2"><img src="images/malta/01.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i c3"><img src="images/paris/04.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i c3"><img src="images/malta/06.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i c6"><img src="images/firenze/03.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i c2"><img src="images/london/04.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i c4"><img src="images/paris/08.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i c3"><img src="images/malta/05.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i c3"><img src="images/firenze/07.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i c6"><img src="images/london/01.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+  </div>
+</div>
+
+<!-- ===== P9: Polaroid Scatter ===== -->
+<div class="sec p9">
+  <div class="sec-t">P9 — Polaroid Scatter <b>20枚</b></div>
+  <div class="sec-d">ポラロイド風にバラまき。回転＋影つき</div>
+  <div class="g">
+    <div class="i"><img src="images/paris/03.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i"><img src="images/malta/07.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i"><img src="images/firenze/05.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i"><img src="images/london/02.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i"><img src="images/paris/06.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i"><img src="images/firenze/01.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i"><img src="images/london/08.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i"><img src="images/malta/03.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i"><img src="images/paris/01.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i"><img src="images/firenze/08.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i"><img src="images/london/05.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i"><img src="images/malta/01.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i"><img src="images/paris/04.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i"><img src="images/malta/06.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i"><img src="images/firenze/03.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i"><img src="images/london/04.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i"><img src="images/paris/08.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i"><img src="images/malta/05.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i"><img src="images/firenze/07.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i"><img src="images/london/01.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+  </div>
+</div>
+
+<!-- ===== P10: Broken Grid ===== -->
+<div class="sec p10">
+  <div class="sec-t">P10 — Broken Grid <b>20枚</b></div>
+  <div class="sec-d">崩れたグリッド。サイズが全部違うカオス感</div>
+  <div class="g">
+    <div class="i xa"><img src="images/paris/03.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i xb"><img src="images/malta/07.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i xc"><img src="images/firenze/05.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i xd"><img src="images/london/02.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i xe"><img src="images/paris/06.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i xh"><img src="images/firenze/01.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i xf"><img src="images/london/08.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i xg"><img src="images/malta/03.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i xi"><img src="images/paris/01.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i xj"><img src="images/firenze/08.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i xk"><img src="images/london/05.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i xb"><img src="images/malta/01.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i xa"><img src="images/paris/04.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i xf"><img src="images/malta/06.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i xg"><img src="images/firenze/03.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i xc"><img src="images/london/04.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+    <div class="i xd"><img src="images/paris/08.jpg"><div class="ov"><span class="n">Paris</span><span class="c">48.8566° N 2.3522° E</span></div></div>
+    <div class="i xe"><img src="images/malta/05.jpg"><div class="ov"><span class="n">Malta</span><span class="c">35.8989° N 14.5146° E</span></div></div>
+    <div class="i xh"><img src="images/firenze/07.jpg"><div class="ov"><span class="n">Firenze</span><span class="c">43.7696° N 11.2558° E</span></div></div>
+    <div class="i xa"><img src="images/london/01.jpg"><div class="ov"><span class="n">London</span><span class="c">51.5074° N 0.1278° W</span></div></div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Text Balance — 10 Patterns</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Lavishly+Yours&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#0a0a0a;color:#fff;font-family:'Cormorant Garamond',serif;-webkit-font-smoothing:antialiased;}
+.header{text-align:center;padding:1.5rem 1rem 0.5rem;}
+.header h1{font-size:1rem;font-weight:300;letter-spacing:0.15em;}
+.header p{font-size:0.5rem;opacity:0.25;margin-top:0.2rem;}
+
+.patterns{max-width:1000px;margin:0 auto;padding:0 1rem 3rem;}
+
+.card{
+  position:relative;overflow:hidden;
+  height:clamp(22rem,55vh,34rem);
+  margin-bottom:1.5rem;border-radius:2px;
+  display:flex;align-items:center;justify-content:center;
+}
+.card__bg{position:absolute;top:0;left:0;width:100%;height:100%;}
+.card__bg img{width:100%;height:100%;object-fit:cover;}
+.card__overlay{position:absolute;top:0;left:0;width:100%;height:100%;}
+.card__num{position:absolute;top:0.5rem;left:0.6rem;font-size:0.5rem;letter-spacing:0.1em;opacity:0.25;z-index:10;}
+.card__info{position:absolute;bottom:0.4rem;right:0.6rem;font-size:0.4rem;opacity:0.18;z-index:10;}
+
+/* Marquee layer */
+.card__marquee{
+  position:absolute;top:0;left:0;width:100%;height:100%;
+  display:flex;align-items:center;
+  overflow:hidden;z-index:1;pointer-events:none;
+}
+.card__marquee-track{
+  display:flex;align-items:center;width:max-content;
+  gap:clamp(6rem,15vw,12rem);
+  animation:scrollL 140s linear infinite;
+}
+.mloc{display:flex;flex-direction:column;align-items:center;flex-shrink:0;}
+.mloc__name{
+  font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;
+  font-size:clamp(4rem,10vw,7rem);
+  color:rgba(255,255,255,0.07);letter-spacing:0.06em;line-height:1.1;
+}
+.mloc__coords{
+  font-family:'Cormorant Garamond',serif;font-weight:300;
+  font-size:clamp(0.75rem,1.8vw,1.1rem);
+  color:rgba(255,255,255,0.14);letter-spacing:0.1em;margin-top:0.3em;white-space:nowrap;
+}
+
+/* Text layer */
+.card__text{
+  position:relative;z-index:2;text-align:center;
+  padding:0 1.5rem;max-width:800px;
+}
+
+@keyframes scrollL{
+  0%{transform:translateX(5%);}
+  100%{transform:translateX(-50%);}
+}
+@media(max-width:480px){
+  .card{height:clamp(20rem,70vh,30rem);}
+}
+.footer{text-align:center;padding:1.5rem;font-size:0.42rem;opacity:0.12;}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Text Balance — 10 Patterns</h1>
+  <p>筆記体テキスト × 背景マーキー バランス調整 10パターン</p>
+</div>
+<div class="patterns" id="patterns"></div>
+<div class="footer">ukigumo — text balance preview</div>
+<script>
+const locs=[
+  {n:'Switzerland',c:'46.8182° N, 8.2275° E'},{n:'Paris',c:'48.8566° N, 2.3522° E'},
+  {n:'Firenze',c:'43.7696° N, 11.2558° E'},{n:'London',c:'51.5074° N, 0.1278° W'},
+  {n:'Nice',c:'43.7102° N, 7.2620° E'},{n:'Malta',c:'35.9375° N, 14.3754° E'},
+  {n:'Tokyo',c:'35.6762° N, 139.6503° E'},{n:'Karuizawa',c:'36.3486° N, 138.5970° E'},
+  {n:'Jogashima',c:'35.1292° N, 139.6108° E'},{n:'Night Garden',c:'35.6595° N, 139.7006° E'},
+];
+
+const m1='Weaving each moment into the future';
+const m2='one frame, one second at a time';
+const s1='A brand delivering works that become';
+const s2='a gentle staff for your life';
+
+const P=[
+  {
+    label:'サイズアップ + 高opacity',
+    main:{fs:'clamp(1.8rem,4.5vw,2.8rem)',c:'rgba(255,255,255,0.75)',lh:'1.8',ls:'0.04em'},
+    sub:{fs:'clamp(1.3rem,3.2vw,1.8rem)',c:'rgba(255,255,255,0.45)'},
+    gap:'clamp(1.5rem,4vw,2.5rem)',
+    overlay:'rgba(0,0,0,0.72)',
+  },
+  {
+    label:'大きめ + テキストシャドウ',
+    main:{fs:'clamp(1.8rem,4.5vw,2.8rem)',c:'rgba(255,255,255,0.7)',lh:'1.8',ls:'0.04em',
+      ts:'0 0 30px rgba(0,0,0,0.8), 0 0 60px rgba(0,0,0,0.5)'},
+    sub:{fs:'clamp(1.3rem,3.2vw,1.8rem)',c:'rgba(255,255,255,0.4)',
+      ts:'0 0 20px rgba(0,0,0,0.7)'},
+    gap:'clamp(1.5rem,4vw,2.5rem)',
+    overlay:'rgba(0,0,0,0.68)',
+  },
+  {
+    label:'特大メイン + 控えめサブ',
+    main:{fs:'clamp(2.2rem,5.5vw,3.5rem)',c:'rgba(255,255,255,0.7)',lh:'1.7',ls:'0.03em'},
+    sub:{fs:'clamp(1rem,2.5vw,1.4rem)',c:'rgba(255,255,255,0.3)'},
+    gap:'clamp(2rem,5vw,3rem)',
+    overlay:'rgba(0,0,0,0.72)',
+  },
+  {
+    label:'全行同サイズ — 統一感',
+    main:{fs:'clamp(1.6rem,4vw,2.4rem)',c:'rgba(255,255,255,0.65)',lh:'1.9',ls:'0.04em'},
+    sub:{fs:'clamp(1.6rem,4vw,2.4rem)',c:'rgba(255,255,255,0.4)'},
+    gap:'clamp(1.8rem,4.5vw,2.8rem)',
+    overlay:'rgba(0,0,0,0.72)',
+  },
+  {
+    label:'白に近い + オーバーレイ濃いめ',
+    main:{fs:'clamp(1.7rem,4.2vw,2.6rem)',c:'rgba(255,255,255,0.85)',lh:'1.8',ls:'0.04em'},
+    sub:{fs:'clamp(1.2rem,3vw,1.7rem)',c:'rgba(255,255,255,0.5)'},
+    gap:'clamp(1.5rem,4vw,2.5rem)',
+    overlay:'rgba(0,0,0,0.8)',
+  },
+  {
+    label:'大胆サイズ + 広い行間',
+    main:{fs:'clamp(2rem,5vw,3.2rem)',c:'rgba(255,255,255,0.7)',lh:'2.2',ls:'0.05em'},
+    sub:{fs:'clamp(1.2rem,3vw,1.7rem)',c:'rgba(255,255,255,0.35)'},
+    gap:'clamp(2.5rem,6vw,3.5rem)',
+    overlay:'rgba(0,0,0,0.72)',
+  },
+  {
+    label:'コンパクト + シャドウ強め',
+    main:{fs:'clamp(1.5rem,3.8vw,2.2rem)',c:'rgba(255,255,255,0.75)',lh:'1.8',ls:'0.03em',
+      ts:'0 2px 20px rgba(0,0,0,0.9), 0 0 50px rgba(0,0,0,0.6)'},
+    sub:{fs:'clamp(1.1rem,2.8vw,1.5rem)',c:'rgba(255,255,255,0.45)',
+      ts:'0 2px 15px rgba(0,0,0,0.8)'},
+    gap:'clamp(1.2rem,3vw,2rem)',
+    overlay:'rgba(0,0,0,0.65)',
+  },
+  {
+    label:'メインのみ大 + サブ極小',
+    main:{fs:'clamp(2.5rem,6vw,4rem)',c:'rgba(255,255,255,0.65)',lh:'1.6',ls:'0.03em'},
+    sub:{fs:'clamp(0.9rem,2.2vw,1.2rem)',c:'rgba(255,255,255,0.3)'},
+    gap:'clamp(2rem,5vw,3rem)',
+    overlay:'rgba(0,0,0,0.72)',
+  },
+  {
+    label:'ゴールドトーン — 高級感',
+    main:{fs:'clamp(1.8rem,4.5vw,2.8rem)',c:'rgba(235,220,190,0.7)',lh:'1.8',ls:'0.05em'},
+    sub:{fs:'clamp(1.2rem,3vw,1.7rem)',c:'rgba(235,220,190,0.35)'},
+    gap:'clamp(1.5rem,4vw,2.5rem)',
+    overlay:'rgba(0,0,0,0.73)',
+  },
+  {
+    label:'ミニマル — 細字+余白多め',
+    main:{fs:'clamp(1.6rem,4vw,2.4rem)',c:'rgba(255,255,255,0.6)',lh:'2.0',ls:'0.08em'},
+    sub:{fs:'clamp(1.1rem,2.8vw,1.5rem)',c:'rgba(255,255,255,0.3)',ls2:'0.1em'},
+    gap:'clamp(2.5rem,6vw,4rem)',
+    overlay:'rgba(0,0,0,0.75)',
+  },
+];
+
+const marqueeHTML = (()=>{
+  const all=[...locs,...locs];
+  return all.map(l=>`<div class="mloc"><span class="mloc__name">${l.n}</span><span class="mloc__coords">${l.c}</span></div>`).join('');
+})();
+
+const container=document.getElementById('patterns');
+P.forEach((p,i)=>{
+  const d=document.createElement('div');
+  d.className='card';
+
+  const mts = p.main.ts ? `text-shadow:${p.main.ts};` : '';
+  const sts = p.sub.ts ? `text-shadow:${p.sub.ts};` : '';
+  const sls = p.sub.ls2 ? `letter-spacing:${p.sub.ls2};` : '';
+
+  d.innerHTML=`
+    <div class="card__bg">
+      <img src="images/london/05.jpg" alt="">
+      <div class="card__overlay" style="background:${p.overlay};"></div>
+    </div>
+    <div class="card__num">#${String(i+1).padStart(2,'0')}</div>
+    <div class="card__info">${p.label}</div>
+    <div class="card__marquee">
+      <div class="card__marquee-track">${marqueeHTML}</div>
+    </div>
+    <div class="card__text">
+      <p style="font-family:'Lavishly Yours',cursive;font-size:${p.main.fs};color:${p.main.c};line-height:${p.main.lh};letter-spacing:${p.main.ls};margin:0;${mts}">${m1}<br>${m2}</p>
+      <p style="font-family:'Lavishly Yours',cursive;font-size:${p.sub.fs};color:${p.sub.c};line-height:${p.main.lh};margin-top:${p.gap};${sts}${sls}">${s1}<br>${s2}</p>
+    </div>
+  `;
+  container.appendChild(d);
+});
+</script>
+</body>
+</html>

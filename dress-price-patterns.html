@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Price Font — 10 Patterns</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Noto+Serif+JP:wght@300;400&family=Inter:wght@300;400&family=DM+Sans:wght@300;400;500&family=Jost:wght@300;400&family=Libre+Baskerville:wght@400&family=Source+Serif+4:wght@300;400&family=Lora:wght@300;400&family=Playfair+Display:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #f5f3ef; color: #2a2420; padding: 3rem 1.5rem; }
+    h1 { font-family: "Cormorant Garamond", serif; font-weight: 300; font-size: 1.6rem; text-align: center; letter-spacing: 0.15em; margin-bottom: 0.3rem; }
+    .sub { text-align: center; font-family: "Noto Serif JP", serif; font-size: 0.68rem; color: rgba(61,53,48,0.4); letter-spacing: 0.08em; margin-bottom: 3rem; }
+
+    .pattern-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid rgba(61,53,48,0.08);
+      padding: 2rem 1.8rem;
+    }
+    .card__label {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.55rem; color: rgba(61,53,48,0.25);
+      letter-spacing: 0.2em; margin-bottom: 0.15rem;
+    }
+    .card__name {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 300; font-size: 0.72rem;
+      color: rgba(61,53,48,0.5); margin-bottom: 1.2rem;
+    }
+
+    /* Shared layout */
+    .pricing-block {
+      background: rgba(245,243,239,0.5);
+      padding: 1rem 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+    .pricing-block__header {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.6rem; font-weight: 400;
+      letter-spacing: 0.08em; color: #2a2420;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(61,53,48,0.08);
+      margin-bottom: 0.6rem;
+    }
+    .row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 0.3rem 0;
+    }
+    .row + .row { border-top: 1px solid rgba(61,53,48,0.04); }
+    .row-label {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.6rem; font-weight: 300;
+      color: rgba(61,53,48,0.65);
+    }
+
+    /* ===== 10 Price Font Patterns ===== */
+
+    /* 01 — Cormorant Garamond (current but refined) */
+    .p01 .row-val {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.85rem; font-weight: 500;
+      color: #2a2420; letter-spacing: 0.02em;
+    }
+
+    /* 02 — Noto Serif JP (統一感) */
+    .p02 .row-val {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.75rem; font-weight: 400;
+      color: #2a2420; letter-spacing: 0.02em;
+    }
+
+    /* 03 — Inter (モダン・サンセリフ) */
+    .p03 .row-val {
+      font-family: "Inter", sans-serif;
+      font-size: 0.72rem; font-weight: 400;
+      color: #2a2420; letter-spacing: 0.01em;
+    }
+
+    /* 04 — DM Sans (丸みのあるモダン) */
+    .p04 .row-val {
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.75rem; font-weight: 500;
+      color: #2a2420; letter-spacing: 0;
+    }
+
+    /* 05 — Jost (幾何学的・スッキリ) */
+    .p05 .row-val {
+      font-family: "Jost", sans-serif;
+      font-size: 0.75rem; font-weight: 400;
+      color: #2a2420; letter-spacing: 0.03em;
+    }
+
+    /* 06 — Libre Baskerville (クラシック) */
+    .p06 .row-val {
+      font-family: "Libre Baskerville", serif;
+      font-size: 0.7rem; font-weight: 400;
+      color: #2a2420; letter-spacing: 0.01em;
+    }
+
+    /* 07 — Source Serif 4 (読みやすいセリフ) */
+    .p07 .row-val {
+      font-family: "Source Serif 4", serif;
+      font-size: 0.75rem; font-weight: 400;
+      color: #2a2420; letter-spacing: 0.01em;
+    }
+
+    /* 08 — Lora (エレガント・セリフ) */
+    .p08 .row-val {
+      font-family: "Lora", serif;
+      font-size: 0.72rem; font-weight: 400;
+      color: #2a2420; letter-spacing: 0.01em;
+    }
+
+    /* 09 — Cormorant large + light (大きめ軽量) */
+    .p09 .row-val {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1rem; font-weight: 300;
+      color: #2a2420; letter-spacing: 0.03em;
+    }
+
+    /* 10 — Playfair Display (高級感) */
+    .p10 .row-val {
+      font-family: "Playfair Display", serif;
+      font-size: 0.7rem; font-weight: 400;
+      color: #2a2420; letter-spacing: 0.01em;
+    }
+
+    @media (max-width: 600px) {
+      .pattern-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<h1>Price Font</h1>
+<p class="sub">金額表示のフォントパターン — 10種</p>
+
+<div class="pattern-grid">
+
+  <!-- Pattern 01 -->
+  <div class="card p01">
+    <p class="card__label">PATTERN 01</p>
+    <p class="card__name">Cormorant Garamond — 現行改良</p>
+    <div class="pricing-block">
+      <div class="pricing-block__header">Base Price（ドレス＋タキシード込み）</div>
+      <div class="row">
+        <span class="row-label">国内・海外共通</span>
+        <span class="row-val">¥110,000（税込）</span>
+      </div>
+      <div class="row">
+        <span class="row-label">セレクト可能数</span>
+        <span class="row-val">13型（全てプラン内）</span>
+      </div>
+      <div class="row">
+        <span class="row-label">アクセサリー</span>
+        <span class="row-val">1点追加（料金内）</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pattern 02 -->
+  <div class="card p02">
+    <p class="card__label">PATTERN 02</p>
+    <p class="card__name">Noto Serif JP — 統一感</p>
+    <div class="pricing-block">
+      <div class="pricing-block__header">Base Price（ドレス＋タキシード込み）</div>
+      <div class="row">
+        <span class="row-label">国内・海外共通</span>
+        <span class="row-val">¥110,000（税込）</span>
+      </div>
+      <div class="row">
+        <span class="row-label">セレクト可能数</span>
+        <span class="row-val">13型（全てプラン内）</span>
+      </div>
+      <div class="row">
+        <span class="row-label">アクセサリー</span>
+        <span class="row-val">1点追加（料金内）</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pattern 03 -->
+  <div class="card p03">
+    <p class="card__label">PATTERN 03</p>
+    <p class="card__name">Inter — モダンサンセリフ</p>
+    <div class="pricing-block">
+      <div class="pricing-block__header">Base Price（ドレス＋タキシード込み）</div>
+      <div class="row">
+        <span class="row-label">国内・海外共通</span>
+        <span class="row-val">¥110,000（税込）</span>
+      </div>
+      <div class="row">
+        <span class="row-label">セレクト可能数</span>
+        <span class="row-val">13型（全てプラン内）</span>
+      </div>
+      <div class="row">
+        <span class="row-label">アクセサリー</span>
+        <span class="row-val">1点追加（料金内）</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pattern 04 -->
+  <div class="card p04">
+    <p class="card__label">PATTERN 04</p>
+    <p class="card__name">DM Sans — 丸みモダン</p>
+    <div class="pricing-block">
+      <div class="pricing-block__header">Base Price（ドレス＋タキシード込み）</div>
+      <div class="row">
+        <span class="row-label">国内・海外共通</span>
+        <span class="row-val">¥110,000（税込）</span>
+      </div>
+      <div class="row">
+        <span class="row-label">セレクト可能数</span>
+        <span class="row-val">13型（全てプラン内）</span>
+      </div>
+      <div class="row">
+        <span class="row-label">アクセサリー</span>
+        <span class="row-val">1点追加（料金内）</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pattern 05 -->
+  <div class="card p05">
+    <p class="card__label">PATTERN 05</p>
+    <p class="card__name">Jost — 幾何学スッキリ</p>
+    <div class="pricing-block">
+      <div class="pricing-block__header">Base Price（ドレス＋タキシード込み）</div>
+      <div class="row">
+        <span class="row-label">国内・海外共通</span>
+        <span class="row-val">¥110,000（税込）</span>
+      </div>
+      <div class="row">
+        <span class="row-label">セレクト可能数</span>
+        <span class="row-val">13型（全てプラン内）</span>
+      </div>
+      <div class="row">
+        <span class="row-label">アクセサリー</span>
+        <span class="row-val">1点追加（料金内）</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pattern 06 -->
+  <div class="card p06">
+    <p class="card__label">PATTERN 06</p>
+    <p class="card__name">Libre Baskerville — クラシック</p>
+    <div class="pricing-block">
+      <div class="pricing-block__header">Base Price（ドレス＋タキシード込み）</div>
+      <div class="row">
+        <span class="row-label">国内・海外共通</span>
+        <span class="row-val">¥110,000（税込）</span>
+      </div>
+      <div class="row">
+        <span class="row-label">セレクト可能数</span>
+        <span class="row-val">13型（全てプラン内）</span>
+      </div>
+      <div class="row">
+        <span class="row-label">アクセサリー</span>
+        <span class="row-val">1点追加（料金内）</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pattern 07 -->
+  <div class="card p07">
+    <p class="card__label">PATTERN 07</p>
+    <p class="card__name">Source Serif 4 — 読みやすいセリフ</p>
+    <div class="pricing-block">
+      <div class="pricing-block__header">Base Price（ドレス＋タキシード込み）</div>
+      <div class="row">
+        <span class="row-label">国内・海外共通</span>
+        <span class="row-val">¥110,000（税込）</span>
+      </div>
+      <div class="row">
+        <span class="row-label">セレクト可能数</span>
+        <span class="row-val">13型（全てプラン内）</span>
+      </div>
+      <div class="row">
+        <span class="row-label">アクセサリー</span>
+        <span class="row-val">1点追加（料金内）</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pattern 08 -->
+  <div class="card p08">
+    <p class="card__label">PATTERN 08</p>
+    <p class="card__name">Lora — エレガント</p>
+    <div class="pricing-block">
+      <div class="pricing-block__header">Base Price（ドレス＋タキシード込み）</div>
+      <div class="row">
+        <span class="row-label">国内・海外共通</span>
+        <span class="row-val">¥110,000（税込）</span>
+      </div>
+      <div class="row">
+        <span class="row-label">セレクト可能数</span>
+        <span class="row-val">13型（全てプラン内）</span>
+      </div>
+      <div class="row">
+        <span class="row-label">アクセサリー</span>
+        <span class="row-val">1点追加（料金内）</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pattern 09 -->
+  <div class="card p09">
+    <p class="card__label">PATTERN 09</p>
+    <p class="card__name">Cormorant Large Light — 大きめ軽量</p>
+    <div class="pricing-block">
+      <div class="pricing-block__header">Base Price（ドレス＋タキシード込み）</div>
+      <div class="row">
+        <span class="row-label">国内・海外共通</span>
+        <span class="row-val">¥110,000（税込）</span>
+      </div>
+      <div class="row">
+        <span class="row-label">セレクト可能数</span>
+        <span class="row-val">13型（全てプラン内）</span>
+      </div>
+      <div class="row">
+        <span class="row-label">アクセサリー</span>
+        <span class="row-val">1点追加（料金内）</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pattern 10 -->
+  <div class="card p10">
+    <p class="card__label">PATTERN 10</p>
+    <p class="card__name">Playfair Display — 高級感</p>
+    <div class="pricing-block">
+      <div class="pricing-block__header">Base Price（ドレス＋タキシード込み）</div>
+      <div class="row">
+        <span class="row-label">国内・海外共通</span>
+        <span class="row-val">¥110,000（税込）</span>
+      </div>
+      <div class="row">
+        <span class="row-label">セレクト可能数</span>
+        <span class="row-val">13型（全てプラン内）</span>
+      </div>
+      <div class="row">
+        <span class="row-label">アクセサリー</span>
+        <span class="row-val">1点追加（料金内）</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

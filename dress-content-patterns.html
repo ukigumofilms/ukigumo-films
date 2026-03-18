@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dress Shop Content — 10 Design Patterns</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #f5f3ef; color: #2a2420; }
+
+    .page-title {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 300; font-size: 1.8rem;
+      text-align: center; letter-spacing: 0.15em;
+      padding: 3rem 0 0.5rem;
+    }
+    .page-sub {
+      text-align: center; font-family: "Noto Serif JP", serif;
+      font-size: 0.7rem; color: rgba(61,53,48,0.4);
+      letter-spacing: 0.1em; margin-bottom: 3rem;
+    }
+
+    .pattern-wrap {
+      max-width: 100%; margin: 0 auto 0; position: relative;
+    }
+    .pattern-label {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.65rem; color: rgba(61,53,48,0.3);
+      letter-spacing: 0.2em; padding: 1.5rem 0 0.4rem 3%;
+    }
+    .pattern-name {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 300; font-size: 0.95rem;
+      letter-spacing: 0.08em; color: #2a2420;
+      padding: 0 0 1.5rem 3%;
+    }
+
+    /* Shared layout */
+    .shop {
+      display: grid;
+      grid-template-columns: 48% 52%;
+      min-height: 45vh;
+      overflow: hidden;
+      background: #f5f3ef;
+    }
+    .shop__img {
+      position: relative; overflow: hidden; min-height: 100%;
+      background: #ddd;
+    }
+    .shop__img img {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block; position: absolute; top: 0; left: 0;
+    }
+
+    /* Sample content data (Bee's Knees) */
+    .sep { width: 1px; height: 40px; background: rgba(61,53,48,0.12); margin: 3rem auto; }
+
+    /* ===========================
+       PATTERN 01 — Compact Minimal
+    =========================== */
+    .p01 .cnt {
+      padding: 3rem 4%;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .p01 .num {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.65rem; font-weight: 300;
+      letter-spacing: 0.3em; color: rgba(61,53,48,0.3);
+      margin-bottom: 0.6rem;
+    }
+    .p01 .name {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.6rem; font-weight: 300;
+      letter-spacing: 0.05em; color: #2a2420;
+      margin-bottom: 0.3rem;
+    }
+    .p01 .loc {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.68rem; font-weight: 300;
+      color: rgba(61,53,48,0.45); letter-spacing: 0.05em;
+      margin-bottom: 1.2rem;
+    }
+    .p01 .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.2rem; }
+    .p01 .tag {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.6rem; font-weight: 300;
+      color: rgba(61,53,48,0.55); padding: 0.25rem 0.6rem;
+      border: 1px solid rgba(61,53,48,0.12);
+    }
+    .p01 .price-group { margin-bottom: 0.8rem; }
+    .p01 .price-title {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.62rem; font-weight: 400;
+      color: #2a2420; letter-spacing: 0.08em;
+      border-bottom: 1px solid rgba(61,53,48,0.08);
+      padding-bottom: 0.4rem; margin-bottom: 0.5rem;
+    }
+    .p01 .price-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 0.3rem 0;
+    }
+    .p01 .price-label {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.7rem; font-weight: 300;
+      color: rgba(61,53,48,0.7);
+    }
+    .p01 .price-val {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.85rem; font-weight: 400;
+      color: #2a2420;
+    }
+    .p01 .note {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.6rem; font-weight: 300;
+      color: rgba(61,53,48,0.45); line-height: 1.8;
+      margin-top: 0.3rem;
+    }
+    .p01 .link {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.72rem; color: #2a2420;
+      text-decoration: none; letter-spacing: 0.08em;
+      margin-top: 0.3rem; display: inline-block;
+    }
+    .p01 .link:hover { text-decoration: underline; }
+    .p01 .ig {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.72rem; color: rgba(61,53,48,0.5);
+      text-decoration: none; margin-top: 1rem;
+    }
+
+    /* ===========================
+       PATTERN 02 — Card Inset
+    =========================== */
+    .p02 .cnt {
+      padding: 2.5rem 3.5%;
+      display: flex; flex-direction: column; justify-content: center;
+      background: #fff;
+    }
+    .p02 .num {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 2rem; font-weight: 300;
+      color: rgba(61,53,48,0.08); line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .p02 .name {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.5rem; font-weight: 300;
+      letter-spacing: 0.05em; color: #2a2420;
+      margin-bottom: 0.2rem;
+    }
+    .p02 .loc {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.65rem; font-weight: 300;
+      color: rgba(61,53,48,0.4); margin-bottom: 1rem;
+    }
+    .p02 .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+    .p02 .tag {
+      font-family: "Noto Serif JP", serif; font-size: 0.58rem;
+      font-weight: 300; color: rgba(61,53,48,0.5);
+      padding: 0.2rem 0.5rem;
+      background: rgba(245,243,239,0.8);
+    }
+    .p02 .price-group {
+      background: rgba(245,243,239,0.5);
+      padding: 0.8rem 1rem; margin-bottom: 0.5rem;
+    }
+    .p02 .price-title {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.6rem; font-weight: 400;
+      color: #2a2420; margin-bottom: 0.4rem;
+    }
+    .p02 .price-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 0.25rem 0;
+    }
+    .p02 .price-label { font-family: "Noto Serif JP", serif; font-size: 0.68rem; font-weight: 300; color: rgba(61,53,48,0.65); }
+    .p02 .price-val { font-family: "Cormorant Garamond", serif; font-size: 0.82rem; font-weight: 400; color: #2a2420; }
+    .p02 .note { font-family: "Noto Serif JP", serif; font-size: 0.58rem; color: rgba(61,53,48,0.4); line-height: 1.8; margin-top: 0.2rem; }
+    .p02 .link { font-family: "Cormorant Garamond", serif; font-size: 0.7rem; color: #2a2420; text-decoration: none; margin-top: 0.3rem; display: inline-block; }
+    .p02 .ig { display: inline-flex; align-items: center; gap: 0.4rem; font-family: "Cormorant Garamond", serif; font-size: 0.7rem; color: rgba(61,53,48,0.45); text-decoration: none; margin-top: 0.8rem; }
+
+    /* ===========================
+       PATTERN 03 — Top Line Accent
+    =========================== */
+    .p03 .cnt {
+      padding: 2.5rem 4%; border-top: 2px solid #2a2420;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .p03 .num { font-family: "Cormorant Garamond", serif; font-size: 0.6rem; font-weight: 300; letter-spacing: 0.3em; color: rgba(61,53,48,0.3); margin-bottom: 0.5rem; }
+    .p03 .name { font-family: "Cormorant Garamond", serif; font-size: 1.4rem; font-weight: 300; letter-spacing: 0.04em; color: #2a2420; margin-bottom: 0.2rem; }
+    .p03 .loc { font-family: "Noto Serif JP", serif; font-size: 0.65rem; font-weight: 300; color: rgba(61,53,48,0.4); margin-bottom: 1rem; }
+    .p03 .tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1rem; }
+    .p03 .tag { font-family: "Noto Serif JP", serif; font-size: 0.58rem; font-weight: 300; color: rgba(61,53,48,0.5); letter-spacing: 0.03em; }
+    .p03 .tag::before { content: "· "; }
+    .p03 .price-group { border-left: 1px solid rgba(61,53,48,0.12); padding-left: 1rem; margin-bottom: 0.6rem; margin-left: 0.2rem; }
+    .p03 .price-title { font-family: "Noto Serif JP", serif; font-size: 0.6rem; font-weight: 400; color: #2a2420; margin-bottom: 0.3rem; }
+    .p03 .price-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.25rem 0; }
+    .p03 .price-label { font-family: "Noto Serif JP", serif; font-size: 0.68rem; font-weight: 300; color: rgba(61,53,48,0.65); }
+    .p03 .price-val { font-family: "Cormorant Garamond", serif; font-size: 0.82rem; font-weight: 400; color: #2a2420; }
+    .p03 .note { font-family: "Noto Serif JP", serif; font-size: 0.58rem; color: rgba(61,53,48,0.4); line-height: 1.8; }
+    .p03 .link { font-family: "Cormorant Garamond", serif; font-size: 0.7rem; color: #2a2420; text-decoration: none; margin-top: 0.2rem; display: inline-block; border-bottom: 1px solid rgba(61,53,48,0.15); }
+    .p03 .ig { display: inline-flex; align-items: center; gap: 0.4rem; font-family: "Cormorant Garamond", serif; font-size: 0.7rem; color: rgba(61,53,48,0.4); text-decoration: none; margin-top: 0.8rem; }
+
+    /* ===========================
+       PATTERN 04 — Large Number Watermark
+    =========================== */
+    .p04 .cnt {
+      padding: 2.5rem 4%; position: relative;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .p04 .num-bg {
+      position: absolute; top: 1rem; right: 3%;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 6rem; font-weight: 300;
+      color: rgba(61,53,48,0.04); line-height: 1;
+    }
+    .p04 .name { font-family: "Cormorant Garamond", serif; font-size: 1.5rem; font-weight: 300; color: #2a2420; margin-bottom: 0.2rem; position: relative; }
+    .p04 .loc { font-family: "Noto Serif JP", serif; font-size: 0.65rem; font-weight: 300; color: rgba(61,53,48,0.4); margin-bottom: 1rem; position: relative; }
+    .p04 .tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1rem; position: relative; }
+    .p04 .tag { font-family: "Noto Serif JP", serif; font-size: 0.58rem; font-weight: 300; color: rgba(61,53,48,0.55); padding: 0.2rem 0.6rem; border: 1px solid rgba(61,53,48,0.1); }
+    .p04 .price-group { position: relative; margin-bottom: 0.6rem; }
+    .p04 .price-title { font-family: "Noto Serif JP", serif; font-size: 0.6rem; font-weight: 400; color: rgba(61,53,48,0.5); letter-spacing: 0.08em; margin-bottom: 0.3rem; text-transform: uppercase; }
+    .p04 .price-row { display: flex; justify-content: space-between; padding: 0.3rem 0; border-bottom: 1px solid rgba(61,53,48,0.04); }
+    .p04 .price-label { font-family: "Noto Serif JP", serif; font-size: 0.68rem; font-weight: 300; color: rgba(61,53,48,0.65); }
+    .p04 .price-val { font-family: "Cormorant Garamond", serif; font-size: 0.82rem; font-weight: 400; color: #2a2420; }
+    .p04 .note { font-family: "Noto Serif JP", serif; font-size: 0.58rem; color: rgba(61,53,48,0.4); line-height: 1.8; }
+    .p04 .link { font-family: "Cormorant Garamond", serif; font-size: 0.7rem; color: #2a2420; text-decoration: none; }
+    .p04 .ig { display: inline-flex; align-items: center; gap: 0.4rem; font-family: "Cormorant Garamond", serif; font-size: 0.7rem; color: rgba(61,53,48,0.4); text-decoration: none; margin-top: 0.8rem; position: relative; }
+
+    /* ===========================
+       PATTERN 05 — Centered Layout
+    =========================== */
+    .p05 .cnt {
+      padding: 2.5rem 5%; text-align: center;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+    }
+    .p05 .num { font-family: "Cormorant Garamond", serif; font-size: 0.6rem; letter-spacing: 0.3em; color: rgba(61,53,48,0.3); margin-bottom: 0.5rem; }
+    .p05 .name { font-family: "Cormorant Garamond", serif; font-size: 1.5rem; font-weight: 300; color: #2a2420; margin-bottom: 0.15rem; }
+    .p05 .loc { font-family: "Noto Serif JP", serif; font-size: 0.65rem; font-weight: 300; color: rgba(61,53,48,0.4); margin-bottom: 1rem; }
+    .p05 .divider { width: 30px; height: 1px; background: rgba(61,53,48,0.2); margin: 0 auto 1rem; }
+    .p05 .tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1rem; justify-content: center; }
+    .p05 .tag { font-family: "Noto Serif JP", serif; font-size: 0.58rem; font-weight: 300; color: rgba(61,53,48,0.5); }
+    .p05 .tag::before { content: "— "; color: rgba(61,53,48,0.2); }
+    .p05 .price-group { text-align: left; width: 100%; max-width: 340px; margin-bottom: 0.5rem; }
+    .p05 .price-title { font-family: "Noto Serif JP", serif; font-size: 0.6rem; font-weight: 400; color: #2a2420; text-align: center; margin-bottom: 0.4rem; }
+    .p05 .price-row { display: flex; justify-content: space-between; padding: 0.25rem 0; }
+    .p05 .price-label { font-family: "Noto Serif JP", serif; font-size: 0.68rem; font-weight: 300; color: rgba(61,53,48,0.65); }
+    .p05 .price-val { font-family: "Cormorant Garamond", serif; font-size: 0.82rem; font-weight: 400; color: #2a2420; }
+    .p05 .note { font-family: "Noto Serif JP", serif; font-size: 0.58rem; color: rgba(61,53,48,0.4); line-height: 1.8; text-align: center; }
+    .p05 .ig { font-family: "Cormorant Garamond", serif; font-size: 0.7rem; color: rgba(61,53,48,0.4); text-decoration: none; margin-top: 0.8rem; }
+
+    /* ===========================
+       PATTERN 06 — Italic Header Elegant
+    =========================== */
+    .p06 .cnt { padding: 2.5rem 4%; display: flex; flex-direction: column; justify-content: center; }
+    .p06 .num { font-family: "Cormorant Garamond", serif; font-size: 0.6rem; font-weight: 300; letter-spacing: 0.3em; color: rgba(61,53,48,0.3); margin-bottom: 0.4rem; }
+    .p06 .name { font-family: "Cormorant Garamond", serif; font-size: 1.5rem; font-weight: 300; font-style: italic; letter-spacing: 0.04em; color: #2a2420; margin-bottom: 0.3rem; }
+    .p06 .loc { font-family: "Noto Serif JP", serif; font-size: 0.65rem; font-weight: 300; color: rgba(61,53,48,0.4); margin-bottom: 1rem; }
+    .p06 .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+    .p06 .tag { font-family: "Noto Serif JP", serif; font-size: 0.58rem; font-weight: 300; color: rgba(61,53,48,0.55); padding: 0.2rem 0.6rem; background: rgba(245,243,239,0.7); }
+    .p06 .price-group { margin-bottom: 0.6rem; padding-bottom: 0.6rem; border-bottom: 1px solid rgba(61,53,48,0.06); }
+    .p06 .price-title { font-family: "Cormorant Garamond", serif; font-size: 0.72rem; font-weight: 400; color: #2a2420; letter-spacing: 0.08em; margin-bottom: 0.3rem; }
+    .p06 .price-row { display: flex; justify-content: space-between; padding: 0.25rem 0; }
+    .p06 .price-label { font-family: "Noto Serif JP", serif; font-size: 0.68rem; font-weight: 300; color: rgba(61,53,48,0.65); }
+    .p06 .price-val { font-family: "Cormorant Garamond", serif; font-size: 0.82rem; font-weight: 400; color: #2a2420; }
+    .p06 .note { font-family: "Noto Serif JP", serif; font-size: 0.58rem; color: rgba(61,53,48,0.4); line-height: 1.8; }
+    .p06 .link { font-family: "Cormorant Garamond", serif; font-size: 0.7rem; font-style: italic; color: #2a2420; text-decoration: none; }
+    .p06 .ig { display: inline-flex; align-items: center; gap: 0.4rem; font-family: "Cormorant Garamond", serif; font-size: 0.7rem; color: rgba(61,53,48,0.4); text-decoration: none; margin-top: 0.8rem; }
+
+    /* ===========================
+       PATTERN 07 — Dark Content Side
+    =========================== */
+    .p07 .cnt { padding: 2.5rem 4%; background: #2a2420; display: flex; flex-direction: column; justify-content: center; }
+    .p07 .num { font-family: "Cormorant Garamond", serif; font-size: 0.6rem; letter-spacing: 0.3em; color: rgba(255,255,255,0.25); margin-bottom: 0.5rem; }
+    .p07 .name { font-family: "Cormorant Garamond", serif; font-size: 1.5rem; font-weight: 300; color: rgba(255,255,255,0.9); margin-bottom: 0.2rem; }
+    .p07 .loc { font-family: "Noto Serif JP", serif; font-size: 0.65rem; font-weight: 300; color: rgba(255,255,255,0.35); margin-bottom: 1rem; }
+    .p07 .tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1rem; }
+    .p07 .tag { font-family: "Noto Serif JP", serif; font-size: 0.58rem; font-weight: 300; color: rgba(255,255,255,0.4); padding: 0.2rem 0.6rem; border: 1px solid rgba(255,255,255,0.1); }
+    .p07 .price-group { margin-bottom: 0.6rem; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 1rem; }
+    .p07 .price-title { font-family: "Noto Serif JP", serif; font-size: 0.6rem; font-weight: 400; color: rgba(255,255,255,0.5); margin-bottom: 0.3rem; }
+    .p07 .price-row { display: flex; justify-content: space-between; padding: 0.25rem 0; }
+    .p07 .price-label { font-family: "Noto Serif JP", serif; font-size: 0.68rem; font-weight: 300; color: rgba(255,255,255,0.45); }
+    .p07 .price-val { font-family: "Cormorant Garamond", serif; font-size: 0.82rem; font-weight: 400; color: rgba(255,255,255,0.8); }
+    .p07 .note { font-family: "Noto Serif JP", serif; font-size: 0.58rem; color: rgba(255,255,255,0.3); line-height: 1.8; }
+    .p07 .ig { display: inline-flex; align-items: center; gap: 0.4rem; font-family: "Cormorant Garamond", serif; font-size: 0.7rem; color: rgba(255,255,255,0.35); text-decoration: none; margin-top: 0.8rem; }
+
+    /* ===========================
+       PATTERN 08 — Numbered Circle Badge
+    =========================== */
+    .p08 .cnt { padding: 2.5rem 4%; display: flex; flex-direction: column; justify-content: center; }
+    .p08 .num-badge {
+      width: 2.2rem; height: 2.2rem; border: 1px solid rgba(61,53,48,0.15);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-family: "Cormorant Garamond", serif; font-size: 0.7rem; color: rgba(61,53,48,0.4);
+      margin-bottom: 0.8rem;
+    }
+    .p08 .name { font-family: "Cormorant Garamond", serif; font-size: 1.5rem; font-weight: 300; color: #2a2420; margin-bottom: 0.2rem; }
+    .p08 .loc { font-family: "Noto Serif JP", serif; font-size: 0.65rem; font-weight: 300; color: rgba(61,53,48,0.4); margin-bottom: 1rem; }
+    .p08 .tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1rem; }
+    .p08 .tag { font-family: "Noto Serif JP", serif; font-size: 0.58rem; font-weight: 300; color: rgba(61,53,48,0.55); padding: 0.2rem 0.6rem; border: 1px solid rgba(61,53,48,0.1); }
+    .p08 .price-group { background: rgba(245,243,239,0.5); padding: 0.7rem 0.9rem; margin-bottom: 0.5rem; }
+    .p08 .price-title { font-family: "Noto Serif JP", serif; font-size: 0.6rem; font-weight: 400; color: #2a2420; margin-bottom: 0.3rem; }
+    .p08 .price-row { display: flex; justify-content: space-between; padding: 0.2rem 0; }
+    .p08 .price-label { font-family: "Noto Serif JP", serif; font-size: 0.68rem; font-weight: 300; color: rgba(61,53,48,0.65); }
+    .p08 .price-val { font-family: "Cormorant Garamond", serif; font-size: 0.82rem; font-weight: 400; color: #2a2420; }
+    .p08 .note { font-family: "Noto Serif JP", serif; font-size: 0.58rem; color: rgba(61,53,48,0.4); line-height: 1.8; }
+    .p08 .ig { display: inline-flex; align-items: center; gap: 0.4rem; font-family: "Cormorant Garamond", serif; font-size: 0.7rem; color: rgba(61,53,48,0.4); text-decoration: none; margin-top: 0.8rem; }
+
+    /* ===========================
+       PATTERN 09 — Ultra Minimal (index-plan match)
+    =========================== */
+    .p09 .cnt { padding: 2.5rem 5%; display: flex; flex-direction: column; justify-content: center; }
+    .p09 .loc-top {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.6rem; font-weight: 300;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: rgba(61,53,48,0.35); margin-bottom: 0.6rem;
+    }
+    .p09 .name { font-family: "Cormorant Garamond", serif; font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 300; letter-spacing: 0.04em; color: #2a2420; margin-bottom: 0.2rem; }
+    .p09 .loc-jp { font-family: "Noto Serif JP", serif; font-size: 0.68rem; font-weight: 300; color: rgba(61,53,48,0.4); margin-bottom: 1.2rem; }
+    .p09 .desc {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.75rem; font-weight: 300;
+      color: rgba(61,53,48,0.6); line-height: 2;
+      margin-bottom: 1.2rem;
+    }
+    .p09 .price-group { margin-bottom: 0.6rem; }
+    .p09 .price-row { display: flex; justify-content: space-between; padding: 0.3rem 0; border-bottom: 1px solid rgba(61,53,48,0.05); }
+    .p09 .price-label { font-family: "Noto Serif JP", serif; font-size: 0.7rem; font-weight: 300; color: rgba(61,53,48,0.6); }
+    .p09 .price-val { font-family: "Cormorant Garamond", serif; font-size: 0.85rem; font-weight: 400; color: #2a2420; }
+    .p09 .cta {
+      display: inline-flex; align-items: center; gap: 0.8rem;
+      font-family: "Cormorant Garamond", serif; font-size: 0.8rem; font-weight: 400;
+      letter-spacing: 0.12em; color: #2a2420; text-decoration: none; margin-top: 0.5rem;
+    }
+    .p09 .cta-line { width: 30px; height: 1px; background: #2a2420; }
+    .p09 .ig { display: inline-flex; align-items: center; gap: 0.4rem; font-family: "Cormorant Garamond", serif; font-size: 0.7rem; color: rgba(61,53,48,0.35); text-decoration: none; margin-top: 0.8rem; }
+
+    /* ===========================
+       PATTERN 10 — Boxed Sections
+    =========================== */
+    .p10 .cnt { padding: 2rem 3.5%; display: flex; flex-direction: column; justify-content: center; }
+    .p10 .num { font-family: "Cormorant Garamond", serif; font-size: 0.6rem; letter-spacing: 0.3em; color: rgba(61,53,48,0.3); margin-bottom: 0.4rem; }
+    .p10 .name { font-family: "Cormorant Garamond", serif; font-size: 1.4rem; font-weight: 300; color: #2a2420; margin-bottom: 0.2rem; }
+    .p10 .loc { font-family: "Noto Serif JP", serif; font-size: 0.65rem; font-weight: 300; color: rgba(61,53,48,0.4); margin-bottom: 0.8rem; }
+    .p10 .tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 0.8rem; }
+    .p10 .tag { font-family: "Noto Serif JP", serif; font-size: 0.55rem; font-weight: 300; color: rgba(61,53,48,0.5); }
+    .p10 .tag + .tag::before { content: " / "; color: rgba(61,53,48,0.2); }
+    .p10 .price-group { border: 1px solid rgba(61,53,48,0.08); padding: 0.7rem 0.9rem; margin-bottom: 0.4rem; }
+    .p10 .price-title { font-family: "Noto Serif JP", serif; font-size: 0.58rem; font-weight: 400; color: #2a2420; letter-spacing: 0.06em; margin-bottom: 0.3rem; }
+    .p10 .price-row { display: flex; justify-content: space-between; padding: 0.2rem 0; }
+    .p10 .price-label { font-family: "Noto Serif JP", serif; font-size: 0.65rem; font-weight: 300; color: rgba(61,53,48,0.6); }
+    .p10 .price-val { font-family: "Cormorant Garamond", serif; font-size: 0.8rem; font-weight: 400; color: #2a2420; }
+    .p10 .note { font-family: "Noto Serif JP", serif; font-size: 0.55rem; color: rgba(61,53,48,0.4); line-height: 1.7; }
+    .p10 .link { font-family: "Cormorant Garamond", serif; font-size: 0.68rem; color: #2a2420; text-decoration: none; letter-spacing: 0.06em; }
+    .p10 .ig { display: inline-flex; align-items: center; gap: 0.4rem; font-family: "Cormorant Garamond", serif; font-size: 0.68rem; color: rgba(61,53,48,0.4); text-decoration: none; margin-top: 0.6rem; }
+  </style>
+</head>
+<body>
+
+<h1 class="page-title">Dress Shop Content</h1>
+<p class="page-sub">テキスト側デザイン — 10パターン（コンパクト＆統一）</p>
+
+<!-- ===== PATTERN 01 ===== -->
+<div class="pattern-wrap">
+  <p class="pattern-label">PATTERN 01</p>
+  <p class="pattern-name">Compact Minimal — コンパクトで余白を活かしたミニマル</p>
+  <div class="shop p01">
+    <div class="shop__img"><img src="images/paris/02.jpg" alt=""></div>
+    <div class="cnt">
+      <div class="num">SHOP 01</div>
+      <h2 class="name">Bee's Knees</h2>
+      <span class="loc">ukigumo films 特別価格｜東京・赤坂</span>
+      <div class="tags"><span class="tag">豊富なラインナップ</span><span class="tag">国内・海外 同一価格</span><span class="tag">タキシード込み</span></div>
+      <div class="price-group">
+        <div class="price-title">Base Price（ドレス＋タキシード込み）</div>
+        <div class="price-row"><span class="price-label">国内・海外共通</span><span class="price-val">¥110,000</span></div>
+      </div>
+      <div class="price-group">
+        <div class="price-title">国内 Dress Collection</div>
+        <div class="price-row"><span class="price-label">A プラン内 — 31着</span><span class="price-val">プラン内</span></div>
+        <div class="price-row"><span class="price-label">B オプション — 29着</span><span class="price-val">+ ¥55,000</span></div>
+        <a href="#" class="link">→ ドレス一覧を見る</a>
+      </div>
+      <span class="ig">@beesknees_dress</span>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- ===== PATTERN 02 ===== -->
+<div class="pattern-wrap">
+  <p class="pattern-label">PATTERN 02</p>
+  <p class="pattern-name">Card Inset — 白カードで浮遊感</p>
+  <div class="shop p02">
+    <div class="shop__img"><img src="images/paris/02.jpg" alt=""></div>
+    <div class="cnt">
+      <div class="num">01</div>
+      <h2 class="name">Bee's Knees</h2>
+      <span class="loc">ukigumo films 特別価格｜東京・赤坂</span>
+      <div class="tags"><span class="tag">豊富なラインナップ</span><span class="tag">国内・海外 同一価格</span><span class="tag">タキシード込み</span></div>
+      <div class="price-group">
+        <div class="price-title">Base Price（ドレス＋タキシード込み）</div>
+        <div class="price-row"><span class="price-label">国内・海外共通</span><span class="price-val">¥110,000</span></div>
+      </div>
+      <div class="price-group">
+        <div class="price-title">国内 Dress Collection</div>
+        <div class="price-row"><span class="price-label">A プラン内 — 31着</span><span class="price-val">プラン内</span></div>
+        <div class="price-row"><span class="price-label">B オプション — 29着</span><span class="price-val">+ ¥55,000</span></div>
+      </div>
+      <span class="ig">@beesknees_dress</span>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- ===== PATTERN 03 ===== -->
+<div class="pattern-wrap">
+  <p class="pattern-label">PATTERN 03</p>
+  <p class="pattern-name">Top Line Accent — 上線アクセント＋左ボーダー価格</p>
+  <div class="shop p03">
+    <div class="shop__img"><img src="images/paris/02.jpg" alt=""></div>
+    <div class="cnt">
+      <div class="num">SHOP 01</div>
+      <h2 class="name">Bee's Knees</h2>
+      <span class="loc">ukigumo films 特別価格｜東京・赤坂</span>
+      <div class="tags"><span class="tag">豊富なラインナップ</span><span class="tag">国内・海外 同一価格</span><span class="tag">タキシード込み</span></div>
+      <div class="price-group">
+        <div class="price-title">Base Price</div>
+        <div class="price-row"><span class="price-label">国内・海外共通</span><span class="price-val">¥110,000</span></div>
+      </div>
+      <div class="price-group">
+        <div class="price-title">国内 Dress Collection</div>
+        <div class="price-row"><span class="price-label">A プラン内 — 31着</span><span class="price-val">プラン内</span></div>
+        <div class="price-row"><span class="price-label">B オプション — 29着</span><span class="price-val">+ ¥55,000</span></div>
+      </div>
+      <a href="#" class="link">ドレス一覧を見る →</a>
+      <span class="ig">@beesknees_dress</span>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- ===== PATTERN 04 ===== -->
+<div class="pattern-wrap">
+  <p class="pattern-label">PATTERN 04</p>
+  <p class="pattern-name">Large Number Watermark — 背景に大きな番号</p>
+  <div class="shop p04">
+    <div class="shop__img"><img src="images/paris/02.jpg" alt=""></div>
+    <div class="cnt">
+      <div class="num-bg">01</div>
+      <h2 class="name">Bee's Knees</h2>
+      <span class="loc">ukigumo films 特別価格｜東京・赤坂</span>
+      <div class="tags"><span class="tag">豊富なラインナップ</span><span class="tag">国内・海外 同一価格</span><span class="tag">タキシード込み</span></div>
+      <div class="price-group">
+        <div class="price-title">Base Price</div>
+        <div class="price-row"><span class="price-label">国内・海外共通</span><span class="price-val">¥110,000</span></div>
+      </div>
+      <div class="price-group">
+        <div class="price-title">国内 Collection</div>
+        <div class="price-row"><span class="price-label">A プラン内 — 31着</span><span class="price-val">プラン内</span></div>
+        <div class="price-row"><span class="price-label">B オプション — 29着</span><span class="price-val">+ ¥55,000</span></div>
+      </div>
+      <span class="ig">@beesknees_dress</span>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- ===== PATTERN 05 ===== -->
+<div class="pattern-wrap">
+  <p class="pattern-label">PATTERN 05</p>
+  <p class="pattern-name">Centered Layout — センター揃えの上品さ</p>
+  <div class="shop p05">
+    <div class="shop__img"><img src="images/paris/02.jpg" alt=""></div>
+    <div class="cnt">
+      <div class="num">SHOP 01</div>
+      <h2 class="name">Bee's Knees</h2>
+      <span class="loc">ukigumo films 特別価格｜東京・赤坂</span>
+      <div class="divider"></div>
+      <div class="tags"><span class="tag">豊富なラインナップ</span><span class="tag">国内・海外 同一価格</span><span class="tag">タキシード込み</span></div>
+      <div class="price-group">
+        <div class="price-title">Base Price</div>
+        <div class="price-row"><span class="price-label">国内・海外共通</span><span class="price-val">¥110,000</span></div>
+      </div>
+      <span class="ig">@beesknees_dress</span>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- ===== PATTERN 06 ===== -->
+<div class="pattern-wrap">
+  <p class="pattern-label">PATTERN 06</p>
+  <p class="pattern-name">Italic Header Elegant — イタリック見出しの優雅さ</p>
+  <div class="shop p06">
+    <div class="shop__img"><img src="images/paris/02.jpg" alt=""></div>
+    <div class="cnt">
+      <div class="num">SHOP 01</div>
+      <h2 class="name">Bee's Knees</h2>
+      <span class="loc">ukigumo films 特別価格｜東京・赤坂</span>
+      <div class="tags"><span class="tag">豊富なラインナップ</span><span class="tag">国内・海外 同一価格</span><span class="tag">タキシード込み</span></div>
+      <div class="price-group">
+        <div class="price-title">Base Price</div>
+        <div class="price-row"><span class="price-label">国内・海外共通</span><span class="price-val">¥110,000</span></div>
+      </div>
+      <div class="price-group">
+        <div class="price-title">国内 Dress Collection</div>
+        <div class="price-row"><span class="price-label">A プラン内 — 31着</span><span class="price-val">プラン内</span></div>
+        <div class="price-row"><span class="price-label">B オプション — 29着</span><span class="price-val">+ ¥55,000</span></div>
+      </div>
+      <a href="#" class="link">ドレス一覧を見る →</a>
+      <span class="ig">@beesknees_dress</span>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- ===== PATTERN 07 ===== -->
+<div class="pattern-wrap">
+  <p class="pattern-label">PATTERN 07</p>
+  <p class="pattern-name">Dark Content Side — ダーク背景で高級感</p>
+  <div class="shop p07">
+    <div class="shop__img"><img src="images/paris/02.jpg" alt=""></div>
+    <div class="cnt">
+      <div class="num">SHOP 01</div>
+      <h2 class="name">Bee's Knees</h2>
+      <span class="loc">ukigumo films 特別価格｜東京・赤坂</span>
+      <div class="tags"><span class="tag">豊富なラインナップ</span><span class="tag">国内・海外 同一価格</span><span class="tag">タキシード込み</span></div>
+      <div class="price-group">
+        <div class="price-title">Base Price</div>
+        <div class="price-row"><span class="price-label">国内・海外共通</span><span class="price-val">¥110,000</span></div>
+      </div>
+      <div class="price-group">
+        <div class="price-title">国内 Dress Collection</div>
+        <div class="price-row"><span class="price-label">A プラン内 — 31着</span><span class="price-val">プラン内</span></div>
+        <div class="price-row"><span class="price-label">B オプション</span><span class="price-val">+ ¥55,000</span></div>
+      </div>
+      <span class="ig">@beesknees_dress</span>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- ===== PATTERN 08 ===== -->
+<div class="pattern-wrap">
+  <p class="pattern-label">PATTERN 08</p>
+  <p class="pattern-name">Circle Badge Number — 丸バッジ番号</p>
+  <div class="shop p08">
+    <div class="shop__img"><img src="images/paris/02.jpg" alt=""></div>
+    <div class="cnt">
+      <div class="num-badge">01</div>
+      <h2 class="name">Bee's Knees</h2>
+      <span class="loc">ukigumo films 特別価格｜東京・赤坂</span>
+      <div class="tags"><span class="tag">豊富なラインナップ</span><span class="tag">国内・海外 同一価格</span><span class="tag">タキシード込み</span></div>
+      <div class="price-group">
+        <div class="price-title">Base Price（ドレス＋タキシード込み）</div>
+        <div class="price-row"><span class="price-label">国内・海外共通</span><span class="price-val">¥110,000</span></div>
+      </div>
+      <div class="price-group">
+        <div class="price-title">国内 Dress Collection</div>
+        <div class="price-row"><span class="price-label">A プラン内 — 31着</span><span class="price-val">プラン内</span></div>
+        <div class="price-row"><span class="price-label">B オプション — 29着</span><span class="price-val">+ ¥55,000</span></div>
+      </div>
+      <span class="ig">@beesknees_dress</span>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- ===== PATTERN 09 ===== -->
+<div class="pattern-wrap">
+  <p class="pattern-label">PATTERN 09</p>
+  <p class="pattern-name">Ultra Minimal (index-plan match) — プランセクションと完全統一</p>
+  <div class="shop p09">
+    <div class="shop__img"><img src="images/paris/02.jpg" alt=""></div>
+    <div class="cnt">
+      <div class="loc-top">Tokyo · Akasaka — ukigumo films special</div>
+      <h2 class="name">Bee's Knees</h2>
+      <span class="loc-jp">提携ドレスショップ</span>
+      <p class="desc">豊富なラインナップから選べるドレスショップ。<br>国内・海外同一価格でタキシードも込み。</p>
+      <div class="price-group">
+        <div class="price-row"><span class="price-label">国内・海外共通</span><span class="price-val">¥110,000</span></div>
+        <div class="price-row"><span class="price-label">A プラン内 — 31着</span><span class="price-val">プラン内</span></div>
+        <div class="price-row"><span class="price-label">B オプション — 29着</span><span class="price-val">+ ¥55,000</span></div>
+      </div>
+      <a href="#" class="cta"><span class="cta-line"></span>view dress list<span style="margin-left:0.3rem;">→</span></a>
+      <span class="ig">@beesknees_dress</span>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- ===== PATTERN 10 ===== -->
+<div class="pattern-wrap">
+  <p class="pattern-label">PATTERN 10</p>
+  <p class="pattern-name">Boxed Sections — 枠線で区切るコンパクト構成</p>
+  <div class="shop p10">
+    <div class="shop__img"><img src="images/paris/02.jpg" alt=""></div>
+    <div class="cnt">
+      <div class="num">SHOP 01</div>
+      <h2 class="name">Bee's Knees</h2>
+      <span class="loc">ukigumo films 特別価格｜東京・赤坂</span>
+      <div class="tags"><span class="tag">豊富なラインナップ</span><span class="tag">国内・海外 同一価格</span><span class="tag">タキシード込み</span></div>
+      <div class="price-group">
+        <div class="price-title">Base Price（ドレス＋タキシード込み）</div>
+        <div class="price-row"><span class="price-label">国内・海外共通</span><span class="price-val">¥110,000</span></div>
+      </div>
+      <div class="price-group">
+        <div class="price-title">国内 Dress Collection</div>
+        <div class="price-row"><span class="price-label">A プラン内 — 31着</span><span class="price-val">プラン内</span></div>
+        <div class="price-row"><span class="price-label">B オプション — 29着</span><span class="price-val">+ ¥55,000</span></div>
+        <a href="#" class="link">ドレス一覧を見る →</a>
+      </div>
+      <span class="ig">@beesknees_dress</span>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+</body>
+</html>

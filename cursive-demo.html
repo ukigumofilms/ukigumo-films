@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Cursive — 30 Patterns</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@400;500&family=Allura&family=Sacramento&family=Pinyon+Script&family=Alex+Brush&family=Tangerine:wght@400;700&family=Satisfy&family=Kaushan+Script&family=Parisienne&family=Italianno&family=Rouge+Script&family=Petit+Formal+Script&family=Herr+Von+Muellerhoff&family=Corinthia:wght@400;700&family=Style+Script&family=Lavishly+Yours&family=Carattere&family=Bilbo+Swash+Caps&family=Niconne&family=Arizonia&family=Monsieur+La+Doulaise&family=Ruthie&family=Lobster+Two:ital@0;1&family=Playball&family=Berkshire+Swash&family=Lovers+Quarrel&family=Noto+Sans+JP:wght@200;300&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#111; color:#fff; font-family:'Noto Sans JP',sans-serif; }
+
+  .header { text-align:center; padding:1.5rem 1rem 0.8rem; }
+  .header h1 { font-family:'Cormorant Garamond',serif; font-size:1.2rem; font-weight:300; letter-spacing:0.15em; }
+  .header p { font-size:0.65rem; opacity:0.4; margin-top:0.2rem; }
+
+  .grid {
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap:1.2rem;
+    padding:1rem 1.2rem 3rem;
+    max-width:1200px;
+    margin:0 auto;
+  }
+
+  .card {
+    position:relative;
+    overflow:hidden;
+    aspect-ratio: 16/10;
+    border-radius:4px;
+    cursor:pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .card:hover { transform:scale(1.02); box-shadow:0 8px 30px rgba(0,0,0,0.5); }
+  .card__bg {
+    position:absolute; top:0; left:0; width:100%; height:100%;
+  }
+  .card__bg img { width:100%; height:100%; object-fit:cover; }
+  .card__overlay {
+    position:absolute; top:0; left:0; width:100%; height:100%;
+    background:rgba(0,0,0,0.7);
+  }
+  .card__num {
+    position:absolute; top:0.6rem; left:0.8rem;
+    font-family:'Cormorant Garamond',serif;
+    font-size:0.6rem; letter-spacing:0.15em; opacity:0.4;
+  }
+  .card__font-name {
+    position:absolute; bottom:0.5rem; right:0.8rem;
+    font-size:0.5rem; letter-spacing:0.08em; opacity:0.3;
+    font-family:'Cormorant Garamond',serif;
+  }
+  .card__text {
+    position:relative; z-index:2;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    height:100%; padding:1.5rem 1.2rem; text-align:center;
+  }
+  .card__en {
+    color:rgba(255,255,255,0.92);
+    line-height:1.5;
+  }
+  .card__jp {
+    font-family:'Noto Sans JP',sans-serif;
+    font-size:0.55rem;
+    font-weight:200;
+    letter-spacing:0.08em;
+    color:rgba(255,255,255,0.35);
+    margin-top:0.8rem;
+    line-height:1.8;
+  }
+
+  .footer { text-align:center; padding:1.5rem; font-size:0.55rem; opacity:0.2; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>English Cursive — 30 Patterns</h1>
+  <p>筆記体フォント × 英語訳バリエーション</p>
+</div>
+
+<div class="grid" id="grid"></div>
+<div class="footer">ukigumo — cursive font preview</div>
+
+<script>
+const jpLine1 = 'あなたの人生を支える杖のような作品になりますように';
+const jpLine2 = 'この瞬間を、未来へと紡ぐ一枚、一秒に';
+
+// 英語訳バリエーション（A〜F）
+const translations = {
+  A: {
+    l1: 'May this film be a gentle staff<br>to walk beside you through life',
+    l2: 'Weaving each moment into the future,<br>one frame, one second at a time',
+  },
+  B: {
+    l1: 'A film to lean on<br>through every chapter of your life',
+    l2: 'Spinning this moment into forever —<br>one frame, one second',
+  },
+  C: {
+    l1: 'May our work become a pillar<br>that gently supports your journey',
+    l2: 'Every frame, every second —<br>weaving now into tomorrow',
+  },
+  D: {
+    l1: 'Like a walking staff for your life,<br>may this work always be with you',
+    l2: 'Each moment, woven into the future —<br>one photograph, one heartbeat',
+  },
+  E: {
+    l1: 'A companion for your journey —<br>may this film be your gentle guide',
+    l2: 'Threading this moment<br>into every tomorrow to come',
+  },
+  F: {
+    l1: 'May these images walk with you<br>as a quiet strength through life',
+    l2: 'One frame at a time,<br>we weave now into forever',
+  }
+};
+
+const images = [
+  'images/london/05.jpg',
+  'images/paris/03.jpg',
+  'images/firenze/04.jpg',
+  'images/malta/04.jpg',
+  'images/london/03.jpg',
+  'images/firenze/06.jpg',
+];
+
+const patterns = [
+  // --- 1-6: Great Vibes ---
+  { font:'Great Vibes', size:'clamp(1.3rem,3.5vw,1.8rem)', tr:'A', weight:400 },
+  { font:'Great Vibes', size:'clamp(1.5rem,4vw,2.2rem)', tr:'B', weight:400 },
+  // --- 3-4: Dancing Script ---
+  { font:'Dancing Script', size:'clamp(1.1rem,3vw,1.5rem)', tr:'A', weight:400 },
+  { font:'Dancing Script', size:'clamp(1.2rem,3vw,1.6rem)', tr:'C', weight:500 },
+  // --- 5-6: Allura ---
+  { font:'Allura', size:'clamp(1.4rem,3.5vw,2rem)', tr:'A', weight:400 },
+  { font:'Allura', size:'clamp(1.6rem,4vw,2.2rem)', tr:'D', weight:400 },
+  // --- 7-8: Sacramento ---
+  { font:'Sacramento', size:'clamp(1.5rem,4vw,2.2rem)', tr:'B', weight:400 },
+  { font:'Sacramento', size:'clamp(1.8rem,4.5vw,2.5rem)', tr:'E', weight:400 },
+  // --- 9-10: Pinyon Script ---
+  { font:'Pinyon Script', size:'clamp(1.3rem,3.5vw,1.8rem)', tr:'A', weight:400 },
+  { font:'Pinyon Script', size:'clamp(1.1rem,3vw,1.5rem)', tr:'F', weight:400 },
+  // --- 11-12: Alex Brush ---
+  { font:'Alex Brush', size:'clamp(1.4rem,3.5vw,2rem)', tr:'C', weight:400 },
+  { font:'Alex Brush', size:'clamp(1.6rem,4vw,2.2rem)', tr:'A', weight:400 },
+  // --- 13-14: Tangerine ---
+  { font:'Tangerine', size:'clamp(1.8rem,5vw,2.8rem)', tr:'D', weight:700 },
+  { font:'Tangerine', size:'clamp(2rem,5.5vw,3rem)', tr:'B', weight:400 },
+  // --- 15-16: Satisfy ---
+  { font:'Satisfy', size:'clamp(1.2rem,3vw,1.6rem)', tr:'E', weight:400 },
+  { font:'Satisfy', size:'clamp(1rem,2.5vw,1.4rem)', tr:'A', weight:400 },
+  // --- 17-18: Kaushan Script ---
+  { font:'Kaushan Script', size:'clamp(1.1rem,3vw,1.5rem)', tr:'F', weight:400 },
+  { font:'Kaushan Script', size:'clamp(1.2rem,3vw,1.6rem)', tr:'C', weight:400 },
+  // --- 19-20: Parisienne ---
+  { font:'Parisienne', size:'clamp(1.3rem,3.5vw,1.9rem)', tr:'A', weight:400 },
+  { font:'Parisienne', size:'clamp(1.5rem,4vw,2.1rem)', tr:'D', weight:400 },
+  // --- 21-22: Italianno ---
+  { font:'Italianno', size:'clamp(1.6rem,4vw,2.3rem)', tr:'E', weight:400 },
+  { font:'Italianno', size:'clamp(1.8rem,4.5vw,2.6rem)', tr:'B', weight:400 },
+  // --- 23-24: Corinthia ---
+  { font:'Corinthia', size:'clamp(1.6rem,4vw,2.3rem)', tr:'F', weight:700 },
+  { font:'Corinthia', size:'clamp(1.8rem,4.5vw,2.5rem)', tr:'A', weight:400 },
+  // --- 25-26: Style Script / Carattere ---
+  { font:'Style Script', size:'clamp(1.3rem,3.5vw,1.8rem)', tr:'C', weight:400 },
+  { font:'Carattere', size:'clamp(1.6rem,4vw,2.3rem)', tr:'D', weight:400 },
+  // --- 27-28: Monsieur La Doulaise / Lavishly Yours ---
+  { font:'Monsieur La Doulaise', size:'clamp(1.5rem,4vw,2.2rem)', tr:'E', weight:400 },
+  { font:'Lavishly Yours', size:'clamp(1.4rem,3.5vw,2rem)', tr:'A', weight:400 },
+  // --- 29-30: Bilbo Swash Caps / Arizonia ---
+  { font:'Bilbo Swash Caps', size:'clamp(1.5rem,4vw,2.2rem)', tr:'F', weight:400 },
+  { font:'Arizonia', size:'clamp(1.4rem,3.5vw,2rem)', tr:'B', weight:400 },
+];
+
+const grid = document.getElementById('grid');
+
+patterns.forEach((p, i) => {
+  const tr = translations[p.tr];
+  const img = images[i % images.length];
+
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <div class="card__bg">
+      <img src="${img}" alt="">
+      <div class="card__overlay"></div>
+    </div>
+    <div class="card__num">#${String(i+1).padStart(2,'0')}</div>
+    <div class="card__font-name">${p.font}</div>
+    <div class="card__text">
+      <div class="card__en" style="font-family:'${p.font}',cursive; font-size:${p.size}; font-weight:${p.weight};">
+        ${tr.l1}
+      </div>
+      <div class="card__jp">${jpLine1}<br>${jpLine2}</div>
+    </div>
+  `;
+  grid.appendChild(card);
+});
+</script>
+</body>
+</html>

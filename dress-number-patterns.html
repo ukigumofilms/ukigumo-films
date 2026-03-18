@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dress Shop Number — 10 Patterns</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #f5f3ef; color: #2a2420; padding: 3rem 1.5rem; }
+    h1 { font-family: "Cormorant Garamond", serif; font-weight: 300; font-size: 1.6rem; text-align: center; letter-spacing: 0.15em; margin-bottom: 0.3rem; }
+    .sub { text-align: center; font-family: "Noto Serif JP", serif; font-size: 0.68rem; color: rgba(61,53,48,0.4); letter-spacing: 0.08em; margin-bottom: 3rem; }
+
+    .pattern-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid rgba(61,53,48,0.08);
+      padding: 2rem 1.8rem;
+    }
+
+    .card__label {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.55rem;
+      color: rgba(61,53,48,0.25);
+      letter-spacing: 0.2em;
+      margin-bottom: 0.15rem;
+    }
+    .card__name {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 300;
+      font-size: 0.72rem;
+      color: rgba(61,53,48,0.5);
+      margin-bottom: 1.2rem;
+    }
+
+    /* Shared shop content styling for demo */
+    .shop-name {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      color: #2a2420;
+      margin-bottom: 0.2rem;
+    }
+    .shop-loc {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.6rem;
+      font-weight: 300;
+      color: rgba(61,53,48,0.45);
+      letter-spacing: 0.03em;
+      margin-bottom: 0.8rem;
+    }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.8rem; }
+    .tag {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.55rem; font-weight: 300;
+      color: rgba(61,53,48,0.55);
+      padding: 0.25rem 0.6rem;
+      border: 1px solid rgba(61,53,48,0.12);
+      border-radius: 20px;
+    }
+    .price-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 0.35rem 0;
+      font-family: "Noto Serif JP", serif; font-size: 0.6rem; font-weight: 300;
+      color: rgba(61,53,48,0.7);
+    }
+    .price-row + .price-row { border-top: 1px solid rgba(61,53,48,0.05); }
+    .price-val {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.8rem; font-weight: 400;
+      color: #2a2420;
+    }
+    .pill {
+      display: inline-block;
+      font-family: "Noto Serif JP", serif; font-size: 0.55rem; font-weight: 300;
+      letter-spacing: 0.08em; padding: 0.4rem 1.2rem;
+      border-radius: 30px; color: #2a2420;
+      border: 1px solid rgba(61,53,48,0.2);
+      text-decoration: none; margin-top: 0.5rem;
+      transition: all 0.35s ease;
+    }
+    .pill:hover { background: rgba(140,140,110,0.12); border-color: rgba(140,140,110,0.25); }
+
+    /* ===================================
+       10 Number Patterns
+    =================================== */
+
+    /* Pattern 01 — Circle outline (small) */
+    .num01 {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 2rem; height: 2rem;
+      border: 1px solid rgba(61,53,48,0.15);
+      border-radius: 50%;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.65rem; font-weight: 400;
+      color: rgba(61,53,48,0.4);
+      margin-bottom: 0.8rem;
+    }
+
+    /* Pattern 02 — Filled circle (dark) */
+    .num02 {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 2rem; height: 2rem;
+      background: #2a2420;
+      border-radius: 50%;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.65rem; font-weight: 400;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 0.8rem;
+    }
+
+    /* Pattern 03 — Large serif number, subtle */
+    .num03 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 2rem; font-weight: 300;
+      color: rgba(61,53,48,0.1);
+      letter-spacing: 0.05em;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+
+    /* Pattern 04 — Underline accent */
+    .num04 {
+      display: inline-block;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.7rem; font-weight: 400;
+      color: rgba(61,53,48,0.5);
+      letter-spacing: 0.15em;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid rgba(61,53,48,0.15);
+      margin-bottom: 0.8rem;
+    }
+
+    /* Pattern 05 — Square outline */
+    .num05 {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 2rem; height: 2rem;
+      border: 1px solid rgba(61,53,48,0.12);
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.65rem; font-weight: 400;
+      color: rgba(61,53,48,0.4);
+      margin-bottom: 0.8rem;
+    }
+
+    /* Pattern 06 — Dot + number inline */
+    .num06 {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.65rem; font-weight: 400;
+      color: rgba(61,53,48,0.4);
+      letter-spacing: 0.15em;
+      margin-bottom: 0.8rem;
+    }
+    .num06::before {
+      content: '';
+      display: block;
+      width: 4px; height: 4px;
+      background: rgba(61,53,48,0.25);
+      border-radius: 50%;
+    }
+
+    /* Pattern 07 — Vertical bar + number */
+    .num07 {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.65rem; font-weight: 400;
+      color: rgba(61,53,48,0.45);
+      letter-spacing: 0.15em;
+      margin-bottom: 0.8rem;
+    }
+    .num07::before {
+      content: '';
+      display: block;
+      width: 1.5px; height: 1rem;
+      background: rgba(61,53,48,0.2);
+    }
+
+    /* Pattern 08 — Filled square (dark) */
+    .num08 {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 2rem; height: 2rem;
+      background: #2a2420;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.65rem; font-weight: 400;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 0.8rem;
+    }
+
+    /* Pattern 09 — Large number behind name (watermark style) */
+    .num09-wrap { position: relative; margin-bottom: 0.2rem; }
+    .num09 {
+      position: absolute;
+      top: -0.6rem; left: -0.3rem;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 3rem; font-weight: 300;
+      color: rgba(61,53,48,0.06);
+      line-height: 1;
+      letter-spacing: 0.02em;
+      pointer-events: none;
+    }
+
+    /* Pattern 10 — Pill / capsule outline */
+    .num10 {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.25rem 0.8rem;
+      border: 1px solid rgba(61,53,48,0.12);
+      border-radius: 20px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.6rem; font-weight: 400;
+      color: rgba(61,53,48,0.4);
+      letter-spacing: 0.12em;
+      margin-bottom: 0.8rem;
+    }
+
+    @media (max-width: 600px) {
+      .pattern-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<h1>Number Display</h1>
+<p class="sub">ドレスショップ番号の表示パターン — 10種</p>
+
+<div class="pattern-grid">
+
+  <!-- Pattern 01 -->
+  <div class="card">
+    <p class="card__label">PATTERN 01</p>
+    <p class="card__name">Circle Outline — 丸枠</p>
+    <div class="num01">01</div>
+    <h3 class="shop-name">Bee's Knees</h3>
+    <p class="shop-loc">ukigumo films 特別価格｜東京・赤坂</p>
+    <div class="tags">
+      <span class="tag">豊富なラインナップ</span>
+      <span class="tag">タキシード込み</span>
+    </div>
+    <div class="price-row"><span>国内・海外共通</span><span class="price-val">¥110,000（税込）</span></div>
+    <a href="#" class="pill">Dress List</a>
+  </div>
+
+  <!-- Pattern 02 -->
+  <div class="card">
+    <p class="card__label">PATTERN 02</p>
+    <p class="card__name">Filled Circle — 丸塗り</p>
+    <div class="num02">01</div>
+    <h3 class="shop-name">Bee's Knees</h3>
+    <p class="shop-loc">ukigumo films 特別価格｜東京・赤坂</p>
+    <div class="tags">
+      <span class="tag">豊富なラインナップ</span>
+      <span class="tag">タキシード込み</span>
+    </div>
+    <div class="price-row"><span>国内・海外共通</span><span class="price-val">¥110,000（税込）</span></div>
+    <a href="#" class="pill">Dress List</a>
+  </div>
+
+  <!-- Pattern 03 -->
+  <div class="card">
+    <p class="card__label">PATTERN 03</p>
+    <p class="card__name">Large Faded — 大きく薄く</p>
+    <div class="num03">01</div>
+    <h3 class="shop-name">Bee's Knees</h3>
+    <p class="shop-loc">ukigumo films 特別価格｜東京・赤坂</p>
+    <div class="tags">
+      <span class="tag">豊富なラインナップ</span>
+      <span class="tag">タキシード込み</span>
+    </div>
+    <div class="price-row"><span>国内・海外共通</span><span class="price-val">¥110,000（税込）</span></div>
+    <a href="#" class="pill">Dress List</a>
+  </div>
+
+  <!-- Pattern 04 -->
+  <div class="card">
+    <p class="card__label">PATTERN 04</p>
+    <p class="card__name">Underline — 下線アクセント</p>
+    <div class="num04">01</div>
+    <h3 class="shop-name">Bee's Knees</h3>
+    <p class="shop-loc">ukigumo films 特別価格｜東京・赤坂</p>
+    <div class="tags">
+      <span class="tag">豊富なラインナップ</span>
+      <span class="tag">タキシード込み</span>
+    </div>
+    <div class="price-row"><span>国内・海外共通</span><span class="price-val">¥110,000（税込）</span></div>
+    <a href="#" class="pill">Dress List</a>
+  </div>
+
+  <!-- Pattern 05 -->
+  <div class="card">
+    <p class="card__label">PATTERN 05</p>
+    <p class="card__name">Square Outline — 四角枠</p>
+    <div class="num05">01</div>
+    <h3 class="shop-name">Bee's Knees</h3>
+    <p class="shop-loc">ukigumo films 特別価格｜東京・赤坂</p>
+    <div class="tags">
+      <span class="tag">豊富なラインナップ</span>
+      <span class="tag">タキシード込み</span>
+    </div>
+    <div class="price-row"><span>国内・海外共通</span><span class="price-val">¥110,000（税込）</span></div>
+    <a href="#" class="pill">Dress List</a>
+  </div>
+
+  <!-- Pattern 06 -->
+  <div class="card">
+    <p class="card__label">PATTERN 06</p>
+    <p class="card__name">Dot + Number — ドット付き</p>
+    <div class="num06">01</div>
+    <h3 class="shop-name">Bee's Knees</h3>
+    <p class="shop-loc">ukigumo films 特別価格｜東京・赤坂</p>
+    <div class="tags">
+      <span class="tag">豊富なラインナップ</span>
+      <span class="tag">タキシード込み</span>
+    </div>
+    <div class="price-row"><span>国内・海外共通</span><span class="price-val">¥110,000（税込）</span></div>
+    <a href="#" class="pill">Dress List</a>
+  </div>
+
+  <!-- Pattern 07 -->
+  <div class="card">
+    <p class="card__label">PATTERN 07</p>
+    <p class="card__name">Vertical Bar — 縦線付き</p>
+    <div class="num07">01</div>
+    <h3 class="shop-name">Bee's Knees</h3>
+    <p class="shop-loc">ukigumo films 特別価格｜東京・赤坂</p>
+    <div class="tags">
+      <span class="tag">豊富なラインナップ</span>
+      <span class="tag">タキシード込み</span>
+    </div>
+    <div class="price-row"><span>国内・海外共通</span><span class="price-val">¥110,000（税込）</span></div>
+    <a href="#" class="pill">Dress List</a>
+  </div>
+
+  <!-- Pattern 08 -->
+  <div class="card">
+    <p class="card__label">PATTERN 08</p>
+    <p class="card__name">Filled Square — 四角塗り</p>
+    <div class="num08">01</div>
+    <h3 class="shop-name">Bee's Knees</h3>
+    <p class="shop-loc">ukigumo films 特別価格｜東京・赤坂</p>
+    <div class="tags">
+      <span class="tag">豊富なラインナップ</span>
+      <span class="tag">タキシード込み</span>
+    </div>
+    <div class="price-row"><span>国内・海外共通</span><span class="price-val">¥110,000（税込）</span></div>
+    <a href="#" class="pill">Dress List</a>
+  </div>
+
+  <!-- Pattern 09 -->
+  <div class="card">
+    <p class="card__label">PATTERN 09</p>
+    <p class="card__name">Watermark — 透かし風</p>
+    <div class="num09-wrap">
+      <span class="num09">01</span>
+      <h3 class="shop-name" style="position:relative;">Bee's Knees</h3>
+    </div>
+    <p class="shop-loc">ukigumo films 特別価格｜東京・赤坂</p>
+    <div class="tags">
+      <span class="tag">豊富なラインナップ</span>
+      <span class="tag">タキシード込み</span>
+    </div>
+    <div class="price-row"><span>国内・海外共通</span><span class="price-val">¥110,000（税込）</span></div>
+    <a href="#" class="pill">Dress List</a>
+  </div>
+
+  <!-- Pattern 10 -->
+  <div class="card">
+    <p class="card__label">PATTERN 10</p>
+    <p class="card__name">Pill Capsule — カプセル枠</p>
+    <div class="num10">01</div>
+    <h3 class="shop-name">Bee's Knees</h3>
+    <p class="shop-loc">ukigumo films 特別価格｜東京・赤坂</p>
+    <div class="tags">
+      <span class="tag">豊富なラインナップ</span>
+      <span class="tag">タキシード込み</span>
+    </div>
+    <div class="price-row"><span>国内・海外共通</span><span class="price-val">¥110,000（税込）</span></div>
+    <a href="#" class="pill">Dress List</a>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Footer Mobile Patterns — 10 designs</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #e8e8e8;
+    max-width: 430px;
+    margin: 0 auto;
+  }
+  .hd {
+    text-align: center;
+    padding: 2rem 1rem 0.6rem;
+    background: #fff;
+    border-bottom: 1px solid #e5e5e5;
+  }
+  .hd h1 { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 300; letter-spacing: 0.12em; }
+  .hd p { font-size: 0.5rem; color: #aaa; margin-top: 0.2rem; }
+
+  .sec {
+    margin-bottom: 1.5rem;
+    background: #e0e0e0;
+  }
+  .sec-t {
+    padding: 0.7rem 0.8rem 0.2rem;
+    font-size: 0.55rem;
+    letter-spacing: 0.08em;
+    color: #999;
+    background: #fff;
+    display: flex;
+    justify-content: space-between;
+  }
+  .sec-t b { color: #c9a96e; font-weight: 400; }
+  .sec-d { padding: 0 0.8rem 0.5rem; font-size: 0.45rem; color: #bbb; background: #fff; }
+
+  /* Simulated page content above footer */
+  .page-sim {
+    background: #fff;
+    height: 100px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 10px;
+    color: #ccc;
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* Shared vars */
+  :root {
+    --serif: 'Cormorant Garamond', serif;
+    --sans: 'Noto Sans JP', sans-serif;
+    --gold: #c9a96e;
+    --text: #333;
+    --text-light: #999;
+    --border: #e5e5e5;
+  }
+
+  a { text-decoration: none; color: inherit; }
+
+  /* ===== F1: 縦並びシンプル — 2段リンク ===== */
+  .f1 {
+    background: #fff;
+    text-align: center;
+    padding: 3rem 1.5rem 2rem;
+  }
+  .f1 .f-logo img { height: 2.5rem; opacity: 0.7; margin-bottom: 1.5rem; }
+  .f1 .f-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.3rem 1.2rem;
+    margin-bottom: 1.5rem;
+  }
+  .f1 .f-links a {
+    font-family: var(--serif);
+    font-size: 0.75rem;
+    font-weight: 300;
+    letter-spacing: 0.06em;
+    color: var(--text);
+  }
+  .f1 .f-copy {
+    font-family: var(--serif);
+    font-size: 0.55rem;
+    color: var(--text-light);
+    letter-spacing: 0.12em;
+  }
+
+  /* ===== F2: 2列グリッドリンク ===== */
+  .f2 {
+    background: #fff;
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+  }
+  .f2 .f-logo img { height: 2.2rem; opacity: 0.7; margin-bottom: 1.5rem; }
+  .f2 .f-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .f2 .f-grid a {
+    font-family: var(--serif);
+    font-size: 0.72rem;
+    font-weight: 300;
+    color: var(--text);
+    letter-spacing: 0.05em;
+  }
+  .f2 .f-copy {
+    font-family: var(--serif);
+    font-size: 0.5rem;
+    color: var(--text-light);
+    letter-spacing: 0.1em;
+  }
+
+  /* ===== F3: ダークフッター ===== */
+  .f3 {
+    background: #1a1a1a;
+    padding: 2.5rem 1.5rem 2rem;
+    text-align: center;
+  }
+  .f3 .f-logo img { height: 2.5rem; opacity: 0.8; filter: invert(1); margin-bottom: 1.5rem; }
+  .f3 .f-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.3rem 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .f3 .f-links a {
+    font-family: var(--serif);
+    font-size: 0.72rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 0.06em;
+  }
+  .f3 .f-ig {
+    margin-bottom: 1rem;
+  }
+  .f3 .f-ig a {
+    font-family: var(--serif);
+    font-size: 0.6rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+  }
+  .f3 .f-copy {
+    font-family: var(--serif);
+    font-size: 0.5rem;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.1em;
+  }
+
+  /* ===== F4: ボーダー区切り縦並び ===== */
+  .f4 {
+    background: #fff;
+    padding: 2rem 1.5rem 1.5rem;
+    text-align: center;
+    border-top: 1px solid var(--border);
+  }
+  .f4 .f-logo img { height: 2rem; opacity: 0.6; margin-bottom: 1.2rem; }
+  .f4 .f-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.2rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .f4 .f-links a {
+    font-family: var(--serif);
+    font-size: 0.72rem;
+    font-weight: 300;
+    color: var(--text);
+    letter-spacing: 0.08em;
+  }
+  .f4 .f-copy {
+    font-family: var(--serif);
+    font-size: 0.5rem;
+    color: var(--text-light);
+    letter-spacing: 0.1em;
+  }
+
+  /* ===== F5: ロゴ大きめ＋コンパクトリンク ===== */
+  .f5 {
+    background: #fff;
+    padding: 3rem 1.5rem 2rem;
+    text-align: center;
+  }
+  .f5 .f-logo img { height: 3.5rem; opacity: 0.5; margin-bottom: 2rem; }
+  .f5 .f-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.2rem 0.6rem;
+    margin-bottom: 1.5rem;
+  }
+  .f5 .f-links a {
+    font-family: var(--sans);
+    font-size: 0.58rem;
+    font-weight: 300;
+    color: var(--text-light);
+    letter-spacing: 0.04em;
+  }
+  .f5 .f-links span {
+    color: #ddd;
+    font-size: 0.5rem;
+  }
+  .f5 .f-copy {
+    font-family: var(--serif);
+    font-size: 0.48rem;
+    color: #ccc;
+    letter-spacing: 0.1em;
+  }
+
+  /* ===== F6: ミニマル — ロゴとコピーのみ ===== */
+  .f6 {
+    background: #fff;
+    padding: 3rem 1.5rem 2rem;
+    text-align: center;
+  }
+  .f6 .f-logo img { height: 2.5rem; opacity: 0.6; margin-bottom: 1rem; }
+  .f6 .f-tagline {
+    font-family: var(--serif);
+    font-size: 0.6rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text-light);
+    letter-spacing: 0.08em;
+    margin-bottom: 2rem;
+  }
+  .f6 .f-copy {
+    font-family: var(--serif);
+    font-size: 0.48rem;
+    color: #ccc;
+    letter-spacing: 0.1em;
+  }
+
+  /* ===== F7: 左寄せモダン ===== */
+  .f7 {
+    background: #fff;
+    padding: 2.5rem 1.8rem 2rem;
+    border-top: 1px solid var(--border);
+  }
+  .f7 .f-logo img { height: 2rem; opacity: 0.7; margin-bottom: 1.2rem; }
+  .f7 .f-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .f7 .f-links a {
+    font-family: var(--serif);
+    font-size: 0.7rem;
+    font-weight: 300;
+    color: var(--text);
+    letter-spacing: 0.05em;
+  }
+  .f7 .f-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .f7 .f-copy {
+    font-family: var(--serif);
+    font-size: 0.45rem;
+    color: var(--text-light);
+    letter-spacing: 0.08em;
+  }
+  .f7 .f-ig svg { width: 14px; height: 14px; fill: var(--text-light); }
+
+  /* ===== F8: ゴールドアクセント ===== */
+  .f8 {
+    background: #faf9f7;
+    padding: 2.5rem 1.5rem 2rem;
+    text-align: center;
+    border-top: 2px solid var(--gold);
+  }
+  .f8 .f-logo img { height: 2.5rem; opacity: 0.7; margin-bottom: 1.2rem; }
+  .f8 .f-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.3rem 1rem;
+    margin-bottom: 0.8rem;
+  }
+  .f8 .f-links a {
+    font-family: var(--serif);
+    font-size: 0.7rem;
+    font-weight: 300;
+    color: var(--text);
+    letter-spacing: 0.05em;
+  }
+  .f8 .f-divider {
+    width: 30px;
+    height: 1px;
+    background: var(--gold);
+    margin: 1rem auto;
+  }
+  .f8 .f-copy {
+    font-family: var(--serif);
+    font-size: 0.5rem;
+    color: var(--text-light);
+    letter-spacing: 0.1em;
+  }
+
+  /* ===== F9: 3列グリッド + Instagram ===== */
+  .f9 {
+    background: #fff;
+    padding: 2.5rem 1.5rem 1.5rem;
+    text-align: center;
+    border-top: 1px solid var(--border);
+  }
+  .f9 .f-logo img { height: 2.2rem; opacity: 0.7; margin-bottom: 1.5rem; }
+  .f9 .f-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .f9 .f-grid a {
+    font-family: var(--serif);
+    font-size: 0.62rem;
+    font-weight: 300;
+    color: var(--text);
+    letter-spacing: 0.03em;
+    padding: 0.3rem 0;
+  }
+  .f9 .f-ig {
+    margin-bottom: 1rem;
+  }
+  .f9 .f-ig a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: var(--serif);
+    font-size: 0.6rem;
+    color: var(--text-light);
+    letter-spacing: 0.08em;
+  }
+  .f9 .f-ig svg { width: 13px; height: 13px; fill: var(--text-light); }
+  .f9 .f-copy {
+    font-family: var(--serif);
+    font-size: 0.48rem;
+    color: #ccc;
+    letter-spacing: 0.1em;
+  }
+
+  /* ===== F10: スタック型 — セパレータ付き ===== */
+  .f10 {
+    background: #fff;
+    padding: 2.5rem 2rem 1.5rem;
+    text-align: center;
+  }
+  .f10 .f-logo img { height: 2.5rem; opacity: 0.6; margin-bottom: 1.5rem; }
+  .f10 .f-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0;
+    margin-bottom: 1.2rem;
+  }
+  .f10 .f-row a {
+    font-family: var(--serif);
+    font-size: 0.65rem;
+    font-weight: 300;
+    color: var(--text);
+    letter-spacing: 0.05em;
+    padding: 0.15rem 0.5rem;
+    border-right: 1px solid #ddd;
+  }
+  .f10 .f-row a:last-child { border-right: none; }
+  .f10 .f-ig {
+    margin-bottom: 1rem;
+  }
+  .f10 .f-ig a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: var(--sans);
+    font-size: 0.55rem;
+    color: var(--gold);
+    letter-spacing: 0.06em;
+  }
+  .f10 .f-ig svg { width: 12px; height: 12px; fill: var(--gold); }
+  .f10 .f-copy {
+    font-family: var(--serif);
+    font-size: 0.48rem;
+    color: #ccc;
+    letter-spacing: 0.1em;
+  }
+</style>
+</head>
+<body>
+
+<div class="hd">
+  <h1>FOOTER MOBILE PATTERNS</h1>
+  <p>iPhone用フッターデザイン × 10パターン</p>
+</div>
+
+<!-- Instagram SVG used across patterns -->
+<svg style="display:none">
+  <symbol id="ig" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></symbol>
+</svg>
+
+<!-- ===== F1: 縦並びシンプル 2段リンク ===== -->
+<div class="sec">
+  <div class="sec-t"><span>F1 — Simple Wrap</span><b>2段リンク</b></div>
+  <div class="sec-d">リンクをflex-wrapで自然に2段に。最もシンプルで読みやすい</div>
+  <div class="page-sim">↑ gallery content ↑</div>
+  <footer class="f1">
+    <div class="f-logo"><img src="images/logo/logo-black.png" alt="ukigumo"></div>
+    <div class="f-links">
+      <a href="#">About</a>
+      <a href="#">Plan & Price</a>
+      <a href="#">Dress</a>
+      <a href="#">Gallery</a>
+      <a href="#">Q&A / Policy</a>
+      <a href="#">Contact</a>
+    </div>
+    <p class="f-copy">&copy; 2026 ukigumo wedding. All rights reserved.</p>
+  </footer>
+</div>
+
+<!-- ===== F2: 2列グリッド ===== -->
+<div class="sec">
+  <div class="sec-t"><span>F2 — 2-Col Grid</span><b>2列グリッド</b></div>
+  <div class="sec-d">2列に整列したグリッドリンク。整然としたレイアウト</div>
+  <div class="page-sim">↑ gallery content ↑</div>
+  <footer class="f2">
+    <div class="f-logo"><img src="images/logo/logo-black.png" alt="ukigumo"></div>
+    <div class="f-grid">
+      <a href="#">About</a>
+      <a href="#">Plan & Price</a>
+      <a href="#">Dress</a>
+      <a href="#">Gallery</a>
+      <a href="#">Q&A / Policy</a>
+      <a href="#">Contact</a>
+    </div>
+    <p class="f-copy">&copy; 2026 ukigumo wedding. All rights reserved.</p>
+  </footer>
+</div>
+
+<!-- ===== F3: ダークフッター ===== -->
+<div class="sec">
+  <div class="sec-t"><span>F3 — Dark</span><b>ダーク</b></div>
+  <div class="sec-d">黒背景にゴールドのInstagramリンク。高級感</div>
+  <div class="page-sim">↑ gallery content ↑</div>
+  <footer class="f3">
+    <div class="f-logo"><img src="images/logo/logo-black.png" alt="ukigumo"></div>
+    <div class="f-links">
+      <a href="#">About</a>
+      <a href="#">Plan & Price</a>
+      <a href="#">Dress</a>
+      <a href="#">Gallery</a>
+      <a href="#">Q&A / Policy</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="f-ig"><a href="#">@ukigumo_films</a></div>
+    <p class="f-copy">&copy; 2026 ukigumo wedding. All rights reserved.</p>
+  </footer>
+</div>
+
+<!-- ===== F4: ボーダー区切り縦並び ===== -->
+<div class="sec">
+  <div class="sec-t"><span>F4 — Vertical Stack</span><b>縦並びリスト</b></div>
+  <div class="sec-d">リンクを縦に1つずつ。ボーダーで区切り。余白多め</div>
+  <div class="page-sim">↑ gallery content ↑</div>
+  <footer class="f4">
+    <div class="f-logo"><img src="images/logo/logo-black.png" alt="ukigumo"></div>
+    <div class="f-links">
+      <a href="#">About</a>
+      <a href="#">Plan & Price</a>
+      <a href="#">Dress</a>
+      <a href="#">Gallery</a>
+      <a href="#">Q&A / Policy</a>
+      <a href="#">Contact</a>
+    </div>
+    <p class="f-copy">&copy; 2026 ukigumo wedding. All rights reserved.</p>
+  </footer>
+</div>
+
+<!-- ===== F5: ロゴ大きめ＋コンパクトリンク ===== -->
+<div class="sec">
+  <div class="sec-t"><span>F5 — Big Logo</span><b>ロゴ大きめ</b></div>
+  <div class="sec-d">ロゴを大きく、リンクは小さくセパレータ付きでコンパクトに</div>
+  <div class="page-sim">↑ gallery content ↑</div>
+  <footer class="f5">
+    <div class="f-logo"><img src="images/logo/logo-black.png" alt="ukigumo"></div>
+    <div class="f-links">
+      <a href="#">About</a><span>/</span>
+      <a href="#">Plan & Price</a><span>/</span>
+      <a href="#">Dress</a><span>/</span>
+      <a href="#">Gallery</a><span>/</span>
+      <a href="#">Q&A</a><span>/</span>
+      <a href="#">Contact</a>
+    </div>
+    <p class="f-copy">&copy; 2026 ukigumo wedding. All rights reserved.</p>
+  </footer>
+</div>
+
+<!-- ===== F6: ミニマル — ロゴとコピーのみ ===== -->
+<div class="sec">
+  <div class="sec-t"><span>F6 — Minimal</span><b>超ミニマル</b></div>
+  <div class="sec-d">リンクなし。ロゴ＋タグライン＋コピーのみ。究極のシンプル</div>
+  <div class="page-sim">↑ gallery content ↑</div>
+  <footer class="f6">
+    <div class="f-logo"><img src="images/logo/logo-black.png" alt="ukigumo"></div>
+    <p class="f-tagline">capturing your timeless moment</p>
+    <p class="f-copy">&copy; 2026 ukigumo wedding. All rights reserved.</p>
+  </footer>
+</div>
+
+<!-- ===== F7: 左寄せモダン ===== -->
+<div class="sec">
+  <div class="sec-t"><span>F7 — Left Aligned</span><b>左寄せモダン</b></div>
+  <div class="sec-d">左揃えでモダンな雰囲気。下部にコピーとInstagramアイコン</div>
+  <div class="page-sim">↑ gallery content ↑</div>
+  <footer class="f7">
+    <div class="f-logo"><img src="images/logo/logo-black.png" alt="ukigumo"></div>
+    <div class="f-links">
+      <a href="#">About</a>
+      <a href="#">Plan & Price</a>
+      <a href="#">Dress</a>
+      <a href="#">Gallery</a>
+      <a href="#">Q&A / Policy</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="f-bottom">
+      <p class="f-copy">&copy; 2026 ukigumo wedding</p>
+      <a href="#" class="f-ig"><svg><use href="#ig"/></svg></a>
+    </div>
+  </footer>
+</div>
+
+<!-- ===== F8: ゴールドアクセント ===== -->
+<div class="sec">
+  <div class="sec-t"><span>F8 — Gold Accent</span><b>ゴールドライン</b></div>
+  <div class="sec-d">上部にゴールドのボーダー。ディバイダーもゴールド</div>
+  <div class="page-sim">↑ gallery content ↑</div>
+  <footer class="f8">
+    <div class="f-logo"><img src="images/logo/logo-black.png" alt="ukigumo"></div>
+    <div class="f-links">
+      <a href="#">About</a>
+      <a href="#">Plan & Price</a>
+      <a href="#">Dress</a>
+      <a href="#">Gallery</a>
+      <a href="#">Q&A / Policy</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="f-divider"></div>
+    <p class="f-copy">&copy; 2026 ukigumo wedding. All rights reserved.</p>
+  </footer>
+</div>
+
+<!-- ===== F9: 3列グリッド + Instagram ===== -->
+<div class="sec">
+  <div class="sec-t"><span>F9 — 3-Col + IG</span><b>3列＋Instagram</b></div>
+  <div class="sec-d">3列グリッドでコンパクト＋Instagramリンク付き</div>
+  <div class="page-sim">↑ gallery content ↑</div>
+  <footer class="f9">
+    <div class="f-logo"><img src="images/logo/logo-black.png" alt="ukigumo"></div>
+    <div class="f-grid">
+      <a href="#">About</a>
+      <a href="#">Plan & Price</a>
+      <a href="#">Dress</a>
+      <a href="#">Gallery</a>
+      <a href="#">Q&A / Policy</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="f-ig"><a href="#"><svg><use href="#ig"/></svg> @ukigumo_films</a></div>
+    <p class="f-copy">&copy; 2026 ukigumo wedding. All rights reserved.</p>
+  </footer>
+</div>
+
+<!-- ===== F10: セパレータ付きロウ ===== -->
+<div class="sec">
+  <div class="sec-t"><span>F10 — Divider Row</span><b>区切り線ロウ</b></div>
+  <div class="sec-d">リンク間に縦線セパレータ。1行に収まるコンパクトデザイン</div>
+  <div class="page-sim">↑ gallery content ↑</div>
+  <footer class="f10">
+    <div class="f-logo"><img src="images/logo/logo-black.png" alt="ukigumo"></div>
+    <div class="f-row">
+      <a href="#">About</a>
+      <a href="#">Plan</a>
+      <a href="#">Dress</a>
+      <a href="#">Gallery</a>
+      <a href="#">Q&A</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="f-ig"><a href="#"><svg><use href="#ig"/></svg> @ukigumo_films</a></div>
+    <p class="f-copy">&copy; 2026 ukigumo wedding. All rights reserved.</p>
+  </footer>
+</div>
+
+<div style="height:60px;"></div>
+</body>
+</html>

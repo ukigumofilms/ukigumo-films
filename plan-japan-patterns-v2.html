@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pattern 02 Variations — 10 Luxury Styles</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: "Noto Serif JP", serif; background: #f5f3ef; color: #2a2420; }
+
+    .page-header {
+      text-align: center;
+      padding: 4rem 2rem 3rem;
+      background: #2a2420;
+      color: #fff;
+    }
+    .page-header h1 { font-family: "Cormorant Garamond", serif; font-size: 2.2rem; font-weight: 300; letter-spacing: 0.15em; margin-bottom: 0.5rem; }
+    .page-header p { font-size: 0.7rem; font-weight: 300; color: rgba(255,255,255,0.5); letter-spacing: 0.2em; }
+
+    .pattern-section {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+      border-bottom: 1px solid rgba(61,53,48,0.08);
+    }
+    .pattern-label { font-family: "Cormorant Garamond", serif; font-size: 0.75rem; font-weight: 400; color: rgba(61,53,48,0.4); letter-spacing: 0.15em; margin-bottom: 0.4rem; }
+    .pattern-title { font-family: "Cormorant Garamond", serif; font-size: 1.4rem; font-weight: 300; letter-spacing: 0.08em; color: #2e2519; margin-bottom: 0.3rem; }
+    .pattern-desc { font-size: 0.68rem; font-weight: 300; color: rgba(61,53,48,0.5); margin-bottom: 2rem; }
+
+    /* ========================================
+       SHARED BASE: White card + thin border + side photo
+       ======================================== */
+
+    /* ===== PATTERN 2-A: Gold Line Reveal ===== */
+    .pa-card {
+      background: #fff;
+      border: 1px solid rgba(61,53,48,0.07);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      position: relative;
+    }
+    .pa-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px;
+      height: 0;
+      background: linear-gradient(to bottom, #c9a96e, #a88c5a);
+      transition: height 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      z-index: 5;
+      border-radius: 14px 0 0 14px;
+    }
+    .pa-card.in-view::before { height: 100%; }
+    .pa-card__img {
+      flex: 0 0 42%;
+      position: relative;
+      min-height: 400px;
+      overflow: hidden;
+    }
+    .pa-card__img img {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
+      transform: scale(1.08);
+      transition: transform 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .pa-card.in-view .pa-card__img img { transform: scale(1); }
+    .pa-card__body { padding: 2.5rem 2.2rem; flex: 1; }
+    .pa-num {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.68rem;
+      color: rgba(61,53,48,0.3);
+      letter-spacing: 0.2em;
+      margin-bottom: 0.8rem;
+      opacity: 0; transform: translateY(8px);
+      transition: all 0.6s ease 0.2s;
+    }
+    .pa-card.in-view .pa-num { opacity: 1; transform: translateY(0); }
+    .pa-name {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.7rem;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.5rem;
+      opacity: 0; transform: translateY(12px);
+      transition: all 0.6s ease 0.3s;
+    }
+    .pa-card.in-view .pa-name { opacity: 1; transform: translateY(0); }
+    .pa-sep {
+      width: 0;
+      height: 1px;
+      background: linear-gradient(to right, #c9a96e, transparent);
+      margin-bottom: 1rem;
+      transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.4s;
+    }
+    .pa-card.in-view .pa-sep { width: 50px; }
+    .pa-price {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 2.2rem;
+      font-weight: 300;
+      letter-spacing: 0.03em;
+      opacity: 0; transform: translateY(12px);
+      transition: all 0.6s ease 0.5s;
+    }
+    .pa-card.in-view .pa-price { opacity: 1; transform: translateY(0); }
+    .pa-tax {
+      font-size: 0.58rem;
+      color: rgba(61,53,48,0.4);
+      margin-bottom: 1.2rem;
+      opacity: 0;
+      transition: opacity 0.6s ease 0.6s;
+    }
+    .pa-card.in-view .pa-tax { opacity: 1; }
+    .pa-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      padding: 0.35rem 0;
+      border-bottom: 1px solid rgba(61,53,48,0.04);
+      color: rgba(61,53,48,0.6);
+      opacity: 0; transform: translateX(-8px);
+      transition: all 0.5s ease;
+    }
+    .pa-card.in-view .pa-row { opacity: 1; transform: translateX(0); }
+    .pa-card.in-view .pa-row:nth-child(1) { transition-delay: 0.6s; }
+    .pa-card.in-view .pa-row:nth-child(2) { transition-delay: 0.7s; }
+    .pa-card.in-view .pa-row:nth-child(3) { transition-delay: 0.8s; }
+    .pa-card.in-view .pa-row:nth-child(4) { transition-delay: 0.9s; }
+    .pa-row span:last-child { color: #2a2420; }
+
+    /* ===== PATTERN 2-B: Hover Shimmer + Border Glow ===== */
+    .pb-card {
+      background: #fff;
+      border: 1px solid rgba(61,53,48,0.06);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      position: relative;
+      transition: border-color 0.5s ease, box-shadow 0.5s ease;
+    }
+    .pb-card:hover {
+      border-color: rgba(201,169,110,0.25);
+      box-shadow: 0 8px 40px rgba(201,169,110,0.08);
+    }
+    .pb-card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent 40%, rgba(201,169,110,0.04) 50%, transparent 60%);
+      transform: translateX(-100%);
+      transition: none;
+      pointer-events: none;
+    }
+    .pb-card:hover::after {
+      transform: translateX(100%);
+      transition: transform 0.8s ease;
+    }
+    .pb-card__img {
+      flex: 0 0 42%;
+      position: relative;
+      min-height: 400px;
+      overflow: hidden;
+    }
+    .pb-card__img img {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .pb-card:hover .pb-card__img img { transform: scale(1.04); }
+    .pb-card__body { padding: 2.5rem 2.2rem; flex: 1; }
+    .pb-badge {
+      display: inline-block;
+      font-size: 0.55rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.7rem;
+      border: 1px solid rgba(201,169,110,0.3);
+      color: #c9a96e;
+      border-radius: 20px;
+      margin-bottom: 1rem;
+    }
+    .pb-name { font-family: "Cormorant Garamond", serif; font-size: 1.7rem; font-weight: 300; letter-spacing: 0.06em; margin-bottom: 0.3rem; }
+    .pb-sep { width: 35px; height: 1px; background: rgba(61,53,48,0.15); margin-bottom: 0.8rem; }
+    .pb-price { font-family: "Cormorant Garamond", serif; font-size: 2.2rem; font-weight: 300; margin-bottom: 0.15rem; }
+    .pb-tax { font-size: 0.58rem; color: rgba(61,53,48,0.4); margin-bottom: 1.2rem; }
+    .pb-row { display: flex; justify-content: space-between; font-size: 0.7rem; padding: 0.35rem 0; border-bottom: 1px solid rgba(61,53,48,0.04); color: rgba(61,53,48,0.6); }
+    .pb-row span:last-child { color: #2a2420; }
+
+    /* ===== PATTERN 2-C: Clip-Path Reveal ===== */
+    .pc-card {
+      background: #fff;
+      border: 1px solid rgba(61,53,48,0.06);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+    }
+    .pc-card__img {
+      flex: 0 0 42%;
+      position: relative;
+      min-height: 400px;
+      overflow: hidden;
+    }
+    .pc-card__img img {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
+      clip-path: inset(8% 8% 8% 8%);
+      transition: clip-path 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .pc-card.in-view .pc-card__img img { clip-path: inset(0 0 0 0); }
+    .pc-card__body { padding: 2.5rem 2.2rem; flex: 1; position: relative; }
+    .pc-watermark {
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 6rem;
+      font-weight: 300;
+      color: rgba(61,53,48,0.03);
+      line-height: 1;
+      pointer-events: none;
+    }
+    .pc-name { font-family: "Cormorant Garamond", serif; font-size: 1.7rem; font-weight: 300; letter-spacing: 0.06em; margin-bottom: 0.5rem; position: relative; z-index: 2; }
+    .pc-sep { width: 35px; height: 1px; background: rgba(61,53,48,0.15); margin-bottom: 0.8rem; }
+    .pc-price { font-family: "Cormorant Garamond", serif; font-size: 2.2rem; font-weight: 300; position: relative; z-index: 2; }
+    .pc-tax { font-size: 0.58rem; color: rgba(61,53,48,0.4); margin-bottom: 1.2rem; }
+    .pc-items { position: relative; z-index: 2; }
+    .pc-row { display: flex; justify-content: space-between; font-size: 0.7rem; padding: 0.35rem 0; border-bottom: 1px solid rgba(61,53,48,0.04); color: rgba(61,53,48,0.6); }
+    .pc-row span:last-child { color: #2a2420; }
+
+    /* ===== PATTERN 2-D: Staggered Fade + Bottom Accent ===== */
+    .pd-card {
+      background: #fff;
+      border: 1px solid rgba(61,53,48,0.06);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      position: relative;
+    }
+    .pd-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(to right, #c9a96e, #e0d5c0);
+      transition: width 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s;
+    }
+    .pd-card.in-view::after { width: 100%; }
+    .pd-card__img {
+      flex: 0 0 42%;
+      position: relative;
+      min-height: 400px;
+      overflow: hidden;
+    }
+    .pd-card__img img {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
+      filter: brightness(0.92);
+      transition: filter 0.8s ease;
+    }
+    .pd-card.in-view .pd-card__img img { filter: brightness(1); }
+    .pd-card__img-overlay {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 1.5rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+    }
+    .pd-card__img-label { font-family: "Cormorant Garamond", serif; font-size: 1rem; color: #fff; font-weight: 300; letter-spacing: 0.08em; }
+    .pd-card__body { padding: 2.5rem 2.2rem; flex: 1; }
+    .pd-name { font-family: "Cormorant Garamond", serif; font-size: 1.7rem; font-weight: 300; letter-spacing: 0.06em; margin-bottom: 0.5rem; }
+    .pd-sep { width: 35px; height: 1px; background: rgba(61,53,48,0.15); margin-bottom: 0.8rem; }
+    .pd-price-wrap { display: flex; align-items: baseline; gap: 0.5rem; margin-bottom: 1.2rem; }
+    .pd-price { font-family: "Cormorant Garamond", serif; font-size: 2.2rem; font-weight: 300; }
+    .pd-tax { font-size: 0.58rem; color: rgba(61,53,48,0.4); }
+    .pd-row { display: flex; justify-content: space-between; font-size: 0.7rem; padding: 0.35rem 0; border-bottom: 1px solid rgba(61,53,48,0.04); color: rgba(61,53,48,0.6); opacity: 0; transform: translateY(6px); transition: all 0.4s ease; }
+    .pd-card.in-view .pd-row { opacity: 1; transform: translateY(0); }
+    .pd-card.in-view .pd-row:nth-child(1) { transition-delay: 0.5s; }
+    .pd-card.in-view .pd-row:nth-child(2) { transition-delay: 0.6s; }
+    .pd-card.in-view .pd-row:nth-child(3) { transition-delay: 0.7s; }
+    .pd-card.in-view .pd-row:nth-child(4) { transition-delay: 0.8s; }
+    .pd-row span:last-child { color: #2a2420; }
+
+    /* ===== PATTERN 2-E: Parallax Image + Sticky Price ===== */
+    .pe-card {
+      background: #fff;
+      border: 1px solid rgba(61,53,48,0.06);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+    }
+    .pe-card__img {
+      flex: 0 0 42%;
+      position: relative;
+      min-height: 400px;
+      overflow: hidden;
+    }
+    .pe-card__img img {
+      position: absolute; top: -10%; left: 0; width: 100%; height: 120%; object-fit: cover;
+      transition: transform 0.1s linear;
+    }
+    .pe-card__body { padding: 2.5rem 2.2rem; flex: 1; display: flex; flex-direction: column; }
+    .pe-top { margin-bottom: auto; }
+    .pe-name { font-family: "Cormorant Garamond", serif; font-size: 1.7rem; font-weight: 300; letter-spacing: 0.06em; margin-bottom: 0.5rem; }
+    .pe-sep { width: 35px; height: 1px; background: rgba(61,53,48,0.15); margin-bottom: 0.8rem; }
+    .pe-row { display: flex; justify-content: space-between; font-size: 0.7rem; padding: 0.35rem 0; border-bottom: 1px solid rgba(61,53,48,0.04); color: rgba(61,53,48,0.6); }
+    .pe-row span:last-child { color: #2a2420; }
+    .pe-bottom { padding-top: 1.5rem; border-top: 1px solid rgba(61,53,48,0.06); margin-top: 1.5rem; display: flex; justify-content: space-between; align-items: baseline; }
+    .pe-price { font-family: "Cormorant Garamond", serif; font-size: 2.2rem; font-weight: 300; }
+    .pe-tax { font-size: 0.58rem; color: rgba(61,53,48,0.4); }
+
+    /* ===== PATTERN 2-F: Split Reveal (Left-Right Slide) ===== */
+    .pf-card {
+      background: #fff;
+      border: 1px solid rgba(61,53,48,0.06);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+    }
+    .pf-card__img {
+      flex: 0 0 42%;
+      position: relative;
+      min-height: 400px;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .pf-card.in-view .pf-card__img { opacity: 1; transform: translateX(0); }
+    .pf-card__img img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+    .pf-card__body {
+      padding: 2.5rem 2.2rem; flex: 1;
+      opacity: 0;
+      transform: translateX(30px);
+      transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.15s;
+    }
+    .pf-card.in-view .pf-card__body { opacity: 1; transform: translateX(0); }
+    .pf-num { font-family: "Cormorant Garamond", serif; font-size: 0.68rem; color: rgba(61,53,48,0.3); letter-spacing: 0.2em; margin-bottom: 0.8rem; }
+    .pf-name { font-family: "Cormorant Garamond", serif; font-size: 1.7rem; font-weight: 300; letter-spacing: 0.06em; margin-bottom: 0.5rem; }
+    .pf-sep { width: 35px; height: 1px; background: rgba(61,53,48,0.15); margin-bottom: 0.8rem; }
+    .pf-price { font-family: "Cormorant Garamond", serif; font-size: 2.2rem; font-weight: 300; }
+    .pf-tax { font-size: 0.58rem; color: rgba(61,53,48,0.4); margin-bottom: 1.2rem; }
+    .pf-block { background: rgba(245,243,239,0.5); border-radius: 10px; padding: 1rem 1.2rem; }
+    .pf-block-h { font-size: 0.68rem; font-weight: 400; color: rgba(61,53,48,0.5); letter-spacing: 0.05em; padding-bottom: 0.4rem; border-bottom: 1px solid rgba(61,53,48,0.06); margin-bottom: 0.4rem; }
+    .pf-row { display: flex; justify-content: space-between; font-size: 0.7rem; padding: 0.3rem 0; color: rgba(61,53,48,0.6); }
+    .pf-row span:last-child { color: #2a2420; }
+
+    /* ===== PATTERN 2-G: Counting Price Animation ===== */
+    .pg-card {
+      background: #fff;
+      border: 1px solid rgba(61,53,48,0.06);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+    }
+    .pg-card__img {
+      flex: 0 0 42%;
+      position: relative;
+      min-height: 400px;
+      overflow: hidden;
+    }
+    .pg-card__img img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+    .pg-card__img-num {
+      position: absolute;
+      top: 1.5rem; left: 1.5rem;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 4rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.3);
+      line-height: 1;
+    }
+    .pg-card__body { padding: 2.5rem 2.2rem; flex: 1; }
+    .pg-name { font-family: "Cormorant Garamond", serif; font-size: 1.7rem; font-weight: 300; letter-spacing: 0.06em; margin-bottom: 0.5rem; }
+    .pg-sep { width: 35px; height: 1px; background: rgba(61,53,48,0.15); margin-bottom: 1rem; }
+    .pg-price {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 2.4rem;
+      font-weight: 300;
+      margin-bottom: 0.15rem;
+      overflow: hidden;
+    }
+    .pg-price-inner {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(100%);
+      transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.4s;
+    }
+    .pg-card.in-view .pg-price-inner { opacity: 1; transform: translateY(0); }
+    .pg-tax { font-size: 0.58rem; color: rgba(61,53,48,0.4); margin-bottom: 1.2rem; }
+    .pg-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+    .pg-tag {
+      font-size: 0.6rem;
+      font-weight: 300;
+      padding: 0.2rem 0.6rem;
+      border: 1px solid rgba(61,53,48,0.1);
+      border-radius: 20px;
+      color: rgba(61,53,48,0.55);
+    }
+    .pg-row { display: flex; justify-content: space-between; font-size: 0.7rem; padding: 0.3rem 0; border-bottom: 1px solid rgba(61,53,48,0.04); color: rgba(61,53,48,0.6); }
+    .pg-row span:last-child { color: #2a2420; }
+
+    /* ===== PATTERN 2-H: Elegant Inner Shadow + Scale ===== */
+    .ph-card {
+      background: #fff;
+      border: 1px solid rgba(61,53,48,0.06);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      box-shadow: inset 0 0 0 0 rgba(201,169,110,0);
+      transition: box-shadow 0.6s ease, transform 0.6s ease;
+    }
+    .ph-card:hover {
+      box-shadow: inset 0 0 60px rgba(201,169,110,0.04), 0 12px 48px rgba(0,0,0,0.06);
+      transform: translateY(-4px);
+    }
+    .ph-card__img {
+      flex: 0 0 42%;
+      position: relative;
+      min-height: 400px;
+      overflow: hidden;
+    }
+    .ph-card__img img {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.8s ease;
+    }
+    .ph-card:hover .ph-card__img img { transform: scale(1.05); }
+    .ph-card__body { padding: 2.5rem 2.2rem; flex: 1; }
+    .ph-label { font-family: "Cormorant Garamond", serif; font-size: 0.6rem; color: #c9a96e; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.5rem; }
+    .ph-name { font-family: "Cormorant Garamond", serif; font-size: 1.7rem; font-weight: 300; letter-spacing: 0.06em; margin-bottom: 0.5rem; }
+    .ph-sep { width: 35px; height: 1px; background: rgba(201,169,110,0.3); margin-bottom: 1rem; }
+    .ph-price { font-family: "Cormorant Garamond", serif; font-size: 2.2rem; font-weight: 300; }
+    .ph-tax { font-size: 0.58rem; color: rgba(61,53,48,0.4); margin-bottom: 1.2rem; }
+    .ph-row { display: flex; justify-content: space-between; font-size: 0.7rem; padding: 0.35rem 0; border-bottom: 1px solid rgba(61,53,48,0.04); color: rgba(61,53,48,0.6); }
+    .ph-row span:last-child { color: #2a2420; }
+
+    /* ===== PATTERN 2-I: Mask Wipe Reveal ===== */
+    .pi-card {
+      background: #fff;
+      border: 1px solid rgba(61,53,48,0.06);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+    }
+    .pi-card__img {
+      flex: 0 0 42%;
+      position: relative;
+      min-height: 400px;
+      overflow: hidden;
+    }
+    .pi-card__img img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+    .pi-card__img-mask {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: #fff;
+      transform-origin: left;
+      transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1) 0.2s;
+    }
+    .pi-card.in-view .pi-card__img-mask { transform: scaleX(0); }
+    .pi-card__body { padding: 2.5rem 2.2rem; flex: 1; }
+    .pi-name { font-family: "Cormorant Garamond", serif; font-size: 1.7rem; font-weight: 300; letter-spacing: 0.06em; margin-bottom: 0.5rem; }
+    .pi-sep { width: 35px; height: 1px; background: rgba(61,53,48,0.15); margin-bottom: 0.8rem; }
+    .pi-price-area { display: flex; align-items: baseline; gap: 0.5rem; margin-bottom: 1.2rem; }
+    .pi-price { font-family: "Cormorant Garamond", serif; font-size: 2.2rem; font-weight: 300; }
+    .pi-tax { font-size: 0.58rem; color: rgba(61,53,48,0.4); }
+    .pi-h { font-size: 0.68rem; font-weight: 400; letter-spacing: 0.05em; color: rgba(61,53,48,0.45); margin-bottom: 0.5rem; }
+    .pi-row { display: flex; align-items: center; gap: 0.6rem; font-size: 0.7rem; font-weight: 300; color: rgba(61,53,48,0.6); padding: 0.35rem 0; }
+    .pi-dot { width: 4px; height: 4px; border-radius: 50%; background: #c9a96e; flex-shrink: 0; }
+
+    /* ===== PATTERN 2-J: Luxe Frame + Typography Focus ===== */
+    .pj-card {
+      background: #fff;
+      border: 1px solid rgba(61,53,48,0.06);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      position: relative;
+    }
+    .pj-card__img {
+      flex: 0 0 42%;
+      position: relative;
+      min-height: 400px;
+      overflow: hidden;
+      padding: 1rem;
+    }
+    .pj-card__img img {
+      width: 100%; height: 100%; object-fit: cover;
+      border-radius: 8px;
+    }
+    .pj-card__body { padding: 2.5rem 2.2rem; flex: 1; }
+    .pj-eyebrow {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.6rem;
+      color: rgba(61,53,48,0.35);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .pj-name {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 2rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      line-height: 1.3;
+      margin-bottom: 0.5rem;
+    }
+    .pj-name em {
+      font-style: italic;
+      font-weight: 300;
+      color: rgba(61,53,48,0.4);
+      font-size: 0.7em;
+      display: block;
+      letter-spacing: 0.04em;
+    }
+    .pj-sep { width: 35px; height: 1px; background: rgba(61,53,48,0.15); margin-bottom: 1rem; }
+    .pj-price-row { display: flex; align-items: baseline; gap: 0.6rem; margin-bottom: 0.8rem; }
+    .pj-price { font-family: "Cormorant Garamond", serif; font-size: 2.4rem; font-weight: 300; }
+    .pj-price-sub { font-size: 0.6rem; color: rgba(61,53,48,0.4); }
+    .pj-divider { height: 1px; background: rgba(61,53,48,0.06); margin: 0.8rem 0; }
+    .pj-items { display: grid; grid-template-columns: 1fr 1fr; gap: 0.3rem 1rem; }
+    .pj-item {
+      font-size: 0.68rem;
+      font-weight: 300;
+      color: rgba(61,53,48,0.6);
+      padding: 0.3rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .pj-item::before {
+      content: '';
+      width: 12px;
+      height: 1px;
+      background: #c9a96e;
+      flex-shrink: 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .pa-card, .pb-card, .pc-card, .pd-card, .pe-card, .pf-card, .pg-card, .ph-card, .pi-card, .pj-card { flex-direction: column; }
+      .pa-card__img, .pb-card__img, .pc-card__img, .pd-card__img, .pe-card__img, .pf-card__img, .pg-card__img, .ph-card__img, .pi-card__img, .pj-card__img { flex: none; width: 100%; height: 240px; min-height: 240px; }
+      .pj-card__img { padding: 0.6rem; }
+      .pj-items { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Pattern 02 — 10 Variations</h1>
+  <p>WHITE + THIN BORDER · ANIMATION · LUXURY</p>
+</div>
+
+<!-- ===== 2-A ===== -->
+<div class="pattern-section">
+  <div class="pattern-label">PATTERN 2-A</div>
+  <div class="pattern-title">Gold Line Reveal</div>
+  <div class="pattern-desc">スクロールで左にゴールドラインが伸び、テキストが順次フェードイン。写真はズームアウト</div>
+  <div class="pa-card observe">
+    <div class="pa-card__img"><img src="images/hero/hero-01.jpg" alt=""></div>
+    <div class="pa-card__body">
+      <div class="pa-num">PLAN 01</div>
+      <div class="pa-name">Basic Plan</div>
+      <div class="pa-sep"></div>
+      <div class="pa-price">&yen;168,000</div>
+      <div class="pa-tax">税込</div>
+      <div class="pa-row"><span>前撮り撮影</span><span>&#10003;</span></div>
+      <div class="pa-row"><span>200カット以上</span><span>&#10003;</span></div>
+      <div class="pa-row"><span>撮影データ全納品</span><span>&#10003;</span></div>
+      <div class="pa-row"><span>3分のショートフィルム</span><span>&#10003;</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 2-B ===== -->
+<div class="pattern-section">
+  <div class="pattern-label">PATTERN 2-B</div>
+  <div class="pattern-title">Hover Shimmer + Border Glow</div>
+  <div class="pattern-desc">ホバーでゴールドの光が走り、ボーダーがほのかに発光。写真も微ズーム</div>
+  <div class="pb-card">
+    <div class="pb-card__img"><img src="images/hero/hero-01.jpg" alt=""></div>
+    <div class="pb-card__body">
+      <div class="pb-badge">Photo + Movie</div>
+      <div class="pb-name">Basic Plan</div>
+      <div class="pb-sep"></div>
+      <div class="pb-price">&yen;168,000</div>
+      <div class="pb-tax">税込</div>
+      <div class="pb-row"><span>前撮り撮影</span><span>&#10003;</span></div>
+      <div class="pb-row"><span>200カット以上</span><span>&#10003;</span></div>
+      <div class="pb-row"><span>撮影データ全納品</span><span>&#10003;</span></div>
+      <div class="pb-row"><span>3分のショートフィルム</span><span>&#10003;</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 2-C ===== -->
+<div class="pattern-section">
+  <div class="pattern-label">PATTERN 2-C</div>
+  <div class="pattern-title">Clip-Path Reveal + Watermark</div>
+  <div class="pattern-desc">写真がクリップパスで開くように出現。背景に薄い大きなナンバー</div>
+  <div class="pc-card observe">
+    <div class="pc-card__img"><img src="images/paris/04.jpg" alt=""></div>
+    <div class="pc-card__body">
+      <div class="pc-watermark">01</div>
+      <div class="pc-name">Basic Plan</div>
+      <div class="pc-sep"></div>
+      <div class="pc-price">&yen;168,000</div>
+      <div class="pc-tax">税込</div>
+      <div class="pc-items">
+        <div class="pc-row"><span>前撮り撮影</span><span>&#10003;</span></div>
+        <div class="pc-row"><span>200カット以上</span><span>&#10003;</span></div>
+        <div class="pc-row"><span>撮影データ全納品</span><span>&#10003;</span></div>
+        <div class="pc-row"><span>3分のショートフィルム</span><span>&#10003;</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 2-D ===== -->
+<div class="pattern-section">
+  <div class="pattern-label">PATTERN 2-D</div>
+  <div class="pattern-title">Bottom Gold Accent + Stagger</div>
+  <div class="pattern-desc">下部にゴールドラインが走り、含まれるもの項目が一つずつフェードイン</div>
+  <div class="pd-card observe">
+    <div class="pd-card__img">
+      <img src="images/hero/hero-01.jpg" alt="">
+      <div class="pd-card__img-overlay">
+        <div class="pd-card__img-label">Basic Plan</div>
+      </div>
+    </div>
+    <div class="pd-card__body">
+      <div class="pd-name">Basic Plan</div>
+      <div class="pd-sep"></div>
+      <div class="pd-price-wrap">
+        <div class="pd-price">&yen;168,000</div>
+        <div class="pd-tax">税込</div>
+      </div>
+      <div class="pd-row"><span>前撮り撮影</span><span>&#10003;</span></div>
+      <div class="pd-row"><span>200カット以上</span><span>&#10003;</span></div>
+      <div class="pd-row"><span>撮影データ全納品</span><span>&#10003;</span></div>
+      <div class="pd-row"><span>3分のショートフィルム</span><span>&#10003;</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 2-E ===== -->
+<div class="pattern-section">
+  <div class="pattern-label">PATTERN 2-E</div>
+  <div class="pattern-title">Parallax Image + Bottom Price</div>
+  <div class="pattern-desc">スクロールで写真がパララックス。料金は下部に配置で高級レストランのメニュー風</div>
+  <div class="pe-card" data-parallax>
+    <div class="pe-card__img"><img src="images/firenze/03.jpg" alt=""></div>
+    <div class="pe-card__body">
+      <div class="pe-top">
+        <div class="pe-name">Basic Plan</div>
+        <div class="pe-sep"></div>
+        <div class="pe-row"><span>前撮り撮影</span><span>&#10003;</span></div>
+        <div class="pe-row"><span>200カット以上</span><span>&#10003;</span></div>
+        <div class="pe-row"><span>撮影データ全納品</span><span>&#10003;</span></div>
+        <div class="pe-row"><span>3分のショートフィルム</span><span>&#10003;</span></div>
+      </div>
+      <div class="pe-bottom">
+        <div class="pe-price">&yen;168,000</div>
+        <div class="pe-tax">税込</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 2-F ===== -->
+<div class="pattern-section">
+  <div class="pattern-label">PATTERN 2-F</div>
+  <div class="pattern-title">Split Reveal + Soft Block</div>
+  <div class="pattern-desc">写真が左から、テキストが右からスライドイン。含まれるものはソフトグレーブロック</div>
+  <div class="pf-card observe">
+    <div class="pf-card__img"><img src="images/paris/04.jpg" alt=""></div>
+    <div class="pf-card__body">
+      <div class="pf-num">PLAN 01</div>
+      <div class="pf-name">Basic Plan</div>
+      <div class="pf-sep"></div>
+      <div class="pf-price">&yen;168,000</div>
+      <div class="pf-tax">税込</div>
+      <div class="pf-block">
+        <div class="pf-block-h">含まれるもの</div>
+        <div class="pf-row"><span>前撮り撮影</span><span>&#10003;</span></div>
+        <div class="pf-row"><span>200カット以上</span><span>&#10003;</span></div>
+        <div class="pf-row"><span>撮影データ全納品</span><span>&#10003;</span></div>
+        <div class="pf-row"><span>3分のショートフィルム</span><span>&#10003;</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 2-G ===== -->
+<div class="pattern-section">
+  <div class="pattern-label">PATTERN 2-G</div>
+  <div class="pattern-title">Price Slide-Up + Number Overlay</div>
+  <div class="pattern-desc">料金が下からスライドアップ。写真上に薄いナンバーオーバーレイ。ピルタグ付き</div>
+  <div class="pg-card observe">
+    <div class="pg-card__img">
+      <img src="images/hero/hero-01.jpg" alt="">
+      <div class="pg-card__img-num">01</div>
+    </div>
+    <div class="pg-card__body">
+      <div class="pg-name">Basic Plan</div>
+      <div class="pg-sep"></div>
+      <div class="pg-price"><span class="pg-price-inner">&yen;168,000</span></div>
+      <div class="pg-tax">税込</div>
+      <div class="pg-tags">
+        <span class="pg-tag">前撮り撮影</span>
+        <span class="pg-tag">200カット以上</span>
+        <span class="pg-tag">ショートフィルム</span>
+      </div>
+      <div class="pg-row"><span>前撮り撮影</span><span>&#10003;</span></div>
+      <div class="pg-row"><span>200カット以上</span><span>&#10003;</span></div>
+      <div class="pg-row"><span>撮影データ全納品</span><span>&#10003;</span></div>
+      <div class="pg-row"><span>3分のショートフィルム</span><span>&#10003;</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 2-H ===== -->
+<div class="pattern-section">
+  <div class="pattern-label">PATTERN 2-H</div>
+  <div class="pattern-title">Inner Glow + Lift</div>
+  <div class="pattern-desc">ホバーで内側にゴールドのグロー、カード全体がふわっと浮上。高級感◎</div>
+  <div class="ph-card">
+    <div class="ph-card__img"><img src="images/firenze/03.jpg" alt=""></div>
+    <div class="ph-card__body">
+      <div class="ph-label">Plan 01</div>
+      <div class="ph-name">Basic Plan</div>
+      <div class="ph-sep"></div>
+      <div class="ph-price">&yen;168,000</div>
+      <div class="ph-tax">税込</div>
+      <div class="ph-row"><span>前撮り撮影</span><span>&#10003;</span></div>
+      <div class="ph-row"><span>200カット以上</span><span>&#10003;</span></div>
+      <div class="ph-row"><span>撮影データ全納品</span><span>&#10003;</span></div>
+      <div class="ph-row"><span>3分のショートフィルム</span><span>&#10003;</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 2-I ===== -->
+<div class="pattern-section">
+  <div class="pattern-label">PATTERN 2-I</div>
+  <div class="pattern-title">Mask Wipe + Gold Dots</div>
+  <div class="pattern-desc">写真が白マスクが左から消えるように出現。含まれるものはゴールドドット付きリスト</div>
+  <div class="pi-card observe">
+    <div class="pi-card__img">
+      <img src="images/paris/04.jpg" alt="">
+      <div class="pi-card__img-mask"></div>
+    </div>
+    <div class="pi-card__body">
+      <div class="pi-name">Basic Plan</div>
+      <div class="pi-sep"></div>
+      <div class="pi-price-area">
+        <div class="pi-price">&yen;168,000</div>
+        <div class="pi-tax">税込</div>
+      </div>
+      <div class="pi-h">INCLUDED</div>
+      <div class="pi-row"><span class="pi-dot"></span> 前撮り撮影</div>
+      <div class="pi-row"><span class="pi-dot"></span> 200カット以上</div>
+      <div class="pi-row"><span class="pi-dot"></span> 撮影データ全納品</div>
+      <div class="pi-row"><span class="pi-dot"></span> 3分のショートフィルム</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 2-J ===== -->
+<div class="pattern-section" style="border-bottom:none;">
+  <div class="pattern-label">PATTERN 2-J</div>
+  <div class="pattern-title">Luxe Frame + 2-Column Grid</div>
+  <div class="pattern-desc">写真に内側パディングでフレーム感。含まれるものは2カラムグリッド＋ゴールドダッシュ</div>
+  <div class="pj-card">
+    <div class="pj-card__img"><img src="images/hero/hero-01.jpg" alt=""></div>
+    <div class="pj-card__body">
+      <div class="pj-eyebrow">PLAN 01</div>
+      <div class="pj-name">Basic Plan<em>photo + movie</em></div>
+      <div class="pj-sep"></div>
+      <div class="pj-price-row">
+        <div class="pj-price">&yen;168,000</div>
+        <div class="pj-price-sub">税込</div>
+      </div>
+      <div class="pj-divider"></div>
+      <div class="pj-items">
+        <div class="pj-item">前撮り撮影</div>
+        <div class="pj-item">200カット以上</div>
+        <div class="pj-item">撮影データ全納品</div>
+        <div class="pj-item">3分のショートフィルム</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // IntersectionObserver for scroll-triggered animations
+  (function(){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) {
+          e.target.classList.add('in-view');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.observe').forEach(function(el){ io.observe(el); });
+
+    // Also observe cards that use .in-view
+    document.querySelectorAll('.pa-card, .pc-card, .pd-card, .pf-card, .pg-card, .pi-card').forEach(function(el){
+      io.observe(el);
+    });
+  })();
+
+  // Simple parallax for 2-E
+  (function(){
+    var card = document.querySelector('[data-parallax]');
+    if (!card) return;
+    var img = card.querySelector('.pe-card__img img');
+    window.addEventListener('scroll', function(){
+      var rect = card.getBoundingClientRect();
+      var vh = window.innerHeight;
+      if (rect.top < vh && rect.bottom > 0) {
+        var progress = (vh - rect.top) / (vh + rect.height);
+        var offset = (progress - 0.5) * 40;
+        img.style.transform = 'translateY(' + offset + 'px)';
+      }
+    }, { passive: true });
+  })();
+</script>
+
+</body>
+</html>

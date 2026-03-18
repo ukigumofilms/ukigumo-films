@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery — Luxury Animations</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0d0d0d; color: #fff; font-family: 'Georgia', serif; }
+
+    h1 {
+      text-align: center;
+      padding: 3rem 1rem 1rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: #555;
+    }
+    h1 span { display: block; font-size: 1.2rem; color: #bbb; margin-bottom: 0.5rem; letter-spacing: 0.2em; font-weight: 300; }
+
+    .section {
+      padding: 4rem 1.5rem 2.5rem;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    .label {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .label span {
+      display: block;
+      font-size: 0.95rem;
+      color: #ccc;
+      letter-spacing: 0.2em;
+      margin-bottom: 0.4rem;
+      font-weight: 300;
+    }
+    .label p { font-size: 0.65rem; color: #555; letter-spacing: 0.25em; }
+
+    .btn {
+      display: block;
+      margin: 1.5rem auto 0;
+      padding: 0.45rem 1.5rem;
+      background: transparent;
+      border: 1px solid #333;
+      color: #555;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn:hover { border-color: #888; color: #aaa; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+    .grid div {
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      background: #0d0d0d;
+    }
+    .grid div img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+
+    /* ==========================================
+       L1: 静寂フェード — ただ、現れる
+       ========================================== */
+    .l1 .grid div { opacity: 0; }
+    .l1.go .grid div {
+      animation: l1 1.4s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+    @keyframes l1 { to { opacity: 1; } }
+
+    /* ==========================================
+       L2: 霧が晴れるように — ブラー＋フェード（ゆっくり）
+       ========================================== */
+    .l2 .grid div { opacity: 0; filter: blur(6px); }
+    .l2.go .grid div {
+      animation: l2 1.6s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+    @keyframes l2 { to { opacity: 1; filter: blur(0); } }
+
+    /* ==========================================
+       L3: 幕が上がる — 下から静かに浮上
+       ========================================== */
+    .l3 .grid div { opacity: 0; transform: translateY(24px); }
+    .l3.go .grid div {
+      animation: l3 1.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+    @keyframes l3 { to { opacity: 1; transform: translateY(0); } }
+
+    /* ==========================================
+       L4: 息を吸うように — 小さくからゆったりスケール
+       ========================================== */
+    .l4 .grid div { opacity: 0; transform: scale(0.93); }
+    .l4.go .grid div {
+      animation: l4 1.6s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+    @keyframes l4 { to { opacity: 1; transform: scale(1); } }
+
+    /* ==========================================
+       L5: 現像 — 暗闇から明るく浮かび上がる
+       ========================================== */
+    .l5 .grid div { opacity: 0; filter: brightness(0); }
+    .l5.go .grid div {
+      animation: l5 1.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+    @keyframes l5 {
+      30% { opacity: 1; filter: brightness(0.15); }
+      to  { opacity: 1; filter: brightness(1); }
+    }
+
+    /* ==========================================
+       L6: 絹のカーテン — 上辺を軸に静かにめくれる
+       ========================================== */
+    .l6 .grid div {
+      opacity: 0;
+      transform: perspective(600px) rotateX(-18deg);
+      transform-origin: top center;
+    }
+    .l6.go .grid div {
+      animation: l6 1.4s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+    @keyframes l6 { to { opacity: 1; transform: perspective(600px) rotateX(0); } }
+
+    /* ==========================================
+       L7: 左から光が差し込む — translateX ＋ フェード
+       ========================================== */
+    .l7 .grid div { opacity: 0; transform: translateX(-16px); }
+    .l7.go .grid div {
+      animation: l7 1.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+    @keyframes l7 { to { opacity: 1; transform: translateX(0); } }
+
+    /* ==========================================
+       L8: ピントが合う — ぼかし＋わずかなズームアウト
+       ========================================== */
+    .l8 .grid div { opacity: 0; filter: blur(4px); transform: scale(1.06); }
+    .l8.go .grid div {
+      animation: l8 1.7s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+    @keyframes l8 { to { opacity: 1; filter: blur(0); transform: scale(1); } }
+
+    /* ==========================================
+       L9: モノクロから色づく — 彩度0→1
+       ========================================== */
+    .l9 .grid div { opacity: 0; filter: saturate(0) brightness(1.1); }
+    .l9.go .grid div {
+      animation: l9 2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+    @keyframes l9 {
+      20% { opacity: 1; filter: saturate(0) brightness(1.1); }
+      to  { opacity: 1; filter: saturate(1) brightness(1); }
+    }
+
+    /* ==========================================
+       L10: 消えかけた記憶 — わずかにスケール＋ブラー＋フェード
+       ========================================== */
+    .l10 .grid div { opacity: 0; filter: blur(3px); transform: scale(0.96) translateY(10px); }
+    .l10.go .grid div {
+      animation: l10 2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+    @keyframes l10 { to { opacity: 1; filter: blur(0); transform: scale(1) translateY(0); } }
+
+  </style>
+</head>
+<body>
+
+<h1><span>Luxury — 10 Patterns</span>ランダム出現 × ゆったり高級感</h1>
+
+<div class="section l1" id="l1">
+  <div class="label"><span>L1 — 静寂フェード</span><p>ただ、静かに現れる</p></div>
+  <div class="grid" id="g1"></div>
+  <button class="btn" onclick="replay('l1')">↺ replay</button>
+</div>
+
+<div class="section l2" id="l2">
+  <div class="label"><span>L2 — 霧が晴れる</span><p>ぼんやりした霞がゆっくり晴れていく</p></div>
+  <div class="grid" id="g2"></div>
+  <button class="btn" onclick="replay('l2')">↺ replay</button>
+</div>
+
+<div class="section l3" id="l3">
+  <div class="label"><span>L3 — 幕が上がる</span><p>下から静かに、しずかに浮き上がる</p></div>
+  <div class="grid" id="g3"></div>
+  <button class="btn" onclick="replay('l3')">↺ replay</button>
+</div>
+
+<div class="section l4" id="l4">
+  <div class="label"><span>L4 — 息を吸うように</span><p>小さく縮んだ状態からゆっくり広がる</p></div>
+  <div class="grid" id="g4"></div>
+  <button class="btn" onclick="replay('l4')">↺ replay</button>
+</div>
+
+<div class="section l5" id="l5">
+  <div class="label"><span>L5 — 現像</span><p>暗闇から写真が浮かび上がるように</p></div>
+  <div class="grid" id="g5"></div>
+  <button class="btn" onclick="replay('l5')">↺ replay</button>
+</div>
+
+<div class="section l6" id="l6">
+  <div class="label"><span>L6 — 絹のカーテン</span><p>上辺を軸にカーテンが静かに開く</p></div>
+  <div class="grid" id="g6"></div>
+  <button class="btn" onclick="replay('l6')">↺ replay</button>
+</div>
+
+<div class="section l7" id="l7">
+  <div class="label"><span>L7 — 光が差し込む</span><p>左から光とともにすっと現れる</p></div>
+  <div class="grid" id="g7"></div>
+  <button class="btn" onclick="replay('l7')">↺ replay</button>
+</div>
+
+<div class="section l8" id="l8">
+  <div class="label"><span>L8 — ピントが合う</span><p>ぼんやりした像にゆっくりピントが合う</p></div>
+  <div class="grid" id="g8"></div>
+  <button class="btn" onclick="replay('l8')">↺ replay</button>
+</div>
+
+<div class="section l9" id="l9">
+  <div class="label"><span>L9 — 色づく</span><p>モノクロからゆっくり色が戻ってくる</p></div>
+  <div class="grid" id="g9"></div>
+  <button class="btn" onclick="replay('l9')">↺ replay</button>
+</div>
+
+<div class="section l10" id="l10">
+  <div class="label"><span>L10 — 消えかけた記憶</span><p>靄の中からゆっくりと輪郭が現れる</p></div>
+  <div class="grid" id="g10"></div>
+  <button class="btn" onclick="replay('l10')">↺ replay</button>
+</div>
+
+<script>
+  const imgs = Array.from({length: 18}, (_, i) =>
+    `images/gallery-index/g${String(i+1).padStart(2,'0')}.jpg`
+  );
+
+  for (let i = 1; i <= 10; i++) {
+    const grid = document.getElementById('g' + i);
+    imgs.forEach(src => {
+      const div = document.createElement('div');
+      div.innerHTML = `<img src="${src}" alt="" loading="lazy">`;
+      grid.appendChild(div);
+    });
+  }
+
+  function setDelays(sec, interval = 0.09) {
+    const items = sec.querySelectorAll('.grid div');
+    const n = items.length;
+    const order = Array.from({length: n}, (_, i) => i);
+    order.sort(() => Math.random() - 0.5);
+    items.forEach((el, i) => {
+      el.style.animationDelay = (order.indexOf(i) * interval) + 's';
+    });
+  }
+
+  for (let i = 1; i <= 10; i++) setDelays(document.getElementById('l' + i));
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !e.target.classList.contains('played')) {
+        e.target.classList.add('go', 'played');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  for (let i = 1; i <= 10; i++) io.observe(document.getElementById('l' + i));
+
+  function replay(id) {
+    const sec = document.getElementById(id);
+    sec.classList.remove('go');
+    sec.querySelectorAll('.grid div').forEach(el => el.style.animationName = 'none');
+    setDelays(sec);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      sec.querySelectorAll('.grid div').forEach(el => el.style.animationName = '');
+      sec.classList.add('go');
+    }));
+  }
+</script>
+</body>
+</html>

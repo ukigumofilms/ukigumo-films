@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Animation Patterns — Layout #9 × 10 Animations</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@300;400&family=Noto+Sans+JP:wght@300&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: #e8e5e0;
+    font-family: 'Inter', sans-serif;
+    color: #333;
+  }
+  h1 {
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 2.4rem;
+    padding: 3rem 0 0.8rem;
+    color: #1a1a1a;
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 0.75rem;
+    color: #999;
+    font-weight: 300;
+    margin-bottom: 1rem;
+  }
+  .instructions {
+    text-align: center;
+    font-size: 0.7rem;
+    color: #b0a89e;
+    margin-bottom: 3rem;
+    font-family: 'Noto Sans JP', sans-serif;
+  }
+
+  /* ── 各パターン ── */
+  .pattern {
+    background: #f5f3ef;
+    max-width: 800px;
+    margin: 0 auto 5rem;
+    padding: 2.5rem 2rem 3rem;
+    border-radius: 4px;
+    position: relative;
+  }
+  .pattern__num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    color: rgba(0,0,0,0.06);
+    position: absolute;
+    top: 1rem;
+    left: 1.5rem;
+  }
+  .pattern__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+    color: #666;
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  .pattern__desc {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 300;
+    font-size: 0.65rem;
+    color: #aaa;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  /* リプレイボタン */
+  .replay-btn {
+    display: block;
+    margin: 1.5rem auto 0;
+    padding: 0.5rem 2rem;
+    background: none;
+    border: 1px solid rgba(0,0,0,0.15);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+    color: #666;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+  .replay-btn:hover {
+    border-color: rgba(0,0,0,0.4);
+    color: #333;
+  }
+
+  /* ── Layout #9 ベース（全パターン共通） ── */
+  .layout {
+    position: relative;
+    width: 100%;
+    height: 640px;
+  }
+  .layout img {
+    position: absolute;
+    object-fit: cover;
+    display: block;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  }
+  /* #9 配置 */
+  .layout .i1 { width: 36%; aspect-ratio:4/3; top: 0; left: 8%; z-index:2; }
+  .layout .i2 { width: 38%; aspect-ratio:4/3; top: 20px; right: 0; z-index:1; }
+  .layout .i3 { width: 32%; aspect-ratio:3/4; top: 140px; left: 40%; z-index:4; }
+  .layout .i4 { width: 30%; aspect-ratio:4/3; top: 200px; left: 0; z-index:3; }
+  .layout .i5 { width: 26%; aspect-ratio:1/1; top: 350px; right: 10%; z-index:5; }
+  .layout .i6 { width: 50%; aspect-ratio:16/9; bottom: 0; left: 5%; z-index:6; }
+
+  /* ===================================
+     ANIMATION 1: Fade Up — シンプルフェードアップ
+     =================================== */
+  .a1 img {
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .a1.playing .i1 { opacity:1; transform:translateY(0); transition-delay:0s; }
+  .a1.playing .i2 { opacity:1; transform:translateY(0); transition-delay:0.15s; }
+  .a1.playing .i3 { opacity:1; transform:translateY(0); transition-delay:0.3s; }
+  .a1.playing .i4 { opacity:1; transform:translateY(0); transition-delay:0.45s; }
+  .a1.playing .i5 { opacity:1; transform:translateY(0); transition-delay:0.6s; }
+  .a1.playing .i6 { opacity:1; transform:translateY(0); transition-delay:0.75s; }
+
+  /* ===================================
+     ANIMATION 2: Scatter In — 各方向からバラバラに飛び込む
+     =================================== */
+  .a2 .i1 { opacity:0; transform: translate(-80px, -40px); }
+  .a2 .i2 { opacity:0; transform: translate(80px, -30px); }
+  .a2 .i3 { opacity:0; transform: translate(0, 80px); }
+  .a2 .i4 { opacity:0; transform: translate(-70px, 50px); }
+  .a2 .i5 { opacity:0; transform: translate(70px, 40px); }
+  .a2 .i6 { opacity:0; transform: translate(0, 70px); }
+  .a2 img {
+    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .a2.playing .i1 { opacity:1; transform:translate(0); transition-delay:0s; }
+  .a2.playing .i2 { opacity:1; transform:translate(0); transition-delay:0.12s; }
+  .a2.playing .i3 { opacity:1; transform:translate(0); transition-delay:0.24s; }
+  .a2.playing .i4 { opacity:1; transform:translate(0); transition-delay:0.36s; }
+  .a2.playing .i5 { opacity:1; transform:translate(0); transition-delay:0.48s; }
+  .a2.playing .i6 { opacity:1; transform:translate(0); transition-delay:0.6s; }
+
+  /* ===================================
+     ANIMATION 3: Scale Bloom — 中心から拡大しながら出現
+     =================================== */
+  .a3 img {
+    opacity: 0;
+    transform: scale(0.6);
+    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .a3.playing .i1 { opacity:1; transform:scale(1); transition-delay:0s; }
+  .a3.playing .i2 { opacity:1; transform:scale(1); transition-delay:0.13s; }
+  .a3.playing .i3 { opacity:1; transform:scale(1); transition-delay:0.26s; }
+  .a3.playing .i4 { opacity:1; transform:scale(1); transition-delay:0.39s; }
+  .a3.playing .i5 { opacity:1; transform:scale(1); transition-delay:0.52s; }
+  .a3.playing .i6 { opacity:1; transform:scale(1); transition-delay:0.65s; }
+
+  /* ===================================
+     ANIMATION 4: Clip Reveal — 矩形クリップで上から下にスライドオープン
+     =================================== */
+  .a4 img {
+    clip-path: inset(100% 0 0 0);
+    transition: clip-path 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+  }
+  .a4.playing .i1 { clip-path:inset(0); transition-delay:0s; }
+  .a4.playing .i2 { clip-path:inset(0); transition-delay:0.15s; }
+  .a4.playing .i3 { clip-path:inset(0); transition-delay:0.3s; }
+  .a4.playing .i4 { clip-path:inset(0); transition-delay:0.45s; }
+  .a4.playing .i5 { clip-path:inset(0); transition-delay:0.6s; }
+  .a4.playing .i6 { clip-path:inset(0); transition-delay:0.75s; }
+
+  /* ===================================
+     ANIMATION 5: Soft Float — ゆっくりフェード＋微妙な浮遊感
+     =================================== */
+  .a5 img {
+    opacity: 0;
+    transform: translateY(30px) rotate(1.5deg);
+    transition: opacity 1.8s ease,
+                transform 2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .a5.playing .i1 { opacity:1; transform:translateY(0) rotate(0); transition-delay:0s; }
+  .a5.playing .i2 { opacity:1; transform:translateY(0) rotate(0); transition-delay:0.2s; }
+  .a5.playing .i3 { opacity:1; transform:translateY(0) rotate(0); transition-delay:0.4s; }
+  .a5.playing .i4 { opacity:1; transform:translateY(0) rotate(0); transition-delay:0.6s; }
+  .a5.playing .i5 { opacity:1; transform:translateY(0) rotate(0); transition-delay:0.8s; }
+  .a5.playing .i6 { opacity:1; transform:translateY(0) rotate(0); transition-delay:1s; }
+
+  /* ===================================
+     ANIMATION 6: Cascade Left — 左からカスケード
+     =================================== */
+  .a6 img {
+    opacity: 0;
+    transform: translateX(-100px);
+    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 1.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .a6.playing .i1 { opacity:1; transform:translateX(0); transition-delay:0s; }
+  .a6.playing .i2 { opacity:1; transform:translateX(0); transition-delay:0.12s; }
+  .a6.playing .i3 { opacity:1; transform:translateX(0); transition-delay:0.24s; }
+  .a6.playing .i4 { opacity:1; transform:translateX(0); transition-delay:0.36s; }
+  .a6.playing .i5 { opacity:1; transform:translateX(0); transition-delay:0.48s; }
+  .a6.playing .i6 { opacity:1; transform:translateX(0); transition-delay:0.6s; }
+
+  /* ===================================
+     ANIMATION 7: Zoom Fade — 奥から手前にズームイン
+     =================================== */
+  .a7 img {
+    opacity: 0;
+    transform: scale(1.25);
+    filter: blur(6px);
+    transition: opacity 1.2s ease,
+                transform 1.6s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 1.2s ease;
+  }
+  .a7.playing .i1 { opacity:1; transform:scale(1); filter:blur(0); transition-delay:0s; }
+  .a7.playing .i2 { opacity:1; transform:scale(1); filter:blur(0); transition-delay:0.15s; }
+  .a7.playing .i3 { opacity:1; transform:scale(1); filter:blur(0); transition-delay:0.3s; }
+  .a7.playing .i4 { opacity:1; transform:scale(1); filter:blur(0); transition-delay:0.45s; }
+  .a7.playing .i5 { opacity:1; transform:scale(1); filter:blur(0); transition-delay:0.6s; }
+  .a7.playing .i6 { opacity:1; transform:scale(1); filter:blur(0); transition-delay:0.75s; }
+
+  /* ===================================
+     ANIMATION 8: Stagger Burst — 一気にバーストしてからステージング
+     =================================== */
+  .a8 img {
+    opacity: 0;
+    transform: scale(0.3) translateY(100px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .a8.playing .i1 { opacity:1; transform:scale(1) translateY(0); transition-delay:0s; }
+  .a8.playing .i2 { opacity:1; transform:scale(1) translateY(0); transition-delay:0.06s; }
+  .a8.playing .i3 { opacity:1; transform:scale(1) translateY(0); transition-delay:0.12s; }
+  .a8.playing .i4 { opacity:1; transform:scale(1) translateY(0); transition-delay:0.18s; }
+  .a8.playing .i5 { opacity:1; transform:scale(1) translateY(0); transition-delay:0.24s; }
+  .a8.playing .i6 { opacity:1; transform:scale(1) translateY(0); transition-delay:0.3s; }
+
+  /* ===================================
+     ANIMATION 9: Curtain Sides — 左右からカーテンのように開く
+     =================================== */
+  .a9 .i1 { opacity:0; transform: translateX(-80px); }
+  .a9 .i2 { opacity:0; transform: translateX(80px); }
+  .a9 .i3 { opacity:0; transform: translateY(60px); }
+  .a9 .i4 { opacity:0; transform: translateX(-80px); }
+  .a9 .i5 { opacity:0; transform: translateX(80px); }
+  .a9 .i6 { opacity:0; transform: translateY(50px); }
+  .a9 img {
+    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .a9.playing .i1 { opacity:1; transform:translate(0); transition-delay:0s; }
+  .a9.playing .i2 { opacity:1; transform:translate(0); transition-delay:0s; }
+  .a9.playing .i3 { opacity:1; transform:translate(0); transition-delay:0.2s; }
+  .a9.playing .i4 { opacity:1; transform:translate(0); transition-delay:0.35s; }
+  .a9.playing .i5 { opacity:1; transform:translate(0); transition-delay:0.35s; }
+  .a9.playing .i6 { opacity:1; transform:translate(0); transition-delay:0.55s; }
+
+  /* ===================================
+     ANIMATION 10: Cinematic — ブラー+スケール+フェードのシネマティック
+     =================================== */
+  .a10 img {
+    opacity: 0;
+    transform: scale(0.85) translateY(40px);
+    filter: blur(10px) brightness(1.2);
+    transition: opacity 1.6s ease,
+                transform 2s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 1.6s ease;
+  }
+  .a10.playing .i1 { opacity:1; transform:scale(1) translateY(0); filter:blur(0) brightness(1); transition-delay:0s; }
+  .a10.playing .i2 { opacity:1; transform:scale(1) translateY(0); filter:blur(0) brightness(1); transition-delay:0.2s; }
+  .a10.playing .i3 { opacity:1; transform:scale(1) translateY(0); filter:blur(0) brightness(1); transition-delay:0.4s; }
+  .a10.playing .i4 { opacity:1; transform:scale(1) translateY(0); filter:blur(0) brightness(1); transition-delay:0.6s; }
+  .a10.playing .i5 { opacity:1; transform:scale(1) translateY(0); filter:blur(0) brightness(1); transition-delay:0.8s; }
+  .a10.playing .i6 { opacity:1; transform:scale(1) translateY(0); filter:blur(0) brightness(1); transition-delay:1s; }
+</style>
+</head>
+<body>
+
+<h1>Animation Patterns</h1>
+<p class="subtitle">Layout #9 (Organic Random) × 10種のアニメーション</p>
+<p class="instructions">各パターンの「replay」ボタンでアニメーションを再生できます</p>
+
+<!-- Animation 1 -->
+<div class="pattern">
+  <span class="pattern__num">01</span>
+  <p class="pattern__title">Fade Up — フェードアップ</p>
+  <p class="pattern__desc">下からふわっと浮き上がるシンプルな定番。上品で汎用的</p>
+  <div class="layout a1" data-anim="a1">
+    <img class="i1" src="images/paris/01.jpg" alt="">
+    <img class="i2" src="images/firenze/02.jpg" alt="">
+    <img class="i3" src="images/london/03.jpg" alt="">
+    <img class="i4" src="images/malta/02.jpg" alt="">
+    <img class="i5" src="images/firenze/06.jpg" alt="">
+    <img class="i6" src="images/firenze/04.jpg" alt="">
+  </div>
+  <button class="replay-btn" onclick="replay(this)">replay</button>
+</div>
+
+<!-- Animation 2 -->
+<div class="pattern">
+  <span class="pattern__num">02</span>
+  <p class="pattern__title">Scatter In — 各方向からバラバラに集合</p>
+  <p class="pattern__desc">写真が四方から飛び込んできて所定の位置に収まる。動きに個性</p>
+  <div class="layout a2" data-anim="a2">
+    <img class="i1" src="images/paris/01.jpg" alt="">
+    <img class="i2" src="images/firenze/02.jpg" alt="">
+    <img class="i3" src="images/london/03.jpg" alt="">
+    <img class="i4" src="images/malta/02.jpg" alt="">
+    <img class="i5" src="images/firenze/06.jpg" alt="">
+    <img class="i6" src="images/firenze/04.jpg" alt="">
+  </div>
+  <button class="replay-btn" onclick="replay(this)">replay</button>
+</div>
+
+<!-- Animation 3 -->
+<div class="pattern">
+  <span class="pattern__num">03</span>
+  <p class="pattern__title">Scale Bloom — スケールブルーム</p>
+  <p class="pattern__desc">小さい状態から花が咲くように拡大して登場</p>
+  <div class="layout a3" data-anim="a3">
+    <img class="i1" src="images/paris/01.jpg" alt="">
+    <img class="i2" src="images/firenze/02.jpg" alt="">
+    <img class="i3" src="images/london/03.jpg" alt="">
+    <img class="i4" src="images/malta/02.jpg" alt="">
+    <img class="i5" src="images/firenze/06.jpg" alt="">
+    <img class="i6" src="images/firenze/04.jpg" alt="">
+  </div>
+  <button class="replay-btn" onclick="replay(this)">replay</button>
+</div>
+
+<!-- Animation 4 -->
+<div class="pattern">
+  <span class="pattern__num">04</span>
+  <p class="pattern__title">Clip Reveal — クリップリビール</p>
+  <p class="pattern__desc">上から下にスライドする矩形マスクで写真が現れる。モダン</p>
+  <div class="layout a4" data-anim="a4">
+    <img class="i1" src="images/paris/01.jpg" alt="">
+    <img class="i2" src="images/firenze/02.jpg" alt="">
+    <img class="i3" src="images/london/03.jpg" alt="">
+    <img class="i4" src="images/malta/02.jpg" alt="">
+    <img class="i5" src="images/firenze/06.jpg" alt="">
+    <img class="i6" src="images/firenze/04.jpg" alt="">
+  </div>
+  <button class="replay-btn" onclick="replay(this)">replay</button>
+</div>
+
+<!-- Animation 5 -->
+<div class="pattern">
+  <span class="pattern__num">05</span>
+  <p class="pattern__title">Soft Float — ソフトフロート</p>
+  <p class="pattern__desc">ゆっくりフェード＋微かな回転。浮き雲のような柔らかい浮遊感</p>
+  <div class="layout a5" data-anim="a5">
+    <img class="i1" src="images/paris/01.jpg" alt="">
+    <img class="i2" src="images/firenze/02.jpg" alt="">
+    <img class="i3" src="images/london/03.jpg" alt="">
+    <img class="i4" src="images/malta/02.jpg" alt="">
+    <img class="i5" src="images/firenze/06.jpg" alt="">
+    <img class="i6" src="images/firenze/04.jpg" alt="">
+  </div>
+  <button class="replay-btn" onclick="replay(this)">replay</button>
+</div>
+
+<!-- Animation 6 -->
+<div class="pattern">
+  <span class="pattern__num">06</span>
+  <p class="pattern__title">Cascade Left — 左からカスケード</p>
+  <p class="pattern__desc">全て左側からスライドイン。流れるような統一感</p>
+  <div class="layout a6" data-anim="a6">
+    <img class="i1" src="images/paris/01.jpg" alt="">
+    <img class="i2" src="images/firenze/02.jpg" alt="">
+    <img class="i3" src="images/london/03.jpg" alt="">
+    <img class="i4" src="images/malta/02.jpg" alt="">
+    <img class="i5" src="images/firenze/06.jpg" alt="">
+    <img class="i6" src="images/firenze/04.jpg" alt="">
+  </div>
+  <button class="replay-btn" onclick="replay(this)">replay</button>
+</div>
+
+<!-- Animation 7 -->
+<div class="pattern">
+  <span class="pattern__num">07</span>
+  <p class="pattern__title">Zoom Fade — ズームフェード</p>
+  <p class="pattern__desc">ぼかし＋大きめ状態からピントが合うように出現。フォトグラファー向き</p>
+  <div class="layout a7" data-anim="a7">
+    <img class="i1" src="images/paris/01.jpg" alt="">
+    <img class="i2" src="images/firenze/02.jpg" alt="">
+    <img class="i3" src="images/london/03.jpg" alt="">
+    <img class="i4" src="images/malta/02.jpg" alt="">
+    <img class="i5" src="images/firenze/06.jpg" alt="">
+    <img class="i6" src="images/firenze/04.jpg" alt="">
+  </div>
+  <button class="replay-btn" onclick="replay(this)">replay</button>
+</div>
+
+<!-- Animation 8 -->
+<div class="pattern">
+  <span class="pattern__num">08</span>
+  <p class="pattern__title">Stagger Burst — バーストステージング</p>
+  <p class="pattern__desc">小さく縮んだ状態からポンポンと弾むように素早く展開。ポップ感</p>
+  <div class="layout a8" data-anim="a8">
+    <img class="i1" src="images/paris/01.jpg" alt="">
+    <img class="i2" src="images/firenze/02.jpg" alt="">
+    <img class="i3" src="images/london/03.jpg" alt="">
+    <img class="i4" src="images/malta/02.jpg" alt="">
+    <img class="i5" src="images/firenze/06.jpg" alt="">
+    <img class="i6" src="images/firenze/04.jpg" alt="">
+  </div>
+  <button class="replay-btn" onclick="replay(this)">replay</button>
+</div>
+
+<!-- Animation 9 -->
+<div class="pattern">
+  <span class="pattern__num">09</span>
+  <p class="pattern__title">Curtain Sides — カーテンオープン</p>
+  <p class="pattern__desc">左右ペアで対称にスライドイン。中央→外の順で開幕感</p>
+  <div class="layout a9" data-anim="a9">
+    <img class="i1" src="images/paris/01.jpg" alt="">
+    <img class="i2" src="images/firenze/02.jpg" alt="">
+    <img class="i3" src="images/london/03.jpg" alt="">
+    <img class="i4" src="images/malta/02.jpg" alt="">
+    <img class="i5" src="images/firenze/06.jpg" alt="">
+    <img class="i6" src="images/firenze/04.jpg" alt="">
+  </div>
+  <button class="replay-btn" onclick="replay(this)">replay</button>
+</div>
+
+<!-- Animation 10 -->
+<div class="pattern">
+  <span class="pattern__num">10</span>
+  <p class="pattern__title">Cinematic — シネマティック</p>
+  <p class="pattern__desc">ブラー+明るみ+スケール。映画のオープニングのような贅沢な演出</p>
+  <div class="layout a10" data-anim="a10">
+    <img class="i1" src="images/paris/01.jpg" alt="">
+    <img class="i2" src="images/firenze/02.jpg" alt="">
+    <img class="i3" src="images/london/03.jpg" alt="">
+    <img class="i4" src="images/malta/02.jpg" alt="">
+    <img class="i5" src="images/firenze/06.jpg" alt="">
+    <img class="i6" src="images/firenze/04.jpg" alt="">
+  </div>
+  <button class="replay-btn" onclick="replay(this)">replay</button>
+</div>
+
+<script>
+  // 初回: IntersectionObserverで画面に入ったら自動再生
+  var layouts = document.querySelectorAll('.layout');
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('playing');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  layouts.forEach(function(el) { observer.observe(el); });
+
+  // リプレイ
+  function replay(btn) {
+    var layout = btn.previousElementSibling;
+    layout.classList.remove('playing');
+    // force reflow
+    void layout.offsetWidth;
+    setTimeout(function() {
+      layout.classList.add('playing');
+    }, 50);
+  }
+</script>
+
+</body>
+</html>

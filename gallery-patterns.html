@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery Layout — 10 Patterns</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #1a1a1a;
+    color: #fff;
+  }
+
+  .page-header {
+    text-align: center;
+    padding: 3rem 2rem 1rem;
+  }
+
+  .page-header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 300;
+    letter-spacing: 0.15em;
+  }
+
+  .page-header p {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.4);
+    margin-top: 0.5rem;
+  }
+
+  .patterns-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .pattern-card {
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.02);
+  }
+
+  .pattern-label {
+    padding: 1rem 1.5rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.5);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .pattern-label span {
+    color: #c9a96e;
+  }
+
+  /* Gallery Container */
+  .gallery-frame {
+    width: 100%;
+    height: 420px;
+    background: #0f0f0f;
+    overflow: hidden;
+    position: relative;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ========== PATTERN 1: Masonry Grid ========== */
+  .p1.gallery-frame {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 140px;
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .p1 .gallery-item {
+    overflow: hidden;
+    border-radius: 4px;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+
+  .p1 .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 1; animation-delay: 0.1s; }
+  .p1 .gallery-item:nth-child(2) { grid-column: span 1; grid-row: span 2; animation-delay: 0.2s; }
+  .p1 .gallery-item:nth-child(3) { grid-column: span 1; grid-row: span 1; animation-delay: 0.3s; }
+  .p1 .gallery-item:nth-child(4) { grid-column: span 1; grid-row: span 1; animation-delay: 0.4s; }
+  .p1 .gallery-item:nth-child(5) { grid-column: span 2; grid-row: span 1; animation-delay: 0.5s; }
+  .p1 .gallery-item:nth-child(6) { grid-column: span 1; grid-row: span 1; animation-delay: 0.6s; }
+  .p1 .gallery-item:nth-child(7) { grid-column: span 1; grid-row: span 1; animation-delay: 0.7s; }
+  .p1 .gallery-item:nth-child(8) { grid-column: span 1; grid-row: span 1; animation-delay: 0.8s; }
+
+  .p1 .gallery-item:hover img { transform: scale(1.05); }
+
+  /* ========== PATTERN 2: Asymmetric Duo ========== */
+  .p2.gallery-frame {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .p2 .gallery-item {
+    overflow: hidden;
+    border-radius: 6px;
+    opacity: 0;
+    animation: fadeInLeft 0.6s ease-out forwards;
+  }
+
+  .p2 .gallery-item:nth-child(1) {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    animation-delay: 0.1s;
+  }
+
+  .p2 .gallery-item:nth-child(2) {
+    grid-column: 2;
+    grid-row: 1;
+    animation-delay: 0.2s;
+  }
+
+  .p2 .gallery-item:nth-child(3) {
+    grid-column: 2;
+    grid-row: 2;
+    animation-delay: 0.3s;
+  }
+
+  .p2 .gallery-item:nth-child(4) {
+    grid-column: 1;
+    grid-row: 3;
+    animation-delay: 0.4s;
+  }
+
+  .p2 .gallery-item:nth-child(5) {
+    grid-column: 2;
+    grid-row: 3;
+    animation-delay: 0.5s;
+  }
+
+  .p2 .gallery-item:nth-child(6) {
+    grid-column: 1 / span 2;
+    grid-row: 4;
+    height: 120px;
+    animation-delay: 0.6s;
+  }
+
+  .p2 .gallery-item:hover { box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+
+  /* ========== PATTERN 3: Full-Width + Row ========== */
+  .p3.gallery-frame {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .p3 .hero-section {
+    flex: 0 0 60%;
+    overflow: hidden;
+    border-radius: 4px;
+    opacity: 0;
+    animation: zoomIn 0.8s ease-out forwards;
+  }
+
+  .p3 .thumbnail-row {
+    flex: 0 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .p3 .gallery-item {
+    overflow: hidden;
+    border-radius: 4px;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+
+  .p3 .gallery-item:nth-child(1) { animation-delay: 0.2s; }
+  .p3 .gallery-item:nth-child(2) { animation-delay: 0.3s; }
+  .p3 .gallery-item:nth-child(3) { animation-delay: 0.4s; }
+  .p3 .gallery-item:nth-child(4) { animation-delay: 0.5s; }
+
+  .p3 .gallery-item:hover img { transform: scale(1.1); }
+
+  /* ========== PATTERN 4: Staggered Vertical ========== */
+  .p4.gallery-frame {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 16px;
+    padding: 16px;
+    overflow-x: auto;
+  }
+
+  .p4 .gallery-column {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .p4 .gallery-item {
+    width: 140px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 4px;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+
+  .p4 .gallery-column:nth-child(1) .gallery-item:nth-child(1) { animation-delay: 0.1s; }
+  .p4 .gallery-column:nth-child(1) .gallery-item:nth-child(2) { animation-delay: 0.2s; }
+  .p4 .gallery-column:nth-child(2) { margin-top: 40px; }
+  .p4 .gallery-column:nth-child(2) .gallery-item:nth-child(1) { animation-delay: 0.3s; }
+  .p4 .gallery-column:nth-child(2) .gallery-item:nth-child(2) { animation-delay: 0.4s; }
+  .p4 .gallery-column:nth-child(3) { margin-top: 80px; }
+  .p4 .gallery-column:nth-child(3) .gallery-item:nth-child(1) { animation-delay: 0.5s; }
+  .p4 .gallery-column:nth-child(3) .gallery-item:nth-child(2) { animation-delay: 0.6s; }
+
+  .p4 .gallery-item:hover img { transform: scale(1.08); }
+
+  /* ========== PATTERN 5: Magazine Spread ========== */
+  .p5.gallery-frame {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .p5 .left-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .p5 .right-section {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .p5 .gallery-item {
+    overflow: hidden;
+    border-radius: 4px;
+    opacity: 0;
+    animation: fadeInLeft 0.6s ease-out forwards;
+  }
+
+  .p5 .left-section .gallery-item:nth-child(1) { animation-delay: 0.1s; }
+  .p5 .left-section .gallery-item:nth-child(2) { animation-delay: 0.2s; }
+  .p5 .right-section .gallery-item:nth-child(1) { animation-direction: reverse; animation-delay: 0.3s; animation-name: fadeInRight; }
+  .p5 .right-section .gallery-item:nth-child(2) { animation-direction: reverse; animation-delay: 0.4s; animation-name: fadeInRight; }
+
+  .p5 .left-section .gallery-item:nth-child(1) { flex: 0 0 55%; }
+  .p5 .left-section .gallery-item:nth-child(2) { flex: 0 0 45%; }
+
+  .p5 .gallery-item:hover { box-shadow: 0 15px 40px rgba(0,0,0,0.5); }
+
+  /* ========== PATTERN 6: Minimal Gallery ========== */
+  .p6.gallery-frame {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+  }
+
+  .p6 .gallery-item {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    opacity: 0;
+  }
+
+  .p6 .gallery-item.active {
+    opacity: 1;
+    animation: fadeInScale 0.8s ease-out;
+  }
+
+  .p6 .nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background: rgba(201,169,110,0.3);
+    border: 1px solid rgba(201,169,110,0.5);
+    color: #c9a96e;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    border-radius: 50%;
+    transition: all 0.3s;
+  }
+
+  .p6 .nav-btn:hover {
+    background: rgba(201,169,110,0.5);
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  .p6 .prev { left: 20px; }
+  .p6 .next { right: 20px; }
+
+  .p6 .counter {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.2em;
+  }
+
+  /* ========== PATTERN 7: Film Strip ========== */
+  .p7.gallery-frame {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 4px;
+    padding: 20px 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .p7.gallery-frame::-webkit-scrollbar { display: none; }
+
+  .p7 .gallery-item {
+    flex: 0 0 100px;
+    height: 70px;
+    overflow: hidden;
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 2px;
+    position: relative;
+    opacity: 0;
+    animation: slideInLeft 0.6s ease-out forwards;
+  }
+
+  .p7 .gallery-item::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 10px;
+    background: repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,0.1) 0,
+      rgba(255,255,255,0.1) 8px,
+      transparent 8px,
+      transparent 12px
+    );
+    z-index: 1;
+  }
+
+  .p7 .gallery-item:nth-child(1) { animation-delay: 0.1s; }
+  .p7 .gallery-item:nth-child(2) { animation-delay: 0.2s; }
+  .p7 .gallery-item:nth-child(3) { animation-delay: 0.3s; }
+  .p7 .gallery-item:nth-child(4) { animation-delay: 0.4s; }
+  .p7 .gallery-item:nth-child(5) { animation-delay: 0.5s; }
+  .p7 .gallery-item:nth-child(6) { animation-delay: 0.6s; }
+  .p7 .gallery-item:nth-child(7) { animation-delay: 0.7s; }
+  .p7 .gallery-item:nth-child(8) { animation-delay: 0.8s; }
+
+  .p7 .gallery-item:hover img { transform: scale(1.15); }
+
+  /* ========== PATTERN 8: Grid with Gaps ========== */
+  .p8.gallery-frame {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 100px;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .p8 .gallery-item {
+    overflow: hidden;
+    border-radius: 4px;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out forwards;
+    background: rgba(255,255,255,0.03);
+  }
+
+  .p8 .gallery-item:nth-child(1) { grid-column: span 2; animation-delay: 0.1s; }
+  .p8 .gallery-item:nth-child(2) { animation-delay: 0.2s; }
+  .p8 .gallery-item:nth-child(3) { animation-delay: 0.3s; }
+  .p8 .empty-cell:nth-of-type(1) { grid-column: span 1; }
+  .p8 .gallery-item:nth-child(4) { animation-delay: 0.4s; }
+  .p8 .gallery-item:nth-child(5) { animation-delay: 0.5s; }
+  .p8 .empty-cell:nth-of-type(2) { grid-column: span 2; }
+  .p8 .gallery-item:nth-child(6) { animation-delay: 0.6s; }
+  .p8 .gallery-item:nth-child(7) { grid-column: span 2; animation-delay: 0.7s; }
+
+  .p8 .gallery-item:hover img { filter: brightness(1.15); }
+
+  /* ========== PATTERN 9: Overlapping Cards ========== */
+  .p9.gallery-frame {
+    position: relative;
+    padding: 20px;
+  }
+
+  .p9 .gallery-item {
+    position: absolute;
+    width: 160px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 8px;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out forwards;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  }
+
+  .p9 .gallery-item:nth-child(1) { top: 20px; left: 20px; z-index: 6; animation-delay: 0.1s; }
+  .p9 .gallery-item:nth-child(2) { top: 40px; left: 100px; z-index: 5; animation-delay: 0.15s; }
+  .p9 .gallery-item:nth-child(3) { top: 60px; left: 180px; z-index: 4; animation-delay: 0.2s; }
+  .p9 .gallery-item:nth-child(4) { top: 140px; left: 50px; z-index: 3; animation-delay: 0.25s; }
+  .p9 .gallery-item:nth-child(5) { top: 160px; left: 140px; z-index: 2; animation-delay: 0.3s; }
+  .p9 .gallery-item:nth-child(6) { top: 150px; left: 240px; z-index: 1; animation-delay: 0.35s; }
+
+  .p9 .gallery-item:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.7); }
+
+  /* ========== PATTERN 10: Polaroid Scatter ========== */
+  .p10.gallery-frame {
+    position: relative;
+    padding: 30px 20px;
+  }
+
+  .p10 .polaroid {
+    position: absolute;
+    width: 130px;
+    background: #fff;
+    padding: 8px;
+    padding-bottom: 40px;
+    border-radius: 2px;
+    opacity: 0;
+    animation: fadeInRotate 0.7s ease-out forwards;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+  }
+
+  .p10 .polaroid-image {
+    width: 100%;
+    height: 110px;
+    overflow: hidden;
+    background: #f0f0f0;
+  }
+
+  .p10 .polaroid:nth-child(1) { top: 30px; left: 20px; transform: rotate(-8deg); animation-delay: 0.1s; }
+  .p10 .polaroid:nth-child(2) { top: 60px; left: 100px; transform: rotate(6deg); animation-delay: 0.15s; }
+  .p10 .polaroid:nth-child(3) { top: 140px; left: 40px; transform: rotate(4deg); animation-delay: 0.2s; }
+  .p10 .polaroid:nth-child(4) { top: 90px; left: 180px; transform: rotate(-12deg); animation-delay: 0.25s; }
+  .p10 .polaroid:nth-child(5) { top: 50px; left: 260px; transform: rotate(8deg); animation-delay: 0.3s; }
+  .p10 .polaroid:nth-child(6) { top: 170px; left: 200px; transform: rotate(-6deg); animation-delay: 0.35s; }
+
+  .p10 .polaroid:hover { transform: rotate(0deg) scale(1.05); box-shadow: 0 15px 40px rgba(0,0,0,0.5); }
+
+  /* Animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes fadeInRight {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes zoomIn {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes fadeInRotate {
+    from {
+      opacity: 0;
+      transform: rotate(0deg) scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: rotate(var(--rotate, 0deg)) scale(1);
+    }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .patterns-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .gallery-frame {
+      height: 300px;
+    }
+
+    .p4 .gallery-item {
+      width: 120px;
+      height: 160px;
+    }
+
+    .p9 .gallery-item {
+      width: 120px;
+      height: 150px;
+    }
+
+    .p10 .polaroid {
+      width: 100px;
+      padding-bottom: 30px;
+    }
+
+    .p10 .polaroid-image {
+      height: 85px;
+    }
+  }
+
+  .footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.6rem;
+    color: rgba(255,255,255,0.2);
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>GALLERY LAYOUT — 10 PATTERNS</h1>
+  <p>ukigumo films / 写真ギャラリー レイアウト提案</p>
+</div>
+
+<div class="patterns-grid">
+
+<!-- Pattern 1: Masonry Grid -->
+<div class="pattern-card">
+  <div class="pattern-label">Pattern 1 <span>Masonry Grid</span></div>
+  <div class="p1 gallery-frame">
+    <div class="gallery-item"><img src="images/paris/01.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/london/01.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/firenze/02.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/paris/02.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/malta/01.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/london/03.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/firenze/03.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/malta/04.jpg" alt=""></div>
+  </div>
+</div>
+
+<!-- Pattern 2: Asymmetric Duo -->
+<div class="pattern-card">
+  <div class="pattern-label">Pattern 2 <span>Asymmetric Duo</span></div>
+  <div class="p2 gallery-frame">
+    <div class="gallery-item"><img src="images/paris/03.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/london/05.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/firenze/06.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/malta/02.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/paris/06.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/london/07.jpg" alt=""></div>
+  </div>
+</div>
+
+<!-- Pattern 3: Full-Width + Row -->
+<div class="pattern-card">
+  <div class="pattern-label">Pattern 3 <span>Full-Width + Row</span></div>
+  <div class="p3 gallery-frame">
+    <div class="hero-section">
+      <div class="gallery-item"><img src="images/hero/hero-01.jpg" alt=""></div>
+    </div>
+    <div class="thumbnail-row">
+      <div class="gallery-item"><img src="images/firenze/07.jpg" alt=""></div>
+      <div class="gallery-item"><img src="images/malta/04.jpg" alt=""></div>
+      <div class="gallery-item"><img src="images/london/01.jpg" alt=""></div>
+    </div>
+  </div>
+</div>
+
+<!-- Pattern 4: Staggered Vertical -->
+<div class="pattern-card">
+  <div class="pattern-label">Pattern 4 <span>Staggered Vertical</span></div>
+  <div class="p4 gallery-frame">
+    <div class="gallery-column">
+      <div class="gallery-item"><img src="images/paris/01.jpg" alt=""></div>
+      <div class="gallery-item"><img src="images/paris/02.jpg" alt=""></div>
+    </div>
+    <div class="gallery-column">
+      <div class="gallery-item"><img src="images/london/03.jpg" alt=""></div>
+      <div class="gallery-item"><img src="images/london/05.jpg" alt=""></div>
+    </div>
+    <div class="gallery-column">
+      <div class="gallery-item"><img src="images/firenze/02.jpg" alt=""></div>
+      <div class="gallery-item"><img src="images/firenze/08.jpg" alt=""></div>
+    </div>
+  </div>
+</div>
+
+<!-- Pattern 5: Magazine Spread -->
+<div class="pattern-card">
+  <div class="pattern-label">Pattern 5 <span>Magazine Spread</span></div>
+  <div class="p5 gallery-frame">
+    <div class="left-section">
+      <div class="gallery-item"><img src="images/paris/03.jpg" alt=""></div>
+      <div class="gallery-item"><img src="images/paris/06.jpg" alt=""></div>
+    </div>
+    <div class="right-section">
+      <div class="gallery-item"><img src="images/london/07.jpg" alt=""></div>
+      <div class="gallery-item"><img src="images/firenze/03.jpg" alt=""></div>
+    </div>
+  </div>
+</div>
+
+<!-- Pattern 6: Minimal Gallery -->
+<div class="pattern-card">
+  <div class="pattern-label">Pattern 6 <span>Minimal Gallery</span></div>
+  <div class="p6 gallery-frame">
+    <div class="gallery-item active"><img src="images/paris/01.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/london/01.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/firenze/06.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/malta/01.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/paris/02.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/malta/04.jpg" alt=""></div>
+    <button class="nav-btn prev" onclick="rotateGallery(event, -1)">‹</button>
+    <button class="nav-btn next" onclick="rotateGallery(event, 1)">›</button>
+    <div class="counter"><span class="current">1</span> / <span class="total">6</span></div>
+  </div>
+</div>
+
+<!-- Pattern 7: Film Strip -->
+<div class="pattern-card">
+  <div class="pattern-label">Pattern 7 <span>Film Strip</span></div>
+  <div class="p7 gallery-frame">
+    <div class="gallery-item"><img src="images/paris/01.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/london/03.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/firenze/02.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/malta/01.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/paris/06.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/london/07.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/firenze/08.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/malta/04.jpg" alt=""></div>
+  </div>
+</div>
+
+<!-- Pattern 8: Grid with Gaps -->
+<div class="pattern-card">
+  <div class="pattern-label">Pattern 8 <span>Grid with Gaps</span></div>
+  <div class="p8 gallery-frame">
+    <div class="gallery-item"><img src="images/paris/01.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/london/01.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/malta/02.jpg" alt=""></div>
+    <div class="empty-cell"></div>
+    <div class="gallery-item"><img src="images/firenze/06.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/paris/03.jpg" alt=""></div>
+    <div class="empty-cell"></div>
+    <div class="gallery-item"><img src="images/london/05.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/firenze/07.jpg" alt=""></div>
+  </div>
+</div>
+
+<!-- Pattern 9: Overlapping Cards -->
+<div class="pattern-card">
+  <div class="pattern-label">Pattern 9 <span>Overlapping Cards</span></div>
+  <div class="p9 gallery-frame">
+    <div class="gallery-item"><img src="images/paris/01.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/london/03.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/firenze/02.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/malta/01.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/paris/06.jpg" alt=""></div>
+    <div class="gallery-item"><img src="images/london/07.jpg" alt=""></div>
+  </div>
+</div>
+
+<!-- Pattern 10: Polaroid Scatter -->
+<div class="pattern-card">
+  <div class="pattern-label">Pattern 10 <span>Polaroid Scatter</span></div>
+  <div class="p10 gallery-frame">
+    <div class="polaroid">
+      <div class="polaroid-image"><img src="images/paris/01.jpg" alt=""></div>
+    </div>
+    <div class="polaroid">
+      <div class="polaroid-image"><img src="images/london/01.jpg" alt=""></div>
+    </div>
+    <div class="polaroid">
+      <div class="polaroid-image"><img src="images/firenze/03.jpg" alt=""></div>
+    </div>
+    <div class="polaroid">
+      <div class="polaroid-image"><img src="images/malta/02.jpg" alt=""></div>
+    </div>
+    <div class="polaroid">
+      <div class="polaroid-image"><img src="images/paris/02.jpg" alt=""></div>
+    </div>
+    <div class="polaroid">
+      <div class="polaroid-image"><img src="images/london/05.jpg" alt=""></div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div class="footer">
+  ukigumo films — Gallery Layout Patterns Showcase
+</div>
+
+<script>
+function rotateGallery(e, direction) {
+  e.preventDefault();
+  const container = e.target.closest('.p6');
+  const items = container.querySelectorAll('.gallery-item');
+  const currentActive = container.querySelector('.gallery-item.active');
+  const currentIndex = Array.from(items).indexOf(currentActive);
+  const nextIndex = (currentIndex + direction + items.length) % items.length;
+
+  currentActive.classList.remove('active');
+  items[nextIndex].classList.add('active');
+
+  const current = container.querySelector('.counter .current');
+  current.textContent = nextIndex + 1;
+}
+
+// Intersection Observer for lazy loading animations
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '50px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.animationPlayState = 'running';
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.gallery-frame').forEach(frame => {
+  observer.observe(frame);
+});
+</script>
+
+</body>
+</html>

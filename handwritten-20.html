@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Handwritten Cursive — 20 Patterns</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Caveat:wght@400;700&family=Satisfy&family=Kalam:wght@300;400&family=La+Belle+Aurore&family=Homemade+Apple&family=Cedarville+Cursive&family=Nothing+You+Could+Do&family=Marck+Script&family=Euphoria+Script&family=Calligraffitti&family=Over+the+Rainbow&family=Give+You+Glory&family=Dawning+of+a+New+Day&family=Handlee&family=Just+Me+Again+Down+Here&family=Reenie+Beanie&family=Waiting+for+the+Sunrise&family=Rock+Salt&family=Sue+Ellen+Francisco&family=Cormorant+Garamond:wght@300&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#0e0e0e; color:#fff; }
+  .header { text-align:center; padding:1.5rem 1rem 0.5rem; }
+  .header h1 { font-family:'Cormorant Garamond',serif; font-size:1rem; font-weight:300; letter-spacing:0.15em; }
+  .header p { font-size:0.55rem; opacity:0.3; margin-top:0.2rem; font-family:'Cormorant Garamond',serif; }
+
+  .grid {
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%,500px),1fr));
+    gap:1rem;
+    padding:0.8rem 1rem 3rem;
+    max-width:1100px;
+    margin:0 auto;
+  }
+  .card {
+    position:relative; overflow:hidden;
+    aspect-ratio:16/9; border-radius:2px;
+    transition:transform 0.3s;
+  }
+  .card:hover { transform:scale(1.01); }
+  .card__bg { position:absolute; top:0; left:0; width:100%; height:100%; }
+  .card__bg img { width:100%; height:100%; object-fit:cover; }
+  .card__overlay { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.72); }
+  .card__num { position:absolute; top:0.5rem; left:0.6rem; font-family:'Cormorant Garamond',serif; font-size:0.5rem; letter-spacing:0.1em; opacity:0.3; }
+  .card__info { position:absolute; bottom:0.35rem; right:0.6rem; font-size:0.42rem; opacity:0.22; font-family:'Cormorant Garamond',serif; }
+  .card__tag { position:absolute; top:0.5rem; right:0.6rem; font-size:0.38rem; opacity:0.25; font-family:'Cormorant Garamond',serif; letter-spacing:0.05em; background:rgba(255,255,255,0.08); padding:0.15rem 0.4rem; border-radius:1px; }
+  .card__text {
+    position:relative; z-index:2;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    height:100%; padding:1.2rem 1.5rem; text-align:center;
+  }
+  .card__main { line-height:1.8; color:rgba(255,255,255,0.6); }
+  .card__sub  { line-height:1.8; color:rgba(255,255,255,0.35); margin-top:clamp(1rem,3vw,1.8rem); }
+
+  @media(max-width:480px){
+    .grid{grid-template-columns:1fr;padding:0.5rem;gap:0.8rem;}
+    .card{aspect-ratio:9/14;}
+  }
+  .footer { text-align:center; padding:1.5rem; font-size:0.45rem; opacity:0.15; font-family:'Cormorant Garamond',serif; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Handwritten Cursive — 20 Patterns</h1>
+  <p>手書き風筆記体 20フォント比較</p>
+</div>
+<div class="grid" id="grid"></div>
+<div class="footer">ukigumo — handwritten cursive font preview</div>
+<script>
+const m=['Weaving each moment into the future','one frame, one second at a time'];
+const s=['A brand delivering works that become','a gentle staff for your life'];
+const imgs=['images/london/05.jpg','images/paris/03.jpg','images/firenze/04.jpg','images/malta/04.jpg','images/london/03.jpg','images/firenze/06.jpg'];
+
+const F=[
+  {n:'Dancing Script',           ms:'clamp(1.2rem,3vw,1.7rem)',    ss:'clamp(0.95rem,2.4vw,1.3rem)', ls:'0.02em', tag:'ナチュラル'},
+  {n:'Caveat',                   ms:'clamp(1.3rem,3.2vw,1.8rem)',  ss:'clamp(1rem,2.5vw,1.35rem)',   ls:'0.02em', tag:'カジュアル手書き'},
+  {n:'Satisfy',                  ms:'clamp(1.3rem,3.2vw,1.8rem)',  ss:'clamp(1rem,2.5vw,1.35rem)',   ls:'0.02em', tag:'レトロ手書き'},
+  {n:'Kalam',                    ms:'clamp(1.1rem,2.8vw,1.5rem)',  ss:'clamp(0.9rem,2.2vw,1.2rem)',  ls:'0.02em', w:300, l:'Kalam Light', tag:'ペン手書き'},
+  {n:'La Belle Aurore',          ms:'clamp(1.1rem,2.8vw,1.5rem)',  ss:'clamp(0.9rem,2.2vw,1.2rem)',  ls:'0.02em', tag:'万年筆'},
+  {n:'Homemade Apple',           ms:'clamp(1rem,2.5vw,1.4rem)',    ss:'clamp(0.85rem,2vw,1.1rem)',   ls:'0.02em', tag:'手書きメモ'},
+  {n:'Cedarville Cursive',       ms:'clamp(1.1rem,2.8vw,1.5rem)',  ss:'clamp(0.9rem,2.2vw,1.2rem)',  ls:'0.02em', tag:'ノート手書き'},
+  {n:'Nothing You Could Do',     ms:'clamp(1.1rem,2.8vw,1.5rem)',  ss:'clamp(0.9rem,2.2vw,1.2rem)',  ls:'0.02em', tag:'ラフ手書き'},
+  {n:'Marck Script',             ms:'clamp(1.3rem,3.2vw,1.8rem)',  ss:'clamp(1rem,2.5vw,1.35rem)',   ls:'0.02em', tag:'エレガント手書き'},
+  {n:'Euphoria Script',          ms:'clamp(1.2rem,3vw,1.7rem)',    ss:'clamp(0.95rem,2.4vw,1.3rem)', ls:'0.02em', tag:'繊細手書き'},
+  {n:'Calligraffitti',           ms:'clamp(1.1rem,2.8vw,1.5rem)',  ss:'clamp(0.9rem,2.2vw,1.2rem)',  ls:'0.02em', tag:'グラフィティ'},
+  {n:'Over the Rainbow',         ms:'clamp(1.1rem,2.8vw,1.5rem)',  ss:'clamp(0.9rem,2.2vw,1.2rem)',  ls:'0.03em', tag:'柔らか手書き'},
+  {n:'Give You Glory',           ms:'clamp(1.1rem,2.8vw,1.5rem)',  ss:'clamp(0.9rem,2.2vw,1.2rem)',  ls:'0.02em', tag:'細ペン'},
+  {n:'Dawning of a New Day',     ms:'clamp(1.1rem,2.8vw,1.5rem)',  ss:'clamp(0.9rem,2.2vw,1.2rem)',  ls:'0.02em', tag:'朝の手紙'},
+  {n:'Handlee',                  ms:'clamp(1.1rem,2.8vw,1.5rem)',  ss:'clamp(0.9rem,2.2vw,1.2rem)',  ls:'0.02em', tag:'丸い手書き'},
+  {n:'Just Me Again Down Here',  ms:'clamp(1.2rem,3vw,1.6rem)',    ss:'clamp(0.95rem,2.4vw,1.25rem)',ls:'0.02em', tag:'日記風'},
+  {n:'Reenie Beanie',            ms:'clamp(1.3rem,3.2vw,1.8rem)',  ss:'clamp(1rem,2.5vw,1.35rem)',   ls:'0.02em', tag:'殴り書き'},
+  {n:'Waiting for the Sunrise',  ms:'clamp(1.1rem,2.8vw,1.5rem)',  ss:'clamp(0.9rem,2.2vw,1.2rem)',  ls:'0.03em', tag:'手紙'},
+  {n:'Rock Salt',                ms:'clamp(0.95rem,2.4vw,1.3rem)', ss:'clamp(0.8rem,2vw,1.05rem)',   ls:'0.03em', tag:'チョーク'},
+  {n:'Sue Ellen Francisco',      ms:'clamp(1.2rem,3vw,1.6rem)',    ss:'clamp(0.95rem,2.4vw,1.25rem)',ls:'0.02em', tag:'ゆるい手書き'},
+];
+
+const g=document.getElementById('grid');
+F.forEach((f,i)=>{
+  const img=imgs[i%imgs.length];
+  const fw=f.w||400;
+  const lb=f.l||f.n;
+  const c=document.createElement('div');
+  c.className='card';
+  c.innerHTML=`
+    <div class="card__bg"><img src="${img}" alt=""><div class="card__overlay"></div></div>
+    <div class="card__num">#${String(i+1).padStart(2,'0')}</div>
+    <div class="card__tag">${f.tag}</div>
+    <div class="card__info">${lb}</div>
+    <div class="card__text">
+      <p class="card__main" style="font-family:'${f.n}',cursive;font-size:${f.ms};font-weight:${fw};letter-spacing:${f.ls};">${m.join('<br>')}</p>
+      <p class="card__sub" style="font-family:'${f.n}',cursive;font-size:${f.ss};font-weight:${fw};letter-spacing:${f.ls};">${s.join('<br>')}</p>
+    </div>`;
+  g.appendChild(c);
+});
+</script>
+</body>
+</html>

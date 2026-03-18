@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery - Bird &amp; Insect Style Demo</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0f;
+    color: #fff;
+    font-family: "Cormorant Garamond", "Noto Serif JP", serif;
+    overflow-x: hidden;
+  }
+
+  /* -- spacer to simulate content above gallery -- */
+  .spacer-top {
+    height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    letter-spacing: 0.3em;
+    color: rgba(255,255,255,0.3);
+  }
+  .spacer-top span {
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 12px 32px;
+    border-radius: 2px;
+  }
+
+  /* ============================
+     GALLERY SECTION
+     ============================ */
+  .gallery-parallax {
+    position: relative;
+    /* tall scroll zone — photos spread across this height */
+    height: 220vh;
+    overflow: visible;
+  }
+
+
+  /* each photo wrapper */
+  .gp-photo {
+    position: absolute;
+    z-index: 1;
+    will-change: transform, opacity, filter;
+    /* start invisible — JS will control */
+    opacity: 0;
+    transform: translateY(60px) scale(0.92);
+    filter: blur(12px) brightness(1.3);
+    transition: none; /* JS controls everything */
+  }
+
+  .gp-photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 2px;
+    filter: brightness(0.75);
+  }
+
+  /* ---- Photo layout: large, alternating left/right ---- */
+  /* Photo 1 — LEFT, large */
+  .gp-photo--1 {
+    width: 52vw;
+    height: 36vw;
+    top: 3%;
+    left: 3%;
+    z-index: 2;
+  }
+
+  /* Photo 2 — RIGHT, large */
+  .gp-photo--2 {
+    width: 45vw;
+    height: 55vw;
+    top: 14%;
+    right: 2%;
+    z-index: 1;
+  }
+
+  /* Photo 3 — LEFT, medium */
+  .gp-photo--3 {
+    width: 40vw;
+    height: 28vw;
+    top: 36%;
+    left: 8%;
+    z-index: 3;
+  }
+
+  /* Photo 4 — RIGHT, large */
+  .gp-photo--4 {
+    width: 48vw;
+    height: 32vw;
+    top: 47%;
+    right: 5%;
+    z-index: 2;
+  }
+
+  /* ---- Gallery text block ---- */
+  .gp-text {
+    position: absolute;
+    z-index: 10;
+    top: 18%;
+    left: 5%;
+    max-width: 520px;
+    opacity: 0;
+    transform: translateY(30px);
+    filter: blur(6px);
+    transition: none;
+  }
+
+  .gp-text .gp-label {
+    font-size: 0.8rem;
+    letter-spacing: 0.35em;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 16px;
+    font-weight: 300;
+  }
+
+  .gp-text .gp-heading {
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    font-weight: 300;
+    letter-spacing: 0.06em;
+    line-height: 1.6;
+    margin-bottom: 32px;
+    font-family: "Noto Serif JP", serif;
+  }
+
+  .gp-text .gp-desc-ja {
+    font-size: 0.9rem;
+    line-height: 2.2;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 28px;
+    font-family: "Noto Serif JP", serif;
+    letter-spacing: 0.03em;
+  }
+
+  .gp-text .gp-desc-en {
+    font-size: 0.78rem;
+    line-height: 2;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 40px;
+    font-family: "Cormorant Garamond", serif;
+    letter-spacing: 0.05em;
+  }
+
+  .gp-text .gp-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 32px;
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 40px;
+    color: rgba(255,255,255,0.6);
+    font-size: 0.82rem;
+    letter-spacing: 0.25em;
+    text-decoration: none;
+    transition: all 0.4s ease;
+    font-family: "Cormorant Garamond", serif;
+  }
+  .gp-text .gp-cta:hover {
+    border-color: rgba(255,255,255,0.5);
+    color: #fff;
+  }
+
+  @media (max-width: 768px) {
+    .gp-text { left: 5%; max-width: 90%; top: 60%; }
+  }
+
+  /* spacer at bottom */
+  .spacer-bottom {
+    height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    letter-spacing: 0.3em;
+    color: rgba(255,255,255,0.3);
+  }
+
+  /* scroll hint */
+  .scroll-hint {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255,255,255,0.4);
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    z-index: 100;
+    animation: hintPulse 2s ease-in-out infinite;
+  }
+  @keyframes hintPulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.8; }
+  }
+
+  /* mobile adjustments */
+  @media (max-width: 768px) {
+    .gp-photo--1 { width: 85vw; height: 60vw; left: 5%; }
+    .gp-photo--2 { width: 75vw; height: 90vw; right: 3%; }
+    .gp-photo--3 { width: 70vw; height: 50vw; left: 5%; }
+    .gp-photo--4 { width: 80vw; height: 55vw; right: 3%; }
+    .gp-photo--5 { width: 75vw; height: 85vw; left: 3%; }
+    .gallery-parallax { height: 400vh; }
+  }
+</style>
+</head>
+<body>
+
+<div class="spacer-top"><span>scroll down</span></div>
+
+<!-- ============ GALLERY ============ -->
+<section class="gallery-parallax" id="galleryParallax">
+
+  <div class="gp-photo gp-photo--1" data-parallax-speed="0.35" data-fade-origin="left">
+    <img src="images/paris/01.jpg" alt="Paris wedding photo">
+  </div>
+
+  <div class="gp-photo gp-photo--2" data-parallax-speed="-0.20" data-fade-origin="right">
+    <img src="images/london/03.jpg" alt="London wedding photo">
+  </div>
+
+  <div class="gp-photo gp-photo--3" data-parallax-speed="0.50" data-fade-origin="left">
+    <img src="images/firenze/02.jpg" alt="Firenze wedding photo">
+  </div>
+
+  <div class="gp-photo gp-photo--4" data-parallax-speed="-0.30" data-fade-origin="right">
+    <img src="images/malta/01.jpg" alt="Malta wedding photo">
+  </div>
+
+  <!-- Text block — randomly chosen on each page load -->
+  <div class="gp-text" id="gpText" data-parallax-speed="0.15">
+    <p class="gp-label">Gallery</p>
+    <h2 class="gp-heading" id="gpHeading"></h2>
+    <p class="gp-desc-ja" id="gpDescJa"></p>
+    <p class="gp-desc-en" id="gpDescEn"></p>
+    <a href="#" class="gp-cta">Gallery <span style="transition:transform 0.3s ease">→</span></a>
+  </div>
+
+</section>
+
+<div class="spacer-bottom"></div>
+
+<div class="scroll-hint">scroll</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // ===== RANDOM TEXT SELECTION =====
+  var textVariants = [
+    {
+      heading: '飾らないふたりが、<br>いちばん美しい。',
+      ja: '完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。',
+      en: "You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful."
+    },
+    {
+      heading: '迷いながらでも、<br>ふたりなら歩ける。',
+      ja: '地図のない道を選んだ。<br>間違えても、遠回りしても、<br>隣に君がいるから、それでよかった。',
+      en: 'We chose the road without a map.<br>Wrong turns, detours — none of it mattered,<br>because you were right there beside me.'
+    },
+    {
+      heading: 'ここまで来たんだ、<br>ふたりで。',
+      ja: '振り返ればいろんなことがあった。<br>でも気づけば、いつも隣にいてくれた。<br>だから次の一歩も、一緒に踏み出せる。',
+      en: "Looking back, we've been through so much.<br>But somehow, you were always there.<br>That's why we can take the next step — together."
+    }
+  ];
+
+  var chosen = textVariants[Math.floor(Math.random() * textVariants.length)];
+  document.getElementById('gpHeading').innerHTML = chosen.heading;
+  document.getElementById('gpDescJa').innerHTML = chosen.ja;
+  document.getElementById('gpDescEn').innerHTML = chosen.en;
+
+  // ===== PARALLAX SETUP =====
+  var photos = document.querySelectorAll('.gp-photo');
+  var gpText = document.getElementById('gpText');
+  var gallery = document.getElementById('galleryParallax');
+
+  // Per-photo random parameters for organic feel
+  var photoParams = [];
+  for (var i = 0; i < photos.length; i++) {
+    var speed = parseFloat(photos[i].getAttribute('data-parallax-speed')) || 0.3;
+    photoParams.push({
+      el: photos[i],
+      speed: speed,
+      // Random additions for organic feel
+      blurMax: 8 + Math.random() * 8,        // 8-16px max blur
+      scaleMin: 0.88 + Math.random() * 0.06,   // 0.88-0.94
+      brightnessMax: 1.1 + Math.random() * 0.3, // 1.1-1.4
+      // Each photo has slightly different fade zone
+      fadeInStart: 0.85 + Math.random() * 0.1,  // start fading in when 85-95% below viewport
+      fadeInEnd: 0.65 + Math.random() * 0.1,    // fully visible by 65-75%
+      fadeOutStart: 0.15 + Math.random() * 0.1,  // start fading out at 15-25% from top
+      fadeOutEnd: -0.05 - Math.random() * 0.1,   // fully gone by -5% to -15%
+      // Lerp values (smoothed)
+      currentOpacity: 0,
+      currentTranslateY: 60,
+      currentBlur: 16,
+      currentScale: 0.9,
+      currentBrightness: 1.3,
+      // target values
+      targetOpacity: 0,
+      targetTranslateY: 60,
+      targetBlur: 16,
+      targetScale: 0.9,
+      targetBrightness: 1.3,
+      // Different lerp speeds for organic feel
+      lerpSpeed: 0.04 + Math.random() * 0.06  // 0.04-0.10
+    });
+  }
+
+  function lerp(a, b, t) {
+    return a + (b - a) * t;
+  }
+
+  function clamp(val, min, max) {
+    return Math.max(min, Math.min(max, val));
+  }
+
+  // Map a value from one range to another
+  function mapRange(value, inMin, inMax, outMin, outMax) {
+    var t = (value - inMin) / (inMax - inMin);
+    t = clamp(t, 0, 1);
+    return outMin + t * (outMax - outMin);
+  }
+
+  function updatePhotos() {
+    var viewH = window.innerHeight;
+    var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+    var galleryRect = gallery.getBoundingClientRect();
+
+    for (var i = 0; i < photoParams.length; i++) {
+      var p = photoParams[i];
+      var el = p.el;
+      var rect = el.getBoundingClientRect();
+
+      // Position relative to viewport (0 = top of viewport, 1 = bottom)
+      var screenPos = rect.top / viewH;
+
+      // === PARALLAX MOVEMENT ===
+      // How far the gallery section has scrolled
+      var galleryScrolled = scrollY - (scrollY + galleryRect.top);
+      var parallaxY = galleryScrolled * p.speed;
+
+      // === FADE LOGIC based on screen position ===
+      var opacity;
+      if (screenPos > p.fadeInStart) {
+        // Below viewport — invisible
+        opacity = 0;
+      } else if (screenPos > p.fadeInEnd) {
+        // Fading IN zone
+        opacity = mapRange(screenPos, p.fadeInStart, p.fadeInEnd, 0, 1);
+      } else if (screenPos > p.fadeOutStart) {
+        // Fully visible zone
+        opacity = 1;
+      } else if (screenPos > p.fadeOutEnd) {
+        // Fading OUT zone
+        opacity = mapRange(screenPos, p.fadeOutStart, p.fadeOutEnd, 1, 0);
+      } else {
+        // Above viewport — invisible
+        opacity = 0;
+      }
+
+      // === CINEMATIC EFFECTS tied to opacity ===
+      // When opacity is 0, full blur/scale/brightness effect. When 1, clear.
+      var visibility = opacity; // 0 to 1
+      var targetBlur = (1 - visibility) * p.blurMax;
+      var targetScale = lerp(p.scaleMin, 1, visibility);
+      var targetBrightness = lerp(p.brightnessMax, 1, visibility);
+
+      // Set targets
+      p.targetOpacity = opacity;
+      p.targetTranslateY = parallaxY + (1 - visibility) * 40; // slight upward drift as it appears
+      p.targetBlur = targetBlur;
+      p.targetScale = targetScale;
+      p.targetBrightness = targetBrightness;
+
+      // LERP smooth towards targets (organic, living feel)
+      p.currentOpacity = lerp(p.currentOpacity, p.targetOpacity, p.lerpSpeed);
+      p.currentTranslateY = lerp(p.currentTranslateY, p.targetTranslateY, p.lerpSpeed);
+      p.currentBlur = lerp(p.currentBlur, p.targetBlur, p.lerpSpeed);
+      p.currentScale = lerp(p.currentScale, p.targetScale, p.lerpSpeed);
+      p.currentBrightness = lerp(p.currentBrightness, p.targetBrightness, p.lerpSpeed);
+
+      // Apply to DOM
+      var tx = 'translateY(' + p.currentTranslateY.toFixed(1) + 'px) scale(' + p.currentScale.toFixed(4) + ')';
+      var fl = 'blur(' + p.currentBlur.toFixed(1) + 'px) brightness(' + p.currentBrightness.toFixed(3) + ')';
+
+      el.style.opacity = p.currentOpacity.toFixed(4);
+      el.style.transform = tx;
+      el.style.filter = fl;
+    }
+
+    // ===== TEXT BLOCK parallax + fade =====
+    if (gpText) {
+      var tRect = gpText.getBoundingClientRect();
+      var tPos = tRect.top / viewH;
+      var tOpacity;
+      if (tPos > 0.9) { tOpacity = 0; }
+      else if (tPos > 0.65) { tOpacity = (0.9 - tPos) / 0.25; }
+      else if (tPos > 0.1) { tOpacity = 1; }
+      else if (tPos > -0.1) { tOpacity = (tPos + 0.1) / 0.2; }
+      else { tOpacity = 0; }
+
+      var galleryScrolled2 = scrollY - (scrollY + galleryRect.top);
+      var tParallax = galleryScrolled2 * 0.15;
+      var tBlur = (1 - tOpacity) * 6;
+      var tScale = 0.96 + tOpacity * 0.04;
+
+      gpText.style.opacity = tOpacity.toFixed(4);
+      gpText.style.transform = 'translateY(' + (tParallax + (1 - tOpacity) * 20).toFixed(1) + 'px) scale(' + tScale.toFixed(4) + ')';
+      gpText.style.filter = 'blur(' + tBlur.toFixed(1) + 'px)';
+    }
+
+    requestAnimationFrame(updatePhotos);
+  }
+
+  requestAnimationFrame(updatePhotos);
+})();
+</script>
+
+</body>
+</html>

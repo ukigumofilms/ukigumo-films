@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>日本語フォント — 30 Patterns</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;200;300;400;500&family=Noto+Serif+JP:wght@200;300;400;500&family=Shippori+Mincho:wght@300;400;500;600&family=Shippori+Mincho+B1:wght@400;500&family=Zen+Old+Mincho:wght@400;700&family=Zen+Kaku+Gothic+New:wght@300;400;500&family=Zen+Maru+Gothic:wght@300;400;500&family=Zen+Antique&family=Zen+Antique+Soft&family=Sawarabi+Mincho&family=Sawarabi+Gothic&family=Kosugi+Maru&family=M+PLUS+1p:wght@100;200;300;400&family=M+PLUS+Rounded+1c:wght@100;300;400&family=Klee+One:wght@400;600&family=Hina+Mincho&family=Kaisei+Decol&family=Kaisei+Tokumin:wght@400;500&family=Kaisei+Opti&family=Kaisei+HarunoUmi&family=Yuji+Syuku&family=Yuji+Mai&family=Yuji+Boku&family=Dela+Gothic+One&family=Reggae+One&family=RocknRoll+One&family=Cormorant+Garamond:wght@300&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#0e0e0e; color:#fff; font-family:'Noto Sans JP',sans-serif; }
+
+  .header { text-align:center; padding:1.5rem 1rem 0.5rem; }
+  .header h1 { font-family:'Cormorant Garamond',serif; font-size:1rem; font-weight:300; letter-spacing:0.15em; }
+  .header p { font-size:0.55rem; opacity:0.3; margin-top:0.2rem; }
+
+  .grid {
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 400px), 1fr));
+    gap:1rem;
+    padding:0.8rem 1rem 3rem;
+    max-width:1200px;
+    margin:0 auto;
+  }
+
+  .card {
+    position:relative; overflow:hidden;
+    aspect-ratio: 16/9; border-radius:2px;
+    transition: transform 0.3s;
+  }
+  .card:hover { transform:scale(1.01); }
+  .card__bg { position:absolute; top:0; left:0; width:100%; height:100%; }
+  .card__bg img { width:100%; height:100%; object-fit:cover; }
+  .card__overlay {
+    position:absolute; top:0; left:0; width:100%; height:100%;
+    background:rgba(0,0,0,0.72);
+  }
+  .card__num {
+    position:absolute; top:0.5rem; left:0.6rem;
+    font-family:'Cormorant Garamond',serif;
+    font-size:0.5rem; letter-spacing:0.1em; opacity:0.3;
+  }
+  .card__info {
+    position:absolute; bottom:0.35rem; left:0.6rem; right:0.6rem;
+    font-size:0.42rem; opacity:0.22;
+    font-family:'Noto Sans JP',sans-serif; font-weight:300;
+    display:flex; justify-content:space-between;
+  }
+  .card__text {
+    position:relative; z-index:2;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    height:100%; padding:1.2rem 1.5rem; text-align:center;
+  }
+
+  @media (max-width:480px) {
+    .grid { grid-template-columns:1fr; padding:0.5rem; gap:0.8rem; }
+    .card { aspect-ratio:9/14; }
+  }
+
+  .footer { text-align:center; padding:1.5rem; font-size:0.45rem; opacity:0.15; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Japanese Font — 30 Patterns</h1>
+  <p>日本語フォント × ウェイト × レター/行間バリエーション</p>
+</div>
+
+<div class="grid" id="grid"></div>
+<div class="footer">ukigumo — japanese font preview</div>
+
+<script>
+const line1 = 'この瞬間を、未来へと紡ぐ一枚、一秒に';
+const line2 = 'あなたの人生を支える杖のような作品を届けるブランドです';
+
+const imgs = [
+  'images/london/05.jpg','images/paris/03.jpg','images/firenze/04.jpg',
+  'images/malta/04.jpg','images/london/03.jpg','images/firenze/06.jpg',
+];
+
+const patterns = [
+  // === Noto Sans JP ===
+  { font:'Noto Sans JP', w:100, sz:'clamp(0.85rem,2.2vw,1.1rem)', sz2:'clamp(0.72rem,1.7vw,0.88rem)', ls:'0.12em', lh:'2.6', op1:'0.9', op2:'0.5', gap:'0.5rem', tag:'ゴシック極細' },
+  { font:'Noto Sans JP', w:200, sz:'clamp(0.9rem,2.3vw,1.15rem)', sz2:'clamp(0.75rem,1.8vw,0.9rem)', ls:'0.1em', lh:'2.4', op1:'0.9', op2:'0.5', gap:'0.4rem', tag:'ゴシック細' },
+  { font:'Noto Sans JP', w:300, sz:'clamp(0.85rem,2.2vw,1.1rem)', sz2:'clamp(0.72rem,1.7vw,0.88rem)', ls:'0.08em', lh:'2.2', op1:'0.9', op2:'0.5', gap:'0.4rem', tag:'ゴシック' },
+  { font:'Noto Sans JP', w:200, sz:'clamp(0.95rem,2.4vw,1.2rem)', sz2:'clamp(0.75rem,1.8vw,0.9rem)', ls:'0.14em', lh:'2.8', op1:'0.85', op2:'0.45', gap:'0.6rem', tag:'ゴシック細・広め' },
+
+  // === Noto Serif JP (明朝) ===
+  { font:'Noto Serif JP', w:200, sz:'clamp(0.9rem,2.3vw,1.15rem)', sz2:'clamp(0.75rem,1.8vw,0.9rem)', ls:'0.1em', lh:'2.4', op1:'0.9', op2:'0.5', gap:'0.5rem', tag:'明朝細' },
+  { font:'Noto Serif JP', w:300, sz:'clamp(0.85rem,2.2vw,1.1rem)', sz2:'clamp(0.72rem,1.7vw,0.88rem)', ls:'0.08em', lh:'2.2', op1:'0.9', op2:'0.5', gap:'0.4rem', tag:'明朝' },
+  { font:'Noto Serif JP', w:400, sz:'clamp(0.9rem,2.3vw,1.15rem)', sz2:'clamp(0.75rem,1.8vw,0.9rem)', ls:'0.12em', lh:'2.6', op1:'0.85', op2:'0.45', gap:'0.5rem', tag:'明朝やや太' },
+
+  // === Shippori Mincho ===
+  { font:'Shippori Mincho', w:300, sz:'clamp(0.9rem,2.3vw,1.15rem)', sz2:'clamp(0.75rem,1.8vw,0.9rem)', ls:'0.1em', lh:'2.4', op1:'0.9', op2:'0.5', gap:'0.5rem', tag:'しっぽり明朝細' },
+  { font:'Shippori Mincho', w:400, sz:'clamp(0.85rem,2.2vw,1.1rem)', sz2:'clamp(0.72rem,1.7vw,0.88rem)', ls:'0.08em', lh:'2.2', op1:'0.9', op2:'0.5', gap:'0.4rem', tag:'しっぽり明朝' },
+  { font:'Shippori Mincho', w:500, sz:'clamp(0.9rem,2.3vw,1.15rem)', sz2:'clamp(0.75rem,1.8vw,0.9rem)', ls:'0.12em', lh:'2.6', op1:'0.85', op2:'0.45', gap:'0.5rem', tag:'しっぽり明朝中太' },
+
+  // === Zen Old Mincho ===
+  { font:'Zen Old Mincho', w:400, sz:'clamp(0.9rem,2.3vw,1.15rem)', sz2:'clamp(0.75rem,1.8vw,0.9rem)', ls:'0.1em', lh:'2.4', op1:'0.9', op2:'0.5', gap:'0.5rem', tag:'Zen明朝' },
+  { font:'Zen Old Mincho', w:400, sz:'clamp(0.95rem,2.4vw,1.2rem)', sz2:'clamp(0.75rem,1.8vw,0.9rem)', ls:'0.14em', lh:'2.8', op1:'0.85', op2:'0.45', gap:'0.6rem', tag:'Zen明朝・広め' },
+
+  // === Zen Kaku Gothic New ===
+  { font:'Zen Kaku Gothic New', w:300, sz:'clamp(0.85rem,2.2vw,1.1rem)', sz2:'clamp(0.72rem,1.7vw,0.88rem)', ls:'0.1em', lh:'2.4', op1:'0.9', op2:'0.5', gap:'0.4rem', tag:'Zen角ゴシック細' },
+  { font:'Zen Kaku Gothic New', w:400, sz:'clamp(0.9rem,2.3vw,1.15rem)', sz2:'clamp(0.75rem,1.8vw,0.9rem)', ls:'0.08em', lh:'2.2', op1:'0.9', op2:'0.5', gap:'0.4rem', tag:'Zen角ゴシック' },
+
+  // === Zen Maru Gothic (丸ゴ) ===
+  { font:'Zen Maru Gothic', w:300, sz:'clamp(0.85rem,2.2vw,1.1rem)', sz2:'clamp(0.72rem,1.7vw,0.88rem)', ls:'0.1em', lh:'2.4', op1:'0.9', op2:'0.5', gap:'0.4rem', tag:'Zen丸ゴ細' },
+  { font:'Zen Maru Gothic', w:400, sz:'clamp(0.9rem,2.3vw,1.15rem)', sz2:'clamp(0.75rem,1.8vw,0.9rem)', ls:'0.08em', lh:'2.2', op1:'0.9', op2:'0.5', gap:'0.4rem', tag:'Zen丸ゴ' },
+
+  // === Zen Antique / Soft ===
+  { font:'Zen Antique', w:400, sz:'clamp(0.85rem,2.2vw,1.1rem)', sz2:'clamp(0.72rem,1.7vw,0.88rem)', ls:'0.08em', lh:'2.4', op1:'0.9', op2:'0.5', gap:'0.5rem', tag:'Zenアンティーク' },
+  { font:'Zen Antique Soft', w:400, sz:'clamp(0.85rem,2.2vw,1.1rem)', sz2:'clamp(0.72rem,1.7vw,0.88rem)', ls:'0.1em', lh:'2.4', op1:'0.9', op2:'0.5', gap:'0.5rem', tag:'Zenアンティーク柔' },
+
+  // === M PLUS 1p ===
+  { font:'M PLUS 1p', w:100, sz:'clamp(0.9rem,2.3vw,1.15rem)', sz2:'clamp(0.75rem,1.8vw,0.9rem)', ls:'0.1em', lh:'2.4', op1:'0.9', op2:'0.5', gap:'0.5rem', tag:'M PLUS 極細' },
+  { font:'M PLUS 1p', w:200, sz:'clamp(0.85rem,2.2vw,1.1rem)', sz2:'clamp(0.72rem,1.7vw,0.88rem)', ls:'0.12em', lh:'2.6', op1:'0.85', op2:'0.45', gap:'0.5rem', tag:'M PLUS 細' },
+
+  // === M PLUS Rounded 1c (丸ゴ) ===
+  { font:'M PLUS Rounded 1c', w:100, sz:'clamp(0.9rem,2.3vw,1.15rem)', sz2:'clamp(0.75rem,1.8vw,0.9rem)', ls:'0.1em', lh:'2.4', op1:'0.9', op2:'0.5', gap:'0.5rem', tag:'M PLUS 丸極細' },
+  { font:'M PLUS Rounded 1c', w:300, sz:'clamp(0.85rem,2.2vw,1.1rem)', sz2:'clamp(0.72rem,1.7vw,0.88rem)', ls:'0.08em', lh:'2.2', op1:'0.9', op2:'0.5', gap:'0.4rem', tag:'M PLUS 丸細' },
+
+  // === Klee One (教科書体風) ===
+  { font:'Klee One', w:400, sz:'clamp(0.85rem,2.2vw,1.1rem)', sz2:'clamp(0.72rem,1.7vw,0.88rem)', ls:'0.08em', lh:'2.4', op1:'0.9', op2:'0.5', gap:'0.4rem', tag:'クレー' },
+  { font:'Klee One', w:600, sz:'clamp(0.85rem,2.2vw,1.1rem)', sz2:'clamp(0.72rem,1.7vw,0.88rem)', ls:'0.1em', lh:'2.4', op1:'0.85', op2:'0.45', gap:'0.4rem', tag:'クレー中太' },
+
+  // === Hina Mincho ===
+  { font:'Hina Mincho', w:400, sz:'clamp(0.9rem,2.3vw,1.15rem)', sz2:'clamp(0.75rem,1.8vw,0.9rem)', ls:'0.1em', lh:'2.4', op1:'0.9', op2:'0.5', gap:'0.5rem', tag:'ひな明朝' },
+
+  // === Kaisei系 ===
+  { font:'Kaisei Tokumin', w:400, sz:'clamp(0.9rem,2.3vw,1.15rem)', sz2:'clamp(0.75rem,1.8vw,0.9rem)', ls:'0.1em', lh:'2.4', op1:'0.9', op2:'0.5', gap:'0.5rem', tag:'解星特ミン' },
+  { font:'Kaisei HarunoUmi', w:400, sz:'clamp(0.85rem,2.2vw,1.1rem)', sz2:'clamp(0.72rem,1.7vw,0.88rem)', ls:'0.08em', lh:'2.4', op1:'0.9', op2:'0.5', gap:'0.5rem', tag:'解星春の海' },
+
+  // === Yuji系 (筆書き風) ===
+  { font:'Yuji Syuku', w:400, sz:'clamp(0.9rem,2.3vw,1.15rem)', sz2:'clamp(0.75rem,1.8vw,0.9rem)', ls:'0.08em', lh:'2.4', op1:'0.9', op2:'0.5', gap:'0.5rem', tag:'游字宿' },
+  { font:'Yuji Mai', w:400, sz:'clamp(0.9rem,2.3vw,1.15rem)', sz2:'clamp(0.75rem,1.8vw,0.9rem)', ls:'0.1em', lh:'2.6', op1:'0.85', op2:'0.45', gap:'0.5rem', tag:'游字舞' },
+  { font:'Yuji Boku', w:400, sz:'clamp(0.85rem,2.2vw,1.1rem)', sz2:'clamp(0.72rem,1.7vw,0.88rem)', ls:'0.08em', lh:'2.4', op1:'0.9', op2:'0.5', gap:'0.5rem', tag:'游字墨' },
+];
+
+const grid = document.getElementById('grid');
+
+patterns.forEach((p, i) => {
+  const img = imgs[i % imgs.length];
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <div class="card__bg"><img src="${img}" alt=""><div class="card__overlay"></div></div>
+    <div class="card__num">#${String(i+1).padStart(2,'0')}</div>
+    <div class="card__info"><span>${p.tag}</span><span>${p.font} w${p.w}</span></div>
+    <div class="card__text">
+      <p style="font-family:'${p.font}',sans-serif;font-weight:${p.w};font-size:${p.sz};letter-spacing:${p.ls};line-height:${p.lh};color:rgba(255,255,255,${p.op1});">
+        ${line1}
+      </p>
+      <p style="font-family:'${p.font}',sans-serif;font-weight:${p.w};font-size:${p.sz2};letter-spacing:${p.ls};line-height:${p.lh};color:rgba(255,255,255,${p.op2});margin-top:${p.gap};">
+        ${line2}
+      </p>
+    </div>
+  `;
+  grid.appendChild(card);
+});
+</script>
+</body>
+</html>

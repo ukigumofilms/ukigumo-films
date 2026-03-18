@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dress Section — 10 Patterns</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #e8e5e0; font-family: "Cormorant Garamond", serif; }
+  .pattern-label {
+    text-align: center; padding: 60px 0 20px;
+    font-family: "Cormorant Garamond", serif; font-size: 0.75rem;
+    letter-spacing: 0.4em; color: rgba(61,53,48,0.4); text-transform: uppercase;
+  }
+  .pattern-label span { font-size: 1.4rem; display: block; margin-bottom: 6px; color: #2a2420; letter-spacing: 0.1em; }
+  .divider { width: 60px; height: 1px; background: rgba(61,53,48,0.15); margin: 0 auto 80px; }
+
+  /* ====== PATTERN 1: ミニマル縦書き風 ====== */
+  .d1 {
+    background: #f5f3ef; padding: 120px 8%; text-align: center;
+  }
+  .d1 h2 {
+    font-family: "Cormorant Garamond", serif; font-weight: 300;
+    font-size: clamp(2rem, 5vw, 3.2rem); letter-spacing: 0.3em; color: #2a2420;
+    margin-bottom: 16px;
+  }
+  .d1 .sub {
+    font-family: "Noto Serif JP", serif; font-size: 0.65rem; font-weight: 300;
+    color: rgba(61,53,48,0.4); letter-spacing: 0.3em; margin-bottom: 48px;
+  }
+  .d1 p {
+    font-family: "Noto Serif JP", serif; font-size: 0.85rem; font-weight: 300;
+    color: rgba(61,53,48,0.7); line-height: 2.2; max-width: 520px; margin: 0 auto 48px;
+    letter-spacing: 0.05em;
+  }
+  .d1 .cta {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 14px 42px; border: 1px solid #2a2420; border-radius: 8px;
+    color: #2a2420; font-size: 0.9rem; letter-spacing: 0.25em;
+    text-decoration: none; font-family: "Cormorant Garamond", serif;
+    transition: all 0.4s ease;
+  }
+  .d1 .cta:hover { border-radius: 40px; background: rgba(61,53,48,0.06); }
+  .d1 .cta .arrow { transition: transform 0.3s ease; }
+  .d1 .cta:hover .arrow { transform: translateX(5px); }
+
+  /* ====== PATTERN 2: 左寄せ+薄い縦ライン ====== */
+  .d2 {
+    background: #f5f3ef; padding: 120px 8%; display: flex; align-items: flex-start; gap: 40px;
+  }
+  .d2 .line { width: 1px; height: 200px; background: rgba(61,53,48,0.1); flex-shrink: 0; }
+  .d2-content {}
+  .d2 h2 {
+    font-weight: 300; font-size: clamp(1.8rem, 4vw, 2.8rem);
+    letter-spacing: 0.25em; color: #2a2420; margin-bottom: 12px;
+  }
+  .d2 .label {
+    font-size: 0.6rem; letter-spacing: 0.4em; color: rgba(61,53,48,0.3);
+    text-transform: uppercase; margin-bottom: 36px;
+  }
+  .d2 p {
+    font-family: "Noto Serif JP", serif; font-size: 0.82rem; font-weight: 300;
+    color: rgba(61,53,48,0.6); line-height: 2; max-width: 440px; margin-bottom: 40px;
+    letter-spacing: 0.04em;
+  }
+  .d2 .cta {
+    display: inline-flex; align-items: center; gap: 12px;
+    padding: 12px 36px; border: 1px solid rgba(42,36,32,0.3); border-radius: 6px;
+    color: #2a2420; font-size: 0.85rem; letter-spacing: 0.2em;
+    text-decoration: none; transition: all 0.4s ease;
+  }
+  .d2 .cta:hover { background: rgba(61,53,48,0.04); border-radius: 30px; }
+
+  /* ====== PATTERN 3: フルワイドイメージ背景+オーバーレイ ====== */
+  .d3 {
+    position: relative; height: 70vh; min-height: 480px; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .d3 .bg {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(135deg, #d4c5b3 0%, #e8ddd0 50%, #c9baa8 100%);
+    filter: brightness(0.7);
+  }
+  .d3 .overlay {
+    position: relative; z-index: 2; text-align: center; color: #fff;
+  }
+  .d3 h2 {
+    font-weight: 300; font-size: clamp(2.2rem, 6vw, 4rem);
+    letter-spacing: 0.35em; margin-bottom: 16px;
+  }
+  .d3 .sub {
+    font-size: 0.65rem; letter-spacing: 0.4em; opacity: 0.6; margin-bottom: 48px;
+  }
+  .d3 .cta {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 16px 48px; border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 8px; color: #fff; font-size: 0.9rem;
+    letter-spacing: 0.25em; text-decoration: none; transition: all 0.4s ease;
+  }
+  .d3 .cta:hover { background: rgba(255,255,255,0.1); border-radius: 40px; border-color: rgba(255,255,255,0.8); }
+
+  /* ====== PATTERN 4: カード型（2カラム） ====== */
+  .d4 {
+    background: #f5f3ef; padding: 100px 6%;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0; min-height: 55vh;
+  }
+  .d4-img {
+    background: linear-gradient(135deg, #d8cfc2, #c5b8a8);
+    min-height: 350px;
+  }
+  .d4-content {
+    padding: 60px 50px; display: flex; flex-direction: column; justify-content: center;
+    background: #ede9e3;
+  }
+  .d4 h2 {
+    font-weight: 300; font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    letter-spacing: 0.3em; color: #2a2420; margin-bottom: 10px;
+  }
+  .d4 .label {
+    font-size: 0.6rem; letter-spacing: 0.35em; color: rgba(61,53,48,0.3);
+    text-transform: uppercase; margin-bottom: 32px;
+  }
+  .d4 p {
+    font-family: "Noto Serif JP", serif; font-size: 0.8rem; font-weight: 300;
+    color: rgba(61,53,48,0.6); line-height: 2; margin-bottom: 36px;
+  }
+  .d4 .cta {
+    display: inline-flex; align-items: center; gap: 12px; align-self: flex-start;
+    padding: 13px 36px; border: 1px solid #2a2420; border-radius: 8px;
+    color: #2a2420; font-size: 0.85rem; letter-spacing: 0.2em;
+    text-decoration: none; transition: all 0.4s ease;
+  }
+  .d4 .cta:hover { border-radius: 40px; background: rgba(61,53,48,0.05); }
+
+  /* ====== PATTERN 5: 数字アクセント ====== */
+  .d5 {
+    background: #f5f3ef; padding: 120px 8%; text-align: center;
+  }
+  .d5 .num {
+    font-family: "Cormorant Garamond", serif; font-size: 5rem; font-weight: 300;
+    color: rgba(61,53,48,0.06); letter-spacing: 0.1em; line-height: 1;
+    margin-bottom: -20px;
+  }
+  .d5 h2 {
+    font-weight: 300; font-size: clamp(1.6rem, 4vw, 2.6rem);
+    letter-spacing: 0.3em; color: #2a2420; margin-bottom: 12px;
+  }
+  .d5 .line { width: 40px; height: 1px; background: rgba(61,53,48,0.15); margin: 0 auto 32px; }
+  .d5 p {
+    font-family: "Noto Serif JP", serif; font-size: 0.82rem; font-weight: 300;
+    color: rgba(61,53,48,0.6); line-height: 2.2; max-width: 480px; margin: 0 auto 44px;
+  }
+  .d5 .cta {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 14px 40px; border: 1px solid #2a2420; border-radius: 8px;
+    color: #2a2420; font-size: 0.88rem; letter-spacing: 0.22em;
+    text-decoration: none; transition: all 0.4s ease;
+  }
+  .d5 .cta:hover { border-radius: 40px; background: rgba(61,53,48,0.05); }
+
+  /* ====== PATTERN 6: 右寄せ＋装飾線アクセント ====== */
+  .d6 {
+    background: #f5f3ef; padding: 120px 8%; text-align: right;
+  }
+  .d6 h2 {
+    font-weight: 300; font-size: clamp(1.8rem, 4.5vw, 3rem);
+    letter-spacing: 0.3em; color: #2a2420; margin-bottom: 10px;
+  }
+  .d6 .sub {
+    font-size: 0.6rem; letter-spacing: 0.4em; color: rgba(61,53,48,0.3);
+    margin-bottom: 12px;
+  }
+  .d6 .line { width: 80px; height: 1px; background: rgba(61,53,48,0.12); margin-left: auto; margin-bottom: 36px; }
+  .d6 p {
+    font-family: "Noto Serif JP", serif; font-size: 0.82rem; font-weight: 300;
+    color: rgba(61,53,48,0.6); line-height: 2.2; max-width: 440px; margin-left: auto; margin-bottom: 44px;
+  }
+  .d6 .cta {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 14px 42px; border: 1px solid rgba(42,36,32,0.4); border-radius: 8px;
+    color: #2a2420; font-size: 0.88rem; letter-spacing: 0.22em;
+    text-decoration: none; transition: all 0.4s ease;
+  }
+  .d6 .cta:hover { border-radius: 40px; background: rgba(61,53,48,0.04); }
+
+  /* ====== PATTERN 7: スプリット（テキスト左＋写真右）逆カード ====== */
+  .d7 {
+    background: #f5f3ef; display: grid; grid-template-columns: 55% 45%;
+    min-height: 50vh;
+  }
+  .d7-content {
+    padding: 80px 50px; display: flex; flex-direction: column; justify-content: center;
+  }
+  .d7 h2 {
+    font-weight: 300; font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    letter-spacing: 0.3em; color: #2a2420; margin-bottom: 8px;
+  }
+  .d7 .label {
+    font-size: 0.6rem; letter-spacing: 0.35em; color: rgba(61,53,48,0.25);
+    text-transform: uppercase; margin-bottom: 28px;
+  }
+  .d7 p {
+    font-family: "Noto Serif JP", serif; font-size: 0.8rem; font-weight: 300;
+    color: rgba(61,53,48,0.55); line-height: 2.2; margin-bottom: 36px;
+  }
+  .d7 .cta {
+    display: inline-flex; align-items: center; gap: 12px; align-self: flex-start;
+    padding: 13px 38px; border: 1px solid #2a2420; border-radius: 8px;
+    color: #2a2420; font-size: 0.85rem; letter-spacing: 0.22em;
+    text-decoration: none; transition: all 0.4s ease;
+  }
+  .d7 .cta:hover { border-radius: 40px; background: rgba(61,53,48,0.04); }
+  .d7-img {
+    background: linear-gradient(160deg, #ddd3c5, #c8baa9);
+    position: relative; overflow: hidden;
+  }
+
+  /* ====== PATTERN 8: イタリック筆記体アクセント ====== */
+  .d8 {
+    background: #f5f3ef; padding: 120px 8%; text-align: center;
+  }
+  .d8 .script {
+    font-family: "Cormorant Garamond", serif; font-style: italic; font-weight: 300;
+    font-size: clamp(2.5rem, 6vw, 4.5rem); color: rgba(61,53,48,0.08);
+    letter-spacing: 0.05em; margin-bottom: -15px;
+  }
+  .d8 h2 {
+    font-weight: 300; font-size: clamp(1.4rem, 3vw, 2rem);
+    letter-spacing: 0.35em; color: #2a2420; margin-bottom: 12px;
+  }
+  .d8 .sub {
+    font-family: "Noto Serif JP", serif; font-size: 0.6rem; font-weight: 300;
+    color: rgba(61,53,48,0.35); letter-spacing: 0.3em; margin-bottom: 40px;
+  }
+  .d8 p {
+    font-family: "Noto Serif JP", serif; font-size: 0.82rem; font-weight: 300;
+    color: rgba(61,53,48,0.6); line-height: 2.2; max-width: 500px; margin: 0 auto 44px;
+  }
+  .d8 .cta {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 14px 42px; border: 1px solid #2a2420; border-radius: 8px;
+    color: #2a2420; font-size: 0.88rem; letter-spacing: 0.25em;
+    text-decoration: none; transition: all 0.4s ease;
+  }
+  .d8 .cta:hover { border-radius: 40px; background: rgba(61,53,48,0.05); }
+
+  /* ====== PATTERN 9: 縦並びカプセル ====== */
+  .d9 {
+    background: #f5f3ef; padding: 100px 8%; display: flex; justify-content: center;
+  }
+  .d9-card {
+    background: #ede9e3; border-radius: 20px; padding: 60px 50px;
+    max-width: 520px; text-align: center;
+  }
+  .d9 h2 {
+    font-weight: 300; font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    letter-spacing: 0.3em; color: #2a2420; margin-bottom: 10px;
+  }
+  .d9 .sub {
+    font-size: 0.6rem; letter-spacing: 0.35em; color: rgba(61,53,48,0.3);
+    margin-bottom: 32px;
+  }
+  .d9 p {
+    font-family: "Noto Serif JP", serif; font-size: 0.8rem; font-weight: 300;
+    color: rgba(61,53,48,0.55); line-height: 2.2; margin-bottom: 36px;
+  }
+  .d9 .cta {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 14px 42px; border: 1px solid #2a2420; border-radius: 40px;
+    color: #2a2420; font-size: 0.88rem; letter-spacing: 0.22em;
+    text-decoration: none; transition: all 0.4s ease;
+  }
+  .d9 .cta:hover { background: #2a2420; color: #f5f3ef; }
+
+  /* ====== PATTERN 10: 写真グリッド+下テキスト ====== */
+  .d10 {
+    background: #f5f3ef; padding: 100px 6%;
+  }
+  .d10-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 48px;
+  }
+  .d10-grid .img-placeholder {
+    aspect-ratio: 3/4; background: linear-gradient(135deg, #d8cfc2, #c5b8a8);
+    border-radius: 2px;
+  }
+  .d10-grid .img-placeholder:nth-child(2) { background: linear-gradient(135deg, #c9bfb2, #b8aa98); }
+  .d10-grid .img-placeholder:nth-child(3) { background: linear-gradient(135deg, #ddd5c8, #cec3b4); }
+  .d10-text { text-align: center; }
+  .d10 h2 {
+    font-weight: 300; font-size: clamp(1.6rem, 4vw, 2.6rem);
+    letter-spacing: 0.3em; color: #2a2420; margin-bottom: 10px;
+  }
+  .d10 .sub {
+    font-size: 0.6rem; letter-spacing: 0.35em; color: rgba(61,53,48,0.3);
+    margin-bottom: 28px;
+  }
+  .d10 p {
+    font-family: "Noto Serif JP", serif; font-size: 0.8rem; font-weight: 300;
+    color: rgba(61,53,48,0.55); line-height: 2; max-width: 480px; margin: 0 auto 40px;
+  }
+  .d10 .cta {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 14px 42px; border: 1px solid #2a2420; border-radius: 8px;
+    color: #2a2420; font-size: 0.88rem; letter-spacing: 0.22em;
+    text-decoration: none; transition: all 0.4s ease;
+  }
+  .d10 .cta:hover { border-radius: 40px; background: rgba(61,53,48,0.05); }
+
+  @media (max-width: 768px) {
+    .d4 { grid-template-columns: 1fr; }
+    .d7 { grid-template-columns: 1fr; }
+    .d7-img { min-height: 250px; }
+    .d10-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- PATTERN 1 -->
+<div class="pattern-label"><span>01</span>ミニマルセンター</div>
+<div class="divider"></div>
+<section class="d1">
+  <h2>Dress</h2>
+  <div class="sub">ドレスショップ</div>
+  <p>あなたらしい一着を見つけるために。<br>ukigumoが厳選したドレスショップと提携し、<br>撮影にふさわしいスタイリングをご提案します。</p>
+  <a href="dress.html" class="cta">Dress Shop <span class="arrow">→</span></a>
+</section>
+
+<!-- PATTERN 2 -->
+<div class="pattern-label"><span>02</span>左寄せ＋縦ライン</div>
+<div class="divider"></div>
+<section class="d2">
+  <div class="line"></div>
+  <div class="d2-content">
+    <h2>Dress</h2>
+    <div class="label">Dress Shop</div>
+    <p>撮影ロケーションに合わせたドレス選びを。<br>提携ショップで理想のスタイリングをお手伝いします。</p>
+    <a href="dress.html" class="cta">View More <span>→</span></a>
+  </div>
+</section>
+
+<!-- PATTERN 3 -->
+<div class="pattern-label"><span>03</span>フルワイド背景</div>
+<div class="divider"></div>
+<section class="d3">
+  <div class="bg"></div>
+  <div class="overlay">
+    <h2>Dress</h2>
+    <div class="sub">Dress Shop Collection</div>
+    <a href="dress.html" class="cta">Explore <span>→</span></a>
+  </div>
+</section>
+
+<!-- PATTERN 4 -->
+<div class="pattern-label"><span>04</span>2カラムカード</div>
+<div class="divider"></div>
+<section class="d4">
+  <div class="d4-img"></div>
+  <div class="d4-content">
+    <h2>Dress</h2>
+    <div class="label">Dress Shop</div>
+    <p>ロケーションと季節に合わせた<br>最適なドレスをご提案いたします。</p>
+    <a href="dress.html" class="cta">Dress Shop <span>→</span></a>
+  </div>
+</section>
+
+<!-- PATTERN 5 -->
+<div class="pattern-label"><span>05</span>数字アクセント</div>
+<div class="divider"></div>
+<section class="d5">
+  <div class="num">04</div>
+  <h2>Dress</h2>
+  <div class="line"></div>
+  <p>厳選されたドレスショップと提携。<br>あなたの撮影にふさわしいスタイリングを。</p>
+  <a href="dress.html" class="cta">Dress Shop <span>→</span></a>
+</section>
+
+<!-- PATTERN 6 -->
+<div class="pattern-label"><span>06</span>右寄せ＋装飾線</div>
+<div class="divider"></div>
+<section class="d6">
+  <h2>Dress</h2>
+  <div class="sub">Dress Shop</div>
+  <div class="line"></div>
+  <p>場所と雰囲気にぴったりの一着を。<br>提携ドレスショップをご紹介します。</p>
+  <a href="dress.html" class="cta">View More <span>→</span></a>
+</section>
+
+<!-- PATTERN 7 -->
+<div class="pattern-label"><span>07</span>スプリットレイアウト</div>
+<div class="divider"></div>
+<section class="d7">
+  <div class="d7-content">
+    <h2>Dress</h2>
+    <div class="label">Dress Shop</div>
+    <p>撮影の世界観に合うドレスを、<br>提携ショップからセレクト。<br>スタイリングのご相談もお気軽に。</p>
+    <a href="dress.html" class="cta">Dress Shop <span>→</span></a>
+  </div>
+  <div class="d7-img"></div>
+</section>
+
+<!-- PATTERN 8 -->
+<div class="pattern-label"><span>08</span>筆記体アクセント</div>
+<div class="divider"></div>
+<section class="d8">
+  <div class="script">Dress</div>
+  <h2>Dress Shop</h2>
+  <div class="sub">ドレスショップ</div>
+  <p>映画のワンシーンのような撮影に。<br>ukigumoが選ぶドレスショップで<br>最高の一着を見つけてください。</p>
+  <a href="dress.html" class="cta">Dress Shop <span>→</span></a>
+</section>
+
+<!-- PATTERN 9 -->
+<div class="pattern-label"><span>09</span>カプセルカード</div>
+<div class="divider"></div>
+<section class="d9">
+  <div class="d9-card">
+    <h2>Dress</h2>
+    <div class="sub">Dress Shop</div>
+    <p>撮影ロケーションに合わせた<br>ドレス選びをお手伝いします。</p>
+    <a href="dress.html" class="cta">Dress Shop <span>→</span></a>
+  </div>
+</section>
+
+<!-- PATTERN 10 -->
+<div class="pattern-label"><span>10</span>写真グリッド＋テキスト</div>
+<div class="divider"></div>
+<section class="d10">
+  <div class="d10-grid">
+    <div class="img-placeholder"></div>
+    <div class="img-placeholder"></div>
+    <div class="img-placeholder"></div>
+  </div>
+  <div class="d10-text">
+    <h2>Dress</h2>
+    <div class="sub">Dress Shop</div>
+    <p>あなたらしい一着を見つけるために。<br>ukigumo提携のドレスショップをご覧ください。</p>
+    <a href="dress.html" class="cta">Dress Shop <span>→</span></a>
+  </div>
+</section>
+
+<div style="height: 100px;"></div>
+</body>
+</html>

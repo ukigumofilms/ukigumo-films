@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Q&A Design — 20 Patterns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #f5f3ef; color: #2a2420; }
+
+    .page-title {
+      text-align: center;
+      padding: 4rem 2rem 1rem;
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 300;
+      font-size: 2rem;
+      letter-spacing: 0.15em;
+    }
+    .page-subtitle {
+      text-align: center;
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.7rem;
+      color: rgba(61,53,48,0.4);
+      letter-spacing: 0.2em;
+      margin-bottom: 4rem;
+    }
+
+    .pattern-section {
+      max-width: 750px;
+      margin: 0 auto 5rem;
+      padding: 0 2rem;
+    }
+    .pattern-label {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.8rem;
+      color: rgba(61,53,48,0.35);
+      letter-spacing: 0.15em;
+      margin-bottom: 2rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(61,53,48,0.08);
+    }
+
+    /* Shared */
+    .qa-q { cursor: pointer; user-select: none; }
+    .qa-a { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.19,1,0.22,1); }
+    .qa-item.active .qa-a { max-height: 400px; }
+    .qa-a-inner {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 300;
+      font-size: 0.8rem;
+      color: rgba(61,53,48,0.7);
+      line-height: 2;
+      letter-spacing: 0.03em;
+    }
+
+    /* ================================
+       PATTERN 01 — ミニマルライン
+       ================================ */
+    .p01 .qa-item { border-bottom: 1px solid rgba(61,53,48,0.08); }
+    .p01 .qa-q {
+      display: flex; align-items: center; gap: 1rem; padding: 1.5rem 0;
+      font-family: "Noto Serif JP", serif; font-weight: 300; font-size: 0.85rem;
+    }
+    .p01 .qa-q .num {
+      font-family: "Cormorant Garamond", serif; font-size: 0.75rem;
+      color: rgba(61,53,48,0.3); min-width: 1.5rem;
+    }
+    .p01 .qa-q .text { flex: 1; }
+    .p01 .qa-q .icon {
+      font-size: 0.6rem; color: rgba(61,53,48,0.3);
+      transition: transform 0.4s cubic-bezier(0.19,1,0.22,1);
+    }
+    .p01 .qa-item.active .icon { transform: rotate(180deg); }
+    .p01 .qa-a-inner { padding: 0 0 1.5rem 2.5rem; }
+
+    /* ================================
+       PATTERN 02 — サークルQ
+       ================================ */
+    .p02 .qa-item { border-bottom: 1px solid rgba(61,53,48,0.08); }
+    .p02 .qa-q {
+      display: flex; align-items: flex-start; gap: 1rem; padding: 1.5rem 0;
+      font-family: "Noto Serif JP", serif; font-weight: 300; font-size: 0.85rem;
+    }
+    .p02 .qa-q .badge {
+      width: 1.6rem; height: 1.6rem; border-radius: 50%; background: #2a2420;
+      color: #fff; display: flex; align-items: center; justify-content: center;
+      font-family: "Cormorant Garamond", serif; font-size: 0.65rem; flex-shrink: 0;
+      transition: transform 0.3s ease;
+    }
+    .p02 .qa-item.active .badge { transform: scale(1.1); }
+    .p02 .qa-q .text { flex: 1; }
+    .p02 .qa-q .arrow {
+      font-size: 0.55rem; color: rgba(61,53,48,0.25);
+      transition: transform 0.4s cubic-bezier(0.19,1,0.22,1);
+    }
+    .p02 .qa-item.active .arrow { transform: rotate(180deg); }
+    .p02 .qa-a-inner { padding: 0 0 1.5rem 2.6rem; }
+
+    /* ================================
+       PATTERN 03 — 左ボーダーアクセント
+       ================================ */
+    .p03 .qa-item {
+      border-left: 2px solid transparent; padding-left: 1.5rem;
+      margin-bottom: 0.5rem; transition: border-color 0.4s ease;
+    }
+    .p03 .qa-item.active { border-left-color: #2a2420; }
+    .p03 .qa-q {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 0;
+      font-family: "Noto Serif JP", serif; font-weight: 300; font-size: 0.85rem;
+    }
+    .p03 .qa-q .plus {
+      font-family: "Cormorant Garamond", serif; font-size: 1.1rem;
+      color: rgba(61,53,48,0.3); transition: transform 0.4s ease;
+      font-weight: 300;
+    }
+    .p03 .qa-item.active .plus { transform: rotate(45deg); }
+    .p03 .qa-a-inner { padding: 0 0 1.5rem 0; }
+
+    /* ================================
+       PATTERN 04 — フェードナンバー
+       ================================ */
+    .p04 .qa-item {
+      position: relative; padding: 1.5rem 0 1.5rem 3.5rem;
+      border-bottom: 1px solid rgba(61,53,48,0.06);
+    }
+    .p04 .qa-item .bg-num {
+      position: absolute; left: 0; top: 0.8rem;
+      font-family: "Cormorant Garamond", serif; font-size: 2rem; font-weight: 300;
+      color: rgba(61,53,48,0.06); line-height: 1; transition: color 0.4s ease;
+    }
+    .p04 .qa-item.active .bg-num { color: rgba(61,53,48,0.12); }
+    .p04 .qa-q {
+      display: flex; align-items: center; justify-content: space-between;
+      font-family: "Noto Serif JP", serif; font-weight: 300; font-size: 0.85rem;
+    }
+    .p04 .qa-q .chevron {
+      font-size: 0.5rem; color: rgba(61,53,48,0.25);
+      transition: transform 0.4s cubic-bezier(0.19,1,0.22,1);
+    }
+    .p04 .qa-item.active .chevron { transform: rotate(180deg); }
+    .p04 .qa-a-inner { padding: 1rem 0 0.5rem; }
+
+    /* ================================
+       PATTERN 05 — アンダーラインスライド
+       ================================ */
+    .p05 .qa-item { padding: 1.5rem 0; position: relative; }
+    .p05 .qa-item::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 0; height: 1px; background: #2a2420;
+      transition: width 0.6s cubic-bezier(0.19,1,0.22,1);
+    }
+    .p05 .qa-item.active::after { width: 100%; }
+    .p05 .qa-q {
+      display: flex; align-items: center; gap: 1rem;
+      font-family: "Noto Serif JP", serif; font-weight: 300; font-size: 0.85rem;
+    }
+    .p05 .qa-q .dot {
+      width: 5px; height: 5px; border-radius: 50%; background: rgba(61,53,48,0.2);
+      transition: background 0.3s ease; flex-shrink: 0;
+    }
+    .p05 .qa-item.active .dot { background: #2a2420; }
+    .p05 .qa-q .text { flex: 1; }
+    .p05 .qa-q .toggle-line {
+      width: 16px; height: 1px; background: rgba(61,53,48,0.3); position: relative;
+      transition: transform 0.3s ease;
+    }
+    .p05 .qa-q .toggle-line::after {
+      content: ''; position: absolute; top: 50%; left: 50%;
+      width: 1px; height: 16px; background: rgba(61,53,48,0.3);
+      transform: translate(-50%, -50%); transition: opacity 0.3s ease;
+    }
+    .p05 .qa-item.active .toggle-line::after { opacity: 0; }
+    .p05 .qa-a-inner { padding: 1rem 0 0.5rem 1.3rem; }
+
+    /* ================================
+       PATTERN 06 — カードスタイル
+       ================================ */
+    .p06 .qa-item {
+      background: #fff; margin-bottom: 0.8rem; padding: 0;
+      transition: box-shadow 0.4s ease;
+    }
+    .p06 .qa-item.active { box-shadow: 0 4px 20px rgba(42,36,32,0.06); }
+    .p06 .qa-q {
+      display: flex; align-items: center; gap: 1rem; padding: 1.3rem 1.5rem;
+      font-family: "Noto Serif JP", serif; font-weight: 300; font-size: 0.85rem;
+    }
+    .p06 .qa-q .q-letter {
+      font-family: "Cormorant Garamond", serif; font-size: 1rem;
+      color: rgba(61,53,48,0.25); font-weight: 400; font-style: italic;
+    }
+    .p06 .qa-q .text { flex: 1; }
+    .p06 .qa-q .arr {
+      font-size: 0.55rem; color: rgba(61,53,48,0.2);
+      transition: transform 0.4s cubic-bezier(0.19,1,0.22,1);
+    }
+    .p06 .qa-item.active .arr { transform: rotate(180deg); }
+    .p06 .qa-a-inner { padding: 0 1.5rem 1.3rem 3rem; }
+
+    /* ================================
+       PATTERN 07 — ダッシュ区切り
+       ================================ */
+    .p07 .qa-item { padding: 1.5rem 0; }
+    .p07 .qa-item + .qa-item { border-top: 1px dashed rgba(61,53,48,0.1); }
+    .p07 .qa-q {
+      display: flex; align-items: center; justify-content: space-between;
+      font-family: "Noto Serif JP", serif; font-weight: 300; font-size: 0.85rem;
+    }
+    .p07 .qa-q .line-icon {
+      width: 18px; display: flex; flex-direction: column; gap: 4px; align-items: center;
+      transition: gap 0.3s ease;
+    }
+    .p07 .qa-q .line-icon span {
+      display: block; width: 12px; height: 1px; background: rgba(61,53,48,0.3);
+      transition: transform 0.3s ease;
+    }
+    .p07 .qa-item.active .line-icon span:first-child { transform: rotate(45deg) translateY(2.5px); }
+    .p07 .qa-item.active .line-icon span:last-child { transform: rotate(-45deg) translateY(-2.5px); }
+    .p07 .qa-item.active .line-icon { gap: 0; }
+    .p07 .qa-a-inner { padding: 1rem 0 0; }
+
+    /* ================================
+       PATTERN 08 — リング + 横線
+       ================================ */
+    .p08 .qa-item {
+      display: flex; align-items: flex-start; gap: 1.2rem;
+      padding: 1.5rem 0; border-bottom: 1px solid rgba(61,53,48,0.06);
+    }
+    .p08 .ring {
+      width: 1.4rem; height: 1.4rem; border-radius: 50%;
+      border: 1px solid rgba(61,53,48,0.2); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.3s ease; margin-top: 0.15rem;
+    }
+    .p08 .ring::after {
+      content: ''; width: 4px; height: 4px; border-radius: 50%;
+      background: transparent; transition: background 0.3s ease;
+    }
+    .p08 .qa-item.active .ring { border-color: #2a2420; }
+    .p08 .qa-item.active .ring::after { background: #2a2420; }
+    .p08 .qa-content { flex: 1; }
+    .p08 .qa-q {
+      font-family: "Noto Serif JP", serif; font-weight: 300; font-size: 0.85rem;
+    }
+    .p08 .qa-a-inner { padding: 1rem 0 0; }
+
+    /* ================================
+       PATTERN 09 — タイポグラフィQ&A
+       ================================ */
+    .p09 .qa-item { padding: 1.8rem 0; border-bottom: 1px solid rgba(61,53,48,0.06); }
+    .p09 .qa-q {
+      display: flex; align-items: flex-start; gap: 0.8rem;
+      font-family: "Noto Serif JP", serif; font-weight: 300; font-size: 0.85rem;
+    }
+    .p09 .qa-q .letter {
+      font-family: "Cormorant Garamond", serif; font-size: 1.4rem;
+      font-weight: 300; color: rgba(61,53,48,0.15); line-height: 1;
+      transition: color 0.3s ease;
+    }
+    .p09 .qa-item.active .letter { color: rgba(61,53,48,0.4); }
+    .p09 .qa-q .text { flex: 1; padding-top: 0.2rem; }
+    .p09 .qa-a-inner {
+      padding: 1rem 0 0 2.2rem;
+    }
+    .p09 .qa-a-inner::before {
+      content: 'A.';
+      font-family: "Cormorant Garamond", serif; font-size: 1rem;
+      color: rgba(61,53,48,0.2); font-weight: 300; font-style: italic;
+      margin-right: 0.5rem;
+    }
+
+    /* ================================
+       PATTERN 10 — スライドインバー
+       ================================ */
+    .p10 .qa-item { padding: 1.5rem 0; position: relative; padding-left: 1rem; }
+    .p10 .qa-item::before {
+      content: ''; position: absolute; left: 0; top: 50%;
+      width: 3px; height: 0; background: #2a2420; transform: translateY(-50%);
+      transition: height 0.4s cubic-bezier(0.19,1,0.22,1);
+    }
+    .p10 .qa-item.active::before { height: 100%; }
+    .p10 .qa-item + .qa-item { border-top: 1px solid rgba(61,53,48,0.06); }
+    .p10 .qa-q {
+      display: flex; align-items: center; justify-content: space-between;
+      font-family: "Noto Serif JP", serif; font-weight: 300; font-size: 0.85rem;
+    }
+    .p10 .qa-q .caret {
+      border: solid rgba(61,53,48,0.25); border-width: 0 1px 1px 0;
+      display: inline-block; padding: 3px;
+      transform: rotate(45deg); transition: transform 0.3s ease;
+    }
+    .p10 .qa-item.active .caret { transform: rotate(-135deg); }
+    .p10 .qa-a-inner { padding: 1rem 0 0; }
+
+    /* ================================
+       PATTERN 11 — 右ラインアクセント
+       ================================ */
+    .p11 .qa-item {
+      padding: 1.5rem 1.5rem 1.5rem 0; border-right: 2px solid transparent;
+      transition: border-color 0.4s ease;
+    }
+    .p11 .qa-item.active { border-right-color: rgba(61,53,48,0.3); }
+    .p11 .qa-item + .qa-item { border-top: 1px solid rgba(61,53,48,0.06); }
+    .p11 .qa-q {
+      display: flex; align-items: center; gap: 1rem;
+      font-family: "Noto Serif JP", serif; font-weight: 300; font-size: 0.85rem;
+    }
+    .p11 .qa-q .marker {
+      font-family: "Cormorant Garamond", serif; font-size: 0.7rem;
+      color: rgba(61,53,48,0.2); letter-spacing: 0.1em;
+    }
+    .p11 .qa-q .text { flex: 1; }
+    .p11 .qa-a-inner { padding: 1rem 0 0 2.5rem; }
+
+    /* ================================
+       PATTERN 12 — グラデーション背景
+       ================================ */
+    .p12 .qa-item {
+      margin-bottom: 0.5rem; border-radius: 0;
+      background: linear-gradient(135deg, rgba(245,243,239,0) 0%, rgba(245,243,239,0) 100%);
+      transition: background 0.4s ease; padding: 0 1rem;
+    }
+    .p12 .qa-item.active {
+      background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(245,243,239,0.4) 100%);
+    }
+    .p12 .qa-q {
+      display: flex; align-items: center; gap: 1rem; padding: 1.3rem 0;
+      font-family: "Noto Serif JP", serif; font-weight: 300; font-size: 0.85rem;
+      border-bottom: 1px solid rgba(61,53,48,0.06);
+    }
+    .p12 .qa-item.active .qa-q { border-bottom-color: transparent; }
+    .p12 .qa-q .sq {
+      width: 6px; height: 6px; border: 1px solid rgba(61,53,48,0.2);
+      transition: all 0.3s ease; flex-shrink: 0;
+    }
+    .p12 .qa-item.active .sq { background: #2a2420; border-color: #2a2420; }
+    .p12 .qa-q .text { flex: 1; }
+    .p12 .qa-q .tri {
+      font-size: 0.5rem; color: rgba(61,53,48,0.2);
+      transition: transform 0.3s ease;
+    }
+    .p12 .qa-item.active .tri { transform: rotate(180deg); }
+    .p12 .qa-a-inner { padding: 0 0 1.3rem 1.4rem; }
+
+    /* ================================
+       PATTERN 13 — エレガントセパレーター
+       ================================ */
+    .p13 .qa-item { text-align: center; padding: 2rem 0; }
+    .p13 .qa-item + .qa-item {
+      border-top: none; position: relative;
+    }
+    .p13 .qa-item + .qa-item::before {
+      content: '·'; display: block; text-align: center;
+      font-size: 1.2rem; color: rgba(61,53,48,0.15); margin-bottom: 0;
+      position: absolute; top: -0.6rem; left: 50%;
+    }
+    .p13 .qa-q {
+      font-family: "Noto Serif JP", serif; font-weight: 300; font-size: 0.85rem;
+      display: inline-flex; align-items: center; gap: 0.8rem;
+    }
+    .p13 .qa-q .icon-wrap {
+      font-size: 0.5rem; color: rgba(61,53,48,0.2);
+      transition: transform 0.3s ease;
+    }
+    .p13 .qa-item.active .icon-wrap { transform: rotate(180deg); }
+    .p13 .qa-a-inner { padding: 1.2rem 2rem 0; text-align: left; }
+
+    /* ================================
+       PATTERN 14 — ステップ番号ハイライト
+       ================================ */
+    .p14 .qa-item {
+      display: flex; gap: 1.5rem; padding: 1.5rem 0;
+      border-bottom: 1px solid rgba(61,53,48,0.06); align-items: flex-start;
+    }
+    .p14 .step-num {
+      font-family: "Cormorant Garamond", serif; font-size: 1.5rem;
+      font-weight: 300; color: rgba(61,53,48,0.08);
+      min-width: 2rem; text-align: right; line-height: 1.2;
+      transition: color 0.4s ease;
+    }
+    .p14 .qa-item.active .step-num { color: rgba(61,53,48,0.25); }
+    .p14 .qa-content { flex: 1; }
+    .p14 .qa-q {
+      font-family: "Noto Serif JP", serif; font-weight: 300; font-size: 0.85rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .p14 .qa-q .arr { font-size: 0.5rem; color: rgba(61,53,48,0.2); transition: transform 0.3s ease; }
+    .p14 .qa-item.active .arr { transform: rotate(180deg); }
+    .p14 .qa-a-inner { padding: 1rem 0 0; }
+
+    /* ================================
+       PATTERN 15 — ホバーシフト
+       ================================ */
+    .p15 .qa-item {
+      padding: 1.3rem 0 1.3rem 0;
+      border-bottom: 1px solid rgba(61,53,48,0.06);
+      transition: padding-left 0.4s cubic-bezier(0.19,1,0.22,1);
+    }
+    .p15 .qa-item.active { padding-left: 1.5rem; }
+    .p15 .qa-q {
+      display: flex; align-items: center; justify-content: space-between;
+      font-family: "Noto Serif JP", serif; font-weight: 300; font-size: 0.85rem;
+    }
+    .p15 .qa-q .dash {
+      width: 0; height: 1px; background: #2a2420;
+      transition: width 0.4s cubic-bezier(0.19,1,0.22,1); margin-right: 0.8rem;
+    }
+    .p15 .qa-item.active .dash { width: 20px; }
+    .p15 .qa-q .left { display: flex; align-items: center; flex: 1; }
+    .p15 .qa-q .toggle-icon {
+      font-family: "Cormorant Garamond", serif; font-size: 0.9rem;
+      color: rgba(61,53,48,0.2); transition: transform 0.3s ease;
+    }
+    .p15 .qa-item.active .toggle-icon { transform: rotate(45deg); }
+    .p15 .qa-a-inner { padding: 1rem 0 0.5rem; }
+
+    /* ================================
+       PATTERN 16 — 縦ドットライン
+       ================================ */
+    .p16 { position: relative; padding-left: 2rem; }
+    .p16::before {
+      content: ''; position: absolute; left: 0.45rem; top: 0; bottom: 0;
+      border-left: 1px dotted rgba(61,53,48,0.12);
+    }
+    .p16 .qa-item { padding: 1.3rem 0; position: relative; }
+    .p16 .qa-item::before {
+      content: ''; position: absolute; left: -1.55rem; top: 1.7rem;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(61,53,48,0.1); transition: all 0.3s ease;
+    }
+    .p16 .qa-item.active::before { background: #2a2420; transform: scale(1.3); }
+    .p16 .qa-q {
+      font-family: "Noto Serif JP", serif; font-weight: 300; font-size: 0.85rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .p16 .qa-q .ico { font-size: 0.5rem; color: rgba(61,53,48,0.2); transition: transform 0.3s ease; }
+    .p16 .qa-item.active .ico { transform: rotate(180deg); }
+    .p16 .qa-a-inner { padding: 0.8rem 0 0; }
+
+    /* ================================
+       PATTERN 17 — フラットモダン
+       ================================ */
+    .p17 .qa-item {
+      background: #fff; margin-bottom: 1px; padding: 0;
+    }
+    .p17 .qa-q {
+      display: flex; align-items: center; padding: 1.3rem 1.5rem;
+      font-family: "Noto Serif JP", serif; font-weight: 300; font-size: 0.85rem;
+    }
+    .p17 .qa-q .index {
+      font-family: "Cormorant Garamond", serif; font-size: 0.7rem;
+      color: rgba(61,53,48,0.2); margin-right: 1.2rem; min-width: 1.5rem;
+      letter-spacing: 0.05em;
+    }
+    .p17 .qa-q .text { flex: 1; }
+    .p17 .qa-q .arrow-r {
+      font-family: "Cormorant Garamond", serif; font-size: 0.8rem;
+      color: rgba(61,53,48,0.15);
+      transition: transform 0.4s cubic-bezier(0.19,1,0.22,1);
+    }
+    .p17 .qa-item.active .arrow-r { transform: rotate(90deg); }
+    .p17 .qa-a-inner { padding: 0 1.5rem 1.3rem 4.2rem; }
+
+    /* ================================
+       PATTERN 18 — ブラケット
+       ================================ */
+    .p18 .qa-item { padding: 1.5rem 0; border-bottom: 1px solid rgba(61,53,48,0.06); }
+    .p18 .qa-q {
+      display: flex; align-items: center; gap: 0.8rem;
+      font-family: "Noto Serif JP", serif; font-weight: 300; font-size: 0.85rem;
+    }
+    .p18 .qa-q .bracket {
+      font-family: "Cormorant Garamond", serif; font-size: 1.1rem;
+      color: rgba(61,53,48,0.15); font-weight: 300;
+    }
+    .p18 .qa-q .text { flex: 1; }
+    .p18 .qa-q .expand {
+      width: 20px; height: 20px; border: 1px solid rgba(61,53,48,0.12);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.6rem; color: rgba(61,53,48,0.25);
+      transition: all 0.3s ease;
+    }
+    .p18 .qa-item.active .expand {
+      border-color: #2a2420; color: #2a2420; transform: rotate(180deg);
+    }
+    .p18 .qa-a-inner { padding: 1rem 0 0 1.8rem; }
+
+    /* ================================
+       PATTERN 19 — 下線フェード
+       ================================ */
+    .p19 .qa-item { padding: 1.5rem 0; position: relative; }
+    .p19 .qa-item::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(61,53,48,0.1), transparent);
+    }
+    .p19 .qa-q {
+      display: flex; align-items: center; gap: 1rem;
+      font-family: "Noto Serif JP", serif; font-weight: 300; font-size: 0.85rem;
+    }
+    .p19 .qa-q .diamond {
+      width: 5px; height: 5px; background: rgba(61,53,48,0.12);
+      transform: rotate(45deg); flex-shrink: 0;
+      transition: background 0.3s ease;
+    }
+    .p19 .qa-item.active .diamond { background: #2a2420; }
+    .p19 .qa-q .text { flex: 1; }
+    .p19 .qa-q .toggle {
+      font-size: 0.55rem; color: rgba(61,53,48,0.2);
+      transition: transform 0.4s ease;
+    }
+    .p19 .qa-item.active .toggle { transform: rotate(180deg); }
+    .p19 .qa-a-inner { padding: 1rem 0 0 1.3rem; }
+
+    /* ================================
+       PATTERN 20 — エアリーオープン
+       ================================ */
+    .p20 .qa-item {
+      padding: 1.8rem 2rem; margin-bottom: 0.8rem;
+      border: 1px solid rgba(61,53,48,0);
+      transition: all 0.4s cubic-bezier(0.19,1,0.22,1);
+    }
+    .p20 .qa-item.active {
+      border-color: rgba(61,53,48,0.06);
+      background: rgba(255,255,255,0.5);
+    }
+    .p20 .qa-q {
+      display: flex; align-items: center; justify-content: space-between;
+      font-family: "Noto Serif JP", serif; font-weight: 300; font-size: 0.85rem;
+    }
+    .p20 .qa-q .circle-arrow {
+      width: 24px; height: 24px; border-radius: 50%;
+      border: 1px solid rgba(61,53,48,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.45rem; color: rgba(61,53,48,0.25);
+      transition: all 0.4s cubic-bezier(0.19,1,0.22,1);
+    }
+    .p20 .qa-item.active .circle-arrow {
+      border-color: rgba(61,53,48,0.25); transform: rotate(180deg);
+    }
+    .p20 .qa-a-inner { padding: 1.2rem 0 0; }
+  </style>
+</head>
+<body>
+
+  <h1 class="page-title">Q & A Design</h1>
+  <p class="page-subtitle">20パターン</p>
+
+  <!-- PATTERN 01 -->
+  <div class="pattern-section">
+    <div class="pattern-label">Pattern 01 — ミニマルライン</div>
+    <div class="p01">
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="num">01</span><span class="text">仮押さえはできますか？</span><span class="icon">▼</span></div><div class="qa-a"><div class="qa-a-inner">可能です。基本的にはお見積り送付後から1週間の仮押さえとなり、その間に前金のお振込みをもって正式契約となります。</div></div></div>
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="num">02</span><span class="text">まだ日程が決まっていないのですが相談できますか？</span><span class="icon">▼</span></div><div class="qa-a"><div class="qa-a-inner">可能です。ざっくりした時期でもご相談いただけますが、人気シーズンは埋まりやすいため、候補日が見えているほどご案内がしやすくなります。</div></div></div>
+    </div>
+  </div>
+
+  <!-- PATTERN 02 -->
+  <div class="pattern-section">
+    <div class="pattern-label">Pattern 02 — サークルQ</div>
+    <div class="p02">
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="badge">Q</span><span class="text">仮押さえはできますか？</span><span class="arrow">▼</span></div><div class="qa-a"><div class="qa-a-inner">可能です。基本的にはお見積り送付後から1週間の仮押さえとなり、その間に前金のお振込みをもって正式契約となります。</div></div></div>
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="badge">Q</span><span class="text">まだ日程が決まっていないのですが相談できますか？</span><span class="arrow">▼</span></div><div class="qa-a"><div class="qa-a-inner">可能です。ざっくりした時期でもご相談いただけますが、人気シーズンは埋まりやすいため、候補日が見えているほどご案内がしやすくなります。</div></div></div>
+    </div>
+  </div>
+
+  <!-- PATTERN 03 -->
+  <div class="pattern-section">
+    <div class="pattern-label">Pattern 03 — 左ボーダーアクセント</div>
+    <div class="p03">
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="text">仮押さえはできますか？</span><span class="plus">+</span></div><div class="qa-a"><div class="qa-a-inner">可能です。基本的にはお見積り送付後から1週間の仮押さえとなり、その間に前金のお振込みをもって正式契約となります。</div></div></div>
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="text">まだ日程が決まっていないのですが相談できますか？</span><span class="plus">+</span></div><div class="qa-a"><div class="qa-a-inner">可能です。ざっくりした時期でもご相談いただけますが、人気シーズンは埋まりやすいため、候補日が見えているほどご案内がしやすくなります。</div></div></div>
+    </div>
+  </div>
+
+  <!-- PATTERN 04 -->
+  <div class="pattern-section">
+    <div class="pattern-label">Pattern 04 — フェードナンバー</div>
+    <div class="p04">
+      <div class="qa-item"><span class="bg-num">01</span><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="text">仮押さえはできますか？</span><span class="chevron">▼</span></div><div class="qa-a"><div class="qa-a-inner">可能です。基本的にはお見積り送付後から1週間の仮押さえとなり、その間に前金のお振込みをもって正式契約となります。</div></div></div>
+      <div class="qa-item"><span class="bg-num">02</span><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="text">まだ日程が決まっていないのですが相談できますか？</span><span class="chevron">▼</span></div><div class="qa-a"><div class="qa-a-inner">可能です。ざっくりした時期でもご相談いただけますが、人気シーズンは埋まりやすいため、候補日が見えているほどご案内がしやすくなります。</div></div></div>
+    </div>
+  </div>
+
+  <!-- PATTERN 05 -->
+  <div class="pattern-section">
+    <div class="pattern-label">Pattern 05 — アンダーラインスライド</div>
+    <div class="p05">
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="dot"></span><span class="text">仮押さえはできますか？</span><span class="toggle-line"></span></div><div class="qa-a"><div class="qa-a-inner">可能です。基本的にはお見積り送付後から1週間の仮押さえとなり、その間に前金のお振込みをもって正式契約となります。</div></div></div>
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="dot"></span><span class="text">まだ日程が決まっていないのですが相談できますか？</span><span class="toggle-line"></span></div><div class="qa-a"><div class="qa-a-inner">可能です。ざっくりした時期でもご相談いただけますが、人気シーズンは埋まりやすいため、候補日が見えているほどご案内がしやすくなります。</div></div></div>
+    </div>
+  </div>
+
+  <!-- PATTERN 06 -->
+  <div class="pattern-section">
+    <div class="pattern-label">Pattern 06 — カードスタイル</div>
+    <div class="p06">
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="q-letter">Q.</span><span class="text">仮押さえはできますか？</span><span class="arr">▼</span></div><div class="qa-a"><div class="qa-a-inner">可能です。基本的にはお見積り送付後から1週間の仮押さえとなり、その間に前金のお振込みをもって正式契約となります。</div></div></div>
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="q-letter">Q.</span><span class="text">まだ日程が決まっていないのですが相談できますか？</span><span class="arr">▼</span></div><div class="qa-a"><div class="qa-a-inner">可能です。ざっくりした時期でもご相談いただけますが、人気シーズンは埋まりやすいため、候補日が見えているほどご案内がしやすくなります。</div></div></div>
+    </div>
+  </div>
+
+  <!-- PATTERN 07 -->
+  <div class="pattern-section">
+    <div class="pattern-label">Pattern 07 — ダッシュ区切り</div>
+    <div class="p07">
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="text">仮押さえはできますか？</span><span class="line-icon"><span></span><span></span></span></div><div class="qa-a"><div class="qa-a-inner">可能です。基本的にはお見積り送付後から1週間の仮押さえとなり、その間に前金のお振込みをもって正式契約となります。</div></div></div>
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="text">まだ日程が決まっていないのですが相談できますか？</span><span class="line-icon"><span></span><span></span></span></div><div class="qa-a"><div class="qa-a-inner">可能です。ざっくりした時期でもご相談いただけますが、人気シーズンは埋まりやすいため、候補日が見えているほどご案内がしやすくなります。</div></div></div>
+    </div>
+  </div>
+
+  <!-- PATTERN 08 -->
+  <div class="pattern-section">
+    <div class="pattern-label">Pattern 08 — リング + 横線</div>
+    <div class="p08">
+      <div class="qa-item" onclick="this.classList.toggle('active')"><span class="ring"></span><div class="qa-content"><div class="qa-q">仮押さえはできますか？</div><div class="qa-a"><div class="qa-a-inner">可能です。基本的にはお見積り送付後から1週間の仮押さえとなり、その間に前金のお振込みをもって正式契約となります。</div></div></div></div>
+      <div class="qa-item" onclick="this.classList.toggle('active')"><span class="ring"></span><div class="qa-content"><div class="qa-q">まだ日程が決まっていないのですが相談できますか？</div><div class="qa-a"><div class="qa-a-inner">可能です。ざっくりした時期でもご相談いただけますが、人気シーズンは埋まりやすいため、候補日が見えているほどご案内がしやすくなります。</div></div></div></div>
+    </div>
+  </div>
+
+  <!-- PATTERN 09 -->
+  <div class="pattern-section">
+    <div class="pattern-label">Pattern 09 — タイポグラフィ Q&A</div>
+    <div class="p09">
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="letter">Q.</span><span class="text">仮押さえはできますか？</span></div><div class="qa-a"><div class="qa-a-inner">可能です。基本的にはお見積り送付後から1週間の仮押さえとなり、その間に前金のお振込みをもって正式契約となります。</div></div></div>
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="letter">Q.</span><span class="text">まだ日程が決まっていないのですが相談できますか？</span></div><div class="qa-a"><div class="qa-a-inner">可能です。ざっくりした時期でもご相談いただけますが、人気シーズンは埋まりやすいため、候補日が見えているほどご案内がしやすくなります。</div></div></div>
+    </div>
+  </div>
+
+  <!-- PATTERN 10 -->
+  <div class="pattern-section">
+    <div class="pattern-label">Pattern 10 — スライドインバー</div>
+    <div class="p10">
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="text">仮押さえはできますか？</span><span class="caret"></span></div><div class="qa-a"><div class="qa-a-inner">可能です。基本的にはお見積り送付後から1週間の仮押さえとなり、その間に前金のお振込みをもって正式契約となります。</div></div></div>
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="text">まだ日程が決まっていないのですが相談できますか？</span><span class="caret"></span></div><div class="qa-a"><div class="qa-a-inner">可能です。ざっくりした時期でもご相談いただけますが、人気シーズンは埋まりやすいため、候補日が見えているほどご案内がしやすくなります。</div></div></div>
+    </div>
+  </div>
+
+  <!-- PATTERN 11 -->
+  <div class="pattern-section">
+    <div class="pattern-label">Pattern 11 — 右ラインアクセント</div>
+    <div class="p11">
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="marker">Q —</span><span class="text">仮押さえはできますか？</span></div><div class="qa-a"><div class="qa-a-inner">可能です。基本的にはお見積り送付後から1週間の仮押さえとなり、その間に前金のお振込みをもって正式契約となります。</div></div></div>
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="marker">Q —</span><span class="text">まだ日程が決まっていないのですが相談できますか？</span></div><div class="qa-a"><div class="qa-a-inner">可能です。ざっくりした時期でもご相談いただけますが、人気シーズンは埋まりやすいため、候補日が見えているほどご案内がしやすくなります。</div></div></div>
+    </div>
+  </div>
+
+  <!-- PATTERN 12 -->
+  <div class="pattern-section">
+    <div class="pattern-label">Pattern 12 — グラデーション背景</div>
+    <div class="p12">
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="sq"></span><span class="text">仮押さえはできますか？</span><span class="tri">▼</span></div><div class="qa-a"><div class="qa-a-inner">可能です。基本的にはお見積り送付後から1週間の仮押さえとなり、その間に前金のお振込みをもって正式契約となります。</div></div></div>
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="sq"></span><span class="text">まだ日程が決まっていないのですが相談できますか？</span><span class="tri">▼</span></div><div class="qa-a"><div class="qa-a-inner">可能です。ざっくりした時期でもご相談いただけますが、人気シーズンは埋まりやすいため、候補日が見えているほどご案内がしやすくなります。</div></div></div>
+    </div>
+  </div>
+
+  <!-- PATTERN 13 -->
+  <div class="pattern-section">
+    <div class="pattern-label">Pattern 13 — エレガントセパレーター</div>
+    <div class="p13">
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="text">仮押さえはできますか？</span><span class="icon-wrap">▼</span></div><div class="qa-a"><div class="qa-a-inner">可能です。基本的にはお見積り送付後から1週間の仮押さえとなり、その間に前金のお振込みをもって正式契約となります。</div></div></div>
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="text">まだ日程が決まっていないのですが相談できますか？</span><span class="icon-wrap">▼</span></div><div class="qa-a"><div class="qa-a-inner">可能です。ざっくりした時期でもご相談いただけますが、人気シーズンは埋まりやすいため、候補日が見えているほどご案内がしやすくなります。</div></div></div>
+    </div>
+  </div>
+
+  <!-- PATTERN 14 -->
+  <div class="pattern-section">
+    <div class="pattern-label">Pattern 14 — ステップ番号ハイライト</div>
+    <div class="p14">
+      <div class="qa-item"><span class="step-num">01</span><div class="qa-content"><div class="qa-q" onclick="this.closest('.qa-item').classList.toggle('active')"><span class="text">仮押さえはできますか？</span><span class="arr">▼</span></div><div class="qa-a"><div class="qa-a-inner">可能です。基本的にはお見積り送付後から1週間の仮押さえとなり、その間に前金のお振込みをもって正式契約となります。</div></div></div></div>
+      <div class="qa-item"><span class="step-num">02</span><div class="qa-content"><div class="qa-q" onclick="this.closest('.qa-item').classList.toggle('active')"><span class="text">まだ日程が決まっていないのですが相談できますか？</span><span class="arr">▼</span></div><div class="qa-a"><div class="qa-a-inner">可能です。ざっくりした時期でもご相談いただけますが、人気シーズンは埋まりやすいため、候補日が見えているほどご案内がしやすくなります。</div></div></div></div>
+    </div>
+  </div>
+
+  <!-- PATTERN 15 -->
+  <div class="pattern-section">
+    <div class="pattern-label">Pattern 15 — ホバーシフト</div>
+    <div class="p15">
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="left"><span class="dash"></span><span class="text">仮押さえはできますか？</span></span><span class="toggle-icon">+</span></div><div class="qa-a"><div class="qa-a-inner">可能です。基本的にはお見積り送付後から1週間の仮押さえとなり、その間に前金のお振込みをもって正式契約となります。</div></div></div>
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="left"><span class="dash"></span><span class="text">まだ日程が決まっていないのですが相談できますか？</span></span><span class="toggle-icon">+</span></div><div class="qa-a"><div class="qa-a-inner">可能です。ざっくりした時期でもご相談いただけますが、人気シーズンは埋まりやすいため、候補日が見えているほどご案内がしやすくなります。</div></div></div>
+    </div>
+  </div>
+
+  <!-- PATTERN 16 -->
+  <div class="pattern-section">
+    <div class="pattern-label">Pattern 16 — 縦ドットライン</div>
+    <div class="p16">
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="text">仮押さえはできますか？</span><span class="ico">▼</span></div><div class="qa-a"><div class="qa-a-inner">可能です。基本的にはお見積り送付後から1週間の仮押さえとなり、その間に前金のお振込みをもって正式契約となります。</div></div></div>
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="text">まだ日程が決まっていないのですが相談できますか？</span><span class="ico">▼</span></div><div class="qa-a"><div class="qa-a-inner">可能です。ざっくりした時期でもご相談いただけますが、人気シーズンは埋まりやすいため、候補日が見えているほどご案内がしやすくなります。</div></div></div>
+    </div>
+  </div>
+
+  <!-- PATTERN 17 -->
+  <div class="pattern-section">
+    <div class="pattern-label">Pattern 17 — フラットモダン</div>
+    <div class="p17">
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="index">01.</span><span class="text">仮押さえはできますか？</span><span class="arrow-r">→</span></div><div class="qa-a"><div class="qa-a-inner">可能です。基本的にはお見積り送付後から1週間の仮押さえとなり、その間に前金のお振込みをもって正式契約となります。</div></div></div>
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="index">02.</span><span class="text">まだ日程が決まっていないのですが相談できますか？</span><span class="arrow-r">→</span></div><div class="qa-a"><div class="qa-a-inner">可能です。ざっくりした時期でもご相談いただけますが、人気シーズンは埋まりやすいため、候補日が見えているほどご案内がしやすくなります。</div></div></div>
+    </div>
+  </div>
+
+  <!-- PATTERN 18 -->
+  <div class="pattern-section">
+    <div class="pattern-label">Pattern 18 — ブラケット</div>
+    <div class="p18">
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="bracket">[</span><span class="text">仮押さえはできますか？</span><span class="expand">▼</span></div><div class="qa-a"><div class="qa-a-inner">可能です。基本的にはお見積り送付後から1週間の仮押さえとなり、その間に前金のお振込みをもって正式契約となります。</div></div></div>
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="bracket">[</span><span class="text">まだ日程が決まっていないのですが相談できますか？</span><span class="expand">▼</span></div><div class="qa-a"><div class="qa-a-inner">可能です。ざっくりした時期でもご相談いただけますが、人気シーズンは埋まりやすいため、候補日が見えているほどご案内がしやすくなります。</div></div></div>
+    </div>
+  </div>
+
+  <!-- PATTERN 19 -->
+  <div class="pattern-section">
+    <div class="pattern-label">Pattern 19 — ダイヤモンド下線フェード</div>
+    <div class="p19">
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="diamond"></span><span class="text">仮押さえはできますか？</span><span class="toggle">▼</span></div><div class="qa-a"><div class="qa-a-inner">可能です。基本的にはお見積り送付後から1週間の仮押さえとなり、その間に前金のお振込みをもって正式契約となります。</div></div></div>
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="diamond"></span><span class="text">まだ日程が決まっていないのですが相談できますか？</span><span class="toggle">▼</span></div><div class="qa-a"><div class="qa-a-inner">可能です。ざっくりした時期でもご相談いただけますが、人気シーズンは埋まりやすいため、候補日が見えているほどご案内がしやすくなります。</div></div></div>
+    </div>
+  </div>
+
+  <!-- PATTERN 20 -->
+  <div class="pattern-section">
+    <div class="pattern-label">Pattern 20 — エアリーオープン</div>
+    <div class="p20">
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="text">仮押さえはできますか？</span><span class="circle-arrow">▼</span></div><div class="qa-a"><div class="qa-a-inner">可能です。基本的にはお見積り送付後から1週間の仮押さえとなり、その間に前金のお振込みをもって正式契約となります。</div></div></div>
+      <div class="qa-item"><div class="qa-q" onclick="this.parentElement.classList.toggle('active')"><span class="text">まだ日程が決まっていないのですが相談できますか？</span><span class="circle-arrow">▼</span></div><div class="qa-a"><div class="qa-a-inner">可能です。ざっくりした時期でもご相談いただけますが、人気シーズンは埋まりやすいため、候補日が見えているほどご案内がしやすくなります。</div></div></div>
+    </div>
+  </div>
+
+</body>
+</html>

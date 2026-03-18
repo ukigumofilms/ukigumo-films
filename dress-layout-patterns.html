@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dress Shop Layout — 10 Patterns</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #fff; color: #2a2420; font-family: "Noto Serif JP", serif; }
+
+    h1 {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 300; font-size: 1.6rem;
+      text-align: center; letter-spacing: 0.15em;
+      padding-top: 3rem; margin-bottom: 0.3rem;
+    }
+    .sub {
+      text-align: center; font-size: 0.68rem;
+      color: rgba(61,53,48,0.4); letter-spacing: 0.08em;
+      margin-bottom: 3rem;
+    }
+
+    .pattern-section {
+      max-width: 960px;
+      margin: 0 auto 4rem;
+      padding: 0 1.5rem;
+    }
+    .pattern-label {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.6rem; color: rgba(61,53,48,0.3);
+      letter-spacing: 0.2em; margin-bottom: 0.15rem;
+    }
+    .pattern-name {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 300; font-size: 0.8rem;
+      color: rgba(61,53,48,0.55); margin-bottom: 1rem;
+    }
+
+    /* Shared card base */
+    .card {
+      background: #ede4d6;
+      border-radius: 16px;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.03);
+      overflow: hidden;
+    }
+    .card img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+    .content {
+      padding: 2rem 1.8rem 1.6rem;
+    }
+    .shop-num {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.72rem; color: rgba(61,53,48,0.4);
+      margin-bottom: 0.2rem;
+    }
+    .shop-name {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.3rem; font-weight: 300;
+      letter-spacing: 0.08em; margin-bottom: 0.2rem;
+    }
+    .shop-loc {
+      font-size: 0.65rem; font-weight: 300;
+      color: rgba(61,53,48,0.55); margin-bottom: 1rem;
+    }
+    .tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    .tag {
+      font-size: 0.6rem; font-weight: 300;
+      padding: 0.25rem 0.7rem; border-radius: 20px;
+      border: 1px solid rgba(61,53,48,0.12);
+      color: rgba(61,53,48,0.6);
+    }
+    .price-block {
+      background: rgba(255,255,255,0.7);
+      border-radius: 12px;
+      padding: 1rem 1.2rem 0.8rem;
+      margin-bottom: 0.6rem;
+    }
+    .price-header {
+      font-size: 0.68rem; font-weight: 400;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid rgba(61,53,48,0.08);
+      margin-bottom: 0.4rem;
+    }
+    .row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.25rem 0; }
+    .row-label { font-size: 0.65rem; font-weight: 300; color: rgba(61,53,48,0.7); }
+    .row-val { font-size: 0.75rem; font-weight: 400; }
+
+    /* Image overlay */
+    .img-wrap {
+      position: relative; overflow: hidden;
+    }
+    .img-overlay {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 1.2rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.45), transparent);
+    }
+    .img-overlay-name {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1rem; font-weight: 300; color: #fff; letter-spacing: 0.08em;
+    }
+    .img-overlay-loc {
+      font-size: 0.55rem; font-weight: 300; color: rgba(255,255,255,0.6);
+    }
+
+    /* ==========================================
+       10 LAYOUT PATTERNS
+       ========================================== */
+
+    /* --- Pattern 01: 50/50 横並び（現行） --- */
+    .p01 .card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .p01 .img-wrap { min-height: 420px; }
+
+    /* --- Pattern 02: 写真大きめ 60/40 --- */
+    .p02 .card {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+    }
+    .p02 .img-wrap { min-height: 420px; }
+
+    /* --- Pattern 03: 写真もっと大きめ 65/35 --- */
+    .p03 .card {
+      display: grid;
+      grid-template-columns: 65% 35%;
+    }
+    .p03 .img-wrap { min-height: 450px; }
+
+    /* --- Pattern 04: 写真上 + 内容下（フルワイド画像） --- */
+    .p04 .card {
+      display: flex;
+      flex-direction: column;
+    }
+    .p04 .img-wrap { height: 350px; }
+    .p04 { max-width: 680px; }
+
+    /* --- Pattern 05: 写真上大きめ + 内容下 --- */
+    .p05 .card {
+      display: flex;
+      flex-direction: column;
+    }
+    .p05 .img-wrap { height: 450px; }
+    .p05 { max-width: 680px; }
+
+    /* --- Pattern 06: 写真上フルワイド + 内容下（max-width広め） --- */
+    .p06 .card {
+      display: flex;
+      flex-direction: column;
+    }
+    .p06 .img-wrap { height: 380px; }
+    .p06 { max-width: 820px; }
+
+    /* --- Pattern 07: 40/60（写真右寄り大きめ） --- */
+    .p07 .card {
+      display: grid;
+      grid-template-columns: 2fr 3fr;
+    }
+    .p07 .img-wrap { min-height: 420px; order: 2; }
+    .p07 .content { order: 1; }
+
+    /* --- Pattern 08: 写真背景フルカバー + 内容オーバーレイ --- */
+    .p08 .card {
+      position: relative;
+      min-height: 500px;
+    }
+    .p08 .img-wrap {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+    }
+    .p08 .content {
+      position: relative;
+      z-index: 2;
+      background: rgba(237,228,214,0.88);
+      margin: 2rem;
+      border-radius: 12px;
+      padding: 2rem 1.8rem 1.6rem;
+    }
+    .p08 .img-overlay { display: none; }
+
+    /* --- Pattern 09: 写真上半分ラウンド + 内容下 コンパクト --- */
+    .p09 .card {
+      display: flex;
+      flex-direction: column;
+    }
+    .p09 .img-wrap { height: 300px; }
+    .p09 { max-width: 560px; }
+
+    /* --- Pattern 10: 写真左 70% + 内容右ナロー --- */
+    .p10 .card {
+      display: grid;
+      grid-template-columns: 70% 30%;
+    }
+    .p10 .img-wrap { min-height: 480px; }
+    .p10 .content { padding: 1.5rem 1.2rem; }
+    .p10 .shop-name { font-size: 1rem; }
+    .p10 .row-val { font-size: 0.68rem; }
+  </style>
+</head>
+<body>
+
+<h1>Layout Patterns</h1>
+<p class="sub">写真＋内容のレイアウト — 10パターン</p>
+
+<!-- ===== Pattern 01 ===== -->
+<div class="pattern-section p01">
+  <p class="pattern-label">PATTERN 01</p>
+  <p class="pattern-name">50/50 横並び（現行）</p>
+  <div class="card">
+    <div class="img-wrap">
+      <img src="images/paris/02.jpg" alt="">
+      <div class="img-overlay">
+        <div class="img-overlay-name">Bee's Knees</div>
+        <div class="img-overlay-loc">Tokyo · Akasaka</div>
+      </div>
+    </div>
+    <div class="content">
+      <p class="shop-num">01</p>
+      <h2 class="shop-name">Bee's Knees</h2>
+      <p class="shop-loc">ukigumo films 特別価格｜東京・赤坂</p>
+      <div class="tags"><span class="tag">豊富なラインナップ</span><span class="tag">タキシード込み</span></div>
+      <div class="price-block">
+        <div class="price-header">Base Price（ドレス＋タキシード込み）</div>
+        <div class="row"><span class="row-label">国内・海外共通</span><span class="row-val">¥110,000（税込）</span></div>
+      </div>
+      <div class="price-block">
+        <div class="price-header">海外撮影の場合</div>
+        <div class="row"><span class="row-label">セレクト可能数</span><span class="row-val">13型（全てプラン内）</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Pattern 02 ===== -->
+<div class="pattern-section p02">
+  <p class="pattern-label">PATTERN 02</p>
+  <p class="pattern-name">60/40 — 写真大きめ</p>
+  <div class="card">
+    <div class="img-wrap">
+      <img src="images/paris/02.jpg" alt="">
+      <div class="img-overlay">
+        <div class="img-overlay-name">Bee's Knees</div>
+        <div class="img-overlay-loc">Tokyo · Akasaka</div>
+      </div>
+    </div>
+    <div class="content">
+      <p class="shop-num">01</p>
+      <h2 class="shop-name">Bee's Knees</h2>
+      <p class="shop-loc">ukigumo films 特別価格｜東京・赤坂</p>
+      <div class="tags"><span class="tag">豊富なラインナップ</span><span class="tag">タキシード込み</span></div>
+      <div class="price-block">
+        <div class="price-header">Base Price（ドレス＋タキシード込み）</div>
+        <div class="row"><span class="row-label">国内・海外共通</span><span class="row-val">¥110,000（税込）</span></div>
+      </div>
+      <div class="price-block">
+        <div class="price-header">海外撮影の場合</div>
+        <div class="row"><span class="row-label">セレクト可能数</span><span class="row-val">13型（全てプラン内）</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Pattern 03 ===== -->
+<div class="pattern-section p03">
+  <p class="pattern-label">PATTERN 03</p>
+  <p class="pattern-name">65/35 — 写真メイン</p>
+  <div class="card">
+    <div class="img-wrap">
+      <img src="images/paris/02.jpg" alt="">
+      <div class="img-overlay">
+        <div class="img-overlay-name">Bee's Knees</div>
+        <div class="img-overlay-loc">Tokyo · Akasaka</div>
+      </div>
+    </div>
+    <div class="content">
+      <p class="shop-num">01</p>
+      <h2 class="shop-name">Bee's Knees</h2>
+      <p class="shop-loc">ukigumo films 特別価格｜東京・赤坂</p>
+      <div class="tags"><span class="tag">豊富なラインナップ</span><span class="tag">タキシード込み</span></div>
+      <div class="price-block">
+        <div class="price-header">Base Price（ドレス＋タキシード込み）</div>
+        <div class="row"><span class="row-label">国内・海外共通</span><span class="row-val">¥110,000（税込）</span></div>
+      </div>
+      <div class="price-block">
+        <div class="price-header">海外撮影の場合</div>
+        <div class="row"><span class="row-label">セレクト可能数</span><span class="row-val">13型（全てプラン内）</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Pattern 04 ===== -->
+<div class="pattern-section p04">
+  <p class="pattern-label">PATTERN 04</p>
+  <p class="pattern-name">写真上 + 内容下（コンパクト幅）</p>
+  <div class="card">
+    <div class="img-wrap">
+      <img src="images/paris/02.jpg" alt="">
+      <div class="img-overlay">
+        <div class="img-overlay-name">Bee's Knees</div>
+        <div class="img-overlay-loc">Tokyo · Akasaka</div>
+      </div>
+    </div>
+    <div class="content">
+      <p class="shop-num">01</p>
+      <h2 class="shop-name">Bee's Knees</h2>
+      <p class="shop-loc">ukigumo films 特別価格｜東京・赤坂</p>
+      <div class="tags"><span class="tag">豊富なラインナップ</span><span class="tag">タキシード込み</span></div>
+      <div class="price-block">
+        <div class="price-header">Base Price（ドレス＋タキシード込み）</div>
+        <div class="row"><span class="row-label">国内・海外共通</span><span class="row-val">¥110,000（税込）</span></div>
+      </div>
+      <div class="price-block">
+        <div class="price-header">海外撮影の場合</div>
+        <div class="row"><span class="row-label">セレクト可能数</span><span class="row-val">13型（全てプラン内）</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Pattern 05 ===== -->
+<div class="pattern-section p05">
+  <p class="pattern-label">PATTERN 05</p>
+  <p class="pattern-name">写真上大きめ + 内容下（コンパクト幅）</p>
+  <div class="card">
+    <div class="img-wrap">
+      <img src="images/paris/02.jpg" alt="">
+      <div class="img-overlay">
+        <div class="img-overlay-name">Bee's Knees</div>
+        <div class="img-overlay-loc">Tokyo · Akasaka</div>
+      </div>
+    </div>
+    <div class="content">
+      <p class="shop-num">01</p>
+      <h2 class="shop-name">Bee's Knees</h2>
+      <p class="shop-loc">ukigumo films 特別価格｜東京・赤坂</p>
+      <div class="tags"><span class="tag">豊富なラインナップ</span><span class="tag">タキシード込み</span></div>
+      <div class="price-block">
+        <div class="price-header">Base Price（ドレス＋タキシード込み）</div>
+        <div class="row"><span class="row-label">国内・海外共通</span><span class="row-val">¥110,000（税込）</span></div>
+      </div>
+      <div class="price-block">
+        <div class="price-header">海外撮影の場合</div>
+        <div class="row"><span class="row-label">セレクト可能数</span><span class="row-val">13型（全てプラン内）</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Pattern 06 ===== -->
+<div class="pattern-section p06">
+  <p class="pattern-label">PATTERN 06</p>
+  <p class="pattern-name">写真上フルワイド + 内容下（ワイド幅）</p>
+  <div class="card">
+    <div class="img-wrap">
+      <img src="images/paris/02.jpg" alt="">
+      <div class="img-overlay">
+        <div class="img-overlay-name">Bee's Knees</div>
+        <div class="img-overlay-loc">Tokyo · Akasaka</div>
+      </div>
+    </div>
+    <div class="content">
+      <p class="shop-num">01</p>
+      <h2 class="shop-name">Bee's Knees</h2>
+      <p class="shop-loc">ukigumo films 特別価格｜東京・赤坂</p>
+      <div class="tags"><span class="tag">豊富なラインナップ</span><span class="tag">タキシード込み</span></div>
+      <div class="price-block">
+        <div class="price-header">Base Price（ドレス＋タキシード込み）</div>
+        <div class="row"><span class="row-label">国内・海外共通</span><span class="row-val">¥110,000（税込）</span></div>
+      </div>
+      <div class="price-block">
+        <div class="price-header">海外撮影の場合</div>
+        <div class="row"><span class="row-label">セレクト可能数</span><span class="row-val">13型（全てプラン内）</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Pattern 07 ===== -->
+<div class="pattern-section p07">
+  <p class="pattern-label">PATTERN 07</p>
+  <p class="pattern-name">40/60 — 内容左 + 写真右大きめ</p>
+  <div class="card">
+    <div class="content">
+      <p class="shop-num">01</p>
+      <h2 class="shop-name">Bee's Knees</h2>
+      <p class="shop-loc">ukigumo films 特別価格｜東京・赤坂</p>
+      <div class="tags"><span class="tag">豊富なラインナップ</span><span class="tag">タキシード込み</span></div>
+      <div class="price-block">
+        <div class="price-header">Base Price（ドレス＋タキシード込み）</div>
+        <div class="row"><span class="row-label">国内・海外共通</span><span class="row-val">¥110,000（税込）</span></div>
+      </div>
+      <div class="price-block">
+        <div class="price-header">海外撮影の場合</div>
+        <div class="row"><span class="row-label">セレクト可能数</span><span class="row-val">13型（全てプラン内）</span></div>
+      </div>
+    </div>
+    <div class="img-wrap">
+      <img src="images/paris/02.jpg" alt="">
+      <div class="img-overlay">
+        <div class="img-overlay-name">Bee's Knees</div>
+        <div class="img-overlay-loc">Tokyo · Akasaka</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Pattern 08 ===== -->
+<div class="pattern-section p08">
+  <p class="pattern-label">PATTERN 08</p>
+  <p class="pattern-name">写真背景フルカバー + 内容オーバーレイ</p>
+  <div class="card">
+    <div class="img-wrap">
+      <img src="images/paris/02.jpg" alt="">
+    </div>
+    <div class="content">
+      <p class="shop-num">01</p>
+      <h2 class="shop-name">Bee's Knees</h2>
+      <p class="shop-loc">ukigumo films 特別価格｜東京・赤坂</p>
+      <div class="tags"><span class="tag">豊富なラインナップ</span><span class="tag">タキシード込み</span></div>
+      <div class="price-block">
+        <div class="price-header">Base Price（ドレス＋タキシード込み）</div>
+        <div class="row"><span class="row-label">国内・海外共通</span><span class="row-val">¥110,000（税込）</span></div>
+      </div>
+      <div class="price-block">
+        <div class="price-header">海外撮影の場合</div>
+        <div class="row"><span class="row-label">セレクト可能数</span><span class="row-val">13型（全てプラン内）</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Pattern 09 ===== -->
+<div class="pattern-section p09">
+  <p class="pattern-label">PATTERN 09</p>
+  <p class="pattern-name">コンパクトカード（写真上 + 内容下・狭め）</p>
+  <div class="card">
+    <div class="img-wrap">
+      <img src="images/paris/02.jpg" alt="">
+      <div class="img-overlay">
+        <div class="img-overlay-name">Bee's Knees</div>
+        <div class="img-overlay-loc">Tokyo · Akasaka</div>
+      </div>
+    </div>
+    <div class="content">
+      <p class="shop-num">01</p>
+      <h2 class="shop-name">Bee's Knees</h2>
+      <p class="shop-loc">ukigumo films 特別価格｜東京・赤坂</p>
+      <div class="tags"><span class="tag">豊富なラインナップ</span><span class="tag">タキシード込み</span></div>
+      <div class="price-block">
+        <div class="price-header">Base Price（ドレス＋タキシード込み）</div>
+        <div class="row"><span class="row-label">国内・海外共通</span><span class="row-val">¥110,000（税込）</span></div>
+      </div>
+      <div class="price-block">
+        <div class="price-header">海外撮影の場合</div>
+        <div class="row"><span class="row-label">セレクト可能数</span><span class="row-val">13型（全てプラン内）</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Pattern 10 ===== -->
+<div class="pattern-section p10">
+  <p class="pattern-label">PATTERN 10</p>
+  <p class="pattern-name">70/30 — 写真ドミナント</p>
+  <div class="card">
+    <div class="img-wrap">
+      <img src="images/paris/02.jpg" alt="">
+      <div class="img-overlay">
+        <div class="img-overlay-name">Bee's Knees</div>
+        <div class="img-overlay-loc">Tokyo · Akasaka</div>
+      </div>
+    </div>
+    <div class="content">
+      <p class="shop-num">01</p>
+      <h2 class="shop-name">Bee's Knees</h2>
+      <p class="shop-loc">ukigumo films 特別価格｜東京・赤坂</p>
+      <div class="tags"><span class="tag">豊富なラインナップ</span><span class="tag">タキシード込み</span></div>
+      <div class="price-block">
+        <div class="price-header">Base Price</div>
+        <div class="row"><span class="row-label">国内・海外共通</span><span class="row-val">¥110,000</span></div>
+      </div>
+      <div class="price-block">
+        <div class="price-header">海外撮影</div>
+        <div class="row"><span class="row-label">セレクト可能数</span><span class="row-val">13型</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery CTA — Patterns 11-20</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400&family=Noto+Sans+JP:wght@300;400&family=Lavishly+Yours&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "Noto Sans JP", sans-serif; background: #f5f3ef; color: #333; }
+
+  .grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0; min-height: 100vh;
+  }
+  .cell {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 80px 40px; border-bottom: 1px solid rgba(0,0,0,0.05);
+    border-right: 1px solid rgba(0,0,0,0.05); position: relative;
+  }
+  .cell:nth-child(2n) { border-right: none; }
+  .cell-label {
+    position: absolute; top: 20px; left: 24px;
+    font-family: "Cormorant Garamond", serif; font-size: 0.7rem;
+    letter-spacing: 0.15em; color: #bbb;
+  }
+
+  :root {
+    --font: "Cormorant Garamond", serif;
+    --script: "Lavishly Yours", cursive;
+    --dark: #2a2420;
+    --mid: rgba(61,53,48,0.5);
+    --light: rgba(61,53,48,0.15);
+    --faint: rgba(61,53,48,0.06);
+  }
+  a { text-decoration: none; }
+
+  /* ===== 11: 丸ボタン + 中央テキスト ===== */
+  .cta11 {
+    width: 120px; height: 120px; border-radius: 50%;
+    border: 1px solid var(--light); display: flex;
+    align-items: center; justify-content: center;
+    color: var(--dark); font-family: var(--font);
+    font-size: 0.85rem; letter-spacing: 0.2em;
+    transition: all 0.5s ease;
+  }
+  .cta11:hover {
+    background: var(--dark); color: #f5f3ef;
+    border-color: var(--dark); transform: scale(1.05);
+  }
+
+  /* ===== 12: スクリプト体 + 矢印ライン ===== */
+  .cta12 {
+    display: inline-flex; align-items: center; gap: 20px;
+    color: var(--dark); font-family: var(--script);
+    font-size: 1.8rem;
+  }
+  .cta12 .line-arrow {
+    display: flex; align-items: center; gap: 0;
+  }
+  .cta12 .la-line {
+    width: 40px; height: 1px; background: var(--dark);
+    transition: width 0.5s ease;
+  }
+  .cta12 .la-tip { font-family: var(--font); font-size: 0.8rem; transition: transform 0.3s ease; }
+  .cta12:hover .la-line { width: 70px; }
+  .cta12:hover .la-tip { transform: translateX(4px); }
+
+  /* ===== 13: 左右ライン挟み ===== */
+  .cta13 {
+    display: inline-flex; align-items: center; gap: 18px;
+    color: var(--dark); font-family: var(--font);
+    font-size: 1.05rem; letter-spacing: 0.3em;
+  }
+  .cta13 .side-line {
+    width: 40px; height: 1px; background: var(--light);
+    transition: width 0.4s ease, background 0.4s ease;
+  }
+  .cta13:hover .side-line { width: 60px; background: var(--dark); }
+
+  /* ===== 14: 背景グラデスライド ===== */
+  .cta14 {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 14px 42px; border-radius: 40px;
+    color: var(--dark); font-family: var(--font);
+    font-size: 0.95rem; letter-spacing: 0.25em;
+    background: linear-gradient(90deg, var(--dark) 50%, transparent 50%);
+    background-size: 200% 100%; background-position: right;
+    transition: all 0.5s ease;
+    border: 1px solid var(--light);
+  }
+  .cta14 .arrow { transition: transform 0.3s ease; }
+  .cta14:hover {
+    background-position: left; color: #f5f3ef;
+    border-color: var(--dark);
+  }
+  .cta14:hover .arrow { transform: translateX(5px); }
+
+  /* ===== 15: ドット + テキスト ===== */
+  .cta15 {
+    display: inline-flex; align-items: center; gap: 14px;
+    color: var(--dark); font-family: var(--font);
+    font-size: 1.1rem; letter-spacing: 0.2em;
+  }
+  .cta15 .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--dark); transition: all 0.4s ease;
+  }
+  .cta15:hover .dot {
+    width: 28px; border-radius: 4px;
+  }
+  .cta15 .text { transition: letter-spacing 0.3s ease; }
+  .cta15:hover .text { letter-spacing: 0.35em; }
+
+  /* ===== 16: 角丸四角 + ホバーで角なし ===== */
+  .cta16 {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 14px 38px; border: 1px solid var(--dark);
+    border-radius: 8px; color: var(--dark); font-family: var(--font);
+    font-size: 0.95rem; letter-spacing: 0.25em;
+    transition: all 0.4s ease;
+  }
+  .cta16 .arrow { transition: transform 0.3s ease; }
+  .cta16:hover { border-radius: 40px; background: var(--faint); }
+  .cta16:hover .arrow { transform: translateX(5px); }
+
+  /* ===== 17: 上ライン + 下ライン展開 ===== */
+  .cta17 {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 14px 0; color: var(--dark); font-family: var(--font);
+    font-size: 1rem; letter-spacing: 0.3em; position: relative;
+  }
+  .cta17::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 1px; background: var(--light);
+  }
+  .cta17::after {
+    content: ''; position: absolute; bottom: 0; left: 0;
+    width: 0; height: 1px; background: var(--dark);
+    transition: width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .cta17:hover::after { width: 100%; }
+  .cta17 .arrow { transition: transform 0.3s ease; }
+  .cta17:hover .arrow { transform: translateX(5px); }
+
+  /* ===== 18: 文字バラバラ登場風（hover） ===== */
+  .cta18 {
+    display: inline-flex; align-items: center; gap: 4px;
+    color: var(--dark); font-family: var(--font);
+    font-size: 1.2rem; letter-spacing: 0.15em; cursor: pointer;
+  }
+  .cta18 span {
+    display: inline-block; transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  .cta18:hover span:nth-child(1) { transform: translateY(-3px); }
+  .cta18:hover span:nth-child(2) { transform: translateY(-5px); transition-delay: 0.03s; }
+  .cta18:hover span:nth-child(3) { transform: translateY(-3px); transition-delay: 0.06s; }
+  .cta18:hover span:nth-child(4) { transform: translateY(-5px); transition-delay: 0.09s; }
+  .cta18:hover span:nth-child(5) { transform: translateY(-3px); transition-delay: 0.12s; }
+  .cta18:hover span:nth-child(6) { transform: translateY(-5px); transition-delay: 0.15s; }
+  .cta18:hover span:nth-child(7) { transform: translateY(-3px); transition-delay: 0.18s; }
+  .cta18 .arrow-w { margin-left: 12px; font-size: 0.9rem; }
+  .cta18:hover .arrow-w { transform: translateX(6px); transition-delay: 0.2s; }
+
+  /* ===== 19: 太文字 + 背景バー ===== */
+  .cta19 {
+    display: inline-block; color: var(--dark); font-family: var(--font);
+    font-size: 1.4rem; letter-spacing: 0.2em; font-weight: 500;
+    position: relative; padding: 4px 8px;
+  }
+  .cta19::before {
+    content: ''; position: absolute; bottom: 2px; left: 0;
+    width: 100%; height: 6px; background: rgba(61,53,48,0.06);
+    transition: height 0.3s ease, background 0.3s ease;
+    z-index: -1;
+  }
+  .cta19:hover::before { height: 60%; background: rgba(61,53,48,0.08); }
+
+  /* ===== 20: ミニマル矢印のみ大きく ===== */
+  .cta20 {
+    display: inline-flex; align-items: center; gap: 20px;
+    color: var(--dark); font-family: var(--font);
+    font-size: 0.9rem; letter-spacing: 0.3em;
+  }
+  .cta20 .big-arrow {
+    font-size: 1.6rem; font-weight: 300;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .cta20:hover .big-arrow { transform: translateX(10px); }
+  .cta20:hover { color: var(--mid); }
+</style>
+</head>
+<body>
+
+<div class="grid">
+
+  <div class="cell">
+    <span class="cell-label">11 — Circle Button</span>
+    <a href="#" class="cta11">Gallery</a>
+  </div>
+
+  <div class="cell">
+    <span class="cell-label">12 — Script + Arrow Line</span>
+    <a href="#" class="cta12">Gallery <span class="line-arrow"><span class="la-line"></span><span class="la-tip">→</span></span></a>
+  </div>
+
+  <div class="cell">
+    <span class="cell-label">13 — Side Lines</span>
+    <a href="#" class="cta13"><span class="side-line"></span>Gallery<span class="side-line"></span></a>
+  </div>
+
+  <div class="cell">
+    <span class="cell-label">14 — Gradient Slide Fill</span>
+    <a href="#" class="cta14">Gallery <span class="arrow">→</span></a>
+  </div>
+
+  <div class="cell">
+    <span class="cell-label">15 — Dot + Expand</span>
+    <a href="#" class="cta15"><span class="dot"></span><span class="text">Gallery</span></a>
+  </div>
+
+  <div class="cell">
+    <span class="cell-label">16 — Rounded → Pill</span>
+    <a href="#" class="cta16">Gallery <span class="arrow">→</span></a>
+  </div>
+
+  <div class="cell">
+    <span class="cell-label">17 — Top Line + Bottom Expand</span>
+    <a href="#" class="cta17">Gallery <span class="arrow">→</span></a>
+  </div>
+
+  <div class="cell">
+    <span class="cell-label">18 — Letter Bounce</span>
+    <a href="#" class="cta18"><span>G</span><span>a</span><span>l</span><span>l</span><span>e</span><span>r</span><span>y</span><span class="arrow-w">→</span></a>
+  </div>
+
+  <div class="cell">
+    <span class="cell-label">19 — Bold + Highlight Bar</span>
+    <a href="#" class="cta19">Gallery →</a>
+  </div>
+
+  <div class="cell">
+    <span class="cell-label">20 — Minimal Big Arrow</span>
+    <a href="#" class="cta20">Gallery <span class="big-arrow">→</span></a>
+  </div>
+
+</div>
+
+</body>
+</html>

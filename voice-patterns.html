@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voice Card Patterns — 10 Variations (Full Text)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #f5f3ef; font-family: 'Noto Sans JP', sans-serif; color: #3D3530; }
+
+    .page-title {
+      text-align: center;
+      padding: 4rem 2rem 2rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+    }
+
+    .pattern-section {
+      max-width: 1100px;
+      margin: 0 auto 6rem;
+      padding: 0 2rem;
+    }
+
+    .pattern-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      color: #999;
+      margin-bottom: 0.4rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+    .pattern-desc {
+      font-size: 0.75rem;
+      color: #aaa;
+      margin-bottom: 1.5rem;
+      font-weight: 300;
+    }
+
+    /* ===================================
+       PATTERN 01 — Clean White Cards
+       =================================== */
+    .p01-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+      align-items: start;
+    }
+    .p01-card {
+      background: #fff;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    }
+    .p01-card__img {
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      display: block;
+    }
+    .p01-card__body { padding: 1rem 1.1rem 1.4rem; }
+    .p01-card__name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.82rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      color: #8a7e74;
+      margin-bottom: 0.6rem;
+    }
+    .p01-card__text {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.68rem;
+      line-height: 2;
+      font-weight: 300;
+      color: #555;
+    }
+
+    /* ===================================
+       PATTERN 02 — Minimal Border
+       =================================== */
+    .p02-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      align-items: start;
+    }
+    .p02-card {
+      border: 1px solid rgba(168,152,136,0.2);
+      padding: 0.7rem;
+      border-radius: 2px;
+      background: transparent;
+    }
+    .p02-card__img {
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      display: block;
+    }
+    .p02-card__body { padding: 0.8rem 0.3rem 0.3rem; }
+    .p02-card__name {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      text-transform: lowercase;
+      color: #aaa;
+      margin-bottom: 0.5rem;
+    }
+    .p02-card__text {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.66rem;
+      line-height: 1.9;
+      font-weight: 300;
+      color: #666;
+    }
+
+    /* ===================================
+       PATTERN 03 — Polaroid Style
+       =================================== */
+    .p03-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.8rem;
+      align-items: start;
+    }
+    .p03-card {
+      background: #fff;
+      padding: 0.6rem 0.6rem 1.6rem;
+      box-shadow: 0 3px 18px rgba(0,0,0,0.06);
+    }
+    .p03-card:nth-child(1) { transform: rotate(-0.6deg); }
+    .p03-card:nth-child(2) { transform: rotate(0.8deg); }
+    .p03-card:nth-child(3) { transform: rotate(-0.4deg); }
+    .p03-card__img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      display: block;
+    }
+    .p03-card__body { padding: 0.8rem 0.4rem 0; text-align: center; }
+    .p03-card__name {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.78rem;
+      font-weight: 300;
+      color: #8a7e74;
+      margin-bottom: 0.5rem;
+    }
+    .p03-card__text {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.64rem;
+      line-height: 2;
+      font-weight: 300;
+      color: #777;
+      text-align: left;
+    }
+
+    /* ===================================
+       PATTERN 04 — Photo Left + Text Right (横型)
+       =================================== */
+    .p04-list { display: flex; flex-direction: column; gap: 1.5rem; }
+    .p04-card {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 1.5rem;
+      background: #fff;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      padding: 1rem;
+      align-items: start;
+    }
+    .p04-card:nth-child(even) { direction: rtl; }
+    .p04-card:nth-child(even) > * { direction: ltr; }
+    .p04-card__img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      display: block;
+      border-radius: 3px;
+    }
+    .p04-card__body { padding: 0.3rem 0; }
+    .p04-card__name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.82rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      color: #8a7e74;
+      margin-bottom: 0.5rem;
+    }
+    .p04-card__text {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.68rem;
+      line-height: 2;
+      font-weight: 300;
+      color: #555;
+    }
+
+    /* ===================================
+       PATTERN 05 — Rounded Soft
+       =================================== */
+    .p05-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.4rem;
+      align-items: start;
+    }
+    .p05-card {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 28px rgba(0,0,0,0.05);
+    }
+    .p05-card__img {
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      display: block;
+    }
+    .p05-card__body { padding: 1.1rem 1.2rem 1.4rem; }
+    .p05-card__name {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 400;
+      color: #b5a08a;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+    .p05-card__text {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.68rem;
+      line-height: 2;
+      font-weight: 300;
+      color: #5a5550;
+    }
+
+    /* ===================================
+       PATTERN 06 — Gold Accent Center
+       =================================== */
+    .p06-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      align-items: start;
+    }
+    .p06-card { text-align: center; }
+    .p06-card__img-wrap {
+      width: 100%;
+      aspect-ratio: 4/5;
+      overflow: hidden;
+      border-radius: 2px;
+      margin-bottom: 1rem;
+    }
+    .p06-card__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .p06-card__line {
+      width: 28px;
+      height: 1px;
+      background: #c9a96e;
+      margin: 0 auto 0.7rem;
+    }
+    .p06-card__name {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.82rem;
+      font-weight: 300;
+      color: #8a7e74;
+      margin-bottom: 0.5rem;
+    }
+    .p06-card__text {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.64rem;
+      line-height: 2;
+      font-weight: 300;
+      color: #777;
+      text-align: left;
+      padding: 0 0.3rem;
+    }
+
+    /* ===================================
+       PATTERN 07 — Stacked Full Width
+       =================================== */
+    .p07-list { display: flex; flex-direction: column; gap: 0; }
+    .p07-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 340px;
+    }
+    .p07-card:nth-child(even) { direction: rtl; }
+    .p07-card:nth-child(even) > * { direction: ltr; }
+    .p07-card__img-wrap { overflow: hidden; }
+    .p07-card__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .p07-card__body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 2rem 2.5rem;
+      background: #fff;
+    }
+    .p07-card:nth-child(even) .p07-card__body { background: #faf8f5; }
+    .p07-card__name {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.9rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: #a0917f;
+      margin-bottom: 0.7rem;
+    }
+    .p07-card__text {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.72rem;
+      line-height: 2.2;
+      font-weight: 300;
+      color: #666;
+    }
+
+    /* ===================================
+       PATTERN 08 — Dark BG + Light Card
+       =================================== */
+    .p08-wrap {
+      background: #2a2420;
+      padding: 3rem 2rem;
+      border-radius: 4px;
+    }
+    .p08-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.4rem;
+      align-items: start;
+    }
+    .p08-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .p08-card__img {
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      display: block;
+    }
+    .p08-card__body { padding: 1rem 1.1rem 1.3rem; }
+    .p08-card__name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      color: #c9a96e;
+      margin-bottom: 0.5rem;
+    }
+    .p08-card__text {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.66rem;
+      line-height: 2;
+      font-weight: 300;
+      color: rgba(255,255,255,0.6);
+    }
+
+    /* ===================================
+       PATTERN 09 — Elegant Gold Frame
+       =================================== */
+    .p09-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      align-items: start;
+    }
+    .p09-card { text-align: center; }
+    .p09-card__img-wrap {
+      width: 100%;
+      aspect-ratio: 4/5;
+      padding: 5px;
+      border: 1px solid rgba(201,169,110,0.3);
+      margin-bottom: 1rem;
+    }
+    .p09-card__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .p09-card__name {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.82rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: #a0917f;
+      margin-bottom: 0.4rem;
+    }
+    .p09-card__text {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.64rem;
+      line-height: 2;
+      font-weight: 300;
+      color: #777;
+      text-align: left;
+      padding: 0 0.2rem;
+    }
+
+    /* ===================================
+       PATTERN 10 — Masonry-like Offset
+       =================================== */
+    .p10-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      align-items: start;
+    }
+    .p10-grid > :nth-child(2) { margin-top: 3rem; }
+    .p10-card {}
+    .p10-card__img-wrap {
+      width: 100%;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      margin-bottom: 0.8rem;
+    }
+    .p10-card__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .p10-card__name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      color: #8a7e74;
+      margin-bottom: 0.4rem;
+    }
+    .p10-card__line {
+      width: 20px;
+      height: 1px;
+      background: rgba(201,169,110,0.5);
+      margin-bottom: 0.5rem;
+    }
+    .p10-card__text {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.65rem;
+      line-height: 2;
+      font-weight: 300;
+      color: #666;
+    }
+
+    @media (max-width: 768px) {
+      .p01-grid, .p02-grid, .p03-grid, .p05-grid, .p06-grid, .p08-grid, .p09-grid, .p10-grid {
+        grid-template-columns: 1fr;
+        max-width: 360px;
+        margin-left: auto; margin-right: auto;
+      }
+      .p04-card, .p07-card { grid-template-columns: 1fr; }
+      .p04-card:nth-child(even), .p07-card:nth-child(even) { direction: ltr; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1 class="page-title">Voice Card — 10 Patterns (Full Text)</h1>
+
+  <!-- ==================== PATTERN 01 ==================== -->
+  <div class="pattern-section">
+    <div class="pattern-label">PATTERN 01</div>
+    <p class="pattern-desc">Clean White Cards — 白背景シンプルカード</p>
+    <div class="p01-grid">
+      <div class="p01-card">
+        <img class="p01-card__img" src="images/paris/04.jpg" alt="">
+        <div class="p01-card__body">
+          <p class="p01-card__name">aya_wd_614 様</p>
+          <p class="p01-card__text">オープニングムービーは浮雲さんに撮影いただきました<br>@ukigumo_films<br>もう本当に世界観が最高！<br>惚れ込んだ画質、編集も最高！<br>映画の一コマみたいでうっとりしちゃう…<br><br>浮雲さんチームはお会いした瞬間からそりゃ〜もうテンションを爆あげてくださり笑<br>終始めっちゃ笑いあり、褒め言葉が飛び交う現場で。<br><br>この日は寒かったはずなのにずーーっと笑顔が絶えない撮影で<br>本当に本当に楽しかった…<br>目の端っこで浮雲さんと旦那が楽しそうに<br>追いかけっこしてるところが1番面白かったな<br><br>今も思い出してはクスッと笑ってしまうくらい<br>楽しい撮影でした<br>また浮雲さんチームに会いたいなあ…</p>
+        </div>
+      </div>
+      <div class="p01-card">
+        <img class="p01-card__img" src="images/firenze/03.jpg" alt="">
+        <div class="p01-card__body">
+          <p class="p01-card__name">hrk_92.wedding 様</p>
+          <p class="p01-card__text">My favorite shot..<br><br>お気に入りすぎます<br><br>念願の東京駅でのお写真<br>ロック画面に設定してます<br><br>何度見返しても本当に本当に<br>楽しすぎて前撮りから3週間<br>経っているのですが余韻から<br>全然抜け出せていないです。<br><br>とても素敵な時間を過ごすことが<br>でき幸せな気持ちでいっぱいです。</p>
+        </div>
+      </div>
+      <div class="p01-card">
+        <img class="p01-card__img" src="images/malta/02.jpg" alt="">
+        <div class="p01-card__body">
+          <p class="p01-card__name">ri____sO22 様</p>
+          <p class="p01-card__text">@ukigumo_films さんマジックで<br>こんなに素敵な作品が<br>出来上がりました<br><br>お気に入りすぎて毎日見てます<br><br>会場の大きなスクリーンに<br>映し出させると思うとドキドキするけど、<br>大切な友達や親族にも早く見てもらいたい</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PATTERN 02 ==================== -->
+  <div class="pattern-section">
+    <div class="pattern-label">PATTERN 02</div>
+    <p class="pattern-desc">Minimal Border — 細ボーダー、背景透過</p>
+    <div class="p02-grid">
+      <div class="p02-card">
+        <img class="p02-card__img" src="images/paris/04.jpg" alt="">
+        <div class="p02-card__body">
+          <p class="p02-card__name">aya_wd_614</p>
+          <p class="p02-card__text">オープニングムービーは浮雲さんに撮影いただきました<br>@ukigumo_films<br>もう本当に世界観が最高！<br>惚れ込んだ画質、編集も最高！<br>映画の一コマみたいでうっとりしちゃう…<br><br>浮雲さんチームはお会いした瞬間からそりゃ〜もうテンションを爆あげてくださり笑<br>終始めっちゃ笑いあり、褒め言葉が飛び交う現場で。<br><br>この日は寒かったはずなのにずーーっと笑顔が絶えない撮影で<br>本当に本当に楽しかった…<br>目の端っこで浮雲さんと旦那が楽しそうに<br>追いかけっこしてるところが1番面白かったな<br><br>今も思い出してはクスッと笑ってしまうくらい<br>楽しい撮影でした<br>また浮雲さんチームに会いたいなあ…</p>
+        </div>
+      </div>
+      <div class="p02-card">
+        <img class="p02-card__img" src="images/firenze/03.jpg" alt="">
+        <div class="p02-card__body">
+          <p class="p02-card__name">hrk_92.wedding</p>
+          <p class="p02-card__text">My favorite shot..<br><br>お気に入りすぎます<br><br>念願の東京駅でのお写真<br>ロック画面に設定してます<br><br>何度見返しても本当に本当に<br>楽しすぎて前撮りから3週間<br>経っているのですが余韻から<br>全然抜け出せていないです。<br><br>とても素敵な時間を過ごすことが<br>でき幸せな気持ちでいっぱいです。</p>
+        </div>
+      </div>
+      <div class="p02-card">
+        <img class="p02-card__img" src="images/malta/02.jpg" alt="">
+        <div class="p02-card__body">
+          <p class="p02-card__name">ri____sO22</p>
+          <p class="p02-card__text">@ukigumo_films さんマジックで<br>こんなに素敵な作品が<br>出来上がりました<br><br>お気に入りすぎて毎日見てます<br><br>会場の大きなスクリーンに<br>映し出させると思うとドキドキするけど、<br>大切な友達や親族にも早く見てもらいたい</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PATTERN 03 ==================== -->
+  <div class="pattern-section">
+    <div class="pattern-label">PATTERN 03</div>
+    <p class="pattern-desc">Polaroid — 写真風、微回転、温もり</p>
+    <div class="p03-grid">
+      <div class="p03-card">
+        <img class="p03-card__img" src="images/paris/04.jpg" alt="">
+        <div class="p03-card__body">
+          <p class="p03-card__name">aya_wd_614 様</p>
+          <p class="p03-card__text">オープニングムービーは浮雲さんに撮影いただきました<br>@ukigumo_films<br>もう本当に世界観が最高！<br>惚れ込んだ画質、編集も最高！<br>映画の一コマみたいでうっとりしちゃう…<br><br>浮雲さんチームはお会いした瞬間からそりゃ〜もうテンションを爆あげてくださり笑<br>終始めっちゃ笑いあり、褒め言葉が飛び交う現場で。<br><br>この日は寒かったはずなのにずーーっと笑顔が絶えない撮影で<br>本当に本当に楽しかった…<br>目の端っこで浮雲さんと旦那が楽しそうに<br>追いかけっこしてるところが1番面白かったな<br><br>今も思い出してはクスッと笑ってしまうくらい<br>楽しい撮影でした<br>また浮雲さんチームに会いたいなあ…</p>
+        </div>
+      </div>
+      <div class="p03-card">
+        <img class="p03-card__img" src="images/firenze/03.jpg" alt="">
+        <div class="p03-card__body">
+          <p class="p03-card__name">hrk_92.wedding 様</p>
+          <p class="p03-card__text">My favorite shot..<br><br>お気に入りすぎます<br><br>念願の東京駅でのお写真<br>ロック画面に設定してます<br><br>何度見返しても本当に本当に<br>楽しすぎて前撮りから3週間<br>経っているのですが余韻から<br>全然抜け出せていないです。<br><br>とても素敵な時間を過ごすことが<br>でき幸せな気持ちでいっぱいです。</p>
+        </div>
+      </div>
+      <div class="p03-card">
+        <img class="p03-card__img" src="images/malta/02.jpg" alt="">
+        <div class="p03-card__body">
+          <p class="p03-card__name">ri____sO22 様</p>
+          <p class="p03-card__text">@ukigumo_films さんマジックで<br>こんなに素敵な作品が<br>出来上がりました<br><br>お気に入りすぎて毎日見てます<br><br>会場の大きなスクリーンに<br>映し出させると思うとドキドキするけど、<br>大切な友達や親族にも早く見てもらいたい</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PATTERN 04 ==================== -->
+  <div class="pattern-section">
+    <div class="pattern-label">PATTERN 04</div>
+    <p class="pattern-desc">Horizontal — 写真左テキスト右の横並び、交互レイアウト</p>
+    <div class="p04-list">
+      <div class="p04-card">
+        <img class="p04-card__img" src="images/paris/04.jpg" alt="">
+        <div class="p04-card__body">
+          <p class="p04-card__name">aya_wd_614 様</p>
+          <p class="p04-card__text">オープニングムービーは浮雲さんに撮影いただきました<br>@ukigumo_films<br>もう本当に世界観が最高！<br>惚れ込んだ画質、編集も最高！<br>映画の一コマみたいでうっとりしちゃう…<br><br>浮雲さんチームはお会いした瞬間からそりゃ〜もうテンションを爆あげてくださり笑<br>終始めっちゃ笑いあり、褒め言葉が飛び交う現場で。<br><br>この日は寒かったはずなのにずーーっと笑顔が絶えない撮影で<br>本当に本当に楽しかった…<br>目の端っこで浮雲さんと旦那が楽しそうに<br>追いかけっこしてるところが1番面白かったな<br><br>今も思い出してはクスッと笑ってしまうくらい<br>楽しい撮影でした<br>また浮雲さんチームに会いたいなあ…</p>
+        </div>
+      </div>
+      <div class="p04-card">
+        <img class="p04-card__img" src="images/firenze/03.jpg" alt="">
+        <div class="p04-card__body">
+          <p class="p04-card__name">hrk_92.wedding 様</p>
+          <p class="p04-card__text">My favorite shot..<br><br>お気に入りすぎます<br><br>念願の東京駅でのお写真<br>ロック画面に設定してます<br><br>何度見返しても本当に本当に<br>楽しすぎて前撮りから3週間<br>経っているのですが余韻から<br>全然抜け出せていないです。<br><br>とても素敵な時間を過ごすことが<br>でき幸せな気持ちでいっぱいです。</p>
+        </div>
+      </div>
+      <div class="p04-card">
+        <img class="p04-card__img" src="images/malta/02.jpg" alt="">
+        <div class="p04-card__body">
+          <p class="p04-card__name">ri____sO22 様</p>
+          <p class="p04-card__text">@ukigumo_films さんマジックで<br>こんなに素敵な作品が<br>出来上がりました<br><br>お気に入りすぎて毎日見てます<br><br>会場の大きなスクリーンに<br>映し出させると思うとドキドキするけど、<br>大切な友達や親族にも早く見てもらいたい</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PATTERN 05 ==================== -->
+  <div class="pattern-section">
+    <div class="pattern-label">PATTERN 05</div>
+    <p class="pattern-desc">Rounded Soft — 丸角＋ソフトシャドウ</p>
+    <div class="p05-grid">
+      <div class="p05-card">
+        <img class="p05-card__img" src="images/paris/04.jpg" alt="">
+        <div class="p05-card__body">
+          <p class="p05-card__name">aya_wd_614 様</p>
+          <p class="p05-card__text">オープニングムービーは浮雲さんに撮影いただきました<br>@ukigumo_films<br>もう本当に世界観が最高！<br>惚れ込んだ画質、編集も最高！<br>映画の一コマみたいでうっとりしちゃう…<br><br>浮雲さんチームはお会いした瞬間からそりゃ〜もうテンションを爆あげてくださり笑<br>終始めっちゃ笑いあり、褒め言葉が飛び交う現場で。<br><br>この日は寒かったはずなのにずーーっと笑顔が絶えない撮影で<br>本当に本当に楽しかった…<br>目の端っこで浮雲さんと旦那が楽しそうに<br>追いかけっこしてるところが1番面白かったな<br><br>今も思い出してはクスッと笑ってしまうくらい<br>楽しい撮影でした<br>また浮雲さんチームに会いたいなあ…</p>
+        </div>
+      </div>
+      <div class="p05-card">
+        <img class="p05-card__img" src="images/firenze/03.jpg" alt="">
+        <div class="p05-card__body">
+          <p class="p05-card__name">hrk_92.wedding 様</p>
+          <p class="p05-card__text">My favorite shot..<br><br>お気に入りすぎます<br><br>念願の東京駅でのお写真<br>ロック画面に設定してます<br><br>何度見返しても本当に本当に<br>楽しすぎて前撮りから3週間<br>経っているのですが余韻から<br>全然抜け出せていないです。<br><br>とても素敵な時間を過ごすことが<br>でき幸せな気持ちでいっぱいです。</p>
+        </div>
+      </div>
+      <div class="p05-card">
+        <img class="p05-card__img" src="images/malta/02.jpg" alt="">
+        <div class="p05-card__body">
+          <p class="p05-card__name">ri____sO22 様</p>
+          <p class="p05-card__text">@ukigumo_films さんマジックで<br>こんなに素敵な作品が<br>出来上がりました<br><br>お気に入りすぎて毎日見てます<br><br>会場の大きなスクリーンに<br>映し出させると思うとドキドキするけど、<br>大切な友達や親族にも早く見てもらいたい</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PATTERN 06 ==================== -->
+  <div class="pattern-section">
+    <div class="pattern-label">PATTERN 06</div>
+    <p class="pattern-desc">Gold Accent — ゴールドライン区切り、センター揃え</p>
+    <div class="p06-grid">
+      <div class="p06-card">
+        <div class="p06-card__img-wrap"><img class="p06-card__img" src="images/paris/04.jpg" alt=""></div>
+        <div class="p06-card__line"></div>
+        <p class="p06-card__name">aya_wd_614 様</p>
+        <p class="p06-card__text">オープニングムービーは浮雲さんに撮影いただきました<br>@ukigumo_films<br>もう本当に世界観が最高！<br>惚れ込んだ画質、編集も最高！<br>映画の一コマみたいでうっとりしちゃう…<br><br>浮雲さんチームはお会いした瞬間からそりゃ〜もうテンションを爆あげてくださり笑<br>終始めっちゃ笑いあり、褒め言葉が飛び交う現場で。<br><br>この日は寒かったはずなのにずーーっと笑顔が絶えない撮影で<br>本当に本当に楽しかった…<br>目の端っこで浮雲さんと旦那が楽しそうに<br>追いかけっこしてるところが1番面白かったな<br><br>今も思い出してはクスッと笑ってしまうくらい<br>楽しい撮影でした<br>また浮雲さんチームに会いたいなあ…</p>
+      </div>
+      <div class="p06-card">
+        <div class="p06-card__img-wrap"><img class="p06-card__img" src="images/firenze/03.jpg" alt=""></div>
+        <div class="p06-card__line"></div>
+        <p class="p06-card__name">hrk_92.wedding 様</p>
+        <p class="p06-card__text">My favorite shot..<br><br>お気に入りすぎます<br><br>念願の東京駅でのお写真<br>ロック画面に設定してます<br><br>何度見返しても本当に本当に<br>楽しすぎて前撮りから3週間<br>経っているのですが余韻から<br>全然抜け出せていないです。<br><br>とても素敵な時間を過ごすことが<br>でき幸せな気持ちでいっぱいです。</p>
+      </div>
+      <div class="p06-card">
+        <div class="p06-card__img-wrap"><img class="p06-card__img" src="images/malta/02.jpg" alt=""></div>
+        <div class="p06-card__line"></div>
+        <p class="p06-card__name">ri____sO22 様</p>
+        <p class="p06-card__text">@ukigumo_films さんマジックで<br>こんなに素敵な作品が<br>出来上がりました<br><br>お気に入りすぎて毎日見てます<br><br>会場の大きなスクリーンに<br>映し出させると思うとドキドキするけど、<br>大切な友達や親族にも早く見てもらいたい</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PATTERN 07 ==================== -->
+  <div class="pattern-section">
+    <div class="pattern-label">PATTERN 07</div>
+    <p class="pattern-desc">Full Width Split — 左右交互、フルワイド、雑誌風</p>
+    <div class="p07-list">
+      <div class="p07-card">
+        <div class="p07-card__img-wrap"><img class="p07-card__img" src="images/paris/04.jpg" alt=""></div>
+        <div class="p07-card__body">
+          <p class="p07-card__name">aya_wd_614 様</p>
+          <p class="p07-card__text">オープニングムービーは浮雲さんに撮影いただきました<br>@ukigumo_films<br>もう本当に世界観が最高！<br>惚れ込んだ画質、編集も最高！<br>映画の一コマみたいでうっとりしちゃう…<br><br>浮雲さんチームはお会いした瞬間からそりゃ〜もうテンションを爆あげてくださり笑<br>終始めっちゃ笑いあり、褒め言葉が飛び交う現場で。<br><br>この日は寒かったはずなのにずーーっと笑顔が絶えない撮影で<br>本当に本当に楽しかった…<br>目の端っこで浮雲さんと旦那が楽しそうに<br>追いかけっこしてるところが1番面白かったな<br><br>今も思い出してはクスッと笑ってしまうくらい<br>楽しい撮影でした<br>また浮雲さんチームに会いたいなあ…</p>
+        </div>
+      </div>
+      <div class="p07-card">
+        <div class="p07-card__img-wrap"><img class="p07-card__img" src="images/firenze/03.jpg" alt=""></div>
+        <div class="p07-card__body">
+          <p class="p07-card__name">hrk_92.wedding 様</p>
+          <p class="p07-card__text">My favorite shot..<br><br>お気に入りすぎます<br><br>念願の東京駅でのお写真<br>ロック画面に設定してます<br><br>何度見返しても本当に本当に<br>楽しすぎて前撮りから3週間<br>経っているのですが余韻から<br>全然抜け出せていないです。<br><br>とても素敵な時間を過ごすことが<br>でき幸せな気持ちでいっぱいです。</p>
+        </div>
+      </div>
+      <div class="p07-card">
+        <div class="p07-card__img-wrap"><img class="p07-card__img" src="images/malta/02.jpg" alt=""></div>
+        <div class="p07-card__body">
+          <p class="p07-card__name">ri____sO22 様</p>
+          <p class="p07-card__text">@ukigumo_films さんマジックで<br>こんなに素敵な作品が<br>出来上がりました<br><br>お気に入りすぎて毎日見てます<br><br>会場の大きなスクリーンに<br>映し出させると思うとドキドキするけど、<br>大切な友達や親族にも早く見てもらいたい</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PATTERN 08 ==================== -->
+  <div class="pattern-section">
+    <div class="pattern-label">PATTERN 08</div>
+    <p class="pattern-desc">Dark BG — ダーク背景＋ゴールド名前、シネマティック</p>
+    <div class="p08-wrap">
+      <div class="p08-grid">
+        <div class="p08-card">
+          <img class="p08-card__img" src="images/paris/04.jpg" alt="">
+          <div class="p08-card__body">
+            <p class="p08-card__name">aya_wd_614 様</p>
+            <p class="p08-card__text">オープニングムービーは浮雲さんに撮影いただきました<br>@ukigumo_films<br>もう本当に世界観が最高！<br>惚れ込んだ画質、編集も最高！<br>映画の一コマみたいでうっとりしちゃう…<br><br>浮雲さんチームはお会いした瞬間からそりゃ〜もうテンションを爆あげてくださり笑<br>終始めっちゃ笑いあり、褒め言葉が飛び交う現場で。<br><br>この日は寒かったはずなのにずーーっと笑顔が絶えない撮影で<br>本当に本当に楽しかった…<br>目の端っこで浮雲さんと旦那が楽しそうに<br>追いかけっこしてるところが1番面白かったな<br><br>今も思い出してはクスッと笑ってしまうくらい<br>楽しい撮影でした<br>また浮雲さんチームに会いたいなあ…</p>
+          </div>
+        </div>
+        <div class="p08-card">
+          <img class="p08-card__img" src="images/firenze/03.jpg" alt="">
+          <div class="p08-card__body">
+            <p class="p08-card__name">hrk_92.wedding 様</p>
+            <p class="p08-card__text">My favorite shot..<br><br>お気に入りすぎます<br><br>念願の東京駅でのお写真<br>ロック画面に設定してます<br><br>何度見返しても本当に本当に<br>楽しすぎて前撮りから3週間<br>経っているのですが余韻から<br>全然抜け出せていないです。<br><br>とても素敵な時間を過ごすことが<br>でき幸せな気持ちでいっぱいです。</p>
+          </div>
+        </div>
+        <div class="p08-card">
+          <img class="p08-card__img" src="images/malta/02.jpg" alt="">
+          <div class="p08-card__body">
+            <p class="p08-card__name">ri____sO22 様</p>
+            <p class="p08-card__text">@ukigumo_films さんマジックで<br>こんなに素敵な作品が<br>出来上がりました<br><br>お気に入りすぎて毎日見てます<br><br>会場の大きなスクリーンに<br>映し出させると思うとドキドキするけど、<br>大切な友達や親族にも早く見てもらいたい</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PATTERN 09 ==================== -->
+  <div class="pattern-section">
+    <div class="pattern-label">PATTERN 09</div>
+    <p class="pattern-desc">Elegant Frame — ゴールド細枠、イタリック名前</p>
+    <div class="p09-grid">
+      <div class="p09-card">
+        <div class="p09-card__img-wrap"><img class="p09-card__img" src="images/paris/04.jpg" alt=""></div>
+        <p class="p09-card__name">aya_wd_614 様</p>
+        <p class="p09-card__text">オープニングムービーは浮雲さんに撮影いただきました<br>@ukigumo_films<br>もう本当に世界観が最高！<br>惚れ込んだ画質、編集も最高！<br>映画の一コマみたいでうっとりしちゃう…<br><br>浮雲さんチームはお会いした瞬間からそりゃ〜もうテンションを爆あげてくださり笑<br>終始めっちゃ笑いあり、褒め言葉が飛び交う現場で。<br><br>この日は寒かったはずなのにずーーっと笑顔が絶えない撮影で<br>本当に本当に楽しかった…<br>目の端っこで浮雲さんと旦那が楽しそうに<br>追いかけっこしてるところが1番面白かったな<br><br>今も思い出してはクスッと笑ってしまうくらい<br>楽しい撮影でした<br>また浮雲さんチームに会いたいなあ…</p>
+      </div>
+      <div class="p09-card">
+        <div class="p09-card__img-wrap"><img class="p09-card__img" src="images/firenze/03.jpg" alt=""></div>
+        <p class="p09-card__name">hrk_92.wedding 様</p>
+        <p class="p09-card__text">My favorite shot..<br><br>お気に入りすぎます<br><br>念願の東京駅でのお写真<br>ロック画面に設定してます<br><br>何度見返しても本当に本当に<br>楽しすぎて前撮りから3週間<br>経っているのですが余韻から<br>全然抜け出せていないです。<br><br>とても素敵な時間を過ごすことが<br>でき幸せな気持ちでいっぱいです。</p>
+      </div>
+      <div class="p09-card">
+        <div class="p09-card__img-wrap"><img class="p09-card__img" src="images/malta/02.jpg" alt=""></div>
+        <p class="p09-card__name">ri____sO22 様</p>
+        <p class="p09-card__text">@ukigumo_films さんマジックで<br>こんなに素敵な作品が<br>出来上がりました<br><br>お気に入りすぎて毎日見てます<br><br>会場の大きなスクリーンに<br>映し出させると思うとドキドキするけど、<br>大切な友達や親族にも早く見てもらいたい</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PATTERN 10 ==================== -->
+  <div class="pattern-section">
+    <div class="pattern-label">PATTERN 10</div>
+    <p class="pattern-desc">Masonry Offset — ずらし配置、ゴールドライン、ナチュラル</p>
+    <div class="p10-grid">
+      <div class="p10-card">
+        <div class="p10-card__img-wrap"><img class="p10-card__img" src="images/paris/04.jpg" alt=""></div>
+        <p class="p10-card__name">aya_wd_614 様</p>
+        <div class="p10-card__line"></div>
+        <p class="p10-card__text">オープニングムービーは浮雲さんに撮影いただきました<br>@ukigumo_films<br>もう本当に世界観が最高！<br>惚れ込んだ画質、編集も最高！<br>映画の一コマみたいでうっとりしちゃう…<br><br>浮雲さんチームはお会いした瞬間からそりゃ〜もうテンションを爆あげてくださり笑<br>終始めっちゃ笑いあり、褒め言葉が飛び交う現場で。<br><br>この日は寒かったはずなのにずーーっと笑顔が絶えない撮影で<br>本当に本当に楽しかった…<br>目の端っこで浮雲さんと旦那が楽しそうに<br>追いかけっこしてるところが1番面白かったな<br><br>今も思い出してはクスッと笑ってしまうくらい<br>楽しい撮影でした<br>また浮雲さんチームに会いたいなあ…</p>
+      </div>
+      <div class="p10-card">
+        <div class="p10-card__img-wrap"><img class="p10-card__img" src="images/firenze/03.jpg" alt=""></div>
+        <p class="p10-card__name">hrk_92.wedding 様</p>
+        <div class="p10-card__line"></div>
+        <p class="p10-card__text">My favorite shot..<br><br>お気に入りすぎます<br><br>念願の東京駅でのお写真<br>ロック画面に設定してます<br><br>何度見返しても本当に本当に<br>楽しすぎて前撮りから3週間<br>経っているのですが余韻から<br>全然抜け出せていないです。<br><br>とても素敵な時間を過ごすことが<br>でき幸せな気持ちでいっぱいです。</p>
+      </div>
+      <div class="p10-card">
+        <div class="p10-card__img-wrap"><img class="p10-card__img" src="images/malta/02.jpg" alt=""></div>
+        <p class="p10-card__name">ri____sO22 様</p>
+        <div class="p10-card__line"></div>
+        <p class="p10-card__text">@ukigumo_films さんマジックで<br>こんなに素敵な作品が<br>出来上がりました<br><br>お気に入りすぎて毎日見てます<br><br>会場の大きなスクリーンに<br>映し出させると思うとドキドキするけど、<br>大切な友達や親族にも早く見てもらいたい</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="height: 6rem;"></div>
+
+</body>
+</html>

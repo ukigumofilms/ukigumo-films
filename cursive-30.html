@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cursive Font — 30 Patterns</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&family=Herr+Von+Muellerhoff&family=Mrs+Saint+Delafield&family=Carattere&family=Lavishly+Yours&family=Qwigley&family=Ruthie&family=Lovers+Quarrel&family=Pinyon+Script&family=Corinthia&family=Corinthia:wght@700&family=Great+Vibes&family=Allura&family=Sacramento&family=Alex+Brush&family=Tangerine:wght@400;700&family=Parisienne&family=Italianno&family=Style+Script&family=Bilbo+Swash+Caps&family=Arizonia&family=Niconne&family=Petit+Formal+Script&family=Rouge+Script&family=Marck+Script&family=Berkshire+Swash&family=Playball&family=Dancing+Script:wght@400&family=Satisfy&family=Kaushan+Script&family=Cormorant+Garamond:wght@300&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#0e0e0e; color:#fff; }
+
+  .header { text-align:center; padding:1.5rem 1rem 0.5rem; }
+  .header h1 { font-family:'Cormorant Garamond',serif; font-size:1rem; font-weight:300; letter-spacing:0.15em; }
+  .header p { font-size:0.55rem; opacity:0.3; margin-top:0.2rem; font-family:'Cormorant Garamond',serif; }
+
+  .grid {
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr));
+    gap:1rem;
+    padding:0.8rem 1rem 3rem;
+    max-width:1300px;
+    margin:0 auto;
+  }
+
+  .card {
+    position:relative; overflow:hidden;
+    aspect-ratio: 16/9; border-radius:2px;
+    transition: transform 0.3s;
+  }
+  .card:hover { transform:scale(1.01); }
+  .card__bg { position:absolute; top:0; left:0; width:100%; height:100%; }
+  .card__bg img { width:100%; height:100%; object-fit:cover; }
+  .card__overlay {
+    position:absolute; top:0; left:0; width:100%; height:100%;
+    background:rgba(0,0,0,0.72);
+  }
+  .card__num {
+    position:absolute; top:0.5rem; left:0.6rem;
+    font-family:'Cormorant Garamond',serif;
+    font-size:0.5rem; letter-spacing:0.1em; opacity:0.3;
+  }
+  .card__info {
+    position:absolute; bottom:0.35rem; right:0.6rem;
+    font-size:0.42rem; opacity:0.22;
+    font-family:'Cormorant Garamond',serif; letter-spacing:0.05em;
+  }
+  .card__text {
+    position:relative; z-index:2;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    height:100%; padding:1.2rem 1.5rem; text-align:center;
+  }
+  .card__main {
+    line-height:1.8;
+    color:rgba(255,255,255,0.6);
+  }
+  .card__sub {
+    line-height:1.8;
+    color:rgba(255,255,255,0.35);
+    margin-top:clamp(1rem,3vw,1.8rem);
+  }
+
+  @media (max-width:480px) {
+    .grid { grid-template-columns:1fr; padding:0.5rem; gap:0.8rem; }
+    .card { aspect-ratio:9/14; }
+  }
+  .footer { text-align:center; padding:1.5rem; font-size:0.45rem; opacity:0.15; font-family:'Cormorant Garamond',serif; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Cursive Font — 30 Patterns</h1>
+  <p>筆記体フォント30種比較</p>
+</div>
+
+<div class="grid" id="grid"></div>
+<div class="footer">ukigumo — cursive font preview</div>
+
+<script>
+const mainL = ['Weaving each moment into the future','one frame, one second at a time'];
+const subL  = ['A brand delivering works that become','a gentle staff for your life'];
+
+const imgs = [
+  'images/london/05.jpg','images/paris/03.jpg','images/firenze/04.jpg',
+  'images/malta/04.jpg','images/london/03.jpg','images/firenze/06.jpg',
+];
+
+const fonts = [
+  // 極細サイン風 (参考画像に近い順)
+  { name:'Monsieur La Doulaise',  msz:'clamp(1.4rem,3.5vw,2rem)',   ssz:'clamp(1.1rem,2.8vw,1.5rem)', ls:'0.03em' },
+  { name:'Herr Von Muellerhoff',  msz:'clamp(1.3rem,3.2vw,1.8rem)', ssz:'clamp(1rem,2.5vw,1.35rem)',  ls:'0.02em' },
+  { name:'Mrs Saint Delafield',   msz:'clamp(1.3rem,3.2vw,1.8rem)', ssz:'clamp(1rem,2.5vw,1.35rem)',  ls:'0.03em' },
+  { name:'Carattere',             msz:'clamp(1.3rem,3.2vw,1.8rem)', ssz:'clamp(1rem,2.5vw,1.35rem)',  ls:'0.02em' },
+  { name:'Lavishly Yours',        msz:'clamp(1.2rem,3vw,1.7rem)',   ssz:'clamp(0.95rem,2.4vw,1.3rem)',ls:'0.03em' },
+  // 細めサイン・筆ペン風
+  { name:'Qwigley',               msz:'clamp(1.5rem,3.8vw,2.2rem)', ssz:'clamp(1.2rem,3vw,1.6rem)',   ls:'0.02em' },
+  { name:'Ruthie',                msz:'clamp(1.3rem,3.2vw,1.8rem)', ssz:'clamp(1rem,2.5vw,1.35rem)',  ls:'0.02em' },
+  { name:'Lovers Quarrel',        msz:'clamp(1.4rem,3.5vw,2rem)',   ssz:'clamp(1.1rem,2.8vw,1.5rem)', ls:'0.02em' },
+  { name:'Pinyon Script',         msz:'clamp(1.2rem,3vw,1.6rem)',   ssz:'clamp(0.95rem,2.4vw,1.25rem)',ls:'0.03em' },
+  { name:'Corinthia',             msz:'clamp(1.4rem,3.5vw,2rem)',   ssz:'clamp(1.1rem,2.8vw,1.5rem)', ls:'0.02em' },
+  // クラシック カリグラフィ
+  { name:'Great Vibes',           msz:'clamp(1.3rem,3.2vw,1.8rem)', ssz:'clamp(1rem,2.5vw,1.35rem)',  ls:'0.02em' },
+  { name:'Allura',                msz:'clamp(1.3rem,3.2vw,1.8rem)', ssz:'clamp(1rem,2.5vw,1.35rem)',  ls:'0.02em' },
+  { name:'Sacramento',            msz:'clamp(1.5rem,3.8vw,2.2rem)', ssz:'clamp(1.2rem,3vw,1.6rem)',   ls:'0.02em' },
+  { name:'Alex Brush',            msz:'clamp(1.3rem,3.2vw,1.8rem)', ssz:'clamp(1rem,2.5vw,1.35rem)',  ls:'0.02em' },
+  { name:'Tangerine',             msz:'clamp(1.6rem,4vw,2.4rem)',   ssz:'clamp(1.3rem,3.2vw,1.8rem)', ls:'0.02em' },
+  // エレガント系
+  { name:'Parisienne',            msz:'clamp(1.3rem,3.2vw,1.8rem)', ssz:'clamp(1rem,2.5vw,1.35rem)',  ls:'0.02em' },
+  { name:'Italianno',             msz:'clamp(1.5rem,3.8vw,2.2rem)', ssz:'clamp(1.2rem,3vw,1.6rem)',   ls:'0.02em' },
+  { name:'Style Script',          msz:'clamp(1.2rem,3vw,1.7rem)',   ssz:'clamp(0.95rem,2.4vw,1.3rem)',ls:'0.02em' },
+  { name:'Bilbo Swash Caps',      msz:'clamp(1.4rem,3.5vw,2rem)',   ssz:'clamp(1.1rem,2.8vw,1.5rem)', ls:'0.03em' },
+  { name:'Arizonia',              msz:'clamp(1.3rem,3.2vw,1.8rem)', ssz:'clamp(1rem,2.5vw,1.35rem)',  ls:'0.02em' },
+  // モダン・カジュアル系
+  { name:'Niconne',               msz:'clamp(1.2rem,3vw,1.7rem)',   ssz:'clamp(0.95rem,2.4vw,1.3rem)',ls:'0.02em' },
+  { name:'Petit Formal Script',   msz:'clamp(1.1rem,2.8vw,1.5rem)', ssz:'clamp(0.9rem,2.2vw,1.2rem)', ls:'0.03em' },
+  { name:'Rouge Script',          msz:'clamp(1.4rem,3.5vw,2rem)',   ssz:'clamp(1.1rem,2.8vw,1.5rem)', ls:'0.02em' },
+  { name:'Marck Script',          msz:'clamp(1.2rem,3vw,1.7rem)',   ssz:'clamp(0.95rem,2.4vw,1.3rem)',ls:'0.02em' },
+  { name:'Berkshire Swash',       msz:'clamp(1.2rem,3vw,1.6rem)',   ssz:'clamp(0.95rem,2.4vw,1.25rem)',ls:'0.03em' },
+  // 力強め・個性派
+  { name:'Playball',              msz:'clamp(1.2rem,3vw,1.7rem)',   ssz:'clamp(0.95rem,2.4vw,1.3rem)',ls:'0.02em' },
+  { name:'Dancing Script',        msz:'clamp(1.2rem,3vw,1.6rem)',   ssz:'clamp(0.95rem,2.4vw,1.25rem)',ls:'0.02em' },
+  { name:'Satisfy',               msz:'clamp(1.2rem,3vw,1.7rem)',   ssz:'clamp(0.95rem,2.4vw,1.3rem)',ls:'0.02em' },
+  { name:'Kaushan Script',        msz:'clamp(1.1rem,2.8vw,1.5rem)', ssz:'clamp(0.9rem,2.2vw,1.2rem)', ls:'0.02em' },
+  // ボーナス: Tangerine Bold
+  { name:'Tangerine',             msz:'clamp(1.8rem,4.5vw,2.6rem)', ssz:'clamp(1.4rem,3.5vw,2rem)',   ls:'0.03em', w:700, label:'Tangerine Bold' },
+];
+
+const grid = document.getElementById('grid');
+
+fonts.forEach((f, i) => {
+  const img = imgs[i % imgs.length];
+  const mainHtml = mainL.join('<br>');
+  const subHtml = subL.join('<br>');
+  const fw = f.w || 400;
+  const label = f.label || f.name;
+
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <div class="card__bg"><img src="${img}" alt=""><div class="card__overlay"></div></div>
+    <div class="card__num">#${String(i+1).padStart(2,'0')}</div>
+    <div class="card__info">${label}</div>
+    <div class="card__text">
+      <p class="card__main" style="font-family:'${f.name}',cursive;font-size:${f.msz};font-weight:${fw};letter-spacing:${f.ls};">
+        ${mainHtml}
+      </p>
+      <p class="card__sub" style="font-family:'${f.name}',cursive;font-size:${f.ssz};font-weight:${fw};letter-spacing:${f.ls};">
+        ${subHtml}
+      </p>
+    </div>
+  `;
+  grid.appendChild(card);
+});
+</script>
+</body>
+</html>

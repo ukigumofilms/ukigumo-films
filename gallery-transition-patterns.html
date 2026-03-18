@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery Section Transition — 10 Patterns</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans JP", sans-serif;
+    background: #f5f3ef;
+    color: #333;
+  }
+
+  .pattern-nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(8px);
+    padding: 12px 20px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+  .pattern-nav a {
+    padding: 6px 14px;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 20px;
+    text-decoration: none;
+    color: #333;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    transition: all 0.3s;
+  }
+  .pattern-nav a:hover {
+    background: #1a1a1a;
+    color: #fff;
+    border-color: #1a1a1a;
+  }
+  .pattern-nav span {
+    font-size: 0.7rem;
+    color: #999;
+    margin-right: 8px;
+  }
+
+  /* ===== Shared: Fake PLAN section ===== */
+  .fake-plan {
+    background: #f5f3ef;
+    padding: 80px 40px;
+    text-align: center;
+  }
+  .fake-plan h2 {
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 300;
+    font-size: 2rem;
+    letter-spacing: 0.3em;
+    color: #3D3530;
+    margin-bottom: 20px;
+  }
+  .fake-plan p {
+    font-size: 0.8rem;
+    color: #999;
+    line-height: 2;
+  }
+
+  /* ===== Shared: Fake DRESS section ===== */
+  .fake-dress {
+    background: #f5f3ef;
+    padding: 80px 40px;
+    text-align: center;
+  }
+  .fake-dress h2 {
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 300;
+    font-size: 2rem;
+    letter-spacing: 0.2em;
+    color: #3D3530;
+    margin-bottom: 20px;
+  }
+  .fake-dress p {
+    font-size: 0.8rem;
+    color: #999;
+    line-height: 2;
+  }
+
+  /* ===== Shared: Gallery core ===== */
+  .gallery-demo {
+    position: relative;
+    height: 160vh;
+    overflow: visible;
+  }
+  .gallery-demo .gd-photo {
+    position: absolute;
+    opacity: 0.85;
+  }
+  .gallery-demo .gd-photo img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    border-radius: 2px;
+    filter: brightness(0.75);
+  }
+  .gallery-demo .gd-photo--1 { width: 48vw; height: 32vw; top: 5%; left: 3%; }
+  .gallery-demo .gd-photo--2 { width: 40vw; height: 50vw; top: 15%; right: 3%; }
+  .gallery-demo .gd-photo--3 { width: 36vw; height: 25vw; top: 45%; left: 8%; }
+  .gallery-demo .gd-photo--4 { width: 42vw; height: 28vw; top: 55%; right: 5%; }
+
+  .gallery-demo .gd-text {
+    position: absolute;
+    z-index: 10;
+    top: 22%; left: 5%;
+    max-width: 480px;
+  }
+  .gallery-demo .gd-text .gd-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.35em;
+    margin-bottom: 14px;
+    font-weight: 300;
+  }
+  .gallery-demo .gd-text h3 {
+    font-family: "Noto Serif JP", serif;
+    font-size: clamp(1.5rem, 3vw, 2.4rem);
+    font-weight: 300;
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+  .gallery-demo .gd-text .gd-desc {
+    font-size: 0.82rem;
+    line-height: 2.2;
+    margin-bottom: 20px;
+  }
+  .gallery-demo .gd-text .gd-desc-en {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 0.72rem;
+    line-height: 2;
+    margin-bottom: 32px;
+  }
+  .gallery-demo .gd-text .gd-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 28px;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 40px;
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    text-decoration: none;
+    transition: all 0.4s;
+    font-family: "Cormorant Garamond", serif;
+  }
+
+  /* ===== Pattern labels ===== */
+  .pattern-label {
+    text-align: center;
+    padding: 100px 20px 20px;
+    background: #f5f3ef;
+  }
+  .pattern-label h2 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+  }
+  .pattern-label p {
+    font-size: 0.72rem;
+    color: #999;
+    letter-spacing: 0.03em;
+  }
+
+  .pattern-divider {
+    height: 120px;
+    background: linear-gradient(to bottom, #f5f3ef 0%, #e8e4de 50%, #f5f3ef 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .pattern-divider::after {
+    content: '';
+    width: 60%;
+    height: 1px;
+    background: rgba(0,0,0,0.08);
+  }
+
+  /* ========================================
+     PATTERN 1: ダーク背景のまま — グラデーション遷移
+     白 → じわっと黒 → ギャラリー → じわっと白
+     ======================================== */
+  .p1-transition-in {
+    height: 30vh;
+    background: linear-gradient(to bottom, #f5f3ef 0%, #0a0a0f 100%);
+  }
+  .p1-gallery {
+    background: #0a0a0f;
+    color: #fff;
+  }
+  .p1-gallery .gd-text .gd-label { color: rgba(255,255,255,0.4); }
+  .p1-gallery .gd-text h3 { color: #fff; }
+  .p1-gallery .gd-text .gd-desc { color: rgba(255,255,255,0.8); }
+  .p1-gallery .gd-text .gd-desc-en { color: rgba(255,255,255,0.35); }
+  .p1-gallery .gd-text .gd-cta { color: rgba(255,255,255,0.6); border-color: rgba(255,255,255,0.18); }
+  .p1-transition-out {
+    height: 30vh;
+    background: linear-gradient(to bottom, #0a0a0f 0%, #f5f3ef 100%);
+  }
+
+  /* ========================================
+     PATTERN 2: ダーク — 横線で区切ってパツンと黒
+     薄い線 → 即黒 → 薄い線 → 白
+     ======================================== */
+  .p2-line {
+    height: 1px;
+    background: rgba(0,0,0,0.1);
+    margin: 0;
+  }
+  .p2-gallery {
+    background: #0a0a0f;
+    color: #fff;
+  }
+  .p2-gallery .gd-text .gd-label { color: rgba(255,255,255,0.4); }
+  .p2-gallery .gd-text h3 { color: #fff; }
+  .p2-gallery .gd-text .gd-desc { color: rgba(255,255,255,0.8); }
+  .p2-gallery .gd-text .gd-desc-en { color: rgba(255,255,255,0.35); }
+  .p2-gallery .gd-text .gd-cta { color: rgba(255,255,255,0.6); border-color: rgba(255,255,255,0.18); }
+
+  /* ========================================
+     PATTERN 3: 白ベース — 横線で区切り
+     背景白のまま、薄い横線で「ここからGallery」
+     ======================================== */
+  .p3-divider {
+    text-align: center;
+    padding: 60px 20px;
+    background: #f5f3ef;
+  }
+  .p3-divider::before {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 1px;
+    background: rgba(0,0,0,0.12);
+    margin: 0 auto;
+  }
+  .p3-gallery {
+    background: #f5f3ef;
+    color: #333;
+  }
+  .p3-gallery .gd-text .gd-label { color: rgba(61,53,48,0.35); }
+  .p3-gallery .gd-text h3 { color: #1a1a1a; }
+  .p3-gallery .gd-text .gd-desc { color: #666; }
+  .p3-gallery .gd-text .gd-desc-en { color: #aaa; }
+  .p3-gallery .gd-text .gd-cta { color: #555; border-color: rgba(0,0,0,0.15); }
+  .p3-gallery .gd-photo img { filter: brightness(0.9); }
+
+  /* ========================================
+     PATTERN 4: 白ベース — 余白だけで区切り
+     大きな余白（padding）で「ページが変わった」感
+     ======================================== */
+  .p4-spacer {
+    height: 15vh;
+    background: #f5f3ef;
+  }
+  .p4-gallery {
+    background: #f5f3ef;
+    color: #333;
+  }
+  .p4-gallery .gd-text .gd-label { color: rgba(61,53,48,0.35); }
+  .p4-gallery .gd-text h3 { color: #1a1a1a; }
+  .p4-gallery .gd-text .gd-desc { color: #666; }
+  .p4-gallery .gd-text .gd-desc-en { color: #aaa; }
+  .p4-gallery .gd-text .gd-cta { color: #555; border-color: rgba(0,0,0,0.15); }
+  .p4-gallery .gd-photo img { filter: brightness(0.9); }
+
+  /* ========================================
+     PATTERN 5: 白 → 少しだけ暗い（ダークグレー）
+     完全な黒ではなく #1a1a1f くらいの柔らかい暗さ
+     ======================================== */
+  .p5-transition-in {
+    height: 20vh;
+    background: linear-gradient(to bottom, #f5f3ef 0%, #1a1a1f 100%);
+  }
+  .p5-gallery {
+    background: #1a1a1f;
+    color: #fff;
+  }
+  .p5-gallery .gd-text .gd-label { color: rgba(255,255,255,0.4); }
+  .p5-gallery .gd-text h3 { color: #fff; }
+  .p5-gallery .gd-text .gd-desc { color: rgba(255,255,255,0.75); }
+  .p5-gallery .gd-text .gd-desc-en { color: rgba(255,255,255,0.3); }
+  .p5-gallery .gd-text .gd-cta { color: rgba(255,255,255,0.55); border-color: rgba(255,255,255,0.15); }
+  .p5-transition-out {
+    height: 20vh;
+    background: linear-gradient(to bottom, #1a1a1f 0%, #f5f3ef 100%);
+  }
+
+  /* ========================================
+     PATTERN 6: 白ベース — 背景色をほんの少しだけ変える
+     #f5f3ef → #eae6df（ほんのりトーンダウン）
+     ======================================== */
+  .p6-gallery {
+    background: #eae6df;
+    color: #333;
+  }
+  .p6-gallery .gd-text .gd-label { color: rgba(61,53,48,0.4); }
+  .p6-gallery .gd-text h3 { color: #1a1a1a; }
+  .p6-gallery .gd-text .gd-desc { color: #555; }
+  .p6-gallery .gd-text .gd-desc-en { color: #aaa; }
+  .p6-gallery .gd-text .gd-cta { color: #555; border-color: rgba(0,0,0,0.15); }
+  .p6-gallery .gd-photo img { filter: brightness(0.85); }
+
+  /* ========================================
+     PATTERN 7: 白 → ダークブラウン（温かみ）
+     黒ではなくダークブラウン #1c1814 でウェディングらしさ
+     ======================================== */
+  .p7-transition-in {
+    height: 25vh;
+    background: linear-gradient(to bottom, #f5f3ef 0%, #1c1814 100%);
+  }
+  .p7-gallery {
+    background: #1c1814;
+    color: #fff;
+  }
+  .p7-gallery .gd-text .gd-label { color: rgba(255,245,230,0.35); }
+  .p7-gallery .gd-text h3 { color: rgba(255,250,240,0.95); }
+  .p7-gallery .gd-text .gd-desc { color: rgba(255,245,230,0.7); }
+  .p7-gallery .gd-text .gd-desc-en { color: rgba(255,245,230,0.3); }
+  .p7-gallery .gd-text .gd-cta { color: rgba(255,245,230,0.5); border-color: rgba(255,245,230,0.15); }
+  .p7-transition-out {
+    height: 25vh;
+    background: linear-gradient(to bottom, #1c1814 0%, #f5f3ef 100%);
+  }
+
+  /* ========================================
+     PATTERN 8: 白ベース — "Gallery" テキストヘッダー付き
+     大きなGalleryテキスト + 線 で区切り、背景は白のまま
+     ======================================== */
+  .p8-header {
+    text-align: center;
+    padding: 80px 20px 40px;
+    background: #f5f3ef;
+  }
+  .p8-header p {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    color: rgba(61,53,48,0.3);
+    margin-bottom: 12px;
+  }
+  .p8-header h2 {
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 300;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    letter-spacing: 0.02em;
+    color: #1a1a1a;
+    margin-bottom: 24px;
+  }
+  .p8-header::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: rgba(0,0,0,0.15);
+    margin: 0 auto;
+  }
+  .p8-gallery {
+    background: #f5f3ef;
+    color: #333;
+  }
+  .p8-gallery .gd-text .gd-label { display: none; }
+  .p8-gallery .gd-text h3 { color: #1a1a1a; }
+  .p8-gallery .gd-text .gd-desc { color: #666; }
+  .p8-gallery .gd-text .gd-desc-en { color: #aaa; }
+  .p8-gallery .gd-text .gd-cta { color: #555; border-color: rgba(0,0,0,0.15); }
+  .p8-gallery .gd-photo img { filter: brightness(0.9); }
+
+  /* ========================================
+     PATTERN 9: ダーク — 上だけグラデ、下はパツンと線
+     PLANからはスムーズにダークへ、ドレスとの間は線で潔く
+     ======================================== */
+  .p9-transition-in {
+    height: 25vh;
+    background: linear-gradient(to bottom, #f5f3ef 0%, #0a0a0f 100%);
+  }
+  .p9-gallery {
+    background: #0a0a0f;
+    color: #fff;
+  }
+  .p9-gallery .gd-text .gd-label { color: rgba(255,255,255,0.4); }
+  .p9-gallery .gd-text h3 { color: #fff; }
+  .p9-gallery .gd-text .gd-desc { color: rgba(255,255,255,0.8); }
+  .p9-gallery .gd-text .gd-desc-en { color: rgba(255,255,255,0.35); }
+  .p9-gallery .gd-text .gd-cta { color: rgba(255,255,255,0.6); border-color: rgba(255,255,255,0.18); }
+  .p9-line-out {
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+  }
+
+  /* ========================================
+     PATTERN 10: 白ベース — 写真だけ暗く、背景は白
+     背景は完全に白のまま、写真のみダークトーンで浮かせる
+     ======================================== */
+  .p10-gallery {
+    background: #f5f3ef;
+    color: #333;
+  }
+  .p10-gallery .gd-text .gd-label { color: rgba(61,53,48,0.35); }
+  .p10-gallery .gd-text h3 { color: #1a1a1a; }
+  .p10-gallery .gd-text .gd-desc { color: #666; }
+  .p10-gallery .gd-text .gd-desc-en { color: #aaa; }
+  .p10-gallery .gd-text .gd-cta { color: #555; border-color: rgba(0,0,0,0.15); }
+  .p10-gallery .gd-photo {
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  }
+  .p10-gallery .gd-photo img { filter: brightness(0.65); }
+</style>
+</head>
+<body>
+
+<nav class="pattern-nav">
+  <span>Patterns:</span>
+  <a href="#p1">1. グラデ黒</a>
+  <a href="#p2">2. 線→パツン黒</a>
+  <a href="#p3">3. 白+横線</a>
+  <a href="#p4">4. 白+余白</a>
+  <a href="#p5">5. ソフト黒</a>
+  <a href="#p6">6. トーンダウン</a>
+  <a href="#p7">7. ダークブラウン</a>
+  <a href="#p8">8. 白+ヘッダー</a>
+  <a href="#p9">9. グラデIN線OUT</a>
+  <a href="#p10">10. 白+影写真</a>
+</nav>
+
+<!-- ================================================
+     PATTERN 1: グラデーションで白→黒→白
+     ================================================ -->
+<div id="p1" class="pattern-label"><h2>Pattern 1</h2><p>グラデーション遷移 — 白からじわっと黒、じわっと白に戻る</p></div>
+<div class="fake-plan"><h2>PLAN / PRICE</h2><p>（PLANセクション最下部）</p></div>
+<div class="p1-transition-in"></div>
+<div class="gallery-demo p1-gallery">
+  <div class="gd-photo gd-photo--1"><img src="images/paris/01.jpg" alt=""></div>
+  <div class="gd-photo gd-photo--2"><img src="images/london/03.jpg" alt=""></div>
+  <div class="gd-photo gd-photo--3"><img src="images/firenze/02.jpg" alt=""></div>
+  <div class="gd-photo gd-photo--4"><img src="images/malta/01.jpg" alt=""></div>
+  <div class="gd-text">
+    <p class="gd-label">Gallery</p>
+    <h3>飾らないふたりが、<br>いちばん美しい。</h3>
+    <p class="gd-desc">完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。</p>
+    <p class="gd-desc-en">You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful.</p>
+    <a href="#" class="gd-cta">Gallery →</a>
+  </div>
+</div>
+<div class="p1-transition-out"></div>
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESSセクション）</p></div>
+
+<div class="pattern-divider"></div>
+
+<!-- ================================================
+     PATTERN 2: 線→パツンと黒
+     ================================================ -->
+<div id="p2" class="pattern-label"><h2>Pattern 2</h2><p>薄い横線 → パツンと黒切り替え → 線 → 白</p></div>
+<div class="fake-plan"><h2>PLAN / PRICE</h2><p>（PLANセクション最下部）</p></div>
+<div class="p2-line"></div>
+<div class="gallery-demo p2-gallery">
+  <div class="gd-photo gd-photo--1"><img src="images/paris/01.jpg" alt=""></div>
+  <div class="gd-photo gd-photo--2"><img src="images/london/03.jpg" alt=""></div>
+  <div class="gd-photo gd-photo--3"><img src="images/firenze/02.jpg" alt=""></div>
+  <div class="gd-photo gd-photo--4"><img src="images/malta/01.jpg" alt=""></div>
+  <div class="gd-text">
+    <p class="gd-label">Gallery</p>
+    <h3>飾らないふたりが、<br>いちばん美しい。</h3>
+    <p class="gd-desc">完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。</p>
+    <p class="gd-desc-en">You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful.</p>
+    <a href="#" class="gd-cta">Gallery →</a>
+  </div>
+</div>
+<div class="p2-line"></div>
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESSセクション）</p></div>
+
+<div class="pattern-divider"></div>
+
+<!-- ================================================
+     PATTERN 3: 白ベース + 横線区切り
+     ================================================ -->
+<div id="p3" class="pattern-label"><h2>Pattern 3</h2><p>背景は白のまま — 短い横線で「ここからGallery」</p></div>
+<div class="fake-plan"><h2>PLAN / PRICE</h2><p>（PLANセクション最下部）</p></div>
+<div class="p3-divider"></div>
+<div class="gallery-demo p3-gallery">
+  <div class="gd-photo gd-photo--1"><img src="images/paris/01.jpg" alt=""></div>
+  <div class="gd-photo gd-photo--2"><img src="images/london/03.jpg" alt=""></div>
+  <div class="gd-photo gd-photo--3"><img src="images/firenze/02.jpg" alt=""></div>
+  <div class="gd-photo gd-photo--4"><img src="images/malta/01.jpg" alt=""></div>
+  <div class="gd-text">
+    <p class="gd-label">Gallery</p>
+    <h3>飾らないふたりが、<br>いちばん美しい。</h3>
+    <p class="gd-desc">完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。</p>
+    <p class="gd-desc-en">You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful.</p>
+    <a href="#" class="gd-cta">Gallery →</a>
+  </div>
+</div>
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESSセクション）</p></div>
+
+<div class="pattern-divider"></div>
+
+<!-- ================================================
+     PATTERN 4: 白ベース + 余白だけ
+     ================================================ -->
+<div id="p4" class="pattern-label"><h2>Pattern 4</h2><p>背景は白のまま — 大きな余白だけでセクション区切り</p></div>
+<div class="fake-plan"><h2>PLAN / PRICE</h2><p>（PLANセクション最下部）</p></div>
+<div class="p4-spacer"></div>
+<div class="gallery-demo p4-gallery">
+  <div class="gd-photo gd-photo--1"><img src="images/paris/01.jpg" alt=""></div>
+  <div class="gd-photo gd-photo--2"><img src="images/london/03.jpg" alt=""></div>
+  <div class="gd-photo gd-photo--3"><img src="images/firenze/02.jpg" alt=""></div>
+  <div class="gd-photo gd-photo--4"><img src="images/malta/01.jpg" alt=""></div>
+  <div class="gd-text">
+    <p class="gd-label">Gallery</p>
+    <h3>飾らないふたりが、<br>いちばん美しい。</h3>
+    <p class="gd-desc">完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。</p>
+    <p class="gd-desc-en">You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful.</p>
+    <a href="#" class="gd-cta">Gallery →</a>
+  </div>
+</div>
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESSセクション）</p></div>
+
+<div class="pattern-divider"></div>
+
+<!-- ================================================
+     PATTERN 5: ソフトダーク（#1a1a1f）+ 短いグラデ
+     ================================================ -->
+<div id="p5" class="pattern-label"><h2>Pattern 5</h2><p>ソフトダーク — 真っ黒ではなく柔らかい暗さ + 短めグラデーション</p></div>
+<div class="fake-plan"><h2>PLAN / PRICE</h2><p>（PLANセクション最下部）</p></div>
+<div class="p5-transition-in"></div>
+<div class="gallery-demo p5-gallery">
+  <div class="gd-photo gd-photo--1"><img src="images/paris/01.jpg" alt=""></div>
+  <div class="gd-photo gd-photo--2"><img src="images/london/03.jpg" alt=""></div>
+  <div class="gd-photo gd-photo--3"><img src="images/firenze/02.jpg" alt=""></div>
+  <div class="gd-photo gd-photo--4"><img src="images/malta/01.jpg" alt=""></div>
+  <div class="gd-text">
+    <p class="gd-label">Gallery</p>
+    <h3>飾らないふたりが、<br>いちばん美しい。</h3>
+    <p class="gd-desc">完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。</p>
+    <p class="gd-desc-en">You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful.</p>
+    <a href="#" class="gd-cta">Gallery →</a>
+  </div>
+</div>
+<div class="p5-transition-out"></div>
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESSセクション）</p></div>
+
+<div class="pattern-divider"></div>
+
+<!-- ================================================
+     PATTERN 6: 白のトーンダウン（ほんの少し暗く）
+     ================================================ -->
+<div id="p6" class="pattern-label"><h2>Pattern 6</h2><p>背景をほんの少しだけトーンダウン — #f5f3ef → #eae6df</p></div>
+<div class="fake-plan"><h2>PLAN / PRICE</h2><p>（PLANセクション最下部）</p></div>
+<div class="gallery-demo p6-gallery">
+  <div class="gd-photo gd-photo--1"><img src="images/paris/01.jpg" alt=""></div>
+  <div class="gd-photo gd-photo--2"><img src="images/london/03.jpg" alt=""></div>
+  <div class="gd-photo gd-photo--3"><img src="images/firenze/02.jpg" alt=""></div>
+  <div class="gd-photo gd-photo--4"><img src="images/malta/01.jpg" alt=""></div>
+  <div class="gd-text">
+    <p class="gd-label">Gallery</p>
+    <h3>飾らないふたりが、<br>いちばん美しい。</h3>
+    <p class="gd-desc">完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。</p>
+    <p class="gd-desc-en">You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful.</p>
+    <a href="#" class="gd-cta">Gallery →</a>
+  </div>
+</div>
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESSセクション）</p></div>
+
+<div class="pattern-divider"></div>
+
+<!-- ================================================
+     PATTERN 7: ダークブラウン（温かみ）
+     ================================================ -->
+<div id="p7" class="pattern-label"><h2>Pattern 7</h2><p>ダークブラウン #1c1814 — 黒ではなく温かみのある暗さ + グラデ</p></div>
+<div class="fake-plan"><h2>PLAN / PRICE</h2><p>（PLANセクション最下部）</p></div>
+<div class="p7-transition-in"></div>
+<div class="gallery-demo p7-gallery">
+  <div class="gd-photo gd-photo--1"><img src="images/paris/01.jpg" alt=""></div>
+  <div class="gd-photo gd-photo--2"><img src="images/london/03.jpg" alt=""></div>
+  <div class="gd-photo gd-photo--3"><img src="images/firenze/02.jpg" alt=""></div>
+  <div class="gd-photo gd-photo--4"><img src="images/malta/01.jpg" alt=""></div>
+  <div class="gd-text">
+    <p class="gd-label">Gallery</p>
+    <h3>飾らないふたりが、<br>いちばん美しい。</h3>
+    <p class="gd-desc">完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。</p>
+    <p class="gd-desc-en">You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful.</p>
+    <a href="#" class="gd-cta">Gallery →</a>
+  </div>
+</div>
+<div class="p7-transition-out"></div>
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESSセクション）</p></div>
+
+<div class="pattern-divider"></div>
+
+<!-- ================================================
+     PATTERN 8: 白ベース + 大きなGalleryヘッダー
+     ================================================ -->
+<div id="p8" class="pattern-label"><h2>Pattern 8</h2><p>白ベース — 大きなGalleryタイトル + 線で区切り</p></div>
+<div class="fake-plan"><h2>PLAN / PRICE</h2><p>（PLANセクション最下部）</p></div>
+<div class="p8-header">
+  <p>gallery</p>
+  <h2>Gallery</h2>
+</div>
+<div class="gallery-demo p8-gallery">
+  <div class="gd-photo gd-photo--1"><img src="images/paris/01.jpg" alt=""></div>
+  <div class="gd-photo gd-photo--2"><img src="images/london/03.jpg" alt=""></div>
+  <div class="gd-photo gd-photo--3"><img src="images/firenze/02.jpg" alt=""></div>
+  <div class="gd-photo gd-photo--4"><img src="images/malta/01.jpg" alt=""></div>
+  <div class="gd-text">
+    <h3>飾らないふたりが、<br>いちばん美しい。</h3>
+    <p class="gd-desc">完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。</p>
+    <p class="gd-desc-en">You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful.</p>
+    <a href="#" class="gd-cta">Gallery →</a>
+  </div>
+</div>
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESSセクション）</p></div>
+
+<div class="pattern-divider"></div>
+
+<!-- ================================================
+     PATTERN 9: グラデIN + 線OUT（非対称）
+     ================================================ -->
+<div id="p9" class="pattern-label"><h2>Pattern 9</h2><p>入りはグラデで滑らか、出はパツンと線で潔く</p></div>
+<div class="fake-plan"><h2>PLAN / PRICE</h2><p>（PLANセクション最下部）</p></div>
+<div class="p9-transition-in"></div>
+<div class="gallery-demo p9-gallery">
+  <div class="gd-photo gd-photo--1"><img src="images/paris/01.jpg" alt=""></div>
+  <div class="gd-photo gd-photo--2"><img src="images/london/03.jpg" alt=""></div>
+  <div class="gd-photo gd-photo--3"><img src="images/firenze/02.jpg" alt=""></div>
+  <div class="gd-photo gd-photo--4"><img src="images/malta/01.jpg" alt=""></div>
+  <div class="gd-text">
+    <p class="gd-label">Gallery</p>
+    <h3>飾らないふたりが、<br>いちばん美しい。</h3>
+    <p class="gd-desc">完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。</p>
+    <p class="gd-desc-en">You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful.</p>
+    <a href="#" class="gd-cta">Gallery →</a>
+  </div>
+</div>
+<div class="p9-line-out"></div>
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESSセクション）</p></div>
+
+<div class="pattern-divider"></div>
+
+<!-- ================================================
+     PATTERN 10: 白ベース + 写真にシャドウ
+     ================================================ -->
+<div id="p10" class="pattern-label"><h2>Pattern 10</h2><p>完全に白ベース — 写真だけを暗く＋影でフロート感</p></div>
+<div class="fake-plan"><h2>PLAN / PRICE</h2><p>（PLANセクション最下部）</p></div>
+<div class="gallery-demo p10-gallery">
+  <div class="gd-photo gd-photo--1"><img src="images/paris/01.jpg" alt=""></div>
+  <div class="gd-photo gd-photo--2"><img src="images/london/03.jpg" alt=""></div>
+  <div class="gd-photo gd-photo--3"><img src="images/firenze/02.jpg" alt=""></div>
+  <div class="gd-photo gd-photo--4"><img src="images/malta/01.jpg" alt=""></div>
+  <div class="gd-text">
+    <p class="gd-label">Gallery</p>
+    <h3>飾らないふたりが、<br>いちばん美しい。</h3>
+    <p class="gd-desc">完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。</p>
+    <p class="gd-desc-en">You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful.</p>
+    <a href="#" class="gd-cta">Gallery →</a>
+  </div>
+</div>
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESSセクション）</p></div>
+
+<div style="height:100px; background:#f5f3ef;"></div>
+
+</body>
+</html>

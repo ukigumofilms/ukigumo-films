@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery Section — 10 Layout Patterns</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+JP:wght@300;400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1a1a1a; color: #fff; font-family: 'Inter', sans-serif; }
+
+  .pattern-label {
+    text-align: center;
+    padding: 3rem 2rem 1rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.15em;
+    color: #c9a96e;
+    border-top: 1px solid #333;
+  }
+  .pattern-desc {
+    text-align: center;
+    font-size: 0.7rem;
+    color: #888;
+    margin-bottom: 2rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* Shared text styles */
+  .gp-heading {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 300;
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    letter-spacing: 0.06em;
+    line-height: 1.6;
+    margin-bottom: 32px;
+    color: #2a2420;
+  }
+  .gp-desc-ja {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.9rem;
+    line-height: 2.2;
+    color: #666;
+    margin-bottom: 28px;
+    letter-spacing: 0.03em;
+  }
+  .gp-desc-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.78rem;
+    line-height: 2;
+    color: #aaa;
+    margin-bottom: 40px;
+    letter-spacing: 0.05em;
+  }
+  .gp-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #2a2420;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+  }
+  .gp-cta::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: #2a2420;
+  }
+
+  img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 2px; filter: brightness(0.88); }
+
+  /* ===================== P1: Text Left, Photos Right Stack ===================== */
+  .p1 {
+    background: #f5f3ef;
+    display: grid;
+    grid-template-columns: 45% 55%;
+    min-height: 100vh;
+  }
+  .p1 .text-col {
+    padding: 12% 6% 8% 8%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .p1 .photo-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 8px;
+    padding: 3% 4% 3% 0;
+  }
+
+  /* ===================== P2: Full-width text → Photos below ===================== */
+  .p2 {
+    background: #f5f3ef;
+  }
+  .p2 .text-area {
+    text-align: center;
+    padding: 10% 10% 6%;
+  }
+  .p2 .text-area .gp-heading { color: #2a2420; }
+  .p2 .text-area .gp-desc-ja { max-width: 600px; margin: 0 auto 28px; }
+  .p2 .text-area .gp-desc-en { max-width: 600px; margin: 0 auto 40px; }
+  .p2 .photo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 6px;
+    padding: 0 3% 5%;
+  }
+  .p2 .photo-grid div { aspect-ratio: 3/4; }
+
+  /* ===================== P3: Asymmetric overlap ===================== */
+  .p3 {
+    background: #f5f3ef;
+    position: relative;
+    min-height: 110vh;
+    overflow: hidden;
+  }
+  .p3 .text-block {
+    position: relative;
+    z-index: 10;
+    padding: 10% 8% 4%;
+    max-width: 500px;
+  }
+  .p3 .ph1 {
+    position: absolute;
+    top: 5%; right: 4%;
+    width: 40%; aspect-ratio: 3/4;
+  }
+  .p3 .ph2 {
+    position: absolute;
+    top: 45%; right: 20%;
+    width: 35%; aspect-ratio: 4/5;
+    z-index: 5;
+  }
+  .p3 .ph3 {
+    position: absolute;
+    bottom: 8%; left: 5%;
+    width: 38%; aspect-ratio: 3/4;
+  }
+  .p3 .ph4 {
+    position: absolute;
+    bottom: 5%; right: 3%;
+    width: 30%; aspect-ratio: 4/3;
+  }
+
+  /* ===================== P4: Horizontal scroll-like strip ===================== */
+  .p4 {
+    background: #f5f3ef;
+    padding: 8% 0;
+  }
+  .p4 .text-center {
+    text-align: center;
+    padding: 0 8% 6%;
+  }
+  .p4 .photo-strip {
+    display: flex;
+    gap: 2vw;
+    padding: 0 5%;
+  }
+  .p4 .photo-strip div:nth-child(1) { flex: 0 0 30%; aspect-ratio: 3/4; }
+  .p4 .photo-strip div:nth-child(2) { flex: 0 0 25%; aspect-ratio: 4/5; margin-top: 5%; }
+  .p4 .photo-strip div:nth-child(3) { flex: 0 0 22%; aspect-ratio: 3/4; margin-top: -2%; }
+  .p4 .photo-strip div:nth-child(4) { flex: 0 0 28%; aspect-ratio: 4/3; margin-top: 8%; }
+
+  /* ===================== P5: Big hero + small thumbnails ===================== */
+  .p5 {
+    background: #f5f3ef;
+    display: grid;
+    grid-template-columns: 60% 40%;
+    min-height: 90vh;
+  }
+  .p5 .hero-photo { aspect-ratio: auto; }
+  .p5 .right-side {
+    display: flex;
+    flex-direction: column;
+  }
+  .p5 .text-block {
+    padding: 15% 8% 8%;
+    flex: 1;
+  }
+  .p5 .thumbs {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 4px;
+    padding: 0 4px 4px;
+  }
+  .p5 .thumbs div { aspect-ratio: 1/1; }
+
+  /* ===================== P6: Masonry 2-col with text overlay ===================== */
+  .p6 {
+    background: #f5f3ef;
+    position: relative;
+    min-height: 110vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5vw;
+    padding: 5% 5%;
+  }
+  .p6 .col-left {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5vw;
+  }
+  .p6 .col-right {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5vw;
+    margin-top: 8%;
+  }
+  .p6 .col-left div:nth-child(1) { aspect-ratio: 3/4; }
+  .p6 .col-left div:nth-child(2) { aspect-ratio: 4/3; }
+  .p6 .col-right div:nth-child(1) { aspect-ratio: 4/5; }
+  .p6 .col-right div:nth-child(2) { aspect-ratio: 3/4; }
+  .p6 .text-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(245,243,239,0.92);
+    padding: 5% 6%;
+    max-width: 480px;
+    text-align: center;
+    z-index: 10;
+  }
+
+  /* ===================== P7: Text top, staggered photos below ===================== */
+  .p7 {
+    background: #f5f3ef;
+    padding: 8% 6% 6%;
+  }
+  .p7 .text-top {
+    max-width: 550px;
+    margin-bottom: 6%;
+  }
+  .p7 .photo-stagger {
+    display: flex;
+    align-items: flex-start;
+    gap: 2vw;
+    padding: 0 2%;
+  }
+  .p7 .photo-stagger div:nth-child(1) { flex: 0 0 28%; aspect-ratio: 3/4; }
+  .p7 .photo-stagger div:nth-child(2) { flex: 0 0 22%; aspect-ratio: 4/5; margin-top: 12%; }
+  .p7 .photo-stagger div:nth-child(3) { flex: 0 0 26%; aspect-ratio: 3/4; margin-top: 4%; }
+  .p7 .photo-stagger div:nth-child(4) { flex: 0 0 24%; aspect-ratio: 4/3; margin-top: 18%; }
+
+  /* ===================== P8: Split — 2 photos left, text+2 photos right ===================== */
+  .p8 {
+    background: #f5f3ef;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    min-height: 100vh;
+  }
+  .p8 .left-photos {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 6px;
+    padding: 3% 0 3% 3%;
+  }
+  .p8 .right-side {
+    display: flex;
+    flex-direction: column;
+  }
+  .p8 .right-text {
+    padding: 12% 8% 6%;
+  }
+  .p8 .right-photos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    padding: 0 3% 3%;
+    flex: 1;
+  }
+
+  /* ===================== P9: Vertical timeline-like ===================== */
+  .p9 {
+    background: #f5f3ef;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 8% 5%;
+  }
+  .p9 .row {
+    display: flex;
+    align-items: center;
+    gap: 4%;
+    margin-bottom: 4%;
+  }
+  .p9 .row.reverse { flex-direction: row-reverse; }
+  .p9 .row .photo { flex: 0 0 45%; aspect-ratio: 4/3; }
+  .p9 .row .text { flex: 1; }
+  .p9 .row:nth-child(3) .photo { aspect-ratio: 3/4; flex: 0 0 40%; }
+  .p9 .row:nth-child(4) .photo { aspect-ratio: 3/4; flex: 0 0 40%; }
+  .p9 .solo-text {
+    text-align: center;
+    padding: 5% 10%;
+  }
+
+  /* ===================== P10: Cinematic wide — text center, photos peek from edges ===================== */
+  .p10 {
+    background: #f5f3ef;
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .p10 .center-text {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    max-width: 500px;
+    padding: 5%;
+  }
+  .p10 .edge-photo {
+    position: absolute;
+  }
+  .p10 .ep1 { top: 0; left: -5%; width: 30%; height: 55%; }
+  .p10 .ep2 { top: 5%; right: -3%; width: 28%; height: 50%; }
+  .p10 .ep3 { bottom: 0; left: 10%; width: 25%; height: 45%; }
+  .p10 .ep4 { bottom: -5%; right: 8%; width: 27%; height: 48%; }
+</style>
+</head>
+<body>
+
+<!-- ========== P1 ========== -->
+<div class="pattern-label">P1 — Text Left / Grid Right</div>
+<p class="pattern-desc">テキスト左、写真4枚グリッド右</p>
+<section class="p1">
+  <div class="text-col">
+    <h2 class="gp-heading">飾らないふたりが、<br>いちばん美しい。</h2>
+    <p class="gp-desc-ja">完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。</p>
+    <p class="gp-desc-en">You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful.</p>
+    <a href="#" class="gp-cta">gallery →</a>
+  </div>
+  <div class="photo-col">
+    <div><img src="images/paris/01.jpg" alt=""></div>
+    <div><img src="images/london/03.jpg" alt=""></div>
+    <div><img src="images/firenze/02.jpg" alt=""></div>
+    <div><img src="images/malta/01.jpg" alt=""></div>
+  </div>
+</section>
+
+<!-- ========== P2 ========== -->
+<div class="pattern-label">P2 — Text Top / 4-Column Below</div>
+<p class="pattern-desc">テキスト上部中央、写真4列横並び</p>
+<section class="p2">
+  <div class="text-area">
+    <h2 class="gp-heading">飾らないふたりが、<br>いちばん美しい。</h2>
+    <p class="gp-desc-ja">完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。</p>
+    <p class="gp-desc-en">You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful.</p>
+    <a href="#" class="gp-cta">gallery →</a>
+  </div>
+  <div class="photo-grid">
+    <div><img src="images/paris/01.jpg" alt=""></div>
+    <div><img src="images/london/03.jpg" alt=""></div>
+    <div><img src="images/firenze/02.jpg" alt=""></div>
+    <div><img src="images/malta/01.jpg" alt=""></div>
+  </div>
+</section>
+
+<!-- ========== P3 ========== -->
+<div class="pattern-label">P3 — Asymmetric Float</div>
+<p class="pattern-desc">テキスト左上、写真が非対称に浮遊配置</p>
+<section class="p3">
+  <div class="text-block">
+    <h2 class="gp-heading">飾らないふたりが、<br>いちばん美しい。</h2>
+    <p class="gp-desc-ja">完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。</p>
+    <p class="gp-desc-en">You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful.</p>
+    <a href="#" class="gp-cta">gallery →</a>
+  </div>
+  <div class="ph1"><img src="images/paris/01.jpg" alt=""></div>
+  <div class="ph2"><img src="images/london/03.jpg" alt=""></div>
+  <div class="ph3"><img src="images/firenze/02.jpg" alt=""></div>
+  <div class="ph4"><img src="images/malta/01.jpg" alt=""></div>
+</section>
+
+<!-- ========== P4 ========== -->
+<div class="pattern-label">P4 — Text Center / Staggered Strip</div>
+<p class="pattern-desc">テキスト中央、写真が段違い横並び</p>
+<section class="p4">
+  <div class="text-center">
+    <h2 class="gp-heading">飾らないふたりが、<br>いちばん美しい。</h2>
+    <p class="gp-desc-ja">完璧じゃなくていい。笑い合う顔も、少し緊張した横顔も、全部がふたりらしくて、全部が愛おしい。</p>
+    <p class="gp-desc-en">You don't need to be perfect. The laughter, the nervous glances — every unpolished moment is what makes it beautiful.</p>
+    <a href="#" class="gp-cta">gallery →</a>
+  </div>
+  <div class="photo-strip">
+    <div><img src="images/paris/01.jpg" alt=""></div>
+    <div><img src="images/london/03.jpg" alt=""></div>
+    <div><img src="images/firenze/02.jpg" alt=""></div>
+    <div><img src="images/malta/01.jpg" alt=""></div>
+  </div>
+</section>
+
+<!-- ========== P5 ========== -->
+<div class="pattern-label">P5 — Hero Left / Text + Thumbs Right</div>
+<p class="pattern-desc">大きな写真左、テキスト＋サムネイル3枚右</p>
+<section class="p5">
+  <div class="hero-photo"><img src="images/paris/01.jpg" alt=""></div>
+  <div class="right-side">
+    <div class="text-block">
+      <h2 class="gp-heading">飾らないふたりが、<br>いちばん美しい。</h2>
+      <p class="gp-desc-ja">完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。</p>
+      <p class="gp-desc-en">You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful.</p>
+      <a href="#" class="gp-cta">gallery →</a>
+    </div>
+    <div class="thumbs">
+      <div><img src="images/london/03.jpg" alt=""></div>
+      <div><img src="images/firenze/02.jpg" alt=""></div>
+      <div><img src="images/malta/01.jpg" alt=""></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== P6 ========== -->
+<div class="pattern-label">P6 — Masonry + Center Overlay</div>
+<p class="pattern-desc">2列マソンリー、テキストが中央にオーバーレイ</p>
+<section class="p6">
+  <div class="col-left">
+    <div><img src="images/paris/01.jpg" alt=""></div>
+    <div><img src="images/firenze/02.jpg" alt=""></div>
+  </div>
+  <div class="col-right">
+    <div><img src="images/london/03.jpg" alt=""></div>
+    <div><img src="images/malta/01.jpg" alt=""></div>
+  </div>
+  <div class="text-overlay">
+    <h2 class="gp-heading">飾らないふたりが、<br>いちばん美しい。</h2>
+    <p class="gp-desc-ja">完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。</p>
+    <p class="gp-desc-en">You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful.</p>
+    <a href="#" class="gp-cta">gallery →</a>
+  </div>
+</section>
+
+<!-- ========== P7 ========== -->
+<div class="pattern-label">P7 — Text Top-Left / Staggered Below</div>
+<p class="pattern-desc">テキスト左上、写真が段違いに並ぶ</p>
+<section class="p7">
+  <div class="text-top">
+    <h2 class="gp-heading">飾らないふたりが、<br>いちばん美しい。</h2>
+    <p class="gp-desc-ja">完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。</p>
+    <p class="gp-desc-en">You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful.</p>
+    <a href="#" class="gp-cta">gallery →</a>
+  </div>
+  <div class="photo-stagger">
+    <div><img src="images/paris/01.jpg" alt=""></div>
+    <div><img src="images/london/03.jpg" alt=""></div>
+    <div><img src="images/firenze/02.jpg" alt=""></div>
+    <div><img src="images/malta/01.jpg" alt=""></div>
+  </div>
+</section>
+
+<!-- ========== P8 ========== -->
+<div class="pattern-label">P8 — 2 Photos Left / Text + 2 Photos Right</div>
+<p class="pattern-desc">写真2枚左、テキスト＋写真2枚右</p>
+<section class="p8">
+  <div class="left-photos">
+    <div><img src="images/paris/01.jpg" alt=""></div>
+    <div><img src="images/firenze/02.jpg" alt=""></div>
+  </div>
+  <div class="right-side">
+    <div class="right-text">
+      <h2 class="gp-heading">飾らないふたりが、<br>いちばん美しい。</h2>
+      <p class="gp-desc-ja">完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。</p>
+      <p class="gp-desc-en">You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful.</p>
+      <a href="#" class="gp-cta">gallery →</a>
+    </div>
+    <div class="right-photos">
+      <div><img src="images/london/03.jpg" alt=""></div>
+      <div><img src="images/malta/01.jpg" alt=""></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== P9 ========== -->
+<div class="pattern-label">P9 — Zigzag Rows</div>
+<p class="pattern-desc">写真とテキストが交互にジグザグ配置</p>
+<section class="p9">
+  <div class="solo-text">
+    <h2 class="gp-heading">飾らないふたりが、<br>いちばん美しい。</h2>
+  </div>
+  <div class="row">
+    <div class="photo"><img src="images/paris/01.jpg" alt=""></div>
+    <div class="text">
+      <p class="gp-desc-ja">完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。</p>
+    </div>
+  </div>
+  <div class="row reverse">
+    <div class="photo"><img src="images/london/03.jpg" alt=""></div>
+    <div class="text">
+      <p class="gp-desc-en">You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful.</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="photo"><img src="images/firenze/02.jpg" alt=""></div>
+    <div class="text"><a href="#" class="gp-cta">gallery →</a></div>
+  </div>
+  <div class="row reverse">
+    <div class="photo"><img src="images/malta/01.jpg" alt=""></div>
+    <div class="text"></div>
+  </div>
+</section>
+
+<!-- ========== P10 ========== -->
+<div class="pattern-label">P10 — Cinematic Edge Peek</div>
+<p class="pattern-desc">テキスト中央、写真が四隅から覗く</p>
+<section class="p10">
+  <div class="edge-photo ep1"><img src="images/paris/01.jpg" alt=""></div>
+  <div class="edge-photo ep2"><img src="images/london/03.jpg" alt=""></div>
+  <div class="edge-photo ep3"><img src="images/firenze/02.jpg" alt=""></div>
+  <div class="edge-photo ep4"><img src="images/malta/01.jpg" alt=""></div>
+  <div class="center-text">
+    <h2 class="gp-heading">飾らないふたりが、<br>いちばん美しい。</h2>
+    <p class="gp-desc-ja">完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。</p>
+    <p class="gp-desc-en">You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful.</p>
+    <a href="#" class="gp-cta">gallery →</a>
+  </div>
+</section>
+
+<div style="height: 5rem;"></div>
+</body>
+</html>

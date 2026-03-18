@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flow Step Design Patterns</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background: #fff;
+  color: #3D3530;
+}
+.pattern-section {
+  padding: 2.5rem 1.2rem 3rem;
+  border-bottom: 1px solid #eee;
+}
+.pattern-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: rgba(61,53,48,0.35);
+  margin-bottom: 0.3rem;
+}
+.pattern-name {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 0.6rem;
+  color: rgba(61,53,48,0.5);
+  margin-bottom: 1.8rem;
+}
+
+/* ===== Pattern A: 極小ドット＋左揃え ===== */
+.pa .step { display:flex; gap:0.8rem; margin-bottom:1.8rem; align-items:flex-start; }
+.pa .step-num {
+  font-family:'Cormorant Garamond',serif; font-size:0.55rem; font-weight:400;
+  color:rgba(61,53,48,0.3); min-width:1rem; text-align:right; padding-top:0.15rem;
+}
+.pa .step-title {
+  font-family:'Noto Serif JP',serif; font-size:0.72rem; font-weight:300;
+  color:#2a2420; letter-spacing:0.04em; margin-bottom:0.3rem;
+}
+.pa .step-desc {
+  font-family:'Noto Serif JP',serif; font-size:0.6rem; font-weight:300;
+  color:rgba(61,53,48,0.45); line-height:1.9; letter-spacing:0.02em;
+}
+
+/* ===== Pattern B: 縦ライン＋ナンバー円 ===== */
+.pb { position:relative; padding-left:1.5rem; }
+.pb::before {
+  content:''; position:absolute; left:0.45rem; top:0; bottom:0;
+  width:1px; background:linear-gradient(to bottom, rgba(201,169,110,0.3), transparent);
+}
+.pb .step { position:relative; padding-left:1.5rem; margin-bottom:1.6rem; }
+.pb .step-circle {
+  position:absolute; left:-1.1rem; top:0.1rem;
+  width:1.1rem; height:1.1rem; border-radius:50%;
+  border:1px solid rgba(201,169,110,0.4); background:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Cormorant Garamond',serif; font-size:0.5rem; color:rgba(201,169,110,0.7);
+}
+.pb .step-title {
+  font-family:'Noto Serif JP',serif; font-size:0.7rem; font-weight:300;
+  color:#2a2420; letter-spacing:0.04em; margin-bottom:0.25rem;
+}
+.pb .step-desc {
+  font-family:'Noto Serif JP',serif; font-size:0.58rem; font-weight:300;
+  color:rgba(61,53,48,0.4); line-height:1.9;
+}
+
+/* ===== Pattern C: 横ライン区切り＋大きな数字 ===== */
+.pc .step {
+  padding:1rem 0; border-bottom:1px solid rgba(61,53,48,0.06);
+  display:flex; gap:1rem; align-items:baseline;
+}
+.pc .step:last-child { border-bottom:none; }
+.pc .step-num {
+  font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:300;
+  color:rgba(61,53,48,0.1); min-width:1.5rem; text-align:right; line-height:1;
+}
+.pc .step-content { flex:1; }
+.pc .step-title {
+  font-family:'Noto Serif JP',serif; font-size:0.68rem; font-weight:300;
+  color:#2a2420; letter-spacing:0.04em; margin-bottom:0.2rem;
+}
+.pc .step-desc {
+  font-family:'Noto Serif JP',serif; font-size:0.56rem; font-weight:300;
+  color:rgba(61,53,48,0.4); line-height:1.8;
+}
+
+/* ===== Pattern D: ゴールドアクセント点 ===== */
+.pd .step { display:flex; gap:0.7rem; margin-bottom:1.5rem; align-items:flex-start; }
+.pd .step-dot {
+  width:4px; height:4px; border-radius:50%; background:rgba(201,169,110,0.5);
+  margin-top:0.4rem; flex-shrink:0;
+}
+.pd .step-num {
+  font-family:'Cormorant Garamond',serif; font-size:0.5rem; font-weight:400;
+  color:rgba(201,169,110,0.5); margin-bottom:0.15rem;
+}
+.pd .step-title {
+  font-family:'Noto Serif JP',serif; font-size:0.68rem; font-weight:300;
+  color:#2a2420; letter-spacing:0.04em; margin-bottom:0.2rem;
+}
+.pd .step-desc {
+  font-family:'Noto Serif JP',serif; font-size:0.56rem; font-weight:300;
+  color:rgba(61,53,48,0.4); line-height:1.8;
+}
+
+/* ===== Pattern E: 英字番号＋インデント ===== */
+.pe .step { margin-bottom:1.4rem; }
+.pe .step-label {
+  font-family:'Cormorant Garamond',serif; font-size:0.5rem; font-weight:400;
+  letter-spacing:0.15em; color:rgba(61,53,48,0.25); text-transform:uppercase;
+  margin-bottom:0.2rem;
+}
+.pe .step-title {
+  font-family:'Noto Serif JP',serif; font-size:0.7rem; font-weight:300;
+  color:#2a2420; letter-spacing:0.04em; margin-bottom:0.2rem;
+  padding-left:0.8rem;
+}
+.pe .step-desc {
+  font-family:'Noto Serif JP',serif; font-size:0.56rem; font-weight:300;
+  color:rgba(61,53,48,0.4); line-height:1.8; padding-left:0.8rem;
+}
+
+/* ===== Pattern F: カード風 ===== */
+.pf .step {
+  background:rgba(61,53,48,0.015); border:1px solid rgba(61,53,48,0.05);
+  padding:0.9rem 1rem; margin-bottom:0.6rem; border-radius:2px;
+  display:flex; gap:0.8rem; align-items:flex-start;
+}
+.pf .step-num {
+  font-family:'Cormorant Garamond',serif; font-size:0.85rem; font-weight:300;
+  color:rgba(201,169,110,0.5); min-width:0.8rem; line-height:1.2;
+}
+.pf .step-title {
+  font-family:'Noto Serif JP',serif; font-size:0.65rem; font-weight:300;
+  color:#2a2420; letter-spacing:0.04em; margin-bottom:0.15rem;
+}
+.pf .step-desc {
+  font-family:'Noto Serif JP',serif; font-size:0.54rem; font-weight:300;
+  color:rgba(61,53,48,0.4); line-height:1.8;
+}
+
+/* ===== Pattern G: ミニマル横バー ===== */
+.pg .step { display:flex; gap:0.6rem; margin-bottom:1.3rem; align-items:flex-start; }
+.pg .step-bar {
+  width:16px; height:1px; background:rgba(201,169,110,0.4);
+  margin-top:0.45rem; flex-shrink:0;
+}
+.pg .step-title {
+  font-family:'Noto Serif JP',serif; font-size:0.68rem; font-weight:300;
+  color:#2a2420; letter-spacing:0.04em; margin-bottom:0.2rem;
+}
+.pg .step-desc {
+  font-family:'Noto Serif JP',serif; font-size:0.55rem; font-weight:300;
+  color:rgba(61,53,48,0.4); line-height:1.8;
+}
+
+/* ===== Pattern H: 数字透かし＋オーバーレイ ===== */
+.ph .step { position:relative; padding-left:2rem; margin-bottom:1.4rem; }
+.ph .step-bg-num {
+  position:absolute; left:0; top:-0.2rem;
+  font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-weight:300;
+  color:rgba(61,53,48,0.04); line-height:1;
+}
+.ph .step-title {
+  font-family:'Noto Serif JP',serif; font-size:0.68rem; font-weight:300;
+  color:#2a2420; letter-spacing:0.04em; margin-bottom:0.2rem;
+}
+.ph .step-desc {
+  font-family:'Noto Serif JP',serif; font-size:0.55rem; font-weight:300;
+  color:rgba(61,53,48,0.4); line-height:1.8;
+}
+
+/* ===== Pattern I: 中央寄せ＋番号上 ===== */
+.pi { text-align:center; }
+.pi .step { margin-bottom:2rem; }
+.pi .step-num {
+  font-family:'Cormorant Garamond',serif; font-size:0.7rem; font-weight:300;
+  color:rgba(201,169,110,0.4); letter-spacing:0.1em; margin-bottom:0.3rem;
+}
+.pi .step-title {
+  font-family:'Noto Serif JP',serif; font-size:0.7rem; font-weight:300;
+  color:#2a2420; letter-spacing:0.06em; margin-bottom:0.25rem;
+}
+.pi .step-desc {
+  font-family:'Noto Serif JP',serif; font-size:0.55rem; font-weight:300;
+  color:rgba(61,53,48,0.4); line-height:1.9;
+}
+.pi .step-div {
+  width:20px; height:1px; background:rgba(201,169,110,0.25);
+  margin:0 auto;
+}
+
+/* ===== Pattern J: 左ボーダー＋番号角 ===== */
+.pj .step {
+  border-left:2px solid rgba(201,169,110,0.2);
+  padding:0.5rem 0 0.5rem 1rem; margin-bottom:1rem;
+  position:relative;
+}
+.pj .step-num {
+  font-family:'Cormorant Garamond',serif; font-size:0.5rem; font-weight:400;
+  color:rgba(201,169,110,0.5); letter-spacing:0.08em; margin-bottom:0.15rem;
+}
+.pj .step-title {
+  font-family:'Noto Serif JP',serif; font-size:0.68rem; font-weight:300;
+  color:#2a2420; letter-spacing:0.04em; margin-bottom:0.2rem;
+}
+.pj .step-desc {
+  font-family:'Noto Serif JP',serif; font-size:0.55rem; font-weight:300;
+  color:rgba(61,53,48,0.4); line-height:1.8;
+}
+</style>
+</head>
+<body>
+
+<!-- Pattern A: 極小ドット＋左揃え -->
+<div class="pattern-section">
+  <div class="pattern-label">Pattern A</div>
+  <div class="pattern-name">極小番号＋左揃え — ミニマル</div>
+  <div class="pa">
+    <div class="step"><div class="step-num">01</div><div><div class="step-title">Instagram DMよりお問い合わせ</div><div class="step-desc">@ukigumo_filmsへ、お気軽にお問い合わせください。</div></div></div>
+    <div class="step"><div class="step-num">02</div><div><div class="step-title">お見積り・スケジュール調整</div><div class="step-desc">ご希望のプランと日程に合わせてお見積りさせていただきます。</div></div></div>
+    <div class="step"><div class="step-num">03</div><div><div class="step-title">前金のご入金（ご予約確定）</div><div class="step-desc">前金をお振込みいただくことで、ご予約が確定いたします。</div></div></div>
+    <div class="step"><div class="step-num">04</div><div><div class="step-title">グループLINE作成・お打ち合わせ</div><div class="step-desc">撮影に向けて、詳細なお打ち合わせをいたします。</div></div></div>
+    <div class="step"><div class="step-num">05</div><div><div class="step-title">撮影</div><div class="step-desc">いよいよ撮影当日です。思い出に残る最高の時間をお作りします。</div></div></div>
+  </div>
+</div>
+
+<!-- Pattern B: 縦ライン＋ゴールド円 -->
+<div class="pattern-section">
+  <div class="pattern-label">Pattern B</div>
+  <div class="pattern-name">縦ライン＋ゴールド円 — クラシック</div>
+  <div class="pb">
+    <div class="step"><div class="step-circle">1</div><div class="step-title">Instagram DMよりお問い合わせ</div><div class="step-desc">@ukigumo_filmsへ、お気軽にお問い合わせください。</div></div>
+    <div class="step"><div class="step-circle">2</div><div class="step-title">お見積り・スケジュール調整</div><div class="step-desc">ご希望のプランと日程に合わせてお見積りさせていただきます。</div></div>
+    <div class="step"><div class="step-circle">3</div><div class="step-title">前金のご入金（ご予約確定）</div><div class="step-desc">前金をお振込みいただくことで、ご予約が確定いたします。</div></div>
+    <div class="step"><div class="step-circle">4</div><div class="step-title">グループLINE作成・お打ち合わせ</div><div class="step-desc">撮影に向けて、詳細なお打ち合わせをいたします。</div></div>
+    <div class="step"><div class="step-circle">5</div><div class="step-title">撮影</div><div class="step-desc">いよいよ撮影当日です。思い出に残る最高の時間をお作りします。</div></div>
+  </div>
+</div>
+
+<!-- Pattern C: 横線区切り＋大数字 -->
+<div class="pattern-section">
+  <div class="pattern-label">Pattern C</div>
+  <div class="pattern-name">横線区切り＋大きな透かし数字</div>
+  <div class="pc">
+    <div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">Instagram DMよりお問い合わせ</div><div class="step-desc">@ukigumo_filmsへ、お気軽にお問い合わせください。</div></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">お見積り・スケジュール調整</div><div class="step-desc">ご希望のプランと日程に合わせてお見積りさせていただきます。</div></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">前金のご入金（ご予約確定）</div><div class="step-desc">前金をお振込みいただくことで、ご予約が確定いたします。</div></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-content"><div class="step-title">グループLINE作成・お打ち合わせ</div><div class="step-desc">撮影に向けて、詳細なお打ち合わせをいたします。</div></div></div>
+    <div class="step"><div class="step-num">5</div><div class="step-content"><div class="step-title">撮影</div><div class="step-desc">いよいよ撮影当日です。思い出に残る最高の時間をお作りします。</div></div></div>
+  </div>
+</div>
+
+<!-- Pattern D: ゴールドドット -->
+<div class="pattern-section">
+  <div class="pattern-label">Pattern D</div>
+  <div class="pattern-name">ゴールドドット＋ナンバー — シンプル</div>
+  <div class="pd">
+    <div class="step"><div class="step-dot"></div><div><div class="step-num">Step 01</div><div class="step-title">Instagram DMよりお問い合わせ</div><div class="step-desc">@ukigumo_filmsへ、お気軽にお問い合わせください。</div></div></div>
+    <div class="step"><div class="step-dot"></div><div><div class="step-num">Step 02</div><div class="step-title">お見積り・スケジュール調整</div><div class="step-desc">ご希望のプランと日程に合わせてお見積りさせていただきます。</div></div></div>
+    <div class="step"><div class="step-dot"></div><div><div class="step-num">Step 03</div><div class="step-title">前金のご入金（ご予約確定）</div><div class="step-desc">前金をお振込みいただくことで、ご予約が確定いたします。</div></div></div>
+    <div class="step"><div class="step-dot"></div><div><div class="step-num">Step 04</div><div class="step-title">グループLINE作成・お打ち合わせ</div><div class="step-desc">撮影に向けて、詳細なお打ち合わせをいたします。</div></div></div>
+    <div class="step"><div class="step-dot"></div><div><div class="step-num">Step 05</div><div class="step-title">撮影</div><div class="step-desc">いよいよ撮影当日です。思い出に残る最高の時間をお作りします。</div></div></div>
+  </div>
+</div>
+
+<!-- Pattern E: 英字番号＋インデント -->
+<div class="pattern-section">
+  <div class="pattern-label">Pattern E</div>
+  <div class="pattern-name">英字ラベル＋インデント — モダン</div>
+  <div class="pe">
+    <div class="step"><div class="step-label">Step I</div><div class="step-title">Instagram DMよりお問い合わせ</div><div class="step-desc">@ukigumo_filmsへ、お気軽にお問い合わせください。</div></div>
+    <div class="step"><div class="step-label">Step II</div><div class="step-title">お見積り・スケジュール調整</div><div class="step-desc">ご希望のプランと日程に合わせてお見積りさせていただきます。</div></div>
+    <div class="step"><div class="step-label">Step III</div><div class="step-title">前金のご入金（ご予約確定）</div><div class="step-desc">前金をお振込みいただくことで、ご予約が確定いたします。</div></div>
+    <div class="step"><div class="step-label">Step IV</div><div class="step-title">グループLINE作成・お打ち合わせ</div><div class="step-desc">撮影に向けて、詳細なお打ち合わせをいたします。</div></div>
+    <div class="step"><div class="step-label">Step V</div><div class="step-title">撮影</div><div class="step-desc">いよいよ撮影当日です。思い出に残る最高の時間をお作りします。</div></div>
+  </div>
+</div>
+
+<!-- Pattern F: カード風 -->
+<div class="pattern-section">
+  <div class="pattern-label">Pattern F</div>
+  <div class="pattern-name">カード風 — 柔らかい区切り</div>
+  <div class="pf">
+    <div class="step"><div class="step-num">1</div><div><div class="step-title">Instagram DMよりお問い合わせ</div><div class="step-desc">@ukigumo_filmsへ、お気軽にお問い合わせください。</div></div></div>
+    <div class="step"><div class="step-num">2</div><div><div class="step-title">お見積り・スケジュール調整</div><div class="step-desc">ご希望のプランと日程に合わせてお見積りさせていただきます。</div></div></div>
+    <div class="step"><div class="step-num">3</div><div><div class="step-title">前金のご入金（ご予約確定）</div><div class="step-desc">前金をお振込みいただくことで、ご予約が確定いたします。</div></div></div>
+    <div class="step"><div class="step-num">4</div><div><div class="step-title">グループLINE作成・お打ち合わせ</div><div class="step-desc">撮影に向けて、詳細なお打ち合わせをいたします。</div></div></div>
+    <div class="step"><div class="step-num">5</div><div><div class="step-title">撮影</div><div class="step-desc">いよいよ撮影当日です。思い出に残る最高の時間をお作りします。</div></div></div>
+  </div>
+</div>
+
+<!-- Pattern G: ミニマル横バー -->
+<div class="pattern-section">
+  <div class="pattern-label">Pattern G</div>
+  <div class="pattern-name">ゴールド横バー — 番号なし究極ミニマル</div>
+  <div class="pg">
+    <div class="step"><div class="step-bar"></div><div><div class="step-title">Instagram DMよりお問い合わせ</div><div class="step-desc">@ukigumo_filmsへ、お気軽にお問い合わせください。</div></div></div>
+    <div class="step"><div class="step-bar"></div><div><div class="step-title">お見積り・スケジュール調整</div><div class="step-desc">ご希望のプランと日程に合わせてお見積りさせていただきます。</div></div></div>
+    <div class="step"><div class="step-bar"></div><div><div class="step-title">前金のご入金（ご予約確定）</div><div class="step-desc">前金をお振込みいただくことで、ご予約が確定いたします。</div></div></div>
+    <div class="step"><div class="step-bar"></div><div><div class="step-title">グループLINE作成・お打ち合わせ</div><div class="step-desc">撮影に向けて、詳細なお打ち合わせをいたします。</div></div></div>
+    <div class="step"><div class="step-bar"></div><div><div class="step-title">撮影</div><div class="step-desc">いよいよ撮影当日です。思い出に残る最高の時間をお作りします。</div></div></div>
+  </div>
+</div>
+
+<!-- Pattern H: 数字透かし -->
+<div class="pattern-section">
+  <div class="pattern-label">Pattern H</div>
+  <div class="pattern-name">大きな透かし数字＋テキスト重ね</div>
+  <div class="ph">
+    <div class="step"><div class="step-bg-num">01</div><div class="step-title">Instagram DMよりお問い合わせ</div><div class="step-desc">@ukigumo_filmsへ、お気軽にお問い合わせください。</div></div>
+    <div class="step"><div class="step-bg-num">02</div><div class="step-title">お見積り・スケジュール調整</div><div class="step-desc">ご希望のプランと日程に合わせてお見積りさせていただきます。</div></div>
+    <div class="step"><div class="step-bg-num">03</div><div class="step-title">前金のご入金（ご予約確定）</div><div class="step-desc">前金をお振込みいただくことで、ご予約が確定いたします。</div></div>
+    <div class="step"><div class="step-bg-num">04</div><div class="step-title">グループLINE作成・お打ち合わせ</div><div class="step-desc">撮影に向けて、詳細なお打ち合わせをいたします。</div></div>
+    <div class="step"><div class="step-bg-num">05</div><div class="step-title">撮影</div><div class="step-desc">いよいよ撮影当日です。思い出に残る最高の時間をお作りします。</div></div>
+  </div>
+</div>
+
+<!-- Pattern I: 中央寄せ＋番号上 -->
+<div class="pattern-section">
+  <div class="pattern-label">Pattern I</div>
+  <div class="pattern-name">中央寄せ＋番号上 — エレガント</div>
+  <div class="pi">
+    <div class="step"><div class="step-num">— 01 —</div><div class="step-title">Instagram DMよりお問い合わせ</div><div class="step-desc">@ukigumo_filmsへ、お気軽にお問い合わせください。</div><div style="height:0.8rem"></div><div class="step-div"></div></div>
+    <div class="step"><div class="step-num">— 02 —</div><div class="step-title">お見積り・スケジュール調整</div><div class="step-desc">ご希望のプランと日程に合わせてお見積りさせていただきます。</div><div style="height:0.8rem"></div><div class="step-div"></div></div>
+    <div class="step"><div class="step-num">— 03 —</div><div class="step-title">前金のご入金（ご予約確定）</div><div class="step-desc">前金をお振込みいただくことで、ご予約が確定いたします。</div><div style="height:0.8rem"></div><div class="step-div"></div></div>
+    <div class="step"><div class="step-num">— 04 —</div><div class="step-title">グループLINE作成・お打ち合わせ</div><div class="step-desc">撮影に向けて、詳細なお打ち合わせをいたします。</div><div style="height:0.8rem"></div><div class="step-div"></div></div>
+    <div class="step"><div class="step-num">— 05 —</div><div class="step-title">撮影</div><div class="step-desc">いよいよ撮影当日です。思い出に残る最高の時間をお作りします。</div></div>
+  </div>
+</div>
+
+<!-- Pattern J: 左ボーダー＋番号角 -->
+<div class="pattern-section">
+  <div class="pattern-label">Pattern J</div>
+  <div class="pattern-name">ゴールド左ボーダー＋ナンバー — 上品</div>
+  <div class="pj">
+    <div class="step"><div class="step-num">01</div><div class="step-title">Instagram DMよりお問い合わせ</div><div class="step-desc">@ukigumo_filmsへ、お気軽にお問い合わせください。</div></div>
+    <div class="step"><div class="step-num">02</div><div class="step-title">お見積り・スケジュール調整</div><div class="step-desc">ご希望のプランと日程に合わせてお見積りさせていただきます。</div></div>
+    <div class="step"><div class="step-num">03</div><div class="step-title">前金のご入金（ご予約確定）</div><div class="step-desc">前金をお振込みいただくことで、ご予約が確定いたします。</div></div>
+    <div class="step"><div class="step-num">04</div><div class="step-title">グループLINE作成・お打ち合わせ</div><div class="step-desc">撮影に向けて、詳細なお打ち合わせをいたします。</div></div>
+    <div class="step"><div class="step-num">05</div><div class="step-title">撮影</div><div class="step-desc">いよいよ撮影当日です。思い出に残る最高の時間をお作りします。</div></div>
+  </div>
+</div>
+
+</body>
+</html>

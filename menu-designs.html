@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mobile Menu — Plan Sub-links Design Patterns</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Cormorant Garamond", serif;
+      background: #1a1816;
+      color: #fff;
+      padding: 2rem;
+    }
+    h1 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.8rem;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      text-align: center;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 0.5rem;
+    }
+    .page-sub {
+      text-align: center;
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.2em;
+      margin-bottom: 3rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .card {
+      background: rgba(10,8,6,0.6);
+      backdrop-filter: blur(8px);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .card__header {
+      padding: 1rem 1.2rem 0.6rem;
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      color: #c9a96e;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .card__body {
+      padding: 1.5rem 2rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    /* Shared base menu item style */
+    .m-item {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 0;
+      text-decoration: none;
+      width: 100%;
+      justify-content: flex-start;
+    }
+    .m-item::before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 1px;
+      background: rgba(201,169,110,0.4);
+      flex-shrink: 0;
+    }
+
+    /* ==================== PATTERN 1 ==================== */
+    /* インライン横並び — Plan / Price の右下にコンパクトに */
+    .p1 .sub-row {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: flex-end;
+      padding: 0 0 12px;
+      margin-top: -10px;
+    }
+    .p1 .sub-link {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.75rem;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      text-decoration: none;
+    }
+
+    /* ==================== PATTERN 2 ==================== */
+    /* ドット区切り横並び */
+    .p2 .sub-row {
+      display: flex;
+      gap: 0;
+      justify-content: flex-end;
+      padding: 0 0 14px;
+      margin-top: -8px;
+      align-items: center;
+    }
+    .p2 .sub-link {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.78rem;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+    }
+    .p2 .sub-dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: rgba(201,169,110,0.4);
+      margin: 0 12px;
+    }
+
+    /* ==================== PATTERN 3 ==================== */
+    /* スラッシュ区切り — 1行にまとめる */
+    .p3 .sub-row {
+      display: flex;
+      justify-content: flex-end;
+      padding: 0 34px 14px 0;
+      margin-top: -10px;
+      align-items: center;
+    }
+    .p3 .sub-link {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.75rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+    }
+    .p3 .sub-slash {
+      color: rgba(201,169,110,0.35);
+      margin: 0 8px;
+      font-weight: 300;
+      font-size: 0.75rem;
+    }
+
+    /* ==================== PATTERN 4 ==================== */
+    /* 縦並び小サイズ — ラインなし、右寄せ */
+    .p4 .sub-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      padding: 0 34px 10px 0;
+      margin-top: -10px;
+      gap: 2px;
+    }
+    .p4 .sub-link {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.72rem;
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      text-decoration: none;
+    }
+
+    /* ==================== PATTERN 5 ==================== */
+    /* ゴールド左ボーダー付き縦並び */
+    .p5 .sub-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      padding: 6px 34px 14px 0;
+      margin-top: -10px;
+      gap: 1px;
+      border-right: 1px solid rgba(201,169,110,0.25);
+      margin-right: 0;
+      padding-right: 14px;
+      margin-left: auto;
+    }
+    .p5 .sub-link {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.72rem;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+    }
+
+    /* ==================== PATTERN 6 ==================== */
+    /* ナンバー付き横並び */
+    .p6 .sub-row {
+      display: flex;
+      gap: 1.2rem;
+      justify-content: flex-end;
+      padding: 2px 34px 14px 0;
+      margin-top: -10px;
+    }
+    .p6 .sub-link {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.7rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      text-decoration: none;
+    }
+    .p6 .sub-link span {
+      font-size: 0.55rem;
+      color: rgba(201,169,110,0.5);
+      margin-right: 3px;
+    }
+
+    /* ==================== PATTERN 7 ==================== */
+    /* 括弧でくくる横並び */
+    .p7 .sub-row {
+      display: flex;
+      justify-content: flex-end;
+      padding: 0 34px 14px 0;
+      margin-top: -12px;
+      align-items: center;
+      color: rgba(255,255,255,0.35);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+    }
+    .p7 .sub-link {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.72rem;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+    }
+    .p7 .paren {
+      color: rgba(201,169,110,0.3);
+      font-weight: 300;
+      margin: 0 3px;
+    }
+    .p7 .comma {
+      color: rgba(255,255,255,0.2);
+      margin: 0 6px;
+    }
+
+    /* ==================== PATTERN 8 ==================== */
+    /* ダッシュ区切り1行 */
+    .p8 .sub-row {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 0 34px 14px 0;
+      margin-top: -10px;
+    }
+    .p8 .sub-link {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.72rem;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+    }
+    .p8 .sub-dash {
+      width: 8px;
+      height: 1px;
+      background: rgba(201,169,110,0.3);
+      margin: 0 10px;
+    }
+
+    /* ==================== PATTERN 9 ==================== */
+    /* Plan / Priceと同じ行に小さく表示 */
+    .p9 .m-item-with-sub {
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: baseline;
+      gap: 14px;
+      padding: 18px 0;
+      width: 100%;
+      justify-content: flex-start;
+    }
+    .p9 .m-item-with-sub::before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 1px;
+      background: rgba(201,169,110,0.4);
+      flex-shrink: 0;
+    }
+    .p9 .m-main {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+    }
+    .p9 .m-subs {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      margin-right: 8px;
+    }
+
+    /* ==================== PATTERN 10 ==================== */
+    /* 矢印付き縦 */
+    .p10 .sub-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      padding: 2px 34px 10px 0;
+      margin-top: -10px;
+      gap: 0;
+    }
+    .p10 .sub-link {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.7rem;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-direction: row-reverse;
+      padding: 3px 0;
+    }
+    .p10 .sub-link::before {
+      content: '→';
+      font-size: 0.55rem;
+      color: rgba(201,169,110,0.4);
+    }
+
+    /* ==================== PATTERN 11 ==================== */
+    /* タグ風ボタン横並び */
+    .p11 .sub-row {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+      padding: 4px 34px 16px 0;
+      margin-top: -8px;
+    }
+    .p11 .sub-link {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.65rem;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      padding: 4px 14px;
+    }
+
+    /* ==================== PATTERN 12 ==================== */
+    /* ゴールドタグ風 */
+    .p12 .sub-row {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+      padding: 4px 34px 16px 0;
+      margin-top: -8px;
+    }
+    .p12 .sub-link {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.63rem;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(201,169,110,0.7);
+      text-decoration: none;
+      border: 1px solid rgba(201,169,110,0.2);
+      border-radius: 20px;
+      padding: 4px 14px;
+    }
+
+    /* ==================== PATTERN 13 ==================== */
+    /* 縦並び + 小さいゴールドライン */
+    .p13 .sub-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      padding: 0 0 10px;
+      margin-top: -10px;
+      gap: 0;
+    }
+    .p13 .sub-link {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.75rem;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-direction: row-reverse;
+      padding: 5px 0;
+    }
+    .p13 .sub-link::before {
+      content: '';
+      display: inline-block;
+      width: 10px;
+      height: 1px;
+      background: rgba(201,169,110,0.35);
+    }
+
+    /* ==================== PATTERN 14 ==================== */
+    /* 超コンパクト1行 — カンマ区切り */
+    .p14 .sub-row {
+      display: flex;
+      justify-content: flex-end;
+      padding: 0 34px 12px 0;
+      margin-top: -12px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.68rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.4);
+    }
+    .p14 .sub-link {
+      color: rgba(255,255,255,0.45);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+    .p14 .sub-comma {
+      margin: 0 5px;
+      color: rgba(255,255,255,0.2);
+    }
+
+    /* ==================== PATTERN 15 ==================== */
+    /* 縦 — 同じサイズだがインデント */
+    .p15 .sub-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      margin-top: -12px;
+      padding: 0 0 6px;
+      gap: 0;
+    }
+    .p15 .sub-link {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-direction: row-reverse;
+      padding: 6px 0;
+    }
+    .p15 .sub-link::before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 1px;
+      background: rgba(201,169,110,0.4);
+    }
+
+    /* ==================== PATTERN 16 ==================== */
+    /* 横並び — ゴールドドット + 大きめ文字 */
+    .p16 .sub-row {
+      display: flex;
+      gap: 0;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 0 34px 14px 0;
+      margin-top: -8px;
+    }
+    .p16 .sub-link {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.85rem;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+    }
+    .p16 .sub-dot {
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      background: #c9a96e;
+      margin: 0 14px;
+      opacity: 0.5;
+    }
+
+    /* ==================== PATTERN 17 ==================== */
+    /* 縦並び — 右にゴールドバー */
+    .p17 .sub-wrap {
+      display: flex;
+      justify-content: flex-end;
+      align-items: stretch;
+      gap: 12px;
+      padding: 4px 34px 14px 0;
+      margin-top: -8px;
+    }
+    .p17 .sub-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 1px;
+    }
+    .p17 .sub-bar {
+      width: 1px;
+      background: rgba(201,169,110,0.3);
+    }
+    .p17 .sub-link {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.72rem;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      padding: 2px 0;
+    }
+
+    /* ==================== PATTERN 18 ==================== */
+    /* ミニマル — ドット3つ横並び */
+    .p18 .sub-row {
+      display: flex;
+      gap: 1.8rem;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 0 34px 16px 0;
+      margin-top: -6px;
+    }
+    .p18 .sub-link {
+      font-family: "Inter", sans-serif;
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      position: relative;
+    }
+    .p18 .sub-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: rgba(201,169,110,0.4);
+    }
+
+    /* ==================== PATTERN 19 ==================== */
+    /* エレガント — 横並び + 両端にゴールドライン */
+    .p19 .sub-row {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 0;
+      padding: 0 34px 14px 0;
+      margin-top: -8px;
+    }
+    .p19 .sub-line {
+      width: 20px;
+      height: 1px;
+      background: rgba(201,169,110,0.25);
+    }
+    .p19 .sub-inner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 12px;
+    }
+    .p19 .sub-link {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.72rem;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+    }
+
+    /* ==================== PATTERN 20 ==================== */
+    /* 縦並び — 同じライン付き、フォントサイズだけ小さく、間隔ゼロ */
+    .p20 .sub-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      margin-top: -14px;
+      padding: 0 0 4px;
+      gap: 0;
+    }
+    .p20 .sub-link {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.78rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-direction: row-reverse;
+      padding: 3px 0;
+    }
+    .p20 .sub-link::before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 1px;
+      background: rgba(201,169,110,0.4);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Mobile Menu — Sub-link Designs</h1>
+  <p class="page-sub">Plan / Price 下の Japan / Paris / Europa 表示パターン 20案</p>
+
+  <div class="grid">
+
+    <!-- PATTERN 1 -->
+    <div class="card p1">
+      <div class="card__header">Pattern 1 — インライン横並び</div>
+      <div class="card__body">
+        <a class="m-item">Home</a>
+        <a class="m-item">Plan / Price</a>
+        <div class="sub-row">
+          <a class="sub-link">Japan</a>
+          <a class="sub-link">Paris</a>
+          <a class="sub-link">Europa</a>
+        </div>
+        <a class="m-item">Gallery</a>
+        <a class="m-item">Dress</a>
+      </div>
+    </div>
+
+    <!-- PATTERN 2 -->
+    <div class="card p2">
+      <div class="card__header">Pattern 2 — ドット区切り横並び</div>
+      <div class="card__body">
+        <a class="m-item">Home</a>
+        <a class="m-item">Plan / Price</a>
+        <div class="sub-row">
+          <a class="sub-link">Japan</a>
+          <span class="sub-dot"></span>
+          <a class="sub-link">Paris</a>
+          <span class="sub-dot"></span>
+          <a class="sub-link">Europa</a>
+        </div>
+        <a class="m-item">Gallery</a>
+        <a class="m-item">Dress</a>
+      </div>
+    </div>
+
+    <!-- PATTERN 3 -->
+    <div class="card p3">
+      <div class="card__header">Pattern 3 — スラッシュ区切り</div>
+      <div class="card__body">
+        <a class="m-item">Home</a>
+        <a class="m-item">Plan / Price</a>
+        <div class="sub-row">
+          <a class="sub-link">Japan</a>
+          <span class="sub-slash">/</span>
+          <a class="sub-link">Paris</a>
+          <span class="sub-slash">/</span>
+          <a class="sub-link">Europa</a>
+        </div>
+        <a class="m-item">Gallery</a>
+        <a class="m-item">Dress</a>
+      </div>
+    </div>
+
+    <!-- PATTERN 4 -->
+    <div class="card p4">
+      <div class="card__header">Pattern 4 — 縦並び・ラインなし</div>
+      <div class="card__body">
+        <a class="m-item">Home</a>
+        <a class="m-item">Plan / Price</a>
+        <div class="sub-col">
+          <a class="sub-link">Japan</a>
+          <a class="sub-link">Paris</a>
+          <a class="sub-link">Europa</a>
+        </div>
+        <a class="m-item">Gallery</a>
+        <a class="m-item">Dress</a>
+      </div>
+    </div>
+
+    <!-- PATTERN 5 -->
+    <div class="card p5">
+      <div class="card__header">Pattern 5 — ゴールド右ボーダー付き</div>
+      <div class="card__body">
+        <a class="m-item">Home</a>
+        <a class="m-item">Plan / Price</a>
+        <div class="sub-col">
+          <a class="sub-link">Japan</a>
+          <a class="sub-link">Paris</a>
+          <a class="sub-link">Europa</a>
+        </div>
+        <a class="m-item">Gallery</a>
+        <a class="m-item">Dress</a>
+      </div>
+    </div>
+
+    <!-- PATTERN 6 -->
+    <div class="card p6">
+      <div class="card__header">Pattern 6 — ナンバー付き横並び</div>
+      <div class="card__body">
+        <a class="m-item">Home</a>
+        <a class="m-item">Plan / Price</a>
+        <div class="sub-row">
+          <a class="sub-link"><span>01</span>Japan</a>
+          <a class="sub-link"><span>02</span>Paris</a>
+          <a class="sub-link"><span>03</span>Europa</a>
+        </div>
+        <a class="m-item">Gallery</a>
+        <a class="m-item">Dress</a>
+      </div>
+    </div>
+
+    <!-- PATTERN 7 -->
+    <div class="card p7">
+      <div class="card__header">Pattern 7 — 括弧でくくる</div>
+      <div class="card__body">
+        <a class="m-item">Home</a>
+        <a class="m-item">Plan / Price</a>
+        <div class="sub-row">
+          <span class="paren">(</span>
+          <a class="sub-link">Japan</a>
+          <span class="comma">,</span>
+          <a class="sub-link">Paris</a>
+          <span class="comma">,</span>
+          <a class="sub-link">Europa</a>
+          <span class="paren">)</span>
+        </div>
+        <a class="m-item">Gallery</a>
+        <a class="m-item">Dress</a>
+      </div>
+    </div>
+
+    <!-- PATTERN 8 -->
+    <div class="card p8">
+      <div class="card__header">Pattern 8 — ダッシュ区切り</div>
+      <div class="card__body">
+        <a class="m-item">Home</a>
+        <a class="m-item">Plan / Price</a>
+        <div class="sub-row">
+          <a class="sub-link">Japan</a>
+          <span class="sub-dash"></span>
+          <a class="sub-link">Paris</a>
+          <span class="sub-dash"></span>
+          <a class="sub-link">Europa</a>
+        </div>
+        <a class="m-item">Gallery</a>
+        <a class="m-item">Dress</a>
+      </div>
+    </div>
+
+    <!-- PATTERN 9 -->
+    <div class="card p9">
+      <div class="card__header">Pattern 9 — Plan / Price と同一行</div>
+      <div class="card__body">
+        <a class="m-item">Home</a>
+        <div class="m-item-with-sub">
+          <span class="m-subs">Japan / Paris / Europa</span>
+          <span class="m-main">Plan / Price</span>
+        </div>
+        <a class="m-item">Gallery</a>
+        <a class="m-item">Dress</a>
+      </div>
+    </div>
+
+    <!-- PATTERN 10 -->
+    <div class="card p10">
+      <div class="card__header">Pattern 10 — 矢印付き縦</div>
+      <div class="card__body">
+        <a class="m-item">Home</a>
+        <a class="m-item">Plan / Price</a>
+        <div class="sub-col">
+          <a class="sub-link">Japan</a>
+          <a class="sub-link">Paris</a>
+          <a class="sub-link">Europa</a>
+        </div>
+        <a class="m-item">Gallery</a>
+        <a class="m-item">Dress</a>
+      </div>
+    </div>
+
+    <!-- PATTERN 11 -->
+    <div class="card p11">
+      <div class="card__header">Pattern 11 — タグ風ボタン</div>
+      <div class="card__body">
+        <a class="m-item">Home</a>
+        <a class="m-item">Plan / Price</a>
+        <div class="sub-row">
+          <a class="sub-link">Japan</a>
+          <a class="sub-link">Paris</a>
+          <a class="sub-link">Europa</a>
+        </div>
+        <a class="m-item">Gallery</a>
+        <a class="m-item">Dress</a>
+      </div>
+    </div>
+
+    <!-- PATTERN 12 -->
+    <div class="card p12">
+      <div class="card__header">Pattern 12 — ゴールドタグ風</div>
+      <div class="card__body">
+        <a class="m-item">Home</a>
+        <a class="m-item">Plan / Price</a>
+        <div class="sub-row">
+          <a class="sub-link">Japan</a>
+          <a class="sub-link">Paris</a>
+          <a class="sub-link">Europa</a>
+        </div>
+        <a class="m-item">Gallery</a>
+        <a class="m-item">Dress</a>
+      </div>
+    </div>
+
+    <!-- PATTERN 13 -->
+    <div class="card p13">
+      <div class="card__header">Pattern 13 — 縦 + 小ゴールドライン</div>
+      <div class="card__body">
+        <a class="m-item">Home</a>
+        <a class="m-item">Plan / Price</a>
+        <div class="sub-col">
+          <a class="sub-link">Japan</a>
+          <a class="sub-link">Paris</a>
+          <a class="sub-link">Europa</a>
+        </div>
+        <a class="m-item">Gallery</a>
+        <a class="m-item">Dress</a>
+      </div>
+    </div>
+
+    <!-- PATTERN 14 -->
+    <div class="card p14">
+      <div class="card__header">Pattern 14 — 超コンパクト・カンマ区切り</div>
+      <div class="card__body">
+        <a class="m-item">Home</a>
+        <a class="m-item">Plan / Price</a>
+        <div class="sub-row">
+          <a class="sub-link">Japan</a><span class="sub-comma">,</span>
+          <a class="sub-link">Paris</a><span class="sub-comma">,</span>
+          <a class="sub-link">Europa</a>
+        </div>
+        <a class="m-item">Gallery</a>
+        <a class="m-item">Dress</a>
+      </div>
+    </div>
+
+    <!-- PATTERN 15 -->
+    <div class="card p15">
+      <div class="card__header">Pattern 15 — 同サイズ縦並び + ライン（間隔詰め）</div>
+      <div class="card__body">
+        <a class="m-item">Home</a>
+        <a class="m-item">Plan / Price</a>
+        <div class="sub-col">
+          <a class="sub-link">Japan</a>
+          <a class="sub-link">Paris</a>
+          <a class="sub-link">Europa</a>
+        </div>
+        <a class="m-item">Gallery</a>
+        <a class="m-item">Dress</a>
+      </div>
+    </div>
+
+    <!-- PATTERN 16 -->
+    <div class="card p16">
+      <div class="card__header">Pattern 16 — 大きめ文字 + ゴールドドット</div>
+      <div class="card__body">
+        <a class="m-item">Home</a>
+        <a class="m-item">Plan / Price</a>
+        <div class="sub-row">
+          <a class="sub-link">Japan</a>
+          <span class="sub-dot"></span>
+          <a class="sub-link">Paris</a>
+          <span class="sub-dot"></span>
+          <a class="sub-link">Europa</a>
+        </div>
+        <a class="m-item">Gallery</a>
+        <a class="m-item">Dress</a>
+      </div>
+    </div>
+
+    <!-- PATTERN 17 -->
+    <div class="card p17">
+      <div class="card__header">Pattern 17 — ゴールドバー + 縦並び</div>
+      <div class="card__body">
+        <a class="m-item">Home</a>
+        <a class="m-item">Plan / Price</a>
+        <div class="sub-wrap">
+          <div class="sub-col">
+            <a class="sub-link">Japan</a>
+            <a class="sub-link">Paris</a>
+            <a class="sub-link">Europa</a>
+          </div>
+          <div class="sub-bar"></div>
+        </div>
+        <a class="m-item">Gallery</a>
+        <a class="m-item">Dress</a>
+      </div>
+    </div>
+
+    <!-- PATTERN 18 -->
+    <div class="card p18">
+      <div class="card__header">Pattern 18 — ミニマル + 下ドット</div>
+      <div class="card__body">
+        <a class="m-item">Home</a>
+        <a class="m-item">Plan / Price</a>
+        <div class="sub-row">
+          <a class="sub-link">Japan</a>
+          <a class="sub-link">Paris</a>
+          <a class="sub-link">Europa</a>
+        </div>
+        <a class="m-item">Gallery</a>
+        <a class="m-item">Dress</a>
+      </div>
+    </div>
+
+    <!-- PATTERN 19 -->
+    <div class="card p19">
+      <div class="card__header">Pattern 19 — 両端ライン挟み</div>
+      <div class="card__body">
+        <a class="m-item">Home</a>
+        <a class="m-item">Plan / Price</a>
+        <div class="sub-row">
+          <span class="sub-line"></span>
+          <div class="sub-inner">
+            <a class="sub-link">Japan</a>
+            <a class="sub-link">Paris</a>
+            <a class="sub-link">Europa</a>
+          </div>
+          <span class="sub-line"></span>
+        </div>
+        <a class="m-item">Gallery</a>
+        <a class="m-item">Dress</a>
+      </div>
+    </div>
+
+    <!-- PATTERN 20 -->
+    <div class="card p20">
+      <div class="card__header">Pattern 20 — 同スタイル縦・超コンパクト間隔</div>
+      <div class="card__body">
+        <a class="m-item">Home</a>
+        <a class="m-item">Plan / Price</a>
+        <div class="sub-col">
+          <a class="sub-link">Japan</a>
+          <a class="sub-link">Paris</a>
+          <a class="sub-link">Europa</a>
+        </div>
+        <a class="m-item">Gallery</a>
+        <a class="m-item">Dress</a>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

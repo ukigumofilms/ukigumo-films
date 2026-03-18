@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery Location — Full Version (P2, P4, P8)</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "Noto Sans JP", sans-serif; background: #f5f3ef; color: #333; }
+
+  .pattern-nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(8px);
+    padding: 14px 20px; display: flex; gap: 10px; flex-wrap: wrap;
+    align-items: center; border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+  .pattern-nav a {
+    padding: 8px 18px; border: 1px solid rgba(0,0,0,0.15); border-radius: 20px;
+    text-decoration: none; color: #333; font-size: 0.78rem; letter-spacing: 0.05em;
+    transition: all 0.3s; white-space: nowrap;
+  }
+  .pattern-nav a:hover { background: #3D3530; color: #fff; border-color: #3D3530; }
+  .pattern-nav span { font-size: 0.72rem; color: #999; margin-right: 10px; }
+
+  .pattern-label {
+    text-align: center; padding: 100px 20px 30px; background: #f5f3ef;
+  }
+  .pattern-label h2 { font-family: "Cormorant Garamond", serif; font-size: 1.4rem; font-weight: 400; letter-spacing: 0.15em; color: #1a1a1a; margin-bottom: 8px; }
+  .pattern-label p { font-size: 0.75rem; color: #999; line-height: 1.8; }
+
+  .pattern-divider {
+    height: 140px;
+    background: linear-gradient(to bottom, #f5f3ef 0%, #e8e4de 50%, #f5f3ef 100%);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pattern-divider::after { content: ''; width: 60%; height: 1px; background: rgba(0,0,0,0.08); }
+
+  .fake-gallery-end { background: #f5f3ef; padding: 60px 20px; text-align: center; }
+  .fake-gallery-end p { font-size: 0.75rem; color: #bbb; letter-spacing: 0.1em; }
+
+  .fake-dress { background: #f5f3ef; padding: 80px 40px; text-align: center; }
+  .fake-dress h2 { font-family: "Cormorant Garamond", serif; font-weight: 300; font-size: 2rem; letter-spacing: 0.2em; color: #3D3530; margin-bottom: 20px; }
+  .fake-dress p { font-size: 0.8rem; color: #999; }
+
+  :root {
+    --loc-font: "Cormorant Garamond", serif;
+    --serif-jp: "Noto Serif JP", serif;
+    --c-dark: #2a2420;
+    --c-mid: rgba(61,53,48,0.4);
+    --c-light: rgba(61,53,48,0.2);
+    --c-faint: rgba(61,53,48,0.08);
+  }
+
+
+  /* ========================================
+     PATTERN A: JP/EU セクション分け + 日本語 + 座標
+     (v2ベース — フルロケーション版)
+     ======================================== */
+  .locA { padding: 80px 8% 120px; background: #f5f3ef; }
+  .locA-section { margin-bottom: 50px; max-width: 800px; }
+  .locA-section:last-child { margin-bottom: 0; }
+  .locA-section-label {
+    font-family: var(--loc-font); font-size: 0.65rem; letter-spacing: 0.4em;
+    color: var(--c-light); margin-bottom: 22px; text-transform: uppercase;
+  }
+  .locA ul { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .locA li { display: flex; align-items: baseline; gap: 14px; }
+  .locA .lA-name {
+    font-family: var(--loc-font); font-size: 1.05rem; letter-spacing: 0.1em;
+    color: var(--c-dark); font-weight: 400; min-width: 130px;
+  }
+  .locA .lA-ja {
+    font-family: var(--serif-jp); font-size: 0.62rem; color: var(--c-mid);
+    font-weight: 200; min-width: 70px;
+  }
+  .locA .lA-line { flex: 1; height: 1px; background: var(--c-faint); }
+  .locA .lA-coord {
+    font-family: var(--loc-font); font-size: 0.62rem; letter-spacing: 0.06em;
+    color: var(--c-mid); white-space: nowrap;
+  }
+
+
+  /* ========================================
+     PATTERN B: 2段タイムライン — 上Japan / 下Europe
+     (v4ベース — フルロケーション版)
+     ======================================== */
+  .locB { padding: 80px 3% 120px; background: #f5f3ef; }
+  .locB-row { position: relative; margin-bottom: 60px; max-width: 1100px; margin-left: auto; margin-right: auto; }
+  .locB-row:last-child { margin-bottom: 0; }
+  .locB-row-label {
+    font-family: var(--loc-font); font-size: 0.6rem; letter-spacing: 0.35em;
+    color: var(--c-light); text-transform: uppercase; margin-bottom: 24px;
+    padding-left: 3%;
+  }
+  .locB-row-line {
+    display: flex; justify-content: space-around; position: relative; padding-top: 28px;
+  }
+  .locB-row-line::before {
+    content: ''; position: absolute; top: 0; left: 3%; right: 3%;
+    height: 1px; background: var(--c-light);
+  }
+  .locB-dot { text-align: center; position: relative; flex: 1; padding-top: 0; }
+  .locB-dot::before {
+    content: ''; position: absolute; top: -31px; left: 50%; transform: translateX(-50%);
+    width: 5px; height: 5px; border-radius: 50%; background: rgba(61,53,48,0.22);
+  }
+  .locB-dot .lB-name {
+    font-family: var(--loc-font); font-size: 0.88rem; letter-spacing: 0.06em;
+    color: var(--c-dark); font-weight: 400; margin-bottom: 3px;
+  }
+  .locB-dot .lB-ja {
+    font-family: var(--serif-jp); font-size: 0.55rem; color: var(--c-mid); font-weight: 200;
+  }
+
+
+  /* ========================================
+     PATTERN C: ナンバリング混在 + 日本語 + 座標
+     (v8ベース — フルロケーション版)
+     ======================================== */
+  .locC { padding: 80px 8% 120px; background: #f5f3ef; }
+  .locC-section { margin-bottom: 45px; max-width: 800px; }
+  .locC-section:last-child { margin-bottom: 0; }
+  .locC-section-label {
+    font-family: var(--loc-font); font-size: 0.6rem; letter-spacing: 0.4em;
+    color: var(--c-light); margin-bottom: 18px; text-transform: uppercase;
+  }
+  .locC ul { list-style: none; display: flex; flex-direction: column; gap: 13px; }
+  .locC li { display: flex; align-items: baseline; gap: 14px; }
+  .locC .lC-num {
+    font-family: var(--loc-font); font-size: 0.62rem; letter-spacing: 0.1em;
+    color: var(--c-light); min-width: 22px;
+  }
+  .locC .lC-name {
+    font-family: var(--loc-font); font-size: 1.02rem; letter-spacing: 0.1em;
+    color: var(--c-dark); font-weight: 400; min-width: 120px;
+  }
+  .locC .lC-ja {
+    font-family: var(--serif-jp); font-size: 0.6rem; color: var(--c-mid);
+    font-weight: 200; min-width: 65px;
+  }
+  .locC .lC-line { flex: 1; height: 1px; background: var(--c-faint); }
+  .locC .lC-coord {
+    font-family: var(--loc-font); font-size: 0.6rem; color: var(--c-mid); white-space: nowrap;
+  }
+
+</style>
+</head>
+<body>
+
+<nav class="pattern-nav">
+  <span>Full Location:</span>
+  <a href="#pA">A. JP/EU分けリスト</a>
+  <a href="#pB">B. 2段タイムライン</a>
+  <a href="#pC">C. ナンバリング</a>
+</nav>
+
+
+<!-- ================================================
+     PATTERN A: JP/EU セクション分け + 日本語 + 座標
+     ================================================ -->
+<div id="pA" class="pattern-label">
+  <h2>Pattern A — JP/EU Section List</h2>
+  <p>Japan / Europe をラベルで分け — 都市名 + 日本語 + 座標<br>全14ロケーション</p>
+</div>
+<div class="fake-gallery-end"><p>▲ ギャラリー写真がフェードアウトした下 ▲</p></div>
+
+<div class="locA">
+  <div class="locA-section">
+    <p class="locA-section-label">Japan</p>
+    <ul>
+      <li><span class="lA-name">Tokyo</span><span class="lA-ja">東京</span><span class="lA-line"></span><span class="lA-coord">35.6762° N, 139.6503° E</span></li>
+      <li><span class="lA-name">Yokohama</span><span class="lA-ja">横浜</span><span class="lA-line"></span><span class="lA-coord">35.4437° N, 139.6380° E</span></li>
+      <li><span class="lA-name">Karuizawa</span><span class="lA-ja">軽井沢</span><span class="lA-line"></span><span class="lA-coord">36.3489° N, 138.5970° E</span></li>
+      <li><span class="lA-name">Jogashima</span><span class="lA-ja">城ヶ島</span><span class="lA-line"></span><span class="lA-coord">35.1307° N, 139.6156° E</span></li>
+      <li><span class="lA-name">Night Garden</span><span class="lA-ja">ナイトガーデン</span><span class="lA-line"></span><span class="lA-coord">34.9706° N, 139.6054° E</span></li>
+      <li><span class="lA-name">Fuji</span><span class="lA-ja">富士</span><span class="lA-line"></span><span class="lA-coord">35.3606° N, 138.7274° E</span></li>
+      <li><span class="lA-name">Miyakojima</span><span class="lA-ja">宮古島</span><span class="lA-line"></span><span class="lA-coord">24.7939° N, 125.2786° E</span></li>
+      <li><span class="lA-name">Kobe</span><span class="lA-ja">神戸</span><span class="lA-line"></span><span class="lA-coord">34.6901° N, 135.1956° E</span></li>
+      <li><span class="lA-name">Benoit</span><span class="lA-ja">ブノワ 表参道</span><span class="lA-line"></span><span class="lA-coord">35.6654° N, 139.7100° E</span></li>
+    </ul>
+  </div>
+  <div class="locA-section">
+    <p class="locA-section-label">Europe</p>
+    <ul>
+      <li><span class="lA-name">Paris</span><span class="lA-ja">パリ</span><span class="lA-line"></span><span class="lA-coord">48.8566° N, 2.3522° E</span></li>
+      <li><span class="lA-name">Switzerland</span><span class="lA-ja">スイス</span><span class="lA-line"></span><span class="lA-coord">46.8182° N, 8.2275° E</span></li>
+      <li><span class="lA-name">London</span><span class="lA-ja">ロンドン</span><span class="lA-line"></span><span class="lA-coord">51.5074° N, 0.1278° W</span></li>
+      <li><span class="lA-name">Nice</span><span class="lA-ja">ニース</span><span class="lA-line"></span><span class="lA-coord">43.7102° N, 7.2620° E</span></li>
+      <li><span class="lA-name">Firenze</span><span class="lA-ja">フィレンツェ</span><span class="lA-line"></span><span class="lA-coord">43.7696° N, 11.2558° E</span></li>
+      <li><span class="lA-name">Malta</span><span class="lA-ja">マルタ</span><span class="lA-line"></span><span class="lA-coord">35.9375° N, 14.3754° E</span></li>
+    </ul>
+  </div>
+</div>
+
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESSセクション）</p></div>
+<div class="pattern-divider"></div>
+
+
+<!-- ================================================
+     PATTERN B: 2段タイムライン
+     ================================================ -->
+<div id="pB" class="pattern-label">
+  <h2>Pattern B — Two-Line Timeline</h2>
+  <p>上段 Japan（9箇所）/ 下段 Europe（6箇所）の2ラインタイムライン</p>
+</div>
+<div class="fake-gallery-end"><p>▲ ギャラリー写真がフェードアウトした下 ▲</p></div>
+
+<div class="locB">
+  <div class="locB-row">
+    <p class="locB-row-label">Japan</p>
+    <div class="locB-row-line">
+      <div class="locB-dot"><p class="lB-name">Tokyo</p><p class="lB-ja">東京</p></div>
+      <div class="locB-dot"><p class="lB-name">Yokohama</p><p class="lB-ja">横浜</p></div>
+      <div class="locB-dot"><p class="lB-name">Karuizawa</p><p class="lB-ja">軽井沢</p></div>
+      <div class="locB-dot"><p class="lB-name">Jogashima</p><p class="lB-ja">城ヶ島</p></div>
+      <div class="locB-dot"><p class="lB-name">Night Garden</p><p class="lB-ja">ナイトガーデン</p></div>
+      <div class="locB-dot"><p class="lB-name">Fuji</p><p class="lB-ja">富士</p></div>
+      <div class="locB-dot"><p class="lB-name">Miyakojima</p><p class="lB-ja">宮古島</p></div>
+      <div class="locB-dot"><p class="lB-name">Kobe</p><p class="lB-ja">神戸</p></div>
+      <div class="locB-dot"><p class="lB-name">Benoit</p><p class="lB-ja">ブノワ</p></div>
+    </div>
+  </div>
+  <div class="locB-row">
+    <p class="locB-row-label">Europe</p>
+    <div class="locB-row-line">
+      <div class="locB-dot"><p class="lB-name">Paris</p><p class="lB-ja">パリ</p></div>
+      <div class="locB-dot"><p class="lB-name">Switzerland</p><p class="lB-ja">スイス</p></div>
+      <div class="locB-dot"><p class="lB-name">London</p><p class="lB-ja">ロンドン</p></div>
+      <div class="locB-dot"><p class="lB-name">Nice</p><p class="lB-ja">ニース</p></div>
+      <div class="locB-dot"><p class="lB-name">Firenze</p><p class="lB-ja">フィレンツェ</p></div>
+      <div class="locB-dot"><p class="lB-name">Malta</p><p class="lB-ja">マルタ</p></div>
+    </div>
+  </div>
+</div>
+
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESSセクション）</p></div>
+<div class="pattern-divider"></div>
+
+
+<!-- ================================================
+     PATTERN C: ナンバリング + 日本語 + 座標
+     ================================================ -->
+<div id="pC" class="pattern-label">
+  <h2>Pattern C — Numbered Full List</h2>
+  <p>01〜15のナンバリング + Japan/Europe分け + 日本語 + 座標</p>
+</div>
+<div class="fake-gallery-end"><p>▲ ギャラリー写真がフェードアウトした下 ▲</p></div>
+
+<div class="locC">
+  <div class="locC-section">
+    <p class="locC-section-label">Japan</p>
+    <ul>
+      <li><span class="lC-num">01</span><span class="lC-name">Tokyo</span><span class="lC-ja">東京</span><span class="lC-line"></span><span class="lC-coord">35.6762° N</span></li>
+      <li><span class="lC-num">02</span><span class="lC-name">Yokohama</span><span class="lC-ja">横浜</span><span class="lC-line"></span><span class="lC-coord">35.4437° N</span></li>
+      <li><span class="lC-num">03</span><span class="lC-name">Karuizawa</span><span class="lC-ja">軽井沢</span><span class="lC-line"></span><span class="lC-coord">36.3489° N</span></li>
+      <li><span class="lC-num">04</span><span class="lC-name">Jogashima</span><span class="lC-ja">城ヶ島</span><span class="lC-line"></span><span class="lC-coord">35.1307° N</span></li>
+      <li><span class="lC-num">05</span><span class="lC-name">Night Garden</span><span class="lC-ja">ナイトガーデン</span><span class="lC-line"></span><span class="lC-coord">34.9706° N</span></li>
+      <li><span class="lC-num">06</span><span class="lC-name">Fuji</span><span class="lC-ja">富士</span><span class="lC-line"></span><span class="lC-coord">35.3606° N</span></li>
+      <li><span class="lC-num">07</span><span class="lC-name">Miyakojima</span><span class="lC-ja">宮古島</span><span class="lC-line"></span><span class="lC-coord">24.7939° N</span></li>
+      <li><span class="lC-num">08</span><span class="lC-name">Kobe</span><span class="lC-ja">神戸</span><span class="lC-line"></span><span class="lC-coord">34.6901° N</span></li>
+      <li><span class="lC-num">09</span><span class="lC-name">Benoit</span><span class="lC-ja">ブノワ 表参道</span><span class="lC-line"></span><span class="lC-coord">35.6654° N</span></li>
+    </ul>
+  </div>
+  <div class="locC-section">
+    <p class="locC-section-label">Europe</p>
+    <ul>
+      <li><span class="lC-num">10</span><span class="lC-name">Paris</span><span class="lC-ja">パリ</span><span class="lC-line"></span><span class="lC-coord">48.8566° N</span></li>
+      <li><span class="lC-num">11</span><span class="lC-name">Switzerland</span><span class="lC-ja">スイス</span><span class="lC-line"></span><span class="lC-coord">46.8182° N</span></li>
+      <li><span class="lC-num">12</span><span class="lC-name">London</span><span class="lC-ja">ロンドン</span><span class="lC-line"></span><span class="lC-coord">51.5074° N</span></li>
+      <li><span class="lC-num">13</span><span class="lC-name">Nice</span><span class="lC-ja">ニース</span><span class="lC-line"></span><span class="lC-coord">43.7102° N</span></li>
+      <li><span class="lC-num">14</span><span class="lC-name">Firenze</span><span class="lC-ja">フィレンツェ</span><span class="lC-line"></span><span class="lC-coord">43.7696° N</span></li>
+      <li><span class="lC-num">15</span><span class="lC-name">Malta</span><span class="lC-ja">マルタ</span><span class="lC-line"></span><span class="lC-coord">35.9375° N</span></li>
+    </ul>
+  </div>
+</div>
+
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESSセクション）</p></div>
+
+
+</body>
+</html>

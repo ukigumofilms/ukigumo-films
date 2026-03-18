@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan Card — Color Variations</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #fff; }
+  .label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px; letter-spacing: 0.3em; color: #aaa;
+    text-align: center; padding: 55px 0 16px; text-transform: uppercase;
+  }
+  .label span { font-size: 24px; display: block; margin-bottom: 4px; color: #888; }
+  .wrap { max-width: 400px; margin: 0 auto 20px; padding: 0 20px; }
+
+  /* Shared structure */
+  .card {
+    border-radius: 16px;
+    padding: 36px 28px 32px;
+    text-align: left;
+  }
+  .card-name { font-family: "Cormorant Garamond", serif; font-size: clamp(1.6rem, 4vw, 1.8rem); font-weight: 300; letter-spacing: 0.06em; margin-bottom: 0.5rem; }
+  .card-sep { width: 35px; height: 1px; margin-bottom: 0.8rem; }
+  .price-wrap { display: flex; align-items: baseline; gap: 0.5rem; margin-bottom: 1.2rem; }
+  .price { font-family: "Cormorant Garamond", serif; font-size: clamp(1.8rem, 4vw, 2.2rem); font-weight: 300; letter-spacing: 0.03em; }
+  .tax { font-family: "Noto Serif JP", serif; font-size: 0.58rem; font-weight: 300; }
+  .block { margin-bottom: 1rem; }
+  .bh { font-family: "Noto Serif JP", serif; font-size: 0.72rem; font-weight: 400; letter-spacing: 0.05em; padding-bottom: 0.4rem; margin-bottom: 0.5rem; }
+  .row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.35rem 0; }
+  .row + .row { border-top-style: solid; border-top-width: 1px; }
+  .rl { font-family: "Noto Serif JP", serif; font-size: 0.73rem; font-weight: 300; }
+  .rv { font-family: "Noto Serif JP", serif; font-size: 0.8rem; font-weight: 400; letter-spacing: 0.02em; }
+  .note { font-family: "Noto Serif JP", serif; font-size: 0.66rem; font-weight: 300; margin-top: 0.3rem; line-height: 1.7; }
+  .badge { display: inline-block; font-family: "Noto Serif JP", serif; font-size: 0.58rem; letter-spacing: 0.03em; padding: 0.15rem 0.5rem; border: none; border-radius: 10px; font-weight: 300; margin-left: 0.4rem; }
+
+  /* ======= C1: Soft Beige — 柔らかいベージュトーン ======= */
+  .c1 .card { background: #F9F6F2; box-shadow: 0 4px 24px rgba(181,169,154,0.1); }
+  .c1 .card-name { color: #7a6b5d; }
+  .c1 .card-sep { background: rgba(181,169,154,0.3); }
+  .c1 .price { color: #6b5d50; }
+  .c1 .tax { color: rgba(122,107,93,0.5); }
+  .c1 .bh { color: #9a8b7a; border-bottom: 1px solid rgba(181,169,154,0.25); }
+  .c1 .row + .row { border-color: rgba(181,169,154,0.12); }
+  .c1 .rl { color: rgba(90,80,68,0.75); }
+  .c1 .rv { color: #7a6b5d; }
+  .c1 .note { color: rgba(122,107,93,0.5); }
+  .c1 .badge { background: #B5A99A; color: #fff; }
+
+  /* ======= C2: Warm Sand — 温かみのあるサンドカラー ======= */
+  .c2 .card { background: #FAF7F3; box-shadow: 0 3px 20px rgba(160,140,115,0.08); }
+  .c2 .card-name { color: #8a7860; }
+  .c2 .card-sep { background: rgba(160,140,115,0.25); }
+  .c2 .price { color: #7a6950; }
+  .c2 .tax { color: rgba(138,120,96,0.5); }
+  .c2 .bh { color: #a09078; border-bottom: 1px solid rgba(160,140,115,0.2); }
+  .c2 .row + .row { border-color: rgba(160,140,115,0.1); }
+  .c2 .rl { color: rgba(100,88,70,0.7); }
+  .c2 .rv { color: #8a7860; }
+  .c2 .note { color: rgba(138,120,96,0.45); }
+  .c2 .badge { background: #A09078; color: #fff; }
+
+  /* ======= C3: Rosy Beige — ほんのりピンクベージュ ======= */
+  .c3 .card { background: #FBF7F5; box-shadow: 0 4px 24px rgba(180,155,145,0.08); }
+  .c3 .card-name { color: #8a706a; }
+  .c3 .card-sep { background: rgba(180,155,145,0.3); }
+  .c3 .price { color: #7a635d; }
+  .c3 .tax { color: rgba(138,112,106,0.5); }
+  .c3 .bh { color: #a08a84; border-bottom: 1px solid rgba(180,155,145,0.22); }
+  .c3 .row + .row { border-color: rgba(180,155,145,0.1); }
+  .c3 .rl { color: rgba(100,78,72,0.68); }
+  .c3 .rv { color: #8a706a; }
+  .c3 .note { color: rgba(138,112,106,0.45); }
+  .c3 .badge { background: #B5A09A; color: #fff; }
+
+  /* ======= C4: Sage Green — セージグリーン ======= */
+  .c4 .card { background: #F6F8F5; box-shadow: 0 4px 24px rgba(140,155,135,0.08); }
+  .c4 .card-name { color: #6a7a65; }
+  .c4 .card-sep { background: rgba(140,160,130,0.3); }
+  .c4 .price { color: #5d6b58; }
+  .c4 .tax { color: rgba(106,122,101,0.5); }
+  .c4 .bh { color: #8a9a84; border-bottom: 1px solid rgba(140,160,130,0.22); }
+  .c4 .row + .row { border-color: rgba(140,160,130,0.1); }
+  .c4 .rl { color: rgba(75,90,70,0.68); }
+  .c4 .rv { color: #6a7a65; }
+  .c4 .note { color: rgba(106,122,101,0.45); }
+  .c4 .badge { background: #8a9a80; color: #fff; }
+
+  /* ======= C5: Dusty Blue — ダスティブルー ======= */
+  .c5 .card { background: #F5F7FA; box-shadow: 0 4px 24px rgba(135,150,175,0.08); }
+  .c5 .card-name { color: #6a7888; }
+  .c5 .card-sep { background: rgba(135,150,175,0.3); }
+  .c5 .price { color: #5d6b7a; }
+  .c5 .tax { color: rgba(106,120,138,0.5); }
+  .c5 .bh { color: #8a96a5; border-bottom: 1px solid rgba(135,150,175,0.22); }
+  .c5 .row + .row { border-color: rgba(135,150,175,0.1); }
+  .c5 .rl { color: rgba(70,82,98,0.68); }
+  .c5 .rv { color: #6a7888; }
+  .c5 .note { color: rgba(106,120,138,0.45); }
+  .c5 .badge { background: #8a96a5; color: #fff; }
+
+  /* ======= C6: Taupe — トープ（グレーベージュ） ======= */
+  .c6 .card { background: #F8F6F4; box-shadow: 0 4px 24px rgba(155,145,135,0.08); }
+  .c6 .card-name { color: #7d7269; }
+  .c6 .card-sep { background: rgba(155,145,135,0.3); }
+  .c6 .price { color: #6d6259; }
+  .c6 .tax { color: rgba(125,114,105,0.5); }
+  .c6 .bh { color: #9a9088; border-bottom: 1px solid rgba(155,145,135,0.22); }
+  .c6 .row + .row { border-color: rgba(155,145,135,0.1); }
+  .c6 .rl { color: rgba(85,78,70,0.68); }
+  .c6 .rv { color: #7d7269; }
+  .c6 .note { color: rgba(125,114,105,0.45); }
+  .c6 .badge { background: #9a9088; color: #fff; }
+
+  /* ======= C7: Champagne Gold — シャンパンゴールド ======= */
+  .c7 .card { background: #FBF9F4; box-shadow: 0 4px 24px rgba(190,175,140,0.1); }
+  .c7 .card-name { color: #8a7d5a; }
+  .c7 .card-sep { background: rgba(190,175,140,0.35); }
+  .c7 .price { color: #7a6e48; }
+  .c7 .tax { color: rgba(138,125,90,0.5); }
+  .c7 .bh { color: #a8996e; border-bottom: 1px solid rgba(190,175,140,0.25); }
+  .c7 .row + .row { border-color: rgba(190,175,140,0.12); }
+  .c7 .rl { color: rgba(100,90,58,0.68); }
+  .c7 .rv { color: #8a7d5a; }
+  .c7 .note { color: rgba(138,125,90,0.45); }
+  .c7 .badge { background: #b8a878; color: #fff; }
+
+  /* ======= C8: Lavender Mist — ラベンダーミスト ======= */
+  .c8 .card { background: #F8F6FA; box-shadow: 0 4px 24px rgba(155,140,170,0.08); }
+  .c8 .card-name { color: #7a6d88; }
+  .c8 .card-sep { background: rgba(155,140,170,0.3); }
+  .c8 .price { color: #6b5f78; }
+  .c8 .tax { color: rgba(122,109,136,0.5); }
+  .c8 .bh { color: #9a8da8; border-bottom: 1px solid rgba(155,140,170,0.22); }
+  .c8 .row + .row { border-color: rgba(155,140,170,0.1); }
+  .c8 .rl { color: rgba(82,72,95,0.65); }
+  .c8 .rv { color: #7a6d88; }
+  .c8 .note { color: rgba(122,109,136,0.45); }
+  .c8 .badge { background: #9a8da8; color: #fff; }
+
+  /* ======= C9: Warm Ivory — ウォームアイボリー ======= */
+  .c9 .card { background: #FDFBF6; box-shadow: 0 4px 24px rgba(170,155,130,0.1); }
+  .c9 .card-name { color: #8a7e68; }
+  .c9 .card-sep { background: rgba(170,155,130,0.3); }
+  .c9 .price { color: #786c55; }
+  .c9 .tax { color: rgba(138,126,104,0.5); }
+  .c9 .bh { color: #a09480; border-bottom: 1px solid rgba(170,155,130,0.22); }
+  .c9 .row + .row { border-color: rgba(170,155,130,0.1); }
+  .c9 .rl { color: rgba(90,80,62,0.68); }
+  .c9 .rv { color: #8a7e68; }
+  .c9 .note { color: rgba(138,126,104,0.45); }
+  .c9 .badge { background: #a89878; color: #fff; }
+
+  /* ======= C10: Pale Rose — ペールローズ ======= */
+  .c10 .card { background: #FDF8F7; box-shadow: 0 4px 24px rgba(185,150,150,0.08); }
+  .c10 .card-name { color: #8a6e6e; }
+  .c10 .card-sep { background: rgba(185,155,155,0.3); }
+  .c10 .price { color: #7a6060; }
+  .c10 .tax { color: rgba(138,110,110,0.5); }
+  .c10 .bh { color: #a88e8e; border-bottom: 1px solid rgba(185,155,155,0.22); }
+  .c10 .row + .row { border-color: rgba(185,155,155,0.1); }
+  .c10 .rl { color: rgba(100,72,72,0.65); }
+  .c10 .rv { color: #8a6e6e; }
+  .c10 .note { color: rgba(138,110,110,0.45); }
+  .c10 .badge { background: #b09090; color: #fff; }
+</style>
+</head>
+<body>
+
+<div style="text-align:center; padding: 50px 20px 0;">
+  <span style="font-family:'Cormorant Garamond',serif; font-size:24px; font-weight:300; letter-spacing:0.15em; color:#888;">Color Variations</span><br>
+  <span style="font-size:11px; color:#bbb; letter-spacing:0.08em;">Pattern B + 現行フォント — 配色10パターン</span>
+</div>
+
+<!-- C1 -->
+<div class="label"><span>C1</span>Soft Beige</div>
+<div class="wrap c1"><div class="card">
+  <div class="card-name">Basic Plan</div>
+  <div class="card-sep"></div>
+  <div class="price-wrap"><div class="price">¥168,000</div><div class="tax">税込</div></div>
+  <div class="block"><div class="bh">撮影プラン</div>
+    <div class="row"><span class="rl">Photo + Movie</span><span class="rv">¥168,000</span></div>
+    <div class="row"><span class="rl">Photo Only / Movie Only</span><span class="rv">¥128,000</span></div>
+    <div class="note">※ Photo Only / Movie Only は ¥40,000 OFF</div>
+  </div>
+  <div class="block"><div class="bh">含まれるもの</div>
+    <div class="row"><span class="rl">前撮り撮影</span><span class="rv">✓</span></div>
+    <div class="row"><span class="rl">200カット以上</span><span class="rv">✓</span></div>
+    <div class="row"><span class="rl">撮影データ全納品</span><span class="rv">✓</span></div>
+    <div class="row"><span class="rl">3分のショートフィルム</span><span class="rv">✓</span></div>
+  </div>
+</div></div>
+
+<!-- C2 -->
+<div class="label"><span>C2</span>Warm Sand</div>
+<div class="wrap c2"><div class="card">
+  <div class="card-name">Basic Plan</div>
+  <div class="card-sep"></div>
+  <div class="price-wrap"><div class="price">¥168,000</div><div class="tax">税込</div></div>
+  <div class="block"><div class="bh">撮影プラン</div>
+    <div class="row"><span class="rl">Photo + Movie</span><span class="rv">¥168,000</span></div>
+    <div class="row"><span class="rl">Photo Only / Movie Only</span><span class="rv">¥128,000</span></div>
+    <div class="note">※ Photo Only / Movie Only は ¥40,000 OFF</div>
+  </div>
+  <div class="block"><div class="bh">含まれるもの</div>
+    <div class="row"><span class="rl">前撮り撮影</span><span class="rv">✓</span></div>
+    <div class="row"><span class="rl">200カット以上</span><span class="rv">✓</span></div>
+    <div class="row"><span class="rl">撮影データ全納品</span><span class="rv">✓</span></div>
+    <div class="row"><span class="rl">3分のショートフィルム</span><span class="rv">✓</span></div>
+  </div>
+</div></div>
+
+<!-- C3 -->
+<div class="label"><span>C3</span>Rosy Beige</div>
+<div class="wrap c3"><div class="card">
+  <div class="card-name">Basic Plan</div>
+  <div class="card-sep"></div>
+  <div class="price-wrap"><div class="price">¥168,000</div><div class="tax">税込</div></div>
+  <div class="block"><div class="bh">撮影プラン</div>
+    <div class="row"><span class="rl">Photo + Movie</span><span class="rv">¥168,000</span></div>
+    <div class="row"><span class="rl">Photo Only / Movie Only</span><span class="rv">¥128,000</span></div>
+    <div class="note">※ Photo Only / Movie Only は ¥40,000 OFF</div>
+  </div>
+  <div class="block"><div class="bh">含まれるもの</div>
+    <div class="row"><span class="rl">前撮り撮影</span><span class="rv">✓</span></div>
+    <div class="row"><span class="rl">200カット以上</span><span class="rv">✓</span></div>
+    <div class="row"><span class="rl">撮影データ全納品</span><span class="rv">✓</span></div>
+    <div class="row"><span class="rl">3分のショートフィルム</span><span class="rv">✓</span></div>
+  </div>
+</div></div>
+
+<!-- C4 -->
+<div class="label"><span>C4</span>Sage Green</div>
+<div class="wrap c4"><div class="card">
+  <div class="card-name">Basic Plan</div>
+  <div class="card-sep"></div>
+  <div class="price-wrap"><div class="price">¥168,000</div><div class="tax">税込</div></div>
+  <div class="block"><div class="bh">撮影プラン</div>
+    <div class="row"><span class="rl">Photo + Movie</span><span class="rv">¥168,000</span></div>
+    <div class="row"><span class="rl">Photo Only / Movie Only</span><span class="rv">¥128,000</span></div>
+    <div class="note">※ Photo Only / Movie Only は ¥40,000 OFF</div>
+  </div>
+  <div class="block"><div class="bh">含まれるもの</div>
+    <div class="row"><span class="rl">前撮り撮影</span><span class="rv">✓</span></div>
+    <div class="row"><span class="rl">200カット以上</span><span class="rv">✓</span></div>
+    <div class="row"><span class="rl">撮影データ全納品</span><span class="rv">✓</span></div>
+    <div class="row"><span class="rl">3分のショートフィルム</span><span class="rv">✓</span></div>
+  </div>
+</div></div>
+
+<!-- C5 -->
+<div class="label"><span>C5</span>Dusty Blue</div>
+<div class="wrap c5"><div class="card">
+  <div class="card-name">Basic Plan</div>
+  <div class="card-sep"></div>
+  <div class="price-wrap"><div class="price">¥168,000</div><div class="tax">税込</div></div>
+  <div class="block"><div class="bh">撮影プラン</div>
+    <div class="row"><span class="rl">Photo + Movie</span><span class="rv">¥168,000</span></div>
+    <div class="row"><span class="rl">Photo Only / Movie Only</span><span class="rv">¥128,000</span></div>
+    <div class="note">※ Photo Only / Movie Only は ¥40,000 OFF</div>
+  </div>
+  <div class="block"><div class="bh">含まれるもの</div>
+    <div class="row"><span class="rl">前撮り撮影</span><span class="rv">✓</span></div>
+    <div class="row"><span class="rl">200カット以上</span><span class="rv">✓</span></div>
+    <div class="row"><span class="rl">撮影データ全納品</span><span class="rv">✓</span></div>
+    <div class="row"><span class="rl">3分のショートフィルム</span><span class="rv">✓</span></div>
+  </div>
+</div></div>
+
+<!-- C6 -->
+<div class="label"><span>C6</span>Taupe</div>
+<div class="wrap c6"><div class="card">
+  <div class="card-name">Basic Plan</div>
+  <div class="card-sep"></div>
+  <div class="price-wrap"><div class="price">¥168,000</div><div class="tax">税込</div></div>
+  <div class="block"><div class="bh">撮影プラン</div>
+    <div class="row"><span class="rl">Photo + Movie</span><span class="rv">¥168,000</span></div>
+    <div class="row"><span class="rl">Photo Only / Movie Only</span><span class="rv">¥128,000</span></div>
+    <div class="note">※ Photo Only / Movie Only は ¥40,000 OFF</div>
+  </div>
+  <div class="block"><div class="bh">含まれるもの</div>
+    <div class="row"><span class="rl">前撮り撮影</span><span class="rv">✓</span></div>
+    <div class="row"><span class="rl">200カット以上</span><span class="rv">✓</span></div>
+    <div class="row"><span class="rl">撮影データ全納品</span><span class="rv">✓</span></div>
+    <div class="row"><span class="rl">3分のショートフィルム</span><span class="rv">✓</span></div>
+  </div>
+</div></div>
+
+<!-- C7 -->
+<div class="label"><span>C7</span>Champagne Gold</div>
+<div class="wrap c7"><div class="card">
+  <div class="card-name">Basic Plan</div>
+  <div class="card-sep"></div>
+  <div class="price-wrap"><div class="price">¥168,000</div><div class="tax">税込</div></div>
+  <div class="block"><div class="bh">撮影プラン</div>
+    <div class="row"><span class="rl">Photo + Movie</span><span class="rv">¥168,000</span></div>
+    <div class="row"><span class="rl">Photo Only / Movie Only</span><span class="rv">¥128,000</span></div>
+    <div class="note">※ Photo Only / Movie Only は ¥40,000 OFF</div>
+  </div>
+  <div class="block"><div class="bh">含まれるもの</div>
+    <div class="row"><span class="rl">前撮り撮影</span><span class="rv">✓</span></div>
+    <div class="row"><span class="rl">200カット以上</span><span class="rv">✓</span></div>
+    <div class="row"><span class="rl">撮影データ全納品</span><span class="rv">✓</span></div>
+    <div class="row"><span class="rl">3分のショートフィルム</span><span class="rv">✓</span></div>
+  </div>
+</div></div>
+
+<!-- C8 -->
+<div class="label"><span>C8</span>Lavender Mist</div>
+<div class="wrap c8"><div class="card">
+  <div class="card-name">Basic Plan</div>
+  <div class="card-sep"></div>
+  <div class="price-wrap"><div class="price">¥168,000</div><div class="tax">税込</div></div>
+  <div class="block"><div class="bh">撮影プラン</div>
+    <div class="row"><span class="rl">Photo + Movie</span><span class="rv">¥168,000</span></div>
+    <div class="row"><span class="rl">Photo Only / Movie Only</span><span class="rv">¥128,000</span></div>
+    <div class="note">※ Photo Only / Movie Only は ¥40,000 OFF</div>
+  </div>
+  <div class="block"><div class="bh">含まれるもの</div>
+    <div class="row"><span class="rl">前撮り撮影</span><span class="rv">✓</span></div>
+    <div class="row"><span class="rl">200カット以上</span><span class="rv">✓</span></div>
+    <div class="row"><span class="rl">撮影データ全納品</span><span class="rv">✓</span></div>
+    <div class="row"><span class="rl">3分のショートフィルム</span><span class="rv">✓</span></div>
+  </div>
+</div></div>
+
+<!-- C9 -->
+<div class="label"><span>C9</span>Warm Ivory</div>
+<div class="wrap c9"><div class="card">
+  <div class="card-name">Basic Plan</div>
+  <div class="card-sep"></div>
+  <div class="price-wrap"><div class="price">¥168,000</div><div class="tax">税込</div></div>
+  <div class="block"><div class="bh">撮影プラン</div>
+    <div class="row"><span class="rl">Photo + Movie</span><span class="rv">¥168,000</span></div>
+    <div class="row"><span class="rl">Photo Only / Movie Only</span><span class="rv">¥128,000</span></div>
+    <div class="note">※ Photo Only / Movie Only は ¥40,000 OFF</div>
+  </div>
+  <div class="block"><div class="bh">含まれるもの</div>
+    <div class="row"><span class="rl">前撮り撮影</span><span class="rv">✓</span></div>
+    <div class="row"><span class="rl">200カット以上</span><span class="rv">✓</span></div>
+    <div class="row"><span class="rl">撮影データ全納品</span><span class="rv">✓</span></div>
+    <div class="row"><span class="rl">3分のショートフィルム</span><span class="rv">✓</span></div>
+  </div>
+</div></div>
+
+<!-- C10 -->
+<div class="label"><span>C10</span>Pale Rose</div>
+<div class="wrap c10"><div class="card">
+  <div class="card-name">Basic Plan</div>
+  <div class="card-sep"></div>
+  <div class="price-wrap"><div class="price">¥168,000</div><div class="tax">税込</div></div>
+  <div class="block"><div class="bh">撮影プラン</div>
+    <div class="row"><span class="rl">Photo + Movie</span><span class="rv">¥168,000</span></div>
+    <div class="row"><span class="rl">Photo Only / Movie Only</span><span class="rv">¥128,000</span></div>
+    <div class="note">※ Photo Only / Movie Only は ¥40,000 OFF</div>
+  </div>
+  <div class="block"><div class="bh">含まれるもの</div>
+    <div class="row"><span class="rl">前撮り撮影</span><span class="rv">✓</span></div>
+    <div class="row"><span class="rl">200カット以上</span><span class="rv">✓</span></div>
+    <div class="row"><span class="rl">撮影データ全納品</span><span class="rv">✓</span></div>
+    <div class="row"><span class="rl">3分のショートフィルム</span><span class="rv">✓</span></div>
+  </div>
+</div></div>
+
+<div style="height: 80px;"></div>
+</body>
+</html>

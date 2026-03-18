@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CTA — 30 Patterns</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#e8e5e0;font-family:'Cormorant Garamond',serif;color:#2a2420}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding:30px;max-width:1200px;margin:0 auto}
+h1{text-align:center;padding:40px 20px 10px;font-weight:300;font-size:1.8rem;letter-spacing:.2em}
+.note{text-align:center;font-size:.8rem;color:#8a8278;margin-bottom:10px}
+.box{background:#f5f3ef;padding:50px 24px;text-align:center;position:relative}
+.num{position:absolute;top:10px;left:14px;font-size:.7rem;color:#8a8278;letter-spacing:.1em}
+.desc{font-size:.68rem;color:#8a8278;margin-bottom:20px;letter-spacing:.06em}
+a{text-decoration:none;color:#2a2420;font-family:'Cormorant Garamond',serif}
+
+/* === 1 下線展開 === */
+.c1{display:inline-flex;align-items:center;gap:10px;font-size:.9rem;letter-spacing:.18em;padding:6px 0;position:relative}
+.c1::after{content:'';position:absolute;bottom:0;left:0;width:30%;height:1px;background:#2a2420;transition:width .5s cubic-bezier(.25,.46,.45,.94)}
+.c1:hover::after{width:100%}
+.c1 .a{transition:transform .3s}.c1:hover .a{transform:translateX(5px)}
+
+/* === 2 ピル展開 === */
+.c2{display:inline-flex;align-items:center;gap:10px;padding:12px 32px;border:1px solid rgba(42,36,32,.25);border-radius:50px;font-size:.85rem;letter-spacing:.18em;transition:padding .5s,border-color .4s,background .4s}
+.c2:hover{padding:12px 44px;border-color:#2a2420;background:rgba(42,36,32,.03)}
+.c2 .a{transition:transform .3s}.c2:hover .a{transform:translateX(4px)}
+
+/* === 3 背景スライド === */
+.c3{display:inline-flex;align-items:center;gap:10px;padding:13px 36px;border:1px solid #2a2420;font-size:.85rem;letter-spacing:.18em;position:relative;overflow:hidden;z-index:1;transition:color .4s}
+.c3::before{content:'';position:absolute;top:0;left:0;width:0;height:100%;background:#2a2420;z-index:-1;transition:width .5s cubic-bezier(.25,.46,.45,.94)}
+.c3:hover{color:#f5f3ef}.c3:hover::before{width:100%}
+.c3 .a{transition:transform .3s}.c3:hover .a{transform:translateX(4px)}
+
+/* === 4 左ライン === */
+.c4{display:inline-flex;align-items:center;gap:14px;font-size:.9rem;letter-spacing:.18em}
+.c4 .ln{width:35px;height:1px;background:#2a2420;transition:width .5s ease}
+.c4:hover .ln{width:60px}
+.c4 .a{transition:transform .3s}.c4:hover .a{transform:translateX(5px)}
+
+/* === 5 四角反転 === */
+.c5{display:inline-flex;align-items:center;gap:10px;padding:14px 40px;border:1px solid #2a2420;font-size:.85rem;letter-spacing:.18em;transition:background .4s,color .4s}
+.c5:hover{background:#2a2420;color:#f5f3ef}
+.c5 .a{transition:transform .3s}.c5:hover .a{transform:translateX(4px)}
+
+/* === 6 テキストのみ === */
+.c6{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;letter-spacing:.25em;color:rgba(42,36,32,.55);text-transform:uppercase;transition:color .4s,letter-spacing .5s}
+.c6:hover{color:#2a2420;letter-spacing:.35em}
+.c6 .a{transition:transform .4s}.c6:hover .a{transform:translateX(6px)}
+
+/* === 7 上下ライン === */
+.c7{display:inline-flex;flex-direction:column;align-items:center}
+.c7 .ln{width:25px;height:1px;background:rgba(42,36,32,.2);transition:width .5s}
+.c7 span.lb{padding:10px 0;font-size:.85rem;letter-spacing:.18em;display:flex;align-items:center;gap:8px}
+.c7:hover .ln{width:70px}
+.c7 .a{transition:transform .3s}.c7:hover .a{transform:translateX(4px)}
+
+/* === 8 丸アイコン+テキスト === */
+.c8{display:inline-flex;align-items:center;gap:16px;font-size:.9rem;letter-spacing:.18em}
+.c8 .ci{width:46px;height:46px;border-radius:50%;border:1px solid #2a2420;display:flex;align-items:center;justify-content:center;transition:background .4s,transform .3s}
+.c8 .ci svg{width:14px;height:14px;transition:stroke .3s}
+.c8:hover .ci{background:#2a2420;transform:scale(1.06)}
+.c8:hover .ci svg{stroke:#f5f3ef}
+
+/* === 9 ドット+テキスト === */
+.c9{display:inline-flex;align-items:center;gap:12px;font-size:.9rem;letter-spacing:.18em}
+.c9 .dt{width:6px;height:6px;border-radius:50%;border:1px solid #2a2420;transition:background .3s,transform .4s}
+.c9:hover .dt{background:#2a2420;transform:scale(1.5)}
+.c9 .a{transition:transform .3s}.c9:hover .a{transform:translateX(5px)}
+
+/* === 10 括弧 === */
+.c10{display:inline-flex;align-items:center;gap:5px;font-size:.9rem;letter-spacing:.12em;transition:gap .4s}
+.c10 .br{font-weight:300;font-size:1.2rem;color:rgba(42,36,32,.25);transition:color .4s}
+.c10:hover{gap:14px}.c10:hover .br{color:#2a2420}
+
+/* === 11 細枠+角丸小 === */
+.c11{display:inline-flex;align-items:center;gap:10px;padding:12px 34px;border:1px solid rgba(42,36,32,.2);border-radius:6px;font-size:.85rem;letter-spacing:.18em;transition:border-color .4s,background .4s}
+.c11:hover{border-color:#2a2420;background:rgba(42,36,32,.03)}
+.c11 .a{transition:transform .3s}.c11:hover .a{transform:translateX(4px)}
+
+/* === 12 下線ダブル === */
+.c12{display:inline-flex;align-items:center;gap:10px;font-size:.9rem;letter-spacing:.18em;padding:6px 0;position:relative}
+.c12::after,.c12::before{content:'';position:absolute;left:0;width:0;height:1px;background:#2a2420;transition:width .5s ease}
+.c12::after{bottom:0;transition-delay:0s}.c12::before{bottom:4px;transition-delay:.1s}
+.c12:hover::after,.c12:hover::before{width:100%}
+.c12 .a{transition:transform .3s}.c12:hover .a{transform:translateX(5px)}
+
+/* === 13 右ライン伸び === */
+.c13{display:inline-flex;align-items:center;gap:14px;font-size:.9rem;letter-spacing:.18em}
+.c13 .ln{width:20px;height:1px;background:#2a2420;transition:width .6s cubic-bezier(.19,1,.22,1)}
+.c13:hover .ln{width:50px}
+
+/* === 14 枠線アニメ === */
+.c14{display:inline-flex;align-items:center;gap:10px;padding:13px 36px;font-size:.85rem;letter-spacing:.18em;position:relative}
+.c14::before{content:'';position:absolute;inset:0;border:1px solid rgba(42,36,32,.15);transition:border-color .4s,transform .4s}
+.c14:hover::before{border-color:#2a2420;transform:scale(1.06)}
+.c14 .a{transition:transform .3s}.c14:hover .a{transform:translateX(4px)}
+
+/* === 15 影付き === */
+.c15{display:inline-flex;align-items:center;gap:10px;padding:13px 36px;border:1px solid rgba(42,36,32,.15);font-size:.85rem;letter-spacing:.18em;transition:box-shadow .5s,border-color .4s}
+.c15:hover{box-shadow:0 4px 20px rgba(42,36,32,.1);border-color:rgba(42,36,32,.3)}
+.c15 .a{transition:transform .3s}.c15:hover .a{transform:translateX(4px)}
+
+/* === 16 下線→ピル変形 === */
+.c16{display:inline-flex;align-items:center;gap:10px;padding:12px 30px;font-size:.85rem;letter-spacing:.18em;border:1px solid transparent;border-bottom-color:rgba(42,36,32,.2);border-radius:0;transition:border .5s,border-radius .5s,background .4s}
+.c16:hover{border:1px solid #2a2420;border-radius:50px;background:rgba(42,36,32,.02)}
+.c16 .a{transition:transform .3s}.c16:hover .a{transform:translateX(4px)}
+
+/* === 17 太字ホバー === */
+.c17{display:inline-flex;align-items:center;gap:10px;font-size:.9rem;letter-spacing:.18em;font-weight:300;transition:font-weight .01s,letter-spacing .4s}
+.c17:hover{font-weight:500;letter-spacing:.22em}
+.c17 .a{transition:transform .3s}.c17:hover .a{transform:translateX(5px)}
+
+/* === 18 矢印のみ丸 === */
+.c18{display:inline-flex;align-items:center;gap:14px;font-size:.9rem;letter-spacing:.18em}
+.c18 .ar{width:32px;height:32px;border-radius:50%;border:1px solid rgba(42,36,32,.2);display:flex;align-items:center;justify-content:center;font-size:.7rem;transition:border-color .4s,background .4s}
+.c18:hover .ar{border-color:#2a2420;background:rgba(42,36,32,.05)}
+
+/* === 19 縦ライン+テキスト === */
+.c19{display:inline-flex;align-items:center;gap:16px;font-size:.9rem;letter-spacing:.18em}
+.c19 .vl{width:1px;height:20px;background:rgba(42,36,32,.25);transition:height .4s,background .4s}
+.c19:hover .vl{height:30px;background:#2a2420}
+.c19 .a{transition:transform .3s}.c19:hover .a{transform:translateX(5px)}
+
+/* === 20 グラデーション下線 === */
+.c20{display:inline-flex;align-items:center;gap:10px;font-size:.9rem;letter-spacing:.18em;padding:6px 0;position:relative}
+.c20::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:linear-gradient(90deg,#2a2420,transparent);transition:width .6s ease}
+.c20:hover::after{width:100%}
+.c20 .a{transition:transform .3s}.c20:hover .a{transform:translateX(5px)}
+
+/* === 21 ダイヤモンド+テキスト === */
+.c21{display:inline-flex;align-items:center;gap:14px;font-size:.9rem;letter-spacing:.18em}
+.c21 .dm{width:7px;height:7px;border:1px solid #2a2420;transform:rotate(45deg);transition:background .3s,transform .4s}
+.c21:hover .dm{background:#2a2420;transform:rotate(45deg) scale(1.3)}
+.c21 .a{transition:transform .3s}.c21:hover .a{transform:translateX(5px)}
+
+/* === 22 半透明背景 === */
+.c22{display:inline-flex;align-items:center;gap:10px;padding:13px 36px;background:rgba(42,36,32,.04);font-size:.85rem;letter-spacing:.18em;border-radius:4px;transition:background .4s}
+.c22:hover{background:rgba(42,36,32,.09)}
+.c22 .a{transition:transform .3s}.c22:hover .a{transform:translateX(4px)}
+
+/* === 23 スラッシュ区切り === */
+.c23{display:inline-flex;align-items:center;gap:10px;font-size:.9rem;letter-spacing:.18em}
+.c23 .sl{color:rgba(42,36,32,.2);font-weight:300;transition:color .4s}
+.c23:hover .sl{color:#2a2420}
+.c23 .a{transition:transform .3s}.c23:hover .a{transform:translateX(5px)}
+
+/* === 24 左枠のみ === */
+.c24{display:inline-flex;align-items:center;gap:10px;padding:12px 28px;border-left:2px solid rgba(42,36,32,.15);font-size:.85rem;letter-spacing:.18em;transition:border-color .4s,padding-left .4s}
+.c24:hover{border-color:#2a2420;padding-left:36px}
+.c24 .a{transition:transform .3s}.c24:hover .a{transform:translateX(4px)}
+
+/* === 25 枠→塗りピル === */
+.c25{display:inline-flex;align-items:center;gap:10px;padding:12px 34px;border:1px solid #2a2420;border-radius:50px;font-size:.85rem;letter-spacing:.18em;transition:background .4s,color .4s}
+.c25:hover{background:#2a2420;color:#f5f3ef}
+.c25 .a{transition:transform .3s}.c25:hover .a{transform:translateX(4px)}
+
+/* === 26 アンダースコア === */
+.c26{display:inline-flex;align-items:center;gap:10px;font-size:.9rem;letter-spacing:.18em}
+.c26 .us{display:block;width:100%;height:1px;margin-top:3px;background:rgba(42,36,32,.12);transition:background .4s}
+.c26 .wrap{display:flex;flex-direction:column}
+.c26:hover .us{background:#2a2420}
+.c26 .a{transition:transform .3s}.c26:hover .a{transform:translateX(5px)}
+
+/* === 27 マイクロボーダー === */
+.c27{display:inline-flex;align-items:center;gap:10px;padding:12px 32px;font-size:.85rem;letter-spacing:.18em;position:relative}
+.c27::before,.c27::after{content:'';position:absolute;background:#2a2420;transition:all .5s ease}
+.c27::before{top:0;left:0;width:0;height:1px}.c27::after{bottom:0;right:0;width:0;height:1px}
+.c27:hover::before,.c27:hover::after{width:100%}
+.c27 .a{transition:transform .3s}.c27:hover .a{transform:translateX(4px)}
+
+/* === 28 ロングアロー === */
+.c28{display:inline-flex;align-items:center;gap:16px;font-size:.9rem;letter-spacing:.18em}
+.c28 .la{display:flex;align-items:center}
+.c28 .la .line28{width:25px;height:1px;background:#2a2420;transition:width .5s ease}
+.c28 .la .tip{font-size:.75rem;margin-left:-1px}
+.c28:hover .la .line28{width:45px}
+
+/* === 29 枠フェードイン === */
+.c29{display:inline-flex;align-items:center;gap:10px;padding:13px 36px;font-size:.85rem;letter-spacing:.18em;position:relative}
+.c29::before{content:'';position:absolute;inset:0;border:1px solid #2a2420;opacity:0;border-radius:4px;transition:opacity .5s}
+.c29:hover::before{opacity:1}
+.c29 .a{transition:transform .3s}.c29:hover .a{transform:translateX(4px)}
+
+/* === 30 ミニマル+ドット連結 === */
+.c30{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;letter-spacing:.18em}
+.c30 .dots{display:flex;gap:4px}
+.c30 .dots span{width:3px;height:3px;border-radius:50%;background:rgba(42,36,32,.2);transition:background .3s,transform .3s}
+.c30 .dots span:nth-child(1){transition-delay:0s}.c30 .dots span:nth-child(2){transition-delay:.08s}.c30 .dots span:nth-child(3){transition-delay:.16s}
+.c30:hover .dots span{background:#2a2420;transform:scale(1.4)}
+</style>
+</head>
+<body>
+<h1>CTA — 30 Patterns</h1>
+<p class="note">ホバーでアニメーション確認</p>
+<div class="grid">
+
+<div class="box"><div class="num">1 — 下線展開</div><div class="desc">ラインが伸びる</div>
+<a href="#" class="c1">Dress Shop <span class="a">→</span></a></div>
+
+<div class="box"><div class="num">2 — ピル展開</div><div class="desc">角丸が横に広がる</div>
+<a href="#" class="c2">Dress Shop <span class="a">→</span></a></div>
+
+<div class="box"><div class="num">3 — 背景スライド</div><div class="desc">背景が左から塗り</div>
+<a href="#" class="c3">Dress Shop <span class="a">→</span></a></div>
+
+<div class="box"><div class="num">4 — 左ライン</div><div class="desc">ラインが伸びて誘導</div>
+<a href="#" class="c4"><span class="ln"></span>Dress Shop <span class="a">→</span></a></div>
+
+<div class="box"><div class="num">5 — 四角反転</div><div class="desc">ホバーで白黒反転</div>
+<a href="#" class="c5">Dress Shop <span class="a">→</span></a></div>
+
+<div class="box"><div class="num">6 — テキストのみ</div><div class="desc">スペーシングで変化</div>
+<a href="#" class="c6">Dress Shop <span class="a">→</span></a></div>
+
+<div class="box"><div class="num">7 — 上下ライン</div><div class="desc">上下ラインが広がる</div>
+<a href="#" class="c7"><span class="ln"></span><span class="lb">Dress Shop <span class="a">→</span></span><span class="ln"></span></a></div>
+
+<div class="box"><div class="num">8 — 丸アイコン</div><div class="desc">丸が反転する</div>
+<a href="#" class="c8"><span>Dress Shop</span><span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="#2a2420" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div>
+
+<div class="box"><div class="num">9 — ドット</div><div class="desc">ドットが膨らむ</div>
+<a href="#" class="c9"><span class="dt"></span>Dress Shop <span class="a">→</span></a></div>
+
+<div class="box"><div class="num">10 — 括弧</div><div class="desc">括弧が開く</div>
+<a href="#" class="c10"><span class="br">[</span>Dress Shop<span class="br">]</span></a></div>
+
+<div class="box"><div class="num">11 — 細枠+角丸</div><div class="desc">枠が濃くなる</div>
+<a href="#" class="c11">Dress Shop <span class="a">→</span></a></div>
+
+<div class="box"><div class="num">12 — ダブル下線</div><div class="desc">2本ラインが伸びる</div>
+<a href="#" class="c12">Dress Shop <span class="a">→</span></a></div>
+
+<div class="box"><div class="num">13 — 右ライン</div><div class="desc">テキスト右のライン伸び</div>
+<a href="#" class="c13">Dress Shop <span class="ln"></span></a></div>
+
+<div class="box"><div class="num">14 — 枠ズーム</div><div class="desc">枠が少し拡大</div>
+<a href="#" class="c14">Dress Shop <span class="a">→</span></a></div>
+
+<div class="box"><div class="num">15 — シャドウ</div><div class="desc">影がふわっと出る</div>
+<a href="#" class="c15">Dress Shop <span class="a">→</span></a></div>
+
+<div class="box"><div class="num">16 — 下線→ピル</div><div class="desc">下線から角丸枠に変形</div>
+<a href="#" class="c16">Dress Shop <span class="a">→</span></a></div>
+
+<div class="box"><div class="num">17 — ウェイト変化</div><div class="desc">太さが変わる</div>
+<a href="#" class="c17">Dress Shop <span class="a">→</span></a></div>
+
+<div class="box"><div class="num">18 — 矢印丸</div><div class="desc">小さな丸矢印</div>
+<a href="#" class="c18">Dress Shop <span class="ar">→</span></a></div>
+
+<div class="box"><div class="num">19 — 縦ライン</div><div class="desc">縦線が伸びる</div>
+<a href="#" class="c19"><span class="vl"></span>Dress Shop <span class="a">→</span></a></div>
+
+<div class="box"><div class="num">20 — グラデ下線</div><div class="desc">フェードする下線</div>
+<a href="#" class="c20">Dress Shop <span class="a">→</span></a></div>
+
+<div class="box"><div class="num">21 — ダイヤモンド</div><div class="desc">◇が塗りに</div>
+<a href="#" class="c21"><span class="dm"></span>Dress Shop <span class="a">→</span></a></div>
+
+<div class="box"><div class="num">22 — 半透明BG</div><div class="desc">背景が濃くなる</div>
+<a href="#" class="c22">Dress Shop <span class="a">→</span></a></div>
+
+<div class="box"><div class="num">23 — スラッシュ</div><div class="desc">/ が濃くなる</div>
+<a href="#" class="c23"><span class="sl">/</span> Dress Shop <span class="a">→</span></a></div>
+
+<div class="box"><div class="num">24 — 左枠</div><div class="desc">左ボーダーが濃く+右へ</div>
+<a href="#" class="c24">Dress Shop <span class="a">→</span></a></div>
+
+<div class="box"><div class="num">25 — ピル反転</div><div class="desc">丸枠が塗りに</div>
+<a href="#" class="c25">Dress Shop <span class="a">→</span></a></div>
+
+<div class="box"><div class="num">26 — アンダースコア</div><div class="desc">下線が濃くなる</div>
+<a href="#" class="c26"><span class="wrap"><span>Dress Shop</span><span class="us"></span></span> <span class="a">→</span></a></div>
+
+<div class="box"><div class="num">27 — 上下枠スライド</div><div class="desc">上下線が伸びる</div>
+<a href="#" class="c27">Dress Shop <span class="a">→</span></a></div>
+
+<div class="box"><div class="num">28 — ロングアロー</div><div class="desc">矢印ラインが伸びる</div>
+<a href="#" class="c28">Dress Shop <span class="la"><span class="line28"></span><span class="tip">→</span></span></a></div>
+
+<div class="box"><div class="num">29 — 枠フェードイン</div><div class="desc">枠が浮き出る</div>
+<a href="#" class="c29">Dress Shop <span class="a">→</span></a></div>
+
+<div class="box"><div class="num">30 — ドット連結</div><div class="desc">3つのドットが強調</div>
+<a href="#" class="c30">Dress Shop <span class="dots"><span></span><span></span><span></span></span></a></div>
+
+</div>
+<div style="height:40px"></div>
+</body>
+</html>

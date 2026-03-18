@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Button Design — 30 Patterns</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Lavishly+Yours&family=Inter:wght@200;300&family=Josefin+Sans:wght@200;300&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#0a0a0a;color:#fff;font-family:'Cormorant Garamond',serif;-webkit-font-smoothing:antialiased;}
+.header{text-align:center;padding:1.5rem 1rem 0.5rem;}
+.header h1{font-size:1rem;font-weight:300;letter-spacing:0.15em;}
+.header p{font-size:0.5rem;opacity:0.25;margin-top:0.2rem;}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));
+  gap:1.5rem;padding:1rem 1.5rem 3rem;
+  max-width:1100px;margin:0 auto;
+}
+
+.card{
+  position:relative;overflow:hidden;
+  aspect-ratio:16/9;border-radius:2px;
+  display:flex;align-items:center;justify-content:center;
+}
+.card__bg{position:absolute;top:0;left:0;width:100%;height:100%;}
+.card__bg img{width:100%;height:100%;object-fit:cover;}
+.card__overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);}
+.card__num{position:absolute;top:0.4rem;left:0.5rem;font-size:0.45rem;letter-spacing:0.1em;opacity:0.25;z-index:5;}
+.card__info{position:absolute;bottom:0.3rem;right:0.5rem;font-size:0.35rem;opacity:0.18;z-index:5;}
+.card__btn-wrap{position:relative;z-index:2;}
+
+/* ===== 30 Button Styles ===== */
+
+/* #01 — アンダーライン伸びる */
+.btn01{
+  display:inline-block;position:relative;
+  font-family:'Cormorant Garamond',serif;font-size:0.8rem;font-weight:300;letter-spacing:0.2em;
+  color:rgba(255,255,255,0.6);text-decoration:none;padding:0.3rem 0;
+}
+.btn01::after{
+  content:'';position:absolute;bottom:0;left:50%;width:0;height:1px;
+  background:rgba(255,255,255,0.4);transition:all 0.6s cubic-bezier(0.25,1,0.5,1);transform:translateX(-50%);
+}
+.btn01:hover::after{width:100%;}
+.btn01:hover{color:rgba(255,255,255,0.9);}
+
+/* #02 — 左から線が伸びる */
+.btn02{
+  display:inline-block;position:relative;
+  font-family:'Cormorant Garamond',serif;font-size:0.8rem;font-weight:300;letter-spacing:0.2em;
+  color:rgba(255,255,255,0.6);text-decoration:none;padding:0.3rem 0;
+}
+.btn02::after{
+  content:'';position:absolute;bottom:0;left:0;width:0;height:1px;
+  background:rgba(255,255,255,0.5);transition:width 0.5s cubic-bezier(0.25,1,0.5,1);
+}
+.btn02:hover::after{width:100%;}
+.btn02:hover{color:rgba(255,255,255,0.9);}
+
+/* #03 — 細ボーダー + スケール */
+.btn03{
+  display:inline-block;
+  font-family:'Cormorant Garamond',serif;font-size:0.75rem;font-weight:300;letter-spacing:0.18em;
+  color:rgba(255,255,255,0.5);text-decoration:none;
+  border:1px solid rgba(255,255,255,0.15);padding:0.6rem 2rem;
+  transition:all 0.5s ease;
+}
+.btn03:hover{
+  border-color:rgba(255,255,255,0.4);color:rgba(255,255,255,0.85);
+  transform:scale(1.05);
+}
+
+/* #04 — ボーダー消え→下線 */
+.btn04{
+  display:inline-block;position:relative;
+  font-family:'Cormorant Garamond',serif;font-size:0.75rem;font-weight:300;letter-spacing:0.18em;
+  color:rgba(255,255,255,0.5);text-decoration:none;
+  border:1px solid rgba(255,255,255,0.15);padding:0.6rem 2rem;
+  transition:all 0.5s ease;
+}
+.btn04::after{
+  content:'';position:absolute;bottom:-1px;left:0;width:0;height:1px;
+  background:rgba(255,255,255,0.5);transition:width 0.5s 0.1s ease;
+}
+.btn04:hover{border-color:transparent;color:rgba(255,255,255,0.85);}
+.btn04:hover::after{width:100%;}
+
+/* #05 — 矢印付きミニマル */
+.btn05{
+  display:inline-flex;align-items:center;gap:0.6rem;
+  font-family:'Cormorant Garamond',serif;font-size:0.8rem;font-weight:300;letter-spacing:0.15em;
+  color:rgba(255,255,255,0.55);text-decoration:none;
+  transition:color 0.4s;
+}
+.btn05 .arrow{display:inline-block;width:1.5rem;height:1px;background:rgba(255,255,255,0.3);position:relative;transition:width 0.5s cubic-bezier(0.25,1,0.5,1);}
+.btn05 .arrow::after{content:'';position:absolute;right:0;top:-2px;width:5px;height:5px;border-right:1px solid rgba(255,255,255,0.4);border-top:1px solid rgba(255,255,255,0.4);transform:rotate(45deg);}
+.btn05:hover{color:rgba(255,255,255,0.9);}
+.btn05:hover .arrow{width:2.5rem;}
+
+/* #06 — 丸い矢印 */
+.btn06{
+  display:inline-flex;align-items:center;gap:0.8rem;
+  font-family:'Cormorant Garamond',serif;font-size:0.8rem;font-weight:300;letter-spacing:0.15em;
+  color:rgba(255,255,255,0.55);text-decoration:none;transition:color 0.4s;
+}
+.btn06 .circle{
+  width:2rem;height:2rem;border-radius:50%;border:1px solid rgba(255,255,255,0.2);
+  display:flex;align-items:center;justify-content:center;transition:all 0.5s;
+}
+.btn06 .circle::after{content:'→';font-size:0.65rem;color:rgba(255,255,255,0.4);transition:color 0.4s;}
+.btn06:hover{color:rgba(255,255,255,0.9);}
+.btn06:hover .circle{border-color:rgba(255,255,255,0.5);transform:scale(1.1);}
+.btn06:hover .circle::after{color:rgba(255,255,255,0.8);}
+
+/* #07 — 背景スライドイン */
+.btn07{
+  display:inline-block;position:relative;overflow:hidden;
+  font-family:'Cormorant Garamond',serif;font-size:0.75rem;font-weight:300;letter-spacing:0.18em;
+  color:rgba(255,255,255,0.5);text-decoration:none;
+  border:1px solid rgba(255,255,255,0.15);padding:0.6rem 2rem;
+  transition:color 0.5s;
+}
+.btn07::before{
+  content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+  background:rgba(255,255,255,0.08);transition:left 0.5s cubic-bezier(0.25,1,0.5,1);
+}
+.btn07:hover::before{left:0;}
+.btn07:hover{color:rgba(255,255,255,0.9);}
+
+/* #08 — 上下ボーダー */
+.btn08{
+  display:inline-block;position:relative;
+  font-family:'Cormorant Garamond',serif;font-size:0.8rem;font-weight:300;letter-spacing:0.2em;
+  color:rgba(255,255,255,0.55);text-decoration:none;padding:0.5rem 0;
+}
+.btn08::before,.btn08::after{
+  content:'';position:absolute;left:50%;width:0;height:1px;
+  background:rgba(255,255,255,0.35);transition:all 0.5s cubic-bezier(0.25,1,0.5,1);transform:translateX(-50%);
+}
+.btn08::before{top:0;}
+.btn08::after{bottom:0;}
+.btn08:hover::before,.btn08:hover::after{width:100%;}
+.btn08:hover{color:rgba(255,255,255,0.9);}
+
+/* #09 — テキストのみ + フェード */
+.btn09{
+  display:inline-block;
+  font-family:'Lavishly Yours',cursive;font-size:1.2rem;
+  color:rgba(255,255,255,0.45);text-decoration:none;
+  transition:all 0.6s;letter-spacing:0.05em;
+}
+.btn09:hover{color:rgba(255,255,255,0.85);transform:translateY(-2px);}
+
+/* #10 — 筆記体+アンダーライン */
+.btn10{
+  display:inline-block;position:relative;
+  font-family:'Lavishly Yours',cursive;font-size:1.2rem;
+  color:rgba(255,255,255,0.45);text-decoration:none;letter-spacing:0.05em;
+  transition:color 0.5s;
+}
+.btn10::after{
+  content:'';position:absolute;bottom:-3px;left:0;width:100%;height:1px;
+  background:rgba(255,255,255,0.2);transform:scaleX(0.3);transform-origin:center;
+  transition:transform 0.5s cubic-bezier(0.25,1,0.5,1);
+}
+.btn10:hover{color:rgba(255,255,255,0.85);}
+.btn10:hover::after{transform:scaleX(1);}
+
+/* #11 — ドット区切り */
+.btn11{
+  display:inline-flex;align-items:center;gap:0.8rem;
+  font-family:'Cormorant Garamond',serif;font-size:0.8rem;font-weight:300;letter-spacing:0.2em;
+  color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.4s;
+}
+.btn11 .dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.25);transition:all 0.5s;}
+.btn11:hover{color:rgba(255,255,255,0.85);}
+.btn11:hover .dot{background:rgba(255,255,255,0.6);transform:scale(1.5);}
+
+/* #12 — ブラケット囲み */
+.btn12{
+  display:inline-block;
+  font-family:'Cormorant Garamond',serif;font-size:0.8rem;font-weight:300;letter-spacing:0.18em;
+  color:rgba(255,255,255,0.5);text-decoration:none;transition:all 0.5s;
+}
+.btn12::before{content:'[ ';opacity:0.3;transition:opacity 0.4s;}
+.btn12::after{content:' ]';opacity:0.3;transition:opacity 0.4s;}
+.btn12:hover{color:rgba(255,255,255,0.85);}
+.btn12:hover::before,.btn12:hover::after{opacity:0.7;}
+
+/* #13 — 縦線+テキスト */
+.btn13{
+  display:inline-flex;align-items:center;gap:0.8rem;
+  font-family:'Cormorant Garamond',serif;font-size:0.8rem;font-weight:300;letter-spacing:0.18em;
+  color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.4s;
+}
+.btn13 .line{width:1px;height:1.2rem;background:rgba(255,255,255,0.2);transition:all 0.5s;}
+.btn13:hover{color:rgba(255,255,255,0.85);}
+.btn13:hover .line{height:1.8rem;background:rgba(255,255,255,0.5);}
+
+/* #14 — グロー効果 */
+.btn14{
+  display:inline-block;
+  font-family:'Cormorant Garamond',serif;font-size:0.8rem;font-weight:300;letter-spacing:0.2em;
+  color:rgba(255,255,255,0.5);text-decoration:none;
+  transition:all 0.5s;
+}
+.btn14:hover{color:rgba(255,255,255,0.9);text-shadow:0 0 20px rgba(255,255,255,0.2),0 0 40px rgba(255,255,255,0.1);}
+
+/* #15 — 丸ボーダー */
+.btn15{
+  display:inline-block;
+  font-family:'Cormorant Garamond',serif;font-size:0.7rem;font-weight:300;letter-spacing:0.18em;
+  color:rgba(255,255,255,0.5);text-decoration:none;
+  border:1px solid rgba(255,255,255,0.12);border-radius:50px;padding:0.55rem 2rem;
+  transition:all 0.5s;
+}
+.btn15:hover{border-color:rgba(255,255,255,0.35);color:rgba(255,255,255,0.85);}
+
+/* #16 — 丸ボーダー+背景 */
+.btn16{
+  display:inline-block;position:relative;overflow:hidden;
+  font-family:'Cormorant Garamond',serif;font-size:0.7rem;font-weight:300;letter-spacing:0.18em;
+  color:rgba(255,255,255,0.5);text-decoration:none;
+  border:1px solid rgba(255,255,255,0.12);border-radius:50px;padding:0.55rem 2rem;
+  transition:color 0.5s;
+}
+.btn16::before{
+  content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+  background:rgba(255,255,255,0.06);border-radius:50px;transition:left 0.5s cubic-bezier(0.25,1,0.5,1);
+}
+.btn16:hover::before{left:0;}
+.btn16:hover{color:rgba(255,255,255,0.9);border-color:rgba(255,255,255,0.3);}
+
+/* #17 — ロングアロー */
+.btn17{
+  display:inline-flex;align-items:center;gap:1rem;
+  font-family:'Cormorant Garamond',serif;font-size:0.8rem;font-weight:300;letter-spacing:0.15em;
+  color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.4s;
+}
+.btn17 .long-arrow{width:3rem;height:1px;background:rgba(255,255,255,0.2);position:relative;transition:all 0.6s cubic-bezier(0.25,1,0.5,1);}
+.btn17 .long-arrow::after{content:'';position:absolute;right:0;top:-2.5px;width:6px;height:6px;border-right:1px solid rgba(255,255,255,0.3);border-top:1px solid rgba(255,255,255,0.3);transform:rotate(45deg);}
+.btn17:hover{color:rgba(255,255,255,0.85);}
+.btn17:hover .long-arrow{width:5rem;background:rgba(255,255,255,0.4);}
+
+/* #18 — マスク下線＋大文字 */
+.btn18{
+  display:inline-block;position:relative;
+  font-family:'Inter',sans-serif;font-size:0.55rem;font-weight:200;letter-spacing:0.25em;text-transform:uppercase;
+  color:rgba(255,255,255,0.5);text-decoration:none;padding-bottom:0.3rem;transition:color 0.4s;
+}
+.btn18::after{
+  content:'';position:absolute;bottom:0;left:0;width:100%;height:1px;
+  background:rgba(255,255,255,0.2);transform:scaleX(1);transition:transform 0.4s cubic-bezier(0.25,1,0.5,1);
+}
+.btn18:hover{color:rgba(255,255,255,0.9);}
+.btn18:hover::after{transform:scaleX(1.3);transform-origin:center;}
+
+/* #19 — サンセリフ+ドットライン */
+.btn19{
+  display:inline-block;position:relative;
+  font-family:'Inter',sans-serif;font-size:0.55rem;font-weight:200;letter-spacing:0.25em;text-transform:uppercase;
+  color:rgba(255,255,255,0.5);text-decoration:none;padding-bottom:0.4rem;transition:color 0.4s;
+}
+.btn19::after{
+  content:'';position:absolute;bottom:0;left:0;width:100%;
+  border-bottom:1px dotted rgba(255,255,255,0.2);transition:border-color 0.5s;
+}
+.btn19:hover{color:rgba(255,255,255,0.85);}
+.btn19:hover::after{border-color:rgba(255,255,255,0.5);}
+
+/* #20 — 回転矢印 */
+.btn20{
+  display:inline-flex;align-items:center;gap:0.6rem;
+  font-family:'Cormorant Garamond',serif;font-size:0.8rem;font-weight:300;letter-spacing:0.15em;
+  color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.4s;
+}
+.btn20 .icon{font-size:0.7rem;transition:transform 0.5s cubic-bezier(0.25,1,0.5,1);opacity:0.4;}
+.btn20:hover{color:rgba(255,255,255,0.85);}
+.btn20:hover .icon{transform:translateX(4px) rotate(0deg);opacity:0.8;}
+
+/* #21 — ボーダー4辺アニメ */
+.btn21{
+  display:inline-block;position:relative;
+  font-family:'Cormorant Garamond',serif;font-size:0.75rem;font-weight:300;letter-spacing:0.18em;
+  color:rgba(255,255,255,0.5);text-decoration:none;padding:0.6rem 2rem;transition:color 0.5s;
+}
+.btn21::before,.btn21::after{
+  content:'';position:absolute;width:0;height:0;
+  transition:all 0.4s cubic-bezier(0.25,1,0.5,1);
+}
+.btn21::before{top:0;left:0;border-top:1px solid transparent;border-left:1px solid transparent;}
+.btn21::after{bottom:0;right:0;border-bottom:1px solid transparent;border-right:1px solid transparent;}
+.btn21:hover::before{width:100%;height:100%;border-color:rgba(255,255,255,0.3);}
+.btn21:hover::after{width:100%;height:100%;border-color:rgba(255,255,255,0.3);}
+.btn21:hover{color:rgba(255,255,255,0.85);}
+
+/* #22 — プラス付き */
+.btn22{
+  display:inline-flex;align-items:center;gap:0.6rem;
+  font-family:'Cormorant Garamond',serif;font-size:0.8rem;font-weight:300;letter-spacing:0.18em;
+  color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.4s;
+}
+.btn22 .plus{font-size:0.65rem;opacity:0.3;transition:all 0.5s;transform:rotate(0deg);}
+.btn22:hover{color:rgba(255,255,255,0.85);}
+.btn22:hover .plus{opacity:0.7;transform:rotate(90deg);}
+
+/* #23 — 下線＋矢印右端 */
+.btn23{
+  display:inline-flex;align-items:center;gap:1rem;position:relative;
+  font-family:'Cormorant Garamond',serif;font-size:0.8rem;font-weight:300;letter-spacing:0.18em;
+  color:rgba(255,255,255,0.5);text-decoration:none;padding-bottom:0.3rem;transition:color 0.4s;
+}
+.btn23::after{
+  content:'';position:absolute;bottom:0;left:0;width:100%;height:1px;
+  background:rgba(255,255,255,0.15);
+}
+.btn23 .arr{font-size:0.6rem;opacity:0.35;transition:all 0.4s;}
+.btn23:hover{color:rgba(255,255,255,0.85);}
+.btn23:hover .arr{opacity:0.8;transform:translateX(4px);}
+
+/* #24 — ジョゼフィンサンセリフ */
+.btn24{
+  display:inline-block;position:relative;
+  font-family:'Josefin Sans',sans-serif;font-size:0.6rem;font-weight:200;letter-spacing:0.25em;text-transform:uppercase;
+  color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.4s;
+}
+.btn24::after{
+  content:'';position:absolute;bottom:-4px;left:50%;width:0;height:1px;
+  background:rgba(255,255,255,0.4);transition:all 0.5s cubic-bezier(0.25,1,0.5,1);transform:translateX(-50%);
+}
+.btn24:hover{color:rgba(255,255,255,0.9);}
+.btn24:hover::after{width:120%;}
+
+/* #25 — ダイヤ装飾 */
+.btn25{
+  display:inline-flex;align-items:center;gap:0.8rem;
+  font-family:'Cormorant Garamond',serif;font-size:0.8rem;font-weight:300;letter-spacing:0.18em;
+  color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.4s;
+}
+.btn25 .dia{width:4px;height:4px;background:rgba(255,255,255,0.25);transform:rotate(45deg);transition:all 0.5s;}
+.btn25:hover{color:rgba(255,255,255,0.85);}
+.btn25:hover .dia{background:rgba(255,255,255,0.6);transform:rotate(45deg) scale(1.3);}
+
+/* #26 — 左ライン付き */
+.btn26{
+  display:inline-flex;align-items:center;gap:0.8rem;
+  font-family:'Cormorant Garamond',serif;font-size:0.8rem;font-weight:300;letter-spacing:0.18em;
+  color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.4s;
+}
+.btn26::before{
+  content:'';width:2rem;height:1px;background:rgba(255,255,255,0.2);transition:all 0.5s cubic-bezier(0.25,1,0.5,1);
+}
+.btn26:hover{color:rgba(255,255,255,0.85);}
+.btn26:hover::before{width:3rem;background:rgba(255,255,255,0.5);}
+
+/* #27 — フレーム出現 */
+.btn27{
+  display:inline-block;position:relative;
+  font-family:'Cormorant Garamond',serif;font-size:0.75rem;font-weight:300;letter-spacing:0.18em;
+  color:rgba(255,255,255,0.5);text-decoration:none;padding:0.6rem 2rem;transition:color 0.5s;
+}
+.btn27::before{
+  content:'';position:absolute;top:0;left:0;width:100%;height:100%;
+  border:1px solid rgba(255,255,255,0);transition:all 0.5s;transform:scale(0.85);opacity:0;
+}
+.btn27:hover::before{border-color:rgba(255,255,255,0.25);transform:scale(1);opacity:1;}
+.btn27:hover{color:rgba(255,255,255,0.85);}
+
+/* #28 — 太ライン＋ italic */
+.btn28{
+  display:inline-block;position:relative;
+  font-family:'Cormorant Garamond',serif;font-size:0.85rem;font-weight:300;font-style:italic;letter-spacing:0.12em;
+  color:rgba(255,255,255,0.5);text-decoration:none;padding-bottom:0.3rem;transition:color 0.4s;
+}
+.btn28::after{
+  content:'';position:absolute;bottom:0;left:0;width:100%;height:2px;
+  background:rgba(255,255,255,0.1);transition:background 0.5s;
+}
+.btn28:hover{color:rgba(255,255,255,0.85);}
+.btn28:hover::after{background:rgba(255,255,255,0.35);}
+
+/* #29 — 文字間アニメ */
+.btn29{
+  display:inline-block;
+  font-family:'Cormorant Garamond',serif;font-size:0.8rem;font-weight:300;letter-spacing:0.15em;
+  color:rgba(255,255,255,0.5);text-decoration:none;
+  transition:all 0.6s cubic-bezier(0.25,1,0.5,1);
+}
+.btn29:hover{letter-spacing:0.35em;color:rgba(255,255,255,0.85);}
+
+/* #30 — 両サイドライン */
+.btn30{
+  display:inline-flex;align-items:center;gap:1rem;
+  font-family:'Cormorant Garamond',serif;font-size:0.8rem;font-weight:300;letter-spacing:0.18em;
+  color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.4s;
+}
+.btn30::before,.btn30::after{
+  content:'';width:1.5rem;height:1px;background:rgba(255,255,255,0.15);
+  transition:all 0.5s cubic-bezier(0.25,1,0.5,1);
+}
+.btn30:hover{color:rgba(255,255,255,0.85);}
+.btn30:hover::before,.btn30:hover::after{width:2.5rem;background:rgba(255,255,255,0.4);}
+
+.footer{text-align:center;padding:1.5rem;font-size:0.42rem;opacity:0.12;}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Button Design — 30 Patterns</h1>
+  <p>View More ボタン アニメーション付き 30パターン（ホバーしてね）</p>
+</div>
+<div class="grid" id="grid"></div>
+<div class="footer">ukigumo — button design preview</div>
+<script>
+const imgs=['images/london/05.jpg','images/paris/03.jpg','images/firenze/04.jpg','images/malta/04.jpg','images/london/03.jpg','images/firenze/06.jpg'];
+const B=[
+  {cls:'btn01',html:'View More',label:'アンダーライン中央'},
+  {cls:'btn02',html:'View More',label:'アンダーライン左から'},
+  {cls:'btn03',html:'View More',label:'細ボーダー+スケール'},
+  {cls:'btn04',html:'View More',label:'ボーダー消え→下線'},
+  {cls:'btn05',html:'View More <span class="arrow"></span>',label:'矢印伸びる'},
+  {cls:'btn06',html:'View More <span class="circle"></span>',label:'丸い矢印'},
+  {cls:'btn07',html:'View More',label:'背景スライドイン'},
+  {cls:'btn08',html:'View More',label:'上下ボーダー'},
+  {cls:'btn09',html:'View More',label:'筆記体フェード'},
+  {cls:'btn10',html:'View More',label:'筆記体+下線'},
+  {cls:'btn11',html:'<span class="dot"></span> View More',label:'ドット区切り'},
+  {cls:'btn12',html:'View More',label:'ブラケット囲み'},
+  {cls:'btn13',html:'<span class="line"></span> View More',label:'縦線+テキスト'},
+  {cls:'btn14',html:'View More',label:'グロー効果'},
+  {cls:'btn15',html:'View More',label:'丸ボーダー'},
+  {cls:'btn16',html:'View More',label:'丸ボーダー+背景'},
+  {cls:'btn17',html:'View More <span class="long-arrow"></span>',label:'ロングアロー'},
+  {cls:'btn18',html:'View More',label:'サンセリフ+下線'},
+  {cls:'btn19',html:'View More',label:'サンセリフ+ドットライン'},
+  {cls:'btn20',html:'View More <span class="icon">→</span>',label:'回転矢印'},
+  {cls:'btn21',html:'View More',label:'4辺ボーダーアニメ'},
+  {cls:'btn22',html:'View More <span class="plus">+</span>',label:'プラス回転'},
+  {cls:'btn23',html:'View More <span class="arr">→</span>',label:'下線+矢印'},
+  {cls:'btn24',html:'View More',label:'ジョゼフィン+下線'},
+  {cls:'btn25',html:'<span class="dia"></span> View More <span class="dia"></span>',label:'ダイヤ装飾'},
+  {cls:'btn26',html:'View More',label:'左ライン付き'},
+  {cls:'btn27',html:'View More',label:'フレーム出現'},
+  {cls:'btn28',html:'View More',label:'太ライン+italic'},
+  {cls:'btn29',html:'View More',label:'文字間アニメ'},
+  {cls:'btn30',html:'View More',label:'両サイドライン'},
+];
+
+const g=document.getElementById('grid');
+B.forEach((b,i)=>{
+  const img=imgs[i%imgs.length];
+  const c=document.createElement('div');
+  c.className='card';
+  c.innerHTML=`
+    <div class="card__bg"><img src="${img}" loading="lazy" alt=""><div class="card__overlay"></div></div>
+    <div class="card__num">#${String(i+1).padStart(2,'0')}</div>
+    <div class="card__info">${b.label}</div>
+    <div class="card__btn-wrap">
+      <a href="#" class="${b.cls}" onclick="return false;">${b.html}</a>
+    </div>`;
+  g.appendChild(c);
+});
+</script>
+</body>
+</html>

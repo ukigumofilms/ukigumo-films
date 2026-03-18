@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Text — 30 Patterns (Final)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&family=Herr+Von+Muellerhoff&family=Mrs+Saint+Delafield&family=Carattere&family=Lavishly+Yours&family=Qwigley&family=Ruthie&family=Lovers+Quarrel&family=Pinyon+Script&family=Corinthia&family=Noto+Sans+JP:wght@100;200;300&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#0e0e0e; color:#fff; font-family:'Noto Sans JP',sans-serif; }
+
+  .header { text-align:center; padding:1.5rem 1rem 0.5rem; }
+  .header h1 { font-family:'Cormorant Garamond',serif; font-size:1rem; font-weight:300; letter-spacing:0.15em; }
+  .header p { font-size:0.55rem; opacity:0.3; margin-top:0.2rem; }
+
+  .grid {
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 400px), 1fr));
+    gap:1rem;
+    padding:0.8rem 1rem 3rem;
+    max-width:1200px;
+    margin:0 auto;
+  }
+
+  .card {
+    position:relative; overflow:hidden;
+    aspect-ratio: 16/9; border-radius:2px;
+    cursor:pointer;
+    transition: transform 0.3s;
+  }
+  .card:hover { transform:scale(1.01); }
+  .card__bg { position:absolute; top:0; left:0; width:100%; height:100%; }
+  .card__bg img { width:100%; height:100%; object-fit:cover; }
+  .card__overlay {
+    position:absolute; top:0; left:0; width:100%; height:100%;
+    background:rgba(0,0,0,0.72);
+  }
+  .card__num {
+    position:absolute; top:0.4rem; left:0.5rem;
+    font-family:'Cormorant Garamond',serif;
+    font-size:0.5rem; letter-spacing:0.1em; opacity:0.3;
+  }
+  .card__info {
+    position:absolute; bottom:0.3rem; right:0.5rem;
+    font-size:0.38rem; opacity:0.18;
+    font-family:'Cormorant Garamond',serif;
+  }
+  .card__text {
+    position:relative; z-index:2;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    height:100%; padding:1rem 1.2rem; text-align:center;
+  }
+
+  /* レスポンシブ: スマホ */
+  @media (max-width:480px) {
+    .grid { grid-template-columns:1fr; padding:0.5rem; gap:0.8rem; }
+    .card { aspect-ratio:9/14; }
+    .card__text { padding:1.5rem 1rem; }
+  }
+
+  .footer { text-align:center; padding:1.5rem; font-size:0.45rem; opacity:0.15; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>About Text — 30 Patterns (Final)</h1>
+  <p>日本語メイン ＋ サイン風英語3行 ＋ モバイル対応</p>
+</div>
+
+<div class="grid" id="grid"></div>
+<div class="footer">ukigumo — about text preview</div>
+
+<script>
+const jpL1 = 'あなたの人生を支える';
+const jpL1b = '杖のような作品になりますように';
+const jpL2 = 'この瞬間を、未来へと紡ぐ一枚、一秒に';
+
+// 英語訳 — 全て3行に整形
+const enVersions = {
+  A: [ 'May this film be a gentle staff',
+       'to walk beside you',
+       'through your life' ],
+  B: [ 'A film to lean on',
+       'through every chapter',
+       'of your life' ],
+  C: [ 'May our work become',
+       'a quiet pillar that supports',
+       'your journey' ],
+  D: [ 'Like a walking staff',
+       'may this work always',
+       'be with you' ],
+  E: [ 'A companion for your journey',
+       'may this film be',
+       'your gentle guide' ],
+  F: [ 'May these images walk with you',
+       'as a quiet strength',
+       'through life' ],
+};
+
+const imgs = [
+  'images/london/05.jpg','images/paris/03.jpg','images/firenze/04.jpg',
+  'images/malta/04.jpg','images/london/03.jpg','images/firenze/06.jpg',
+];
+
+// サイン風の極細フォント
+const cFonts = [
+  'Monsieur La Doulaise',   // 0
+  'Herr Von Muellerhoff',   // 1
+  'Mrs Saint Delafield',    // 2
+  'Carattere',              // 3
+  'Lavishly Yours',         // 4
+  'Qwigley',                // 5
+  'Ruthie',                 // 6
+  'Lovers Quarrel',         // 7
+  'Pinyon Script',          // 8
+  'Corinthia',              // 9
+];
+
+// 日本語はサイト統一: Noto Sans JP
+const jpWeights = [200, 100, 300]; // 細め中心
+
+const enKeys = ['A','B','C','D','E','F'];
+
+/*
+ * Layout builders
+ * 0: JP全文 → gap → EN 3行
+ * 1: JP全文 → line → EN 3行
+ * 2: EN 3行 → gap → JP全文
+ * 3: JP 1行目 → JP 1行目b → gap小 → JP 2行目 → gap → EN 3行 (改行多め・ゆとり)
+ * 4: JP全文 → gap → EN 3行 (2行目だけサイズやや大きく)
+ */
+
+function render(p) {
+  const cf = cFonts[p.cf];
+  const jw = jpWeights[p.jw];
+  const en = enVersions[p.en];
+
+  // 日本語スタイル (Noto Sans JP 統一)
+  const jp1 = `font-family:'Noto Sans JP',sans-serif;font-weight:${jw};font-size:${p.jpSz};letter-spacing:${p.jpLs||'0.1em'};color:rgba(255,255,255,${p.jp1op||'0.92'});line-height:${p.jpLh||'2.4'};`;
+  const jp2 = `font-family:'Noto Sans JP',sans-serif;font-weight:${jw};font-size:${p.jp2Sz};letter-spacing:${p.jp2Ls||'0.08em'};color:rgba(255,255,255,${p.jp2op||'0.5'});line-height:${p.jpLh||'2.4'};margin-top:${p.jpGap||'0.2rem'};`;
+  // 英語スタイル
+  const enS = `font-family:'${cf}',cursive;font-size:${p.enSz};font-weight:400;letter-spacing:${p.enLs||'0.03em'};color:rgba(255,255,255,${p.enOp||'0.15'});line-height:${p.enLh||'1.7'};`;
+
+  const enHtml = en.map(l => `<span>${l}</span>`).join('<br>');
+
+  let html = '';
+  if (p.lay === 0) {
+    html = `
+      <p style="${jp1}">${jpL1}<br>${jpL1b}</p>
+      <p style="${jp2}">${jpL2}</p>
+      <p style="${enS}margin-top:${p.gap};">${enHtml}</p>`;
+  } else if (p.lay === 1) {
+    html = `
+      <p style="${jp1}">${jpL1}<br>${jpL1b}</p>
+      <p style="${jp2}">${jpL2}</p>
+      <div style="width:25px;height:1px;background:rgba(255,255,255,0.08);margin:${p.gap} auto;"></div>
+      <p style="${enS}">${enHtml}</p>`;
+  } else if (p.lay === 2) {
+    html = `
+      <p style="${enS}margin-bottom:${p.gap};">${enHtml}</p>
+      <p style="${jp1}">${jpL1}<br>${jpL1b}</p>
+      <p style="${jp2}">${jpL2}</p>`;
+  } else if (p.lay === 3) {
+    html = `
+      <p style="${jp1}">${jpL1}<br>${jpL1b}</p>
+      <p style="${jp2}">${jpL2}</p>
+      <p style="${enS}margin-top:${p.gap};">${enHtml}</p>`;
+  } else if (p.lay === 4) {
+    // 英語の真ん中行だけやや大きく
+    const enHtml4 = `<span>${en[0]}</span><br><span style="font-size:calc(${p.enSz} * 1.15);">${en[1]}</span><br><span>${en[2]}</span>`;
+    html = `
+      <p style="${jp1}">${jpL1}<br>${jpL1b}</p>
+      <p style="${jp2}">${jpL2}</p>
+      <p style="${enS}margin-top:${p.gap};">${enHtml4}</p>`;
+  }
+
+  return { html, label: `Noto Sans JP w${jw} + ${cf}` };
+}
+
+const P = [
+  // === Monsieur La Doulaise (最も参考画像に近い) ===
+  { cf:0, jw:0, en:'A', lay:0, jpSz:'clamp(0.95rem,2.3vw,1.2rem)', jp2Sz:'clamp(0.78rem,1.7vw,0.95rem)', enSz:'0.5rem',  gap:'1.3rem' },
+  { cf:0, jw:0, en:'B', lay:1, jpSz:'clamp(0.95rem,2.3vw,1.2rem)', jp2Sz:'clamp(0.78rem,1.7vw,0.95rem)', enSz:'0.5rem',  gap:'1rem' },
+  { cf:0, jw:1, en:'C', lay:0, jpSz:'clamp(1rem,2.4vw,1.25rem)',   jp2Sz:'clamp(0.8rem,1.8vw,0.95rem)',  enSz:'0.48rem', gap:'1.3rem', enOp:'0.13' },
+  { cf:0, jw:0, en:'D', lay:3, jpSz:'clamp(0.95rem,2.3vw,1.2rem)', jp2Sz:'clamp(0.78rem,1.7vw,0.95rem)', enSz:'0.5rem',  gap:'1.2rem', jpLs:'0.12em', jpLh:'2.6' },
+  { cf:0, jw:2, en:'E', lay:0, jpSz:'clamp(0.9rem,2.2vw,1.15rem)', jp2Sz:'clamp(0.78rem,1.7vw,0.92rem)', enSz:'0.48rem', gap:'1.2rem' },
+  // === Herr Von Muellerhoff ===
+  { cf:1, jw:0, en:'F', lay:0, jpSz:'clamp(0.95rem,2.3vw,1.2rem)', jp2Sz:'clamp(0.78rem,1.7vw,0.95rem)', enSz:'0.55rem', gap:'1.3rem' },
+  { cf:1, jw:0, en:'A', lay:1, jpSz:'clamp(0.95rem,2.3vw,1.2rem)', jp2Sz:'clamp(0.78rem,1.7vw,0.95rem)', enSz:'0.5rem',  gap:'1rem' },
+  { cf:1, jw:1, en:'B', lay:0, jpSz:'clamp(1rem,2.4vw,1.25rem)',   jp2Sz:'clamp(0.8rem,1.8vw,0.95rem)',  enSz:'0.52rem', gap:'1.3rem', enOp:'0.13' },
+  { cf:1, jw:0, en:'C', lay:3, jpSz:'clamp(0.95rem,2.3vw,1.2rem)', jp2Sz:'clamp(0.78rem,1.7vw,0.95rem)', enSz:'0.55rem', gap:'1.2rem', jpLs:'0.12em' },
+  { cf:1, jw:2, en:'D', lay:4, jpSz:'clamp(0.9rem,2.2vw,1.15rem)', jp2Sz:'clamp(0.78rem,1.7vw,0.92rem)', enSz:'0.5rem',  gap:'1.2rem' },
+  // === Mrs Saint Delafield ===
+  { cf:2, jw:0, en:'E', lay:0, jpSz:'clamp(0.95rem,2.3vw,1.2rem)', jp2Sz:'clamp(0.78rem,1.7vw,0.95rem)', enSz:'0.5rem',  gap:'1.3rem' },
+  { cf:2, jw:1, en:'F', lay:1, jpSz:'clamp(1rem,2.4vw,1.25rem)',   jp2Sz:'clamp(0.8rem,1.8vw,0.95rem)',  enSz:'0.48rem', gap:'1rem', enOp:'0.13' },
+  { cf:2, jw:0, en:'A', lay:0, jpSz:'clamp(0.95rem,2.3vw,1.2rem)', jp2Sz:'clamp(0.78rem,1.7vw,0.95rem)', enSz:'0.5rem',  gap:'1.2rem', jpLh:'2.6' },
+  // === Carattere ===
+  { cf:3, jw:0, en:'B', lay:0, jpSz:'clamp(0.95rem,2.3vw,1.2rem)', jp2Sz:'clamp(0.78rem,1.7vw,0.95rem)', enSz:'0.52rem', gap:'1.3rem' },
+  { cf:3, jw:1, en:'C', lay:0, jpSz:'clamp(1rem,2.4vw,1.25rem)',   jp2Sz:'clamp(0.8rem,1.8vw,0.95rem)',  enSz:'0.48rem', gap:'1.2rem', enOp:'0.13' },
+  { cf:3, jw:0, en:'D', lay:1, jpSz:'clamp(0.95rem,2.3vw,1.2rem)', jp2Sz:'clamp(0.78rem,1.7vw,0.95rem)', enSz:'0.5rem',  gap:'1rem' },
+  // === Lavishly Yours ===
+  { cf:4, jw:0, en:'E', lay:0, jpSz:'clamp(0.95rem,2.3vw,1.2rem)', jp2Sz:'clamp(0.78rem,1.7vw,0.95rem)', enSz:'0.48rem', gap:'1.3rem' },
+  { cf:4, jw:1, en:'F', lay:0, jpSz:'clamp(1rem,2.4vw,1.25rem)',   jp2Sz:'clamp(0.8rem,1.8vw,0.95rem)',  enSz:'0.45rem', gap:'1.2rem', enOp:'0.12' },
+  // === Qwigley ===
+  { cf:5, jw:0, en:'A', lay:0, jpSz:'clamp(0.95rem,2.3vw,1.2rem)', jp2Sz:'clamp(0.78rem,1.7vw,0.95rem)', enSz:'0.6rem',  gap:'1.3rem' },
+  { cf:5, jw:0, en:'B', lay:1, jpSz:'clamp(0.95rem,2.3vw,1.2rem)', jp2Sz:'clamp(0.78rem,1.7vw,0.95rem)', enSz:'0.55rem', gap:'1rem' },
+  // === Ruthie ===
+  { cf:6, jw:0, en:'C', lay:0, jpSz:'clamp(0.95rem,2.3vw,1.2rem)', jp2Sz:'clamp(0.78rem,1.7vw,0.95rem)', enSz:'0.5rem',  gap:'1.3rem' },
+  { cf:6, jw:1, en:'D', lay:0, jpSz:'clamp(1rem,2.4vw,1.25rem)',   jp2Sz:'clamp(0.8rem,1.8vw,0.95rem)',  enSz:'0.48rem', gap:'1.2rem', enOp:'0.13' },
+  // === Lovers Quarrel ===
+  { cf:7, jw:0, en:'E', lay:0, jpSz:'clamp(0.95rem,2.3vw,1.2rem)', jp2Sz:'clamp(0.78rem,1.7vw,0.95rem)', enSz:'0.55rem', gap:'1.3rem' },
+  { cf:7, jw:0, en:'F', lay:1, jpSz:'clamp(0.95rem,2.3vw,1.2rem)', jp2Sz:'clamp(0.78rem,1.7vw,0.95rem)', enSz:'0.5rem',  gap:'1rem' },
+  // === Pinyon Script ===
+  { cf:8, jw:0, en:'A', lay:0, jpSz:'clamp(0.95rem,2.3vw,1.2rem)', jp2Sz:'clamp(0.78rem,1.7vw,0.95rem)', enSz:'0.45rem', gap:'1.3rem', enOp:'0.14' },
+  // === BEST MIX: 英語上配置 ===
+  { cf:0, jw:0, en:'F', lay:2, jpSz:'clamp(0.95rem,2.3vw,1.2rem)', jp2Sz:'clamp(0.78rem,1.7vw,0.95rem)', enSz:'0.48rem', gap:'1rem', enOp:'0.12' },
+  { cf:1, jw:0, en:'A', lay:2, jpSz:'clamp(0.95rem,2.3vw,1.2rem)', jp2Sz:'clamp(0.78rem,1.7vw,0.95rem)', enSz:'0.5rem',  gap:'1rem', enOp:'0.13' },
+  // === BEST MIX: 真ん中行やや大きく ===
+  { cf:0, jw:0, en:'D', lay:4, jpSz:'clamp(0.95rem,2.3vw,1.2rem)', jp2Sz:'clamp(0.78rem,1.7vw,0.95rem)', enSz:'0.48rem', gap:'1.2rem' },
+  { cf:2, jw:0, en:'B', lay:4, jpSz:'clamp(0.95rem,2.3vw,1.2rem)', jp2Sz:'clamp(0.78rem,1.7vw,0.95rem)', enSz:'0.48rem', gap:'1.2rem', enOp:'0.14' },
+  // === BEST MIX: 行間ゆったり ===
+  { cf:0, jw:0, en:'C', lay:3, jpSz:'clamp(0.95rem,2.3vw,1.2rem)', jp2Sz:'clamp(0.78rem,1.7vw,0.95rem)', enSz:'0.48rem', gap:'1.3rem', jpLs:'0.13em', jpLh:'2.8', enLh:'1.9' },
+];
+
+const grid = document.getElementById('grid');
+P.forEach((p, i) => {
+  const { html, label } = render(p);
+  const img = imgs[i % imgs.length];
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <div class="card__bg"><img src="${img}" alt=""><div class="card__overlay"></div></div>
+    <div class="card__num">#${String(i+1).padStart(2,'0')}</div>
+    <div class="card__info">${label}</div>
+    <div class="card__text">${html}</div>
+  `;
+  grid.appendChild(card);
+});
+</script>
+</body>
+</html>

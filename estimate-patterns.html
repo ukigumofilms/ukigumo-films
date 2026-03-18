@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estimate Section Design Patterns</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans JP',sans-serif;background:#fff;color:#3D3530;}
+.sec{padding:2.5rem 1.5rem 2.5rem;border-bottom:1px solid #eee;}
+.tag{font-family:'Cormorant Garamond',serif;font-size:0.65rem;letter-spacing:0.2em;color:rgba(61,53,48,0.3);margin-bottom:0.15rem;}
+.name{font-size:0.55rem;color:rgba(61,53,48,0.45);margin-bottom:1.5rem;}
+
+/* ===== A: ゴールド番号＋左揃え ===== */
+.ea .row{display:flex;align-items:baseline;gap:0.5rem;padding:0.35rem 0;}
+.ea .num{font-family:'Cormorant Garamond',serif;font-size:0.6rem;color:rgba(201,169,110,0.6);min-width:0.9rem;text-align:right;}
+.ea .lbl{font-family:'Noto Serif JP',serif;font-size:0.68rem;font-weight:300;color:#2a2420;letter-spacing:0.04em;}
+
+/* ===== B: 横ライン区切り＋リーダー ===== */
+.eb .row{display:flex;align-items:center;gap:0.6rem;padding:0.5rem 0;border-bottom:1px solid rgba(61,53,48,0.05);}
+.eb .row:last-child{border-bottom:none;}
+.eb .num{font-family:'Cormorant Garamond',serif;font-size:0.55rem;color:rgba(61,53,48,0.25);min-width:1rem;}
+.eb .lbl{font-family:'Noto Serif JP',serif;font-size:0.65rem;font-weight:300;color:#2a2420;letter-spacing:0.04em;}
+.eb .line{flex:1;height:1px;background:rgba(201,169,110,0.15);}
+
+/* ===== C: 薄カード＋ゴールド番号 ===== */
+.ec{background:rgba(61,53,48,0.015);border:1px solid rgba(61,53,48,0.06);border-radius:6px;padding:0.8rem 1rem;}
+.ec .row{display:flex;align-items:center;gap:0.5rem;padding:0.3rem 0;}
+.ec .num{font-family:'Cormorant Garamond',serif;font-size:0.75rem;font-weight:400;color:rgba(201,169,110,0.5);min-width:0.8rem;text-align:right;}
+.ec .lbl{font-family:'Noto Serif JP',serif;font-size:0.62rem;font-weight:300;color:#2a2420;letter-spacing:0.04em;}
+
+/* ===== D: ゴールドドット＋ドットリーダー ===== */
+.ed .row{display:flex;align-items:center;gap:0.4rem;padding:0.35rem 0;}
+.ed .dot{width:3px;height:3px;border-radius:50%;background:rgba(201,169,110,0.5);flex-shrink:0;}
+.ed .num{font-family:'Cormorant Garamond',serif;font-size:0.55rem;color:rgba(61,53,48,0.3);min-width:0.6rem;}
+.ed .lbl{font-family:'Noto Serif JP',serif;font-size:0.65rem;font-weight:300;color:#2a2420;letter-spacing:0.04em;}
+.ed .lead{flex:1;border-bottom:1px dotted rgba(61,53,48,0.1);}
+
+/* ===== E: 究極コンパクト ===== */
+.ee .row{display:flex;align-items:baseline;gap:0.4rem;padding:0.2rem 0;}
+.ee .num{font-family:'Cormorant Garamond',serif;font-size:0.5rem;color:rgba(201,169,110,0.5);letter-spacing:0.05em;}
+.ee .lbl{font-family:'Noto Serif JP',serif;font-size:0.62rem;font-weight:300;color:#2a2420;letter-spacing:0.03em;}
+
+/* ===== F: ゴールド左ボーダー ===== */
+.ef{border-left:2px solid rgba(201,169,110,0.3);padding-left:1rem;}
+.ef .row{display:flex;align-items:baseline;gap:0.5rem;padding:0.3rem 0;}
+.ef .num{font-family:'Cormorant Garamond',serif;font-size:0.6rem;color:rgba(201,169,110,0.5);min-width:0.8rem;text-align:right;}
+.ef .lbl{font-family:'Noto Serif JP',serif;font-size:0.65rem;font-weight:300;color:#2a2420;letter-spacing:0.04em;}
+
+/* ===== G: インライン1行 ===== */
+.eg{text-align:center;line-height:2.2;}
+.eg .item{font-family:'Noto Serif JP',serif;font-size:0.6rem;font-weight:300;color:#2a2420;letter-spacing:0.04em;}
+.eg .num{font-family:'Cormorant Garamond',serif;font-size:0.5rem;color:rgba(201,169,110,0.5);margin-right:0.15rem;}
+.eg .slash{color:rgba(201,169,110,0.3);margin:0 0.4rem;font-size:0.5rem;}
+
+/* ===== H: 2列グリッド ===== */
+.eh{display:grid;grid-template-columns:1fr 1fr;gap:0.3rem 1rem;}
+.eh .row{display:flex;align-items:baseline;gap:0.35rem;padding:0.25rem 0;}
+.eh .num{font-family:'Cormorant Garamond',serif;font-size:0.55rem;color:rgba(201,169,110,0.5);}
+.eh .lbl{font-family:'Noto Serif JP',serif;font-size:0.6rem;font-weight:300;color:#2a2420;letter-spacing:0.03em;}
+
+/* ===== I: ダーク背景 ===== */
+.ei{background:rgba(42,36,32,0.92);border-radius:4px;padding:1rem 1.2rem;}
+.ei .row{display:flex;align-items:center;gap:0.5rem;padding:0.35rem 0;}
+.ei .num{font-family:'Cormorant Garamond',serif;font-size:0.6rem;color:rgba(201,169,110,0.6);min-width:0.8rem;text-align:right;}
+.ei .lbl{font-family:'Noto Serif JP',serif;font-size:0.62rem;font-weight:300;color:rgba(255,255,255,0.75);letter-spacing:0.04em;}
+.ei .line{flex:1;height:1px;background:rgba(201,169,110,0.12);}
+
+/* ===== J: ゴールド丸番号 ===== */
+.ej .row{display:flex;align-items:center;gap:0.5rem;padding:0.3rem 0;}
+.ej .num{font-family:'Cormorant Garamond',serif;font-size:0.5rem;color:rgba(201,169,110,0.65);width:1.1rem;height:1.1rem;border:1px solid rgba(201,169,110,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ej .lbl{font-family:'Noto Serif JP',serif;font-size:0.63rem;font-weight:300;color:#2a2420;letter-spacing:0.04em;}
+</style>
+</head>
+<body>
+
+<!-- A -->
+<div class="sec">
+<div class="tag">Pattern A</div>
+<div class="name">ゴールド番号＋左揃えリスト</div>
+<div class="ea">
+  <div class="row"><span class="num">1.</span><span class="lbl">お名前</span></div>
+  <div class="row"><span class="num">2.</span><span class="lbl">ご希望撮影地</span></div>
+  <div class="row"><span class="num">3.</span><span class="lbl">日程（第3希望日まで）</span></div>
+  <div class="row"><span class="num">4.</span><span class="lbl">オプション（後から追加可能）</span></div>
+</div>
+</div>
+
+<!-- B -->
+<div class="sec">
+<div class="tag">Pattern B</div>
+<div class="name">横線区切り＋ゴールドリーダー</div>
+<div class="eb">
+  <div class="row"><span class="num">1</span><span class="lbl">お名前</span><span class="line"></span></div>
+  <div class="row"><span class="num">2</span><span class="lbl">ご希望撮影地</span><span class="line"></span></div>
+  <div class="row"><span class="num">3</span><span class="lbl">日程（第3希望日まで）</span><span class="line"></span></div>
+  <div class="row"><span class="num">4</span><span class="lbl">オプション（後から追加可能）</span><span class="line"></span></div>
+</div>
+</div>
+
+<!-- C -->
+<div class="sec">
+<div class="tag">Pattern C</div>
+<div class="name">薄カード＋ゴールド番号</div>
+<div class="ec">
+  <div class="row"><span class="num">1</span><span class="lbl">お名前</span></div>
+  <div class="row"><span class="num">2</span><span class="lbl">ご希望撮影地</span></div>
+  <div class="row"><span class="num">3</span><span class="lbl">日程（第3希望日まで）</span></div>
+  <div class="row"><span class="num">4</span><span class="lbl">オプション（後から追加可能）</span></div>
+</div>
+</div>
+
+<!-- D -->
+<div class="sec">
+<div class="tag">Pattern D</div>
+<div class="name">ゴールドドット＋ドットリーダー</div>
+<div class="ed">
+  <div class="row"><span class="dot"></span><span class="num">1</span><span class="lbl">お名前</span><span class="lead"></span></div>
+  <div class="row"><span class="dot"></span><span class="num">2</span><span class="lbl">ご希望撮影地</span><span class="lead"></span></div>
+  <div class="row"><span class="dot"></span><span class="num">3</span><span class="lbl">日程（第3希望日まで）</span><span class="lead"></span></div>
+  <div class="row"><span class="dot"></span><span class="num">4</span><span class="lbl">オプション（後から追加可能）</span><span class="lead"></span></div>
+</div>
+</div>
+
+<!-- E -->
+<div class="sec">
+<div class="tag">Pattern E</div>
+<div class="name">究極コンパクト — 余白最小</div>
+<div class="ee">
+  <div class="row"><span class="num">01</span><span class="lbl">お名前</span></div>
+  <div class="row"><span class="num">02</span><span class="lbl">ご希望撮影地</span></div>
+  <div class="row"><span class="num">03</span><span class="lbl">日程（第3希望日まで）</span></div>
+  <div class="row"><span class="num">04</span><span class="lbl">オプション（後から追加可能）</span></div>
+</div>
+</div>
+
+<!-- F -->
+<div class="sec">
+<div class="tag">Pattern F</div>
+<div class="name">ゴールド左ボーダー</div>
+<div class="ef">
+  <div class="row"><span class="num">1</span><span class="lbl">お名前</span></div>
+  <div class="row"><span class="num">2</span><span class="lbl">ご希望撮影地</span></div>
+  <div class="row"><span class="num">3</span><span class="lbl">日程（第3希望日まで）</span></div>
+  <div class="row"><span class="num">4</span><span class="lbl">オプション（後から追加可能）</span></div>
+</div>
+</div>
+
+<!-- G -->
+<div class="sec">
+<div class="tag">Pattern G</div>
+<div class="name">インライン — スラッシュ区切り</div>
+<div class="eg">
+  <span class="item"><span class="num">1.</span>お名前</span><span class="slash">/</span><span class="item"><span class="num">2.</span>撮影地</span><span class="slash">/</span><span class="item"><span class="num">3.</span>日程</span><span class="slash">/</span><span class="item"><span class="num">4.</span>オプション</span>
+</div>
+</div>
+
+<!-- H -->
+<div class="sec">
+<div class="tag">Pattern H</div>
+<div class="name">2列グリッド</div>
+<div class="eh">
+  <div class="row"><span class="num">1.</span><span class="lbl">お名前</span></div>
+  <div class="row"><span class="num">2.</span><span class="lbl">ご希望撮影地</span></div>
+  <div class="row"><span class="num">3.</span><span class="lbl">日程（第3希望日まで）</span></div>
+  <div class="row"><span class="num">4.</span><span class="lbl">オプション</span></div>
+</div>
+</div>
+
+<!-- I -->
+<div class="sec">
+<div class="tag">Pattern I</div>
+<div class="name">ダーク背景＋ゴールドライン</div>
+<div class="ei">
+  <div class="row"><span class="num">1</span><span class="lbl">お名前</span><span class="line"></span></div>
+  <div class="row"><span class="num">2</span><span class="lbl">ご希望撮影地</span><span class="line"></span></div>
+  <div class="row"><span class="num">3</span><span class="lbl">日程（第3希望日まで）</span><span class="line"></span></div>
+  <div class="row"><span class="num">4</span><span class="lbl">オプション（後から追加可能）</span><span class="line"></span></div>
+</div>
+</div>
+
+<!-- J -->
+<div class="sec">
+<div class="tag">Pattern J</div>
+<div class="name">ゴールド丸番号＋横並び</div>
+<div class="ej">
+  <div class="row"><span class="num">1</span><span class="lbl">お名前</span></div>
+  <div class="row"><span class="num">2</span><span class="lbl">ご希望撮影地</span></div>
+  <div class="row"><span class="num">3</span><span class="lbl">日程（第3希望日まで）</span></div>
+  <div class="row"><span class="num">4</span><span class="lbl">オプション（後から追加可能）</span></div>
+</div>
+</div>
+
+</body>
+</html>

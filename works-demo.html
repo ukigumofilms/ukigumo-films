@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Works Section — Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400&family=Noto+Sans+JP:wght@300;400&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #f5f3ef;
+      color: #2c2c2c;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ========================================
+       SECTION HEADER
+       ======================================== */
+    .works-header {
+      text-align: center;
+      padding: clamp(5rem, 12vw, 10rem) 2rem clamp(3rem, 6vw, 5rem);
+    }
+
+    .works-header__title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(1.2rem, 3vw, 1.6rem);
+      letter-spacing: 0.25em;
+      color: #3D3530;
+    }
+
+    /* ========================================
+       WORKS ITEM
+       ======================================== */
+    .works-item {
+      display: grid;
+      grid-template-columns: 55% 45%;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* 偶数は画像を右に */
+    .works-item:nth-child(even) {
+      grid-template-columns: 45% 55%;
+    }
+    .works-item:nth-child(even) .works-item__image {
+      order: 2;
+    }
+    .works-item:nth-child(even) .works-item__content {
+      order: 1;
+    }
+
+    /* 画像コンテナ — パララックス用 */
+    .works-item__image {
+      position: relative;
+      overflow: hidden;
+      min-height: 100%;
+    }
+
+    .works-item__image img {
+      width: 100%;
+      height: 120%;
+      object-fit: cover;
+      display: block;
+      position: absolute;
+      top: -10%;
+      left: 0;
+      will-change: transform;
+    }
+
+    /* コンテンツ */
+    .works-item__content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(3rem, 8vw, 7rem) clamp(2.5rem, 7vw, 6rem);
+    }
+
+    .works-item__location {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(0.7rem, 1.2vw, 0.85rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 1.5rem;
+    }
+
+    .works-item__title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      line-height: 1.3;
+      letter-spacing: 0.02em;
+      color: #1a1a1a;
+      margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+    }
+
+    .works-item__desc {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 300;
+      font-size: clamp(0.8rem, 1.2vw, 0.95rem);
+      line-height: 2.2;
+      color: #666;
+      max-width: 480px;
+      margin-bottom: clamp(2.5rem, 5vw, 4rem);
+    }
+
+    /* Button — 線 + テキスト + 矢印 */
+    .works-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: #2a2420;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.2em;
+      cursor: pointer;
+    }
+    .works-more__line {
+      display: inline-block;
+      width: 35px;
+      height: 1px;
+      background: #2a2420;
+      transition: width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .works-more:hover .works-more__line { width: 60px; }
+    .works-more__text {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: clamp(0.88rem, 1.4vw, 1.05rem);
+      letter-spacing: 0.18em;
+    }
+    .works-more__arrow {
+      transition: transform 0.3s ease;
+    }
+    .works-more:hover .works-more__arrow { transform: translateX(5px); }
+
+    /* ========================================
+       SCROLL REVEAL
+       ======================================== */
+    .works-reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1),
+                  transform 1s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    .works-reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .works-reveal--image {
+      opacity: 0;
+      clip-path: inset(0 0 100% 0);
+      transition: opacity 1s ease, clip-path 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .works-reveal--image.visible {
+      opacity: 1;
+      clip-path: inset(0 0 0% 0);
+    }
+
+    /* ========================================
+       RESPONSIVE
+       ======================================== */
+    @media (max-width: 768px) {
+      .works-item,
+      .works-item:nth-child(even) {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+
+      .works-item__image {
+        height: 70vw;
+        order: 1 !important;
+      }
+
+      .works-item__image img {
+        height: 130%;
+        top: -15%;
+      }
+
+      .works-item__content {
+        order: 2 !important;
+        padding: 2.5rem 1.5rem 4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Section Header -->
+  <div class="works-header">
+    <h2 class="works-header__title">our destinations</h2>
+  </div>
+
+  <!-- ===== 01 JAPAN（画像左） ===== -->
+  <article class="works-item">
+    <div class="works-item__image works-reveal--image">
+      <img src="images/hero/hero-01.jpg" alt="Japan wedding photo" data-parallax>
+    </div>
+    <div class="works-item__content">
+      <span class="works-item__location works-reveal" style="transition-delay:0.1s;">Tokyo · Karuizawa · Jogashima — Japan</span>
+      <h3 class="works-item__title works-reveal" style="transition-delay:0.2s;">
+        where tradition meets<br>
+        the quiet beauty of now
+      </h3>
+      <p class="works-item__desc works-reveal" style="transition-delay:0.35s;">
+        東京の洗練された空気、軽井沢の木漏れ日、<br>
+        城ヶ島の潮風が頬をなでる瞬間。<br>
+        日本の四季と風土が、ふたりの原風景になる。
+      </p>
+      <div class="works-reveal" style="transition-delay:0.5s;">
+        <a href="plan-japan.html" class="works-more">
+          <span class="works-more__line"></span>
+          <span class="works-more__text">more</span>
+          <span class="works-more__arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </article>
+
+  <!-- ===== 02 PARIS（画像右） ===== -->
+  <article class="works-item">
+    <div class="works-item__image works-reveal--image">
+      <img src="images/paris/03.jpg" alt="Paris wedding photo" data-parallax>
+    </div>
+    <div class="works-item__content">
+      <span class="works-item__location works-reveal" style="transition-delay:0.1s;">Paris, France — 48.8566° N</span>
+      <h3 class="works-item__title works-reveal" style="transition-delay:0.2s;">
+        a timeless love story<br>
+        written in the city of light
+      </h3>
+      <p class="works-item__desc works-reveal" style="transition-delay:0.35s;">
+        セーヌ河のほとりに広がる石畳の街並み。<br>
+        エッフェル塔の見える朝、ルーブルの回廊を抜ける午後。<br>
+        パリという街そのものが、ふたりの物語を映画に変える。
+      </p>
+      <div class="works-reveal" style="transition-delay:0.5s;">
+        <a href="plan-paris.html" class="works-more">
+          <span class="works-more__line"></span>
+          <span class="works-more__text">more</span>
+          <span class="works-more__arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </article>
+
+  <!-- ===== 03 EUROPA（画像左） ===== -->
+  <article class="works-item">
+    <div class="works-item__image works-reveal--image">
+      <img src="images/firenze/02.jpg" alt="Europa wedding photo" data-parallax>
+    </div>
+    <div class="works-item__content">
+      <span class="works-item__location works-reveal" style="transition-delay:0.1s;">Firenze · London · Malta — Europa</span>
+      <h3 class="works-item__title works-reveal" style="transition-delay:0.2s;">
+        across borders,<br>
+        beyond the ordinary
+      </h3>
+      <p class="works-item__desc works-reveal" style="transition-delay:0.35s;">
+        フィレンツェの大聖堂、ロンドンの霧の中、<br>
+        マルタ島の蜂蜜色の石壁。<br>
+        ヨーロッパの多様な風景が、ふたりだけの一枚を紡ぐ。
+      </p>
+      <div class="works-reveal" style="transition-delay:0.5s;">
+        <a href="plan-europa.html" class="works-more">
+          <span class="works-more__line"></span>
+          <span class="works-more__text">more</span>
+          <span class="works-more__arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </article>
+
+  <script>
+    // ========================================
+    // Scroll Reveal
+    // ========================================
+    var reveals = document.querySelectorAll('.works-reveal, .works-reveal--image');
+    var revealObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+    reveals.forEach(function(el) { revealObs.observe(el); });
+
+    // ========================================
+    // Image Parallax — じわ〜っとスクロールに連動
+    // ========================================
+    (function() {
+      var images = document.querySelectorAll('[data-parallax]');
+      if (!images.length) return;
+
+      var parallaxSpeed = 0.15; // 小さいほどゆっくり（0.1〜0.3が自然）
+
+      function updateParallax() {
+        var scrollY = window.scrollY;
+        var winH = window.innerHeight;
+
+        images.forEach(function(img) {
+          var container = img.closest('.works-item__image');
+          var rect = container.getBoundingClientRect();
+
+          // コンテナが画面内にいるときだけ処理
+          if (rect.bottom < 0 || rect.top > winH) return;
+
+          // コンテナの中央がウィンドウの中央からどれだけずれてるか
+          var center = rect.top + rect.height / 2;
+          var offset = (center - winH / 2) * parallaxSpeed;
+
+          img.style.transform = 'translateY(' + offset + 'px)';
+        });
+
+        requestAnimationFrame(updateParallax);
+      }
+
+      updateParallax();
+    })();
+  </script>
+
+</body>
+</html>

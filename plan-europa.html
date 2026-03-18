@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Europa Plan | ukigumo wedding</title>
+  <meta name="description" content="ukigumo wedding — ヨーロッパ撮影プラン。完全カスタムの撮影プランで、お二人だけの特別な一日を。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ===== Page Hero ===== */
+    .page-hero {
+      position: relative;
+      height: 65vh;
+      min-height: 450px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .page-hero__image {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center bottom;
+      transform: scale(1);
+      transition: transform 12s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      will-change: transform;
+    }
+    .page-hero.active .page-hero__image {
+      transform: scale(1.1);
+    }
+    .page-hero__overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.55) 100%);
+      z-index: 1;
+    }
+    .page-hero__content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      color: white;
+    }
+    .page-hero__title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(2.5rem, 8vw, 4rem);
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      color: #fff;
+      opacity: 0;
+      filter: blur(3px);
+      transition: opacity 0.8s ease, filter 0.6s ease;
+    }
+    .page-hero__title.show {
+      opacity: 1;
+      filter: blur(0);
+      transition: opacity 1.5s cubic-bezier(0.19, 1, 0.22, 1), filter 1.2s ease;
+    }
+    .page-hero__subtitle {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      margin-top: 0.8rem;
+      margin-bottom: 0;
+      color: rgba(255,255,255,0.8);
+      opacity: 0;
+      filter: blur(3px);
+      transition: opacity 0.8s ease, filter 0.6s ease;
+    }
+    .page-hero__subtitle.show {
+      opacity: 0.8;
+      filter: blur(0);
+      transition: opacity 1.5s cubic-bezier(0.19, 1, 0.22, 1), filter 1.2s ease;
+    }
+    .page-hero__sub2 {
+      font-family: "Inter", "Noto Sans JP", sans-serif;
+      font-size: clamp(0.45rem, 1vw, 0.52rem);
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      margin-top: 0;
+      color: rgba(255,255,255,0.4);
+      text-transform: uppercase;
+      opacity: 0;
+      filter: blur(3px);
+      transition: opacity 0.8s ease, filter 0.6s ease;
+    }
+    .page-hero__sub2.show {
+      opacity: 0.5;
+      filter: blur(0);
+      transition: opacity 1.8s cubic-bezier(0.19, 1, 0.22, 1) 0.15s, filter 1.4s ease 0.15s;
+    }
+
+    /* ===== Intro Section (dress-intro style) ===== */
+    .plan-intro {
+      background: #fff;
+      text-align: center;
+      padding: 3.5rem 3rem;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .plan-intro__title {
+      font-family: "Noto Serif JP", serif;
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      color: #2e2519;
+      margin-bottom: 0.8rem;
+    }
+    .plan-intro__sep {
+      width: 40px;
+      height: 1px;
+      background: rgba(61,53,48,0.2);
+      margin: 0 auto 1.5rem;
+    }
+    .plan-intro__body {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.6rem;
+      font-weight: 300;
+      line-height: 2.4;
+      color: rgba(61,53,48,0.55);
+      letter-spacing: 0.02em;
+      max-width: 550px;
+      margin: 0 auto;
+    }
+
+    /* ===== Plan Cards Section ===== */
+    .plan-cards {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 1.5rem 4rem;
+    }
+
+    /* Each plan — white card + thin border + gold bottom accent */
+    .plan-card {
+      background: #fff !important;
+      background-color: #fff !important;
+      border: 1px solid rgba(155,145,135,0.35) !important;
+      border-radius: 14px !important;
+      margin-bottom: 3.5rem;
+      overflow: hidden;
+      display: flex !important;
+      flex-direction: row !important;
+      position: relative;
+      transition: none !important;
+    }
+    .plan-card:hover {
+      transform: none !important;
+      box-shadow: none !important;
+    }
+    /* Gold bottom accent line — animates on scroll */
+    .plan-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(to right, #c9a96e, #e0d5c0);
+      transition: width 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s;
+      z-index: 5;
+    }
+    .plan-card.is-visible::after { width: 100%; }
+
+    /* Alternating layout */
+    .plan-card:nth-child(even) .plan-card__image {
+      order: 2;
+    }
+    .plan-card:nth-child(even) .plan-card__content {
+      order: 1;
+    }
+
+    /* Image panel */
+    .plan-card__image {
+      position: relative !important;
+      overflow: hidden !important;
+      flex: 0 0 42% !important;
+      width: auto !important;
+      height: auto !important;
+      min-height: 420px;
+      display: block !important;
+      transition: none !important;
+    }
+    .plan-card:hover .plan-card__image {
+      transform: none !important;
+    }
+    .plan-card__image img {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.92);
+      transition: filter 0.8s ease;
+    }
+    .plan-card.is-visible .plan-card__image img {
+      filter: brightness(1);
+    }
+    .plan-card__image-overlay {
+      display: none;
+    }
+    .plan-card__image-label { display: none; }
+    .plan-card__image-sub { display: none; }
+
+    /* Content area */
+    .plan-card__content {
+      padding: 1.5rem 1.8rem 0.3rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      text-align: center;
+      align-items: center;
+    }
+    .pricing-block {
+      text-align: left;
+      width: 100%;
+    }
+
+    /* Number */
+    .plan-card__number {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.68rem;
+      font-weight: 400;
+      color: rgba(61,53,48,0.5);
+      letter-spacing: 0.2em;
+      margin-bottom: 0.6rem;
+    }
+
+    .plan-card__name {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(1.3rem, 3.5vw, 1.5rem);
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      color: #2e2519;
+      margin-bottom: 0.3rem;
+    }
+
+    .plan-card__sep {
+      width: 35px;
+      height: 1px;
+      background: rgba(61,53,48,0.15);
+      margin: 0 auto 0.5rem;
+    }
+
+    .plan-card__badge {
+      display: inline-block;
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      padding: 0.3rem 0.9rem;
+      background: #2e2519;
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      font-weight: 300;
+      margin-top: 0.3rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .plan-card__price-wrap {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 0.8rem;
+    }
+    .plan-card__price-main {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(1.5rem, 3.5vw, 1.8rem);
+      font-weight: 300;
+      color: #2e2519;
+      letter-spacing: 0.03em;
+    }
+    .plan-card__price-tax {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.58rem;
+      font-weight: 300;
+      color: rgba(61,53,48,0.7);
+    }
+
+    /* Tags — not used in 2-D, hidden */
+    .plan-card__tags { display: none; }
+
+    /* Pricing block — clean rows */
+    .pricing-block {
+      background: transparent;
+      border-radius: 0;
+      padding: 0;
+      margin-bottom: 0.3rem;
+    }
+    .pricing-block__header {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      color: #2a2420;
+      padding-bottom: 0.3rem;
+      border-bottom: 1px solid rgba(61,53,48,0.1);
+      margin-bottom: 0.3rem;
+    }
+    .pricing-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.22rem 0;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.5s ease, transform 0.4s ease;
+    }
+    .plan-card.is-visible .pricing-row { opacity: 1; transform: translateY(0); }
+    .plan-card.is-visible .pricing-row:nth-child(1) { transition-delay: 0.05s; }
+    .plan-card.is-visible .pricing-row:nth-child(2) { transition-delay: 0.1s; }
+    .plan-card.is-visible .pricing-row:nth-child(3) { transition-delay: 0.15s; }
+    .plan-card.is-visible .pricing-row:nth-child(4) { transition-delay: 0.2s; }
+    .plan-card.is-visible .pricing-row:nth-child(5) { transition-delay: 0.25s; }
+    .plan-card.is-visible .pricing-row:nth-child(6) { transition-delay: 0.3s; }
+    .plan-card.is-visible .pricing-row:nth-child(7) { transition-delay: 0.35s; }
+    .pricing-row + .pricing-row {
+      border-top: 1px solid rgba(61,53,48,0.04);
+    }
+    .pricing-row__label {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.65rem;
+      font-weight: 300;
+      color: rgba(61,53,48,0.95);
+    }
+    .pricing-row__value {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.7rem;
+      font-weight: 400;
+      color: #2a2420;
+      letter-spacing: 0.02em;
+    }
+    .pricing-note {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.55rem;
+      font-weight: 300;
+      color: rgba(61,53,48,0.55);
+      margin-top: 0.8rem;
+      line-height: 1.3;
+      opacity: 0;
+      transition: opacity 0.5s ease 0.4s;
+    }
+    .plan-card.is-visible .pricing-note { opacity: 1; }
+
+    /* Plan badge (inside pricing header) */
+    .plan-badge {
+      display: inline-block;
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.04em;
+      padding: 0.15rem 0.55rem;
+      background: transparent;
+      color: #9a9088;
+      border: 1px solid rgba(155,145,135,0.4);
+      border-radius: 10px;
+      font-weight: 300;
+      margin-left: 0.4rem;
+    }
+
+    /* ===== Section (Travel / Options) ===== */
+    .plan-section {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 1.5rem 3rem;
+    }
+    .plan-section__title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.3rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: #2e2519;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    .plan-section__sep {
+      width: 35px;
+      height: 1px;
+      background: rgba(61,53,48,0.2);
+      margin: 0 auto 1.5rem;
+    }
+
+    /* Travel table — white card + border */
+    .travel-card {
+      background: #fff;
+      border: 1px solid rgba(61,53,48,0.06);
+      border-radius: 14px;
+      overflow: hidden;
+      padding: 1.2rem 1.5rem 1rem;
+      position: relative;
+    }
+    .travel-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(to right, #c9a96e, #e0d5c0);
+      transition: width 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s;
+    }
+    .travel-card.is-visible::after { width: 100%; }
+    .travel-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.4rem 0;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.5s ease, transform 0.4s ease;
+    }
+    .travel-card.is-visible .travel-row { opacity: 1; transform: translateY(0); }
+    .travel-card.is-visible .travel-row:nth-child(1) { transition-delay: 0.05s; }
+    .travel-card.is-visible .travel-row:nth-child(2) { transition-delay: 0.1s; }
+    .travel-card.is-visible .travel-row:nth-child(3) { transition-delay: 0.15s; }
+    .travel-card.is-visible .travel-row:nth-child(4) { transition-delay: 0.2s; }
+    .travel-card.is-visible .travel-row:nth-child(5) { transition-delay: 0.25s; }
+    .travel-row + .travel-row {
+      border-top: 1px solid rgba(61,53,48,0.06);
+    }
+    .travel-row__area {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.65rem;
+      font-weight: 300;
+      color: rgba(61,53,48,0.95);
+      flex: 1;
+    }
+    .travel-row__price {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.7rem;
+      font-weight: 400;
+      color: #2a2420;
+      text-align: right;
+      min-width: 100px;
+    }
+    .travel-row__price--free {
+      color: #c9a96e;
+      font-weight: 400;
+    }
+
+    /* Options Grid */
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.5rem;
+    }
+    .option-item {
+      background: #fff;
+      border: 1px solid rgba(61,53,48,0.06);
+      border-radius: 10px;
+      padding: 0.7rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.4s ease, box-shadow 0.4s ease;
+    }
+    .option-item::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0;
+      height: 1.5px;
+      background: linear-gradient(to right, #c9a96e, transparent);
+      transition: width 0.5s ease;
+    }
+    .option-item:hover {
+      border-color: rgba(201,169,110,0.2);
+      box-shadow: 0 4px 20px rgba(201,169,110,0.06);
+    }
+    .option-item:hover::after { width: 100%; }
+    .option-item__name {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.63rem;
+      font-weight: 300;
+      color: rgba(61,53,48,0.95);
+      flex: 1;
+    }
+    .option-item__price {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.68rem;
+      font-weight: 400;
+      color: #2a2420;
+      text-align: right;
+      min-width: 90px;
+      letter-spacing: 0.02em;
+    }
+
+    /* Notes */
+    .notes-card {
+      background: #fff;
+      border: 1px solid rgba(61,53,48,0.06);
+      border-radius: 10px;
+      padding: 1rem 1.5rem;
+      max-width: 960px;
+      margin: 0 auto 2rem;
+    }
+    .notes-card__title {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.63rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      color: #2a2420;
+      margin-bottom: 0.5rem;
+      padding-bottom: 0.3rem;
+      border-bottom: 1px solid rgba(61,53,48,0.06);
+    }
+    .notes-card__item {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.6rem;
+      font-weight: 300;
+      color: rgba(61,53,48,0.9);
+      line-height: 1.8;
+    }
+
+    /* ===== Estimate Request Section ===== */
+    .est-card {
+      background: #fff;
+      border: 1px solid rgba(155,145,135,0.35);
+      border-radius: 14px;
+      padding: 1.4rem 1.5rem 1.2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .est-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(to right, #c9a96e, #e0d5c0);
+    }
+    .est-card__items {
+      max-width: 280px;
+      margin: 0 auto;
+    }
+    .est-card__item {
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem;
+      padding: 0.3rem 0;
+    }
+    .est-card__num {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: #c9a96e;
+      min-width: 1.3rem;
+      opacity: 0.7;
+    }
+    .est-card__label {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.62rem;
+      font-weight: 300;
+      color: #2a2420;
+      letter-spacing: 0.04em;
+    }
+    .est-card__footer {
+      margin-top: 0.8rem;
+      padding-top: 0.6rem;
+      border-top: 1px solid rgba(61,53,48,0.06);
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.55rem;
+      font-weight: 300;
+      color: rgba(61,53,48,0.5);
+      line-height: 1.8;
+      margin-bottom: 0.6rem;
+    }
+    .est-card .ig-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      color: #2a2420;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      transition: color 0.3s;
+    }
+    .est-card .ig-link:hover { color: #c9a96e; }
+    .est-card .ig-link svg { opacity: 0.6; }
+
+    /* works-more button (unified CTA — 線 + テキスト + 矢印) */
+    .works-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: #2a2420;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.2em;
+      cursor: pointer;
+    }
+    .works-more__line {
+      display: inline-block;
+      width: 35px;
+      height: 1px;
+      background: #2a2420;
+      transition: width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .works-more:hover .works-more__line { width: 60px; }
+    .works-more__text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.92rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+    }
+    .works-more__arrow {
+      transition: transform 0.3s ease;
+    }
+    .works-more:hover .works-more__arrow { transform: translateX(5px); }
+
+    /* Note Box */
+    .note-box {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 2rem;
+      text-align: center;
+    }
+    .note-box__title {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: #2a2420;
+      margin-bottom: 1.2rem;
+      letter-spacing: 0.1em;
+    }
+    .note-box__content {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.8rem;
+      font-weight: 300;
+      line-height: 2.2;
+      color: rgba(61,53,48,0.8);
+      letter-spacing: 0.03em;
+    }
+
+    /* Section Divider */
+    .section-divider {
+      width: 1px;
+      height: 40px;
+      margin: 2.5rem auto;
+      background-color: #2a2420;
+      opacity: 0.3;
+    }
+
+    /* ===== Scroll Reveal ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.6s ease, transform 0.5s ease;
+    }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      .plan-cards {
+        padding: 0 1rem 3rem;
+      }
+      .plan-card {
+        flex-direction: column !important;
+      }
+      .plan-card__image {
+        flex: 0 0 auto !important;
+        width: 100% !important;
+        height: 250px !important;
+        min-height: 250px;
+        order: 0 !important;
+      }
+      .plan-card:nth-child(even) .plan-card__image {
+        order: 0 !important;
+      }
+      .plan-card:nth-child(even) .plan-card__content {
+        order: 1 !important;
+      }
+      .plan-card__content {
+        padding: 1.5rem 1rem;
+        order: 1 !important;
+      }
+      .plan-intro {
+        padding: 2rem 1rem;
+      }
+      .page-hero__title {
+        font-size: 1.8rem;
+        letter-spacing: 0.08em;
+      }
+      .plan-section {
+        padding: 0 1rem 2.5rem;
+      }
+      .options-grid {
+        grid-template-columns: 1fr;
+      }
+      .travel-card {
+        padding: 1.5rem 1.2rem 1rem;
+      }
+      .notes-card {
+        margin-left: 1rem;
+        margin-right: 1rem;
+      }
+      .est-card {
+        max-width: 100%;
+        padding: 1.2rem 1rem 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Side Labels -->
+  <span class="side-text side-text--left side-text--dark">plan &mdash; europa</span>
+  <span class="side-text side-text--right side-text--dark">ukigumo wedding &mdash; all rights reserved.</span>
+
+  <!-- Navigation -->
+  <nav class="nav nav--light">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">
+        <img src="images/logo/logo-white.png" alt="ukigumo" class="nav__logo-light">
+        <img src="images/logo/logo-black.png" alt="ukigumo" class="nav__logo-dark">
+      </a>
+      <div class="nav__links">
+        <a href="plan.html">Plan / Price</a>
+        <a href="dress.html">Dress</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="qa.html">Q&A</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <button class="nav__hamburger" aria-label="メニュー">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="nav__menu">
+    <a href="index.html">Home</a>
+    <a href="plan.html">Plan / Price</a>
+    <div class="nav__menu-subs">
+      <a href="plan-japan.html">Japan</a>
+      <a href="plan-paris.html">Paris</a>
+      <a href="plan-europa.html">Europa</a>
+    </div>
+    <a href="gallery.html">Gallery</a>
+    <a href="dress.html">Dress</a>
+    <a href="qa.html">Q&A</a>
+    <a href="contact.html">Contact</a>
+    <a href="https://www.instagram.com/ukigumo_films/" target="_blank" rel="noopener" class="nav-instagram"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+    <span class="nav__menu-brand">ukigumo films — Tokyo</span>
+  </div>
+
+  <!-- Page Hero -->
+  <div class="page-hero" data-nav-dark>
+    <img src="images/hero-europa.jpg" alt="Europa Plan" class="page-hero__image">
+    <div class="page-hero__overlay"></div>
+    <div class="page-hero__content">
+      <h1 class="page-hero__title">Plan / Price</h1>
+      <p class="page-hero__subtitle">Europa</p>
+      <p class="page-hero__sub2">43.7696° N&ensp;&ensp;11.2558° E</p>
+    </div>
+  </div>
+
+  <!-- Intro -->
+  <section style="padding: 0; background: #fff;">
+    <div class="plan-intro">
+      <h2 class="plan-intro__title">ヨーロッパプラン</h2>
+      <div class="plan-intro__sep"></div>
+      <p class="plan-intro__body">
+        ヨーロッパ各地を舞台に<br>
+        お二人のご希望に合わせた<br>
+        完全カスタムの撮影プランです。
+      </p>
+    </div>
+  </section>
+
+  <!-- Plan Cards -->
+  <section style="padding: 0; background: #fff;">
+    <div class="plan-cards">
+
+      <!-- Europe Special Day Plan -->
+      <div class="plan-card reveal">
+        <div class="plan-card__content">
+          <h2 class="plan-card__name">Europa Special Plan</h2>
+          <div class="plan-card__sep"></div>
+          <div class="plan-card__price-wrap">
+            <div class="plan-card__price-main">&yen;598,000</div>
+            <div class="plan-card__price-tax">税込</div>
+          </div>
+
+          <div class="pricing-block">
+            <div class="pricing-block__header">含まれるもの</div>
+            <div class="pricing-row">
+              <span class="pricing-row__label">フォト</span>
+              <span class="pricing-row__value">200枚確約</span>
+            </div>
+            <div class="pricing-row">
+              <span class="pricing-row__label">映像作品</span>
+              <span class="pricing-row__value">~1:45</span>
+            </div>
+            <div class="pricing-row">
+              <span class="pricing-row__label">ダイジェスト</span>
+              <span class="pricing-row__value">20分程度</span>
+            </div>
+            <div class="pricing-row">
+              <span class="pricing-row__label">ドローン撮影</span>
+              <span class="pricing-row__value">&#10003;</span>
+            </div>
+            <div class="pricing-row">
+              <span class="pricing-row__label">天候予備日</span>
+              <span class="pricing-row__value">1日無料</span>
+            </div>
+            <p class="pricing-note">※ 別途パリからの出張費がかかります</p>
+            <p class="pricing-note">※ ドローンは撮影場所により飛行できない場合があります</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Travel Expenses -->
+  <section style="padding: 0; background: #fff;">
+    <div class="plan-section">
+      <h2 class="plan-section__title reveal">Travel Expenses</h2>
+      <div class="plan-section__sep"></div>
+
+      <div class="travel-card reveal">
+        <div class="travel-row">
+          <span class="travel-row__area">スイス</span>
+          <span class="travel-row__price">&yen;250,000</span>
+        </div>
+        <div class="travel-row">
+          <span class="travel-row__area">ニース / マルタ / ロンドン</span>
+          <span class="travel-row__price">&yen;100,000</span>
+        </div>
+        <div class="travel-row">
+          <span class="travel-row__area">フィレンツェ / ウィーン / プラハ</span>
+          <span class="travel-row__price">&yen;100,000</span>
+        </div>
+        <div class="travel-row">
+          <span class="travel-row__area">バルセロナ</span>
+          <span class="travel-row__price">&yen;100,000</span>
+        </div>
+        <div class="travel-row">
+          <span class="travel-row__area">その他の地域</span>
+          <span class="travel-row__price travel-row__price--free">ASK</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Options -->
+  <section style="padding: 0; background: #fff;">
+    <div class="plan-section">
+      <h2 class="plan-section__title reveal">Options</h2>
+      <div class="plan-section__sep"></div>
+
+      <div class="options-grid reveal">
+        <div class="option-item">
+          <span class="option-item__name">追加ヘアメイク</span>
+          <span class="option-item__price">&yen;11,000</span>
+        </div>
+        <div class="option-item">
+          <span class="option-item__name">データ2週間お急ぎ便</span>
+          <span class="option-item__price">&yen;22,000</span>
+        </div>
+        <div class="option-item">
+          <span class="option-item__name">データ4週間お急ぎ便</span>
+          <span class="option-item__price">&yen;16,500</span>
+        </div>
+        <div class="option-item">
+          <span class="option-item__name">DVD or Blu-ray 2枚納品</span>
+          <span class="option-item__price">&yen;4,400</span>
+        </div>
+        <div class="option-item">
+          <span class="option-item__name">フォトフレーム</span>
+          <span class="option-item__price">&yen;33,000</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Notes -->
+  <section style="padding: 0 1.5rem; background: #fff;">
+    <div class="notes-card reveal">
+      <div class="notes-card__title">ご注意事項</div>
+      <div class="notes-card__item">※ 衣装（ドレス・タキシード）は全プラン別途です。</div>
+      <div class="notes-card__item">※ 持ち込み無料、提携ブランドのご紹介が可能です。</div>
+      <div class="notes-card__item">※ 上記はすべて税込価格です</div>
+      <div class="notes-card__item">※ パリからの出張費は別途加算されます。詳細はDMよりお問い合わせください。</div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- Estimate Request Section -->
+  <section class="reveal" style="padding: 2rem 1.5rem; background: #fff;">
+    <div class="est-card">
+      <h2 style="font-family:'Cormorant Garamond',serif; font-weight:300; font-size:1.05rem; letter-spacing:0.2em; color:#2a2420; margin-bottom:0.15rem;">見積り依頼</h2>
+      <p style="font-family:'Cormorant Garamond',serif; font-size:0.55rem; color:rgba(61,53,48,0.35); letter-spacing:0.25em; text-transform:uppercase; margin-bottom:1rem;">Estimate Request</p>
+      <div class="est-card__items">
+        <div class="est-card__item"><span class="est-card__num">01</span><span class="est-card__label">お名前</span></div>
+        <div class="est-card__item"><span class="est-card__num">02</span><span class="est-card__label">ご希望撮影地</span></div>
+        <div class="est-card__item"><span class="est-card__num">03</span><span class="est-card__label">ご希望プラン</span></div>
+        <div class="est-card__item"><span class="est-card__num">04</span><span class="est-card__label">日程（第3希望まで）</span></div>
+        <div class="est-card__item"><span class="est-card__num">05</span><span class="est-card__label">オプション（後から追加可能）</span></div>
+      </div>
+      <p class="est-card__footer">上記の内容をInstagram DMにてお送りいただけますと<br>スムーズにお見積りを作成いたします。</p>
+      <a href="https://www.instagram.com/ukigumo_films/" target="_blank" rel="noopener" class="ig-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+        ukigumo_films
+      </a>
+    </div>
+  </section>
+
+  <!-- Q&A Link Section -->
+  <section class="reveal" style="padding: 5rem 1.5rem 6rem; background: #fff;">
+    <div style="text-align:center;">
+      <h2 style="font-family:'Cormorant Garamond',serif; font-weight:300; font-size:1.3rem; letter-spacing:0.25em; color:#2a2420; margin-bottom:0.3rem;">Q & A</h2>
+      <p style="font-family:'Noto Serif JP',serif; font-size:0.6rem; font-weight:300; color:rgba(61,53,48,0.8); letter-spacing:0.25em; margin-bottom:0.8rem;">よくあるご質問</p>
+      <p style="font-family:'Noto Serif JP',serif; font-size:0.65rem; font-weight:300; color:rgba(61,53,48,0.9); line-height:2; letter-spacing:0.05em; margin-bottom:0.8rem;">
+        撮影に関するよくあるご質問をまとめております。
+      </p>
+      <a href="qa.html" class="cta-pill">view questions</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" style="background: #fff;">
+    <div class="footer__logo">
+      <a href="index.html"><img src="images/logo/logo-black.png" alt="ukigumo"></a>
+    </div>
+    <div class="footer__links">
+      <a href="plan.html">Plan & Price</a>
+      <a href="dress.html">Dress</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="qa.html">Q&A / Policy</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <p class="footer__copy">&copy; 2026 ukigumo wedding. All rights reserved.</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    /* Scroll Reveal — unified observer for all animated elements */
+    (function(){
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if (e.isIntersecting) {
+            e.target.classList.add('is-visible');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.15 });
+
+      // .reveal elements (general fade-up)
+      document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+      // .plan-card elements (gold line + stagger rows)
+      document.querySelectorAll('.plan-card').forEach(function(el){ io.observe(el); });
+      // .travel-card (gold line + stagger rows)
+      document.querySelectorAll('.travel-card').forEach(function(el){ io.observe(el); });
+    })();
+
+    // Hero zoom trigger + blur-fade text
+    window.addEventListener('load', function() {
+      var hero = document.querySelector('.page-hero');
+      if (hero) {
+        setTimeout(function() { hero.classList.add('active'); }, 100);
+      }
+      var heroTitle = document.querySelector('.page-hero__title');
+      var heroSub = document.querySelector('.page-hero__subtitle');
+      var heroSub2 = document.querySelector('.page-hero__sub2');
+      setTimeout(function() { if (heroTitle) heroTitle.classList.add('show'); }, 300);
+      setTimeout(function() { if (heroSub) heroSub.classList.add('show'); }, 300);
+      setTimeout(function() { if (heroSub2) heroSub2.classList.add('show'); }, 500);
+    });
+  </script>
+</body>
+</html>

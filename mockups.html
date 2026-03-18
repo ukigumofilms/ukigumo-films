@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ukigumo — プラン名 10パターン提案 v2</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Noto+Sans+JP:wght@100;200;300;400&family=Noto+Serif+JP:wght@200;300;400;500&family=Inter:wght@200;300;400&family=Shippori+Mincho:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #e8e5e0;
+    color: #1a1a1a;
+  }
+
+  .page-header {
+    text-align: center;
+    padding: 4rem 2rem 1.5rem;
+  }
+  .page-header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 1.6rem;
+    letter-spacing: 0.15em;
+    color: #3D3530;
+    margin-bottom: 0.5rem;
+  }
+  .page-header p {
+    font-size: 0.75rem;
+    color: #999;
+    font-weight: 300;
+    line-height: 1.8;
+  }
+
+  /* Each pattern mockup */
+  .pattern {
+    max-width: 1100px;
+    margin: 2.5rem auto;
+    background: #f5f3ef;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.06);
+  }
+
+  .pattern__number {
+    background: #3D3530;
+    color: #f5f3ef;
+    padding: 0.9rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .pattern__number .num {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 0.65rem;
+    opacity: 0.4;
+    letter-spacing: 0.2em;
+  }
+  .pattern__number .name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+  }
+  .pattern__number .desc {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 300;
+    opacity: 0.5;
+    margin-left: auto;
+  }
+
+  /* Section header preview */
+  .mock-header {
+    text-align: center;
+    padding: 2.5rem 2rem 1.8rem;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+  }
+  .mock-header__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 1.2rem;
+    letter-spacing: 0.3em;
+    color: #3D3530;
+    text-transform: uppercase;
+  }
+
+  /* Plan cards row */
+  .mock-plans {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+  }
+
+  .mock-plan {
+    padding: 1.8rem 1.5rem 2rem;
+    border-right: 1px solid rgba(0,0,0,0.04);
+    display: flex;
+    flex-direction: column;
+  }
+  .mock-plan:last-child { border-right: none; }
+
+  .mock-plan__img {
+    width: 100%;
+    aspect-ratio: 3/2;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 1.2rem;
+  }
+  .mock-plan__img img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+  }
+
+  .mock-plan__location {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #aaa;
+    margin-bottom: 0.7rem;
+  }
+
+  /* Plan name — default (will be overridden per pattern) */
+  .mock-plan__name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 1.3rem;
+    letter-spacing: 0.04em;
+    color: #1a1a1a;
+    margin-bottom: 0.8rem;
+    line-height: 1.4;
+  }
+
+  .mock-plan__desc {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 300;
+    font-size: 0.68rem;
+    line-height: 2;
+    color: #999;
+    margin-bottom: 1.5rem;
+    flex: 1;
+  }
+
+  /* Button */
+  .mock-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    text-decoration: none;
+    color: #1a1a1a;
+    cursor: pointer;
+  }
+  .mock-btn__text {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 0.95rem;
+    letter-spacing: 0.15em;
+  }
+  .mock-btn__circle {
+    width: 3.2rem; height: 3.2rem;
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; color: #1a1a1a;
+  }
+
+  @media (max-width: 768px) {
+    .mock-plans { grid-template-columns: 1fr; }
+    .mock-plan { border-right: none; border-bottom: 1px solid rgba(0,0,0,0.04); }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>plan section — 10 proposals v2</h1>
+  <p>パターン3ベース ×「高級感」のバリエーション<br>ヘッダー: PLAN / PRICE（大文字） ／ ヨーロッパにスイス・ニース・バルセロナ追加</p>
+</div>
+
+<!-- ========== PATTERN 1 ========== -->
+<div class="pattern">
+  <div class="pattern__number">
+    <span class="num">PATTERN 01</span>
+    <span class="name">Cormorant Garamond Light</span>
+    <span class="desc">セリフ体ライト。繊細で空気感のある高級感</span>
+  </div>
+  <div class="pattern__body">
+    <div class="mock-header">
+      <div class="mock-header__title">PLAN / PRICE</div>
+    </div>
+    <div class="mock-plans">
+      <div class="mock-plan">
+        <div class="mock-plan__img"><img src="images/hero/hero-01.jpg" alt=""></div>
+        <div class="mock-plan__location">Tokyo · Karuizawa · Jogashima — Japan</div>
+        <div class="mock-plan__name" style="font-family:'Cormorant Garamond',serif; font-weight:300; font-size:1.35rem; letter-spacing:0.06em;">国内プラン</div>
+        <div class="mock-plan__desc">東京の洗練された空気、軽井沢の木漏れ日、<br>城ヶ島の潮風が頬をなでる瞬間。</div>
+        <a class="mock-btn"><span class="mock-btn__text">view plan</span><span class="mock-btn__circle">→</span></a>
+      </div>
+      <div class="mock-plan">
+        <div class="mock-plan__img"><img src="images/paris/03.jpg" alt=""></div>
+        <div class="mock-plan__location">Paris, France</div>
+        <div class="mock-plan__name" style="font-family:'Cormorant Garamond',serif; font-weight:300; font-size:1.35rem; letter-spacing:0.06em;">パリプラン</div>
+        <div class="mock-plan__desc">セーヌ河のほとりに広がる石畳の街並み。<br>パリという街がふたりの物語を映画に変える。</div>
+        <a class="mock-btn"><span class="mock-btn__text">view plan</span><span class="mock-btn__circle">→</span></a>
+      </div>
+      <div class="mock-plan">
+        <div class="mock-plan__img"><img src="images/firenze/02.jpg" alt=""></div>
+        <div class="mock-plan__location">Firenze · London · Malta · Switzerland · Nice · Barcelona</div>
+        <div class="mock-plan__name" style="font-family:'Cormorant Garamond',serif; font-weight:300; font-size:1.35rem; letter-spacing:0.06em;">ヨーロッパプラン</div>
+        <div class="mock-plan__desc">フィレンツェの大聖堂、ロンドンの霧の中、<br>マルタ島の蜂蜜色の石壁。</div>
+        <a class="mock-btn"><span class="mock-btn__text">view plan</span><span class="mock-btn__circle">→</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== PATTERN 2 ========== -->
+<div class="pattern">
+  <div class="pattern__number">
+    <span class="num">PATTERN 02</span>
+    <span class="name">Noto Sans JP ExtraLight</span>
+    <span class="desc">ゴシック極細。モダンでクリーンな高級感</span>
+  </div>
+  <div class="pattern__body">
+    <div class="mock-header">
+      <div class="mock-header__title">PLAN / PRICE</div>
+    </div>
+    <div class="mock-plans">
+      <div class="mock-plan">
+        <div class="mock-plan__img"><img src="images/hero/hero-01.jpg" alt=""></div>
+        <div class="mock-plan__location">Tokyo · Karuizawa · Jogashima — Japan</div>
+        <div class="mock-plan__name" style="font-family:'Noto Sans JP',sans-serif; font-weight:100; font-size:1.2rem; letter-spacing:0.12em;">国内プラン</div>
+        <div class="mock-plan__desc">東京の洗練された空気、軽井沢の木漏れ日、<br>城ヶ島の潮風が頬をなでる瞬間。</div>
+        <a class="mock-btn"><span class="mock-btn__text">view plan</span><span class="mock-btn__circle">→</span></a>
+      </div>
+      <div class="mock-plan">
+        <div class="mock-plan__img"><img src="images/paris/03.jpg" alt=""></div>
+        <div class="mock-plan__location">Paris, France</div>
+        <div class="mock-plan__name" style="font-family:'Noto Sans JP',sans-serif; font-weight:100; font-size:1.2rem; letter-spacing:0.12em;">パリプラン</div>
+        <div class="mock-plan__desc">セーヌ河のほとりに広がる石畳の街並み。<br>パリという街がふたりの物語を映画に変える。</div>
+        <a class="mock-btn"><span class="mock-btn__text">view plan</span><span class="mock-btn__circle">→</span></a>
+      </div>
+      <div class="mock-plan">
+        <div class="mock-plan__img"><img src="images/firenze/02.jpg" alt=""></div>
+        <div class="mock-plan__location">Firenze · London · Malta · Switzerland · Nice · Barcelona</div>
+        <div class="mock-plan__name" style="font-family:'Noto Sans JP',sans-serif; font-weight:100; font-size:1.2rem; letter-spacing:0.12em;">ヨーロッパプラン</div>
+        <div class="mock-plan__desc">フィレンツェの大聖堂、ロンドンの霧の中、<br>マルタ島の蜂蜜色の石壁。</div>
+        <a class="mock-btn"><span class="mock-btn__text">view plan</span><span class="mock-btn__circle">→</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== PATTERN 3 ========== -->
+<div class="pattern">
+  <div class="pattern__number">
+    <span class="num">PATTERN 03</span>
+    <span class="name">Shippori Mincho Regular</span>
+    <span class="desc">しっぽり明朝。和の品格と繊細さ</span>
+  </div>
+  <div class="pattern__body">
+    <div class="mock-header">
+      <div class="mock-header__title">PLAN / PRICE</div>
+    </div>
+    <div class="mock-plans">
+      <div class="mock-plan">
+        <div class="mock-plan__img"><img src="images/hero/hero-01.jpg" alt=""></div>
+        <div class="mock-plan__location">Tokyo · Karuizawa · Jogashima — Japan</div>
+        <div class="mock-plan__name" style="font-family:'Shippori Mincho',serif; font-weight:400; font-size:1.2rem; letter-spacing:0.15em;">国内プラン</div>
+        <div class="mock-plan__desc">東京の洗練された空気、軽井沢の木漏れ日、<br>城ヶ島の潮風が頬をなでる瞬間。</div>
+        <a class="mock-btn"><span class="mock-btn__text">view plan</span><span class="mock-btn__circle">→</span></a>
+      </div>
+      <div class="mock-plan">
+        <div class="mock-plan__img"><img src="images/paris/03.jpg" alt=""></div>
+        <div class="mock-plan__location">Paris, France</div>
+        <div class="mock-plan__name" style="font-family:'Shippori Mincho',serif; font-weight:400; font-size:1.2rem; letter-spacing:0.15em;">パリプラン</div>
+        <div class="mock-plan__desc">セーヌ河のほとりに広がる石畳の街並み。<br>パリという街がふたりの物語を映画に変える。</div>
+        <a class="mock-btn"><span class="mock-btn__text">view plan</span><span class="mock-btn__circle">→</span></a>
+      </div>
+      <div class="mock-plan">
+        <div class="mock-plan__img"><img src="images/firenze/02.jpg" alt=""></div>
+        <div class="mock-plan__location">Firenze · London · Malta · Switzerland · Nice · Barcelona</div>
+        <div class="mock-plan__name" style="font-family:'Shippori Mincho',serif; font-weight:400; font-size:1.2rem; letter-spacing:0.15em;">ヨーロッパプラン</div>
+        <div class="mock-plan__desc">フィレンツェの大聖堂、ロンドンの霧の中、<br>マルタ島の蜂蜜色の石壁。</div>
+        <a class="mock-btn"><span class="mock-btn__text">view plan</span><span class="mock-btn__circle">→</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== PATTERN 4 ========== -->
+<div class="pattern">
+  <div class="pattern__number">
+    <span class="num">PATTERN 04</span>
+    <span class="name">Noto Serif JP Light</span>
+    <span class="desc">明朝体ライト。静かな品の良さ</span>
+  </div>
+  <div class="pattern__body">
+    <div class="mock-header">
+      <div class="mock-header__title">PLAN / PRICE</div>
+    </div>
+    <div class="mock-plans">
+      <div class="mock-plan">
+        <div class="mock-plan__img"><img src="images/hero/hero-01.jpg" alt=""></div>
+        <div class="mock-plan__location">Tokyo · Karuizawa · Jogashima — Japan</div>
+        <div class="mock-plan__name" style="font-family:'Noto Serif JP',serif; font-weight:200; font-size:1.15rem; letter-spacing:0.18em; color:#2a2420;">国内プラン</div>
+        <div class="mock-plan__desc">東京の洗練された空気、軽井沢の木漏れ日、<br>城ヶ島の潮風が頬をなでる瞬間。</div>
+        <a class="mock-btn"><span class="mock-btn__text">view plan</span><span class="mock-btn__circle">→</span></a>
+      </div>
+      <div class="mock-plan">
+        <div class="mock-plan__img"><img src="images/paris/03.jpg" alt=""></div>
+        <div class="mock-plan__location">Paris, France</div>
+        <div class="mock-plan__name" style="font-family:'Noto Serif JP',serif; font-weight:200; font-size:1.15rem; letter-spacing:0.18em; color:#2a2420;">パリプラン</div>
+        <div class="mock-plan__desc">セーヌ河のほとりに広がる石畳の街並み。<br>パリという街がふたりの物語を映画に変える。</div>
+        <a class="mock-btn"><span class="mock-btn__text">view plan</span><span class="mock-btn__circle">→</span></a>
+      </div>
+      <div class="mock-plan">
+        <div class="mock-plan__img"><img src="images/firenze/02.jpg" alt=""></div>
+        <div class="mock-plan__location">Firenze · London · Malta · Switzerland · Nice · Barcelona</div>
+        <div class="mock-plan__name" style="font-family:'Noto Serif JP',serif; font-weight:200; font-size:1.15rem; letter-spacing:0.18em; color:#2a2420;">ヨーロッパプラン</div>
+        <div class="mock-plan__desc">フィレンツェの大聖堂、ロンドンの霧の中、<br>マルタ島の蜂蜜色の石壁。</div>
+        <a class="mock-btn"><span class="mock-btn__text">view plan</span><span class="mock-btn__circle">→</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== PATTERN 5 ========== -->
+<div class="pattern">
+  <div class="pattern__number">
+    <span class="num">PATTERN 05</span>
+    <span class="name">Noto Sans JP Light + 小さめ</span>
+    <span class="desc">ゴシック細め＋フォントサイズ控えめ。上品なミニマル</span>
+  </div>
+  <div class="pattern__body">
+    <div class="mock-header">
+      <div class="mock-header__title">PLAN / PRICE</div>
+    </div>
+    <div class="mock-plans">
+      <div class="mock-plan">
+        <div class="mock-plan__img"><img src="images/hero/hero-01.jpg" alt=""></div>
+        <div class="mock-plan__location">Tokyo · Karuizawa · Jogashima — Japan</div>
+        <div class="mock-plan__name" style="font-family:'Noto Sans JP',sans-serif; font-weight:200; font-size:1rem; letter-spacing:0.2em;">国内プラン</div>
+        <div class="mock-plan__desc">東京の洗練された空気、軽井沢の木漏れ日、<br>城ヶ島の潮風が頬をなでる瞬間。</div>
+        <a class="mock-btn"><span class="mock-btn__text">view plan</span><span class="mock-btn__circle">→</span></a>
+      </div>
+      <div class="mock-plan">
+        <div class="mock-plan__img"><img src="images/paris/03.jpg" alt=""></div>
+        <div class="mock-plan__location">Paris, France</div>
+        <div class="mock-plan__name" style="font-family:'Noto Sans JP',sans-serif; font-weight:200; font-size:1rem; letter-spacing:0.2em;">パリプラン</div>
+        <div class="mock-plan__desc">セーヌ河のほとりに広がる石畳の街並み。<br>パリという街がふたりの物語を映画に変える。</div>
+        <a class="mock-btn"><span class="mock-btn__text">view plan</span><span class="mock-btn__circle">→</span></a>
+      </div>
+      <div class="mock-plan">
+        <div class="mock-plan__img"><img src="images/firenze/02.jpg" alt=""></div>
+        <div class="mock-plan__location">Firenze · London · Malta · Switzerland · Nice · Barcelona</div>
+        <div class="mock-plan__name" style="font-family:'Noto Sans JP',sans-serif; font-weight:200; font-size:1rem; letter-spacing:0.2em;">ヨーロッパプラン</div>
+        <div class="mock-plan__desc">フィレンツェの大聖堂、ロンドンの霧の中、<br>マルタ島の蜂蜜色の石壁。</div>
+        <a class="mock-btn"><span class="mock-btn__text">view plan</span><span class="mock-btn__circle">→</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== PATTERN 6 ========== -->
+<div class="pattern">
+  <div class="pattern__number">
+    <span class="num">PATTERN 06</span>
+    <span class="name">日本語 + 英語サブ（Cormorant Light）</span>
+    <span class="desc">日本語プラン名＋その下に英語小文字。二層構造の洗練</span>
+  </div>
+  <div class="pattern__body">
+    <div class="mock-header">
+      <div class="mock-header__title">PLAN / PRICE</div>
+    </div>
+    <div class="mock-plans">
+      <div class="mock-plan">
+        <div class="mock-plan__img"><img src="images/hero/hero-01.jpg" alt=""></div>
+        <div class="mock-plan__location">Tokyo · Karuizawa · Jogashima — Japan</div>
+        <div class="mock-plan__name" style="font-family:'Noto Sans JP',sans-serif; font-weight:200; font-size:1.05rem; letter-spacing:0.15em; margin-bottom:0.3rem;">国内プラン</div>
+        <div style="font-family:'Cormorant Garamond',serif; font-weight:300; font-size:0.75rem; letter-spacing:0.15em; color:#bbb; margin-bottom:1rem;">japan plan</div>
+        <div class="mock-plan__desc">東京の洗練された空気、軽井沢の木漏れ日、<br>城ヶ島の潮風が頬をなでる瞬間。</div>
+        <a class="mock-btn"><span class="mock-btn__text">view plan</span><span class="mock-btn__circle">→</span></a>
+      </div>
+      <div class="mock-plan">
+        <div class="mock-plan__img"><img src="images/paris/03.jpg" alt=""></div>
+        <div class="mock-plan__location">Paris, France</div>
+        <div class="mock-plan__name" style="font-family:'Noto Sans JP',sans-serif; font-weight:200; font-size:1.05rem; letter-spacing:0.15em; margin-bottom:0.3rem;">パリプラン</div>
+        <div style="font-family:'Cormorant Garamond',serif; font-weight:300; font-size:0.75rem; letter-spacing:0.15em; color:#bbb; margin-bottom:1rem;">paris plan</div>
+        <div class="mock-plan__desc">セーヌ河のほとりに広がる石畳の街並み。<br>パリという街がふたりの物語を映画に変える。</div>
+        <a class="mock-btn"><span class="mock-btn__text">view plan</span><span class="mock-btn__circle">→</span></a>
+      </div>
+      <div class="mock-plan">
+        <div class="mock-plan__img"><img src="images/firenze/02.jpg" alt=""></div>
+        <div class="mock-plan__location">Firenze · London · Malta · Switzerland · Nice · Barcelona</div>
+        <div class="mock-plan__name" style="font-family:'Noto Sans JP',sans-serif; font-weight:200; font-size:1.05rem; letter-spacing:0.15em; margin-bottom:0.3rem;">ヨーロッパプラン</div>
+        <div style="font-family:'Cormorant Garamond',serif; font-weight:300; font-size:0.75rem; letter-spacing:0.15em; color:#bbb; margin-bottom:1rem;">europa plan</div>
+        <div class="mock-plan__desc">フィレンツェの大聖堂、ロンドンの霧の中、<br>マルタ島の蜂蜜色の石壁。</div>
+        <a class="mock-btn"><span class="mock-btn__text">view plan</span><span class="mock-btn__circle">→</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== PATTERN 7 ========== -->
+<div class="pattern">
+  <div class="pattern__number">
+    <span class="num">PATTERN 07</span>
+    <span class="name">Cormorant Garamond Italic Light</span>
+    <span class="desc">セリフ体イタリック。エレガントで柔らかい空気感</span>
+  </div>
+  <div class="pattern__body">
+    <div class="mock-header">
+      <div class="mock-header__title">PLAN / PRICE</div>
+    </div>
+    <div class="mock-plans">
+      <div class="mock-plan">
+        <div class="mock-plan__img"><img src="images/hero/hero-01.jpg" alt=""></div>
+        <div class="mock-plan__location">Tokyo · Karuizawa · Jogashima — Japan</div>
+        <div class="mock-plan__name" style="font-family:'Cormorant Garamond',serif; font-weight:300; font-style:italic; font-size:1.4rem; letter-spacing:0.04em;">国内プラン</div>
+        <div class="mock-plan__desc">東京の洗練された空気、軽井沢の木漏れ日、<br>城ヶ島の潮風が頬をなでる瞬間。</div>
+        <a class="mock-btn"><span class="mock-btn__text">view plan</span><span class="mock-btn__circle">→</span></a>
+      </div>
+      <div class="mock-plan">
+        <div class="mock-plan__img"><img src="images/paris/03.jpg" alt=""></div>
+        <div class="mock-plan__location">Paris, France</div>
+        <div class="mock-plan__name" style="font-family:'Cormorant Garamond',serif; font-weight:300; font-style:italic; font-size:1.4rem; letter-spacing:0.04em;">パリプラン</div>
+        <div class="mock-plan__desc">セーヌ河のほとりに広がる石畳の街並み。<br>パリという街がふたりの物語を映画に変える。</div>
+        <a class="mock-btn"><span class="mock-btn__text">view plan</span><span class="mock-btn__circle">→</span></a>
+      </div>
+      <div class="mock-plan">
+        <div class="mock-plan__img"><img src="images/firenze/02.jpg" alt=""></div>
+        <div class="mock-plan__location">Firenze · London · Malta · Switzerland · Nice · Barcelona</div>
+        <div class="mock-plan__name" style="font-family:'Cormorant Garamond',serif; font-weight:300; font-style:italic; font-size:1.4rem; letter-spacing:0.04em;">ヨーロッパプラン</div>
+        <div class="mock-plan__desc">フィレンツェの大聖堂、ロンドンの霧の中、<br>マルタ島の蜂蜜色の石壁。</div>
+        <a class="mock-btn"><span class="mock-btn__text">view plan</span><span class="mock-btn__circle">→</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== PATTERN 8 ========== -->
+<div class="pattern">
+  <div class="pattern__number">
+    <span class="num">PATTERN 08</span>
+    <span class="name">Shippori Mincho + ナンバリング</span>
+    <span class="desc">しっぽり明朝＋01/02/03の番号。構造的な美しさ</span>
+  </div>
+  <div class="pattern__body">
+    <div class="mock-header">
+      <div class="mock-header__title">PLAN / PRICE</div>
+    </div>
+    <div class="mock-plans">
+      <div class="mock-plan">
+        <div class="mock-plan__img"><img src="images/hero/hero-01.jpg" alt=""></div>
+        <div class="mock-plan__location">Tokyo · Karuizawa · Jogashima — Japan</div>
+        <div style="display:flex; align-items:baseline; gap:0.6rem; margin-bottom:0.8rem;">
+          <span style="font-family:'Inter',sans-serif; font-weight:200; font-size:0.6rem; color:#bbb; letter-spacing:0.1em;">01</span>
+          <span style="font-family:'Shippori Mincho',serif; font-weight:400; font-size:1.15rem; letter-spacing:0.12em; color:#1a1a1a;">国内プラン</span>
+        </div>
+        <div class="mock-plan__desc">東京の洗練された空気、軽井沢の木漏れ日、<br>城ヶ島の潮風が頬をなでる瞬間。</div>
+        <a class="mock-btn"><span class="mock-btn__text">view plan</span><span class="mock-btn__circle">→</span></a>
+      </div>
+      <div class="mock-plan">
+        <div class="mock-plan__img"><img src="images/paris/03.jpg" alt=""></div>
+        <div class="mock-plan__location">Paris, France</div>
+        <div style="display:flex; align-items:baseline; gap:0.6rem; margin-bottom:0.8rem;">
+          <span style="font-family:'Inter',sans-serif; font-weight:200; font-size:0.6rem; color:#bbb; letter-spacing:0.1em;">02</span>
+          <span style="font-family:'Shippori Mincho',serif; font-weight:400; font-size:1.15rem; letter-spacing:0.12em; color:#1a1a1a;">パリプラン</span>
+        </div>
+        <div class="mock-plan__desc">セーヌ河のほとりに広がる石畳の街並み。<br>パリという街がふたりの物語を映画に変える。</div>
+        <a class="mock-btn"><span class="mock-btn__text">view plan</span><span class="mock-btn__circle">→</span></a>
+      </div>
+      <div class="mock-plan">
+        <div class="mock-plan__img"><img src="images/firenze/02.jpg" alt=""></div>
+        <div class="mock-plan__location">Firenze · London · Malta · Switzerland · Nice · Barcelona</div>
+        <div style="display:flex; align-items:baseline; gap:0.6rem; margin-bottom:0.8rem;">
+          <span style="font-family:'Inter',sans-serif; font-weight:200; font-size:0.6rem; color:#bbb; letter-spacing:0.1em;">03</span>
+          <span style="font-family:'Shippori Mincho',serif; font-weight:400; font-size:1.15rem; letter-spacing:0.12em; color:#1a1a1a;">ヨーロッパプラン</span>
+        </div>
+        <div class="mock-plan__desc">フィレンツェの大聖堂、ロンドンの霧の中、<br>マルタ島の蜂蜜色の石壁。</div>
+        <a class="mock-btn"><span class="mock-btn__text">view plan</span><span class="mock-btn__circle">→</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== PATTERN 9 ========== -->
+<div class="pattern">
+  <div class="pattern__number">
+    <span class="num">PATTERN 09</span>
+    <span class="name">Noto Sans JP 200 + 区切り線</span>
+    <span class="desc">極細ゴシック＋プラン名の上下に細い線。構造的ラグジュアリー</span>
+  </div>
+  <div class="pattern__body">
+    <div class="mock-header">
+      <div class="mock-header__title">PLAN / PRICE</div>
+    </div>
+    <div class="mock-plans">
+      <div class="mock-plan">
+        <div class="mock-plan__img"><img src="images/hero/hero-01.jpg" alt=""></div>
+        <div class="mock-plan__location">Tokyo · Karuizawa · Jogashima — Japan</div>
+        <div style="border-top:1px solid rgba(0,0,0,0.06); border-bottom:1px solid rgba(0,0,0,0.06); padding:0.8rem 0; margin-bottom:0.8rem;">
+          <div class="mock-plan__name" style="font-family:'Noto Sans JP',sans-serif; font-weight:200; font-size:1.05rem; letter-spacing:0.18em; margin-bottom:0;">国内プラン</div>
+        </div>
+        <div class="mock-plan__desc">東京の洗練された空気、軽井沢の木漏れ日、<br>城ヶ島の潮風が頬をなでる瞬間。</div>
+        <a class="mock-btn"><span class="mock-btn__text">view plan</span><span class="mock-btn__circle">→</span></a>
+      </div>
+      <div class="mock-plan">
+        <div class="mock-plan__img"><img src="images/paris/03.jpg" alt=""></div>
+        <div class="mock-plan__location">Paris, France</div>
+        <div style="border-top:1px solid rgba(0,0,0,0.06); border-bottom:1px solid rgba(0,0,0,0.06); padding:0.8rem 0; margin-bottom:0.8rem;">
+          <div class="mock-plan__name" style="font-family:'Noto Sans JP',sans-serif; font-weight:200; font-size:1.05rem; letter-spacing:0.18em; margin-bottom:0;">パリプラン</div>
+        </div>
+        <div class="mock-plan__desc">セーヌ河のほとりに広がる石畳の街並み。<br>パリという街がふたりの物語を映画に変える。</div>
+        <a class="mock-btn"><span class="mock-btn__text">view plan</span><span class="mock-btn__circle">→</span></a>
+      </div>
+      <div class="mock-plan">
+        <div class="mock-plan__img"><img src="images/firenze/02.jpg" alt=""></div>
+        <div class="mock-plan__location">Firenze · London · Malta · Switzerland · Nice · Barcelona</div>
+        <div style="border-top:1px solid rgba(0,0,0,0.06); border-bottom:1px solid rgba(0,0,0,0.06); padding:0.8rem 0; margin-bottom:0.8rem;">
+          <div class="mock-plan__name" style="font-family:'Noto Sans JP',sans-serif; font-weight:200; font-size:1.05rem; letter-spacing:0.18em; margin-bottom:0;">ヨーロッパプラン</div>
+        </div>
+        <div class="mock-plan__desc">フィレンツェの大聖堂、ロンドンの霧の中、<br>マルタ島の蜂蜜色の石壁。</div>
+        <a class="mock-btn"><span class="mock-btn__text">view plan</span><span class="mock-btn__circle">→</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== PATTERN 10 ========== -->
+<div class="pattern">
+  <div class="pattern__number">
+    <span class="num">PATTERN 10</span>
+    <span class="name">Cormorant + 地名大きく / 日本語小さく</span>
+    <span class="desc">英語地名を大きくメインに＋日本語プラン名を小さく添える</span>
+  </div>
+  <div class="pattern__body">
+    <div class="mock-header">
+      <div class="mock-header__title">PLAN / PRICE</div>
+    </div>
+    <div class="mock-plans">
+      <div class="mock-plan">
+        <div class="mock-plan__img"><img src="images/hero/hero-01.jpg" alt=""></div>
+        <div class="mock-plan__location">Tokyo · Karuizawa · Jogashima — Japan</div>
+        <div class="mock-plan__name" style="font-family:'Cormorant Garamond',serif; font-weight:300; font-size:1.6rem; letter-spacing:0.06em; margin-bottom:0.2rem;">Japan</div>
+        <div style="font-family:'Noto Sans JP',sans-serif; font-weight:200; font-size:0.7rem; letter-spacing:0.2em; color:#aaa; margin-bottom:1rem;">国内プラン</div>
+        <div class="mock-plan__desc">東京の洗練された空気、軽井沢の木漏れ日、<br>城ヶ島の潮風が頬をなでる瞬間。</div>
+        <a class="mock-btn"><span class="mock-btn__text">view plan</span><span class="mock-btn__circle">→</span></a>
+      </div>
+      <div class="mock-plan">
+        <div class="mock-plan__img"><img src="images/paris/03.jpg" alt=""></div>
+        <div class="mock-plan__location">Paris, France</div>
+        <div class="mock-plan__name" style="font-family:'Cormorant Garamond',serif; font-weight:300; font-size:1.6rem; letter-spacing:0.06em; margin-bottom:0.2rem;">Paris</div>
+        <div style="font-family:'Noto Sans JP',sans-serif; font-weight:200; font-size:0.7rem; letter-spacing:0.2em; color:#aaa; margin-bottom:1rem;">パリプラン</div>
+        <div class="mock-plan__desc">セーヌ河のほとりに広がる石畳の街並み。<br>パリという街がふたりの物語を映画に変える。</div>
+        <a class="mock-btn"><span class="mock-btn__text">view plan</span><span class="mock-btn__circle">→</span></a>
+      </div>
+      <div class="mock-plan">
+        <div class="mock-plan__img"><img src="images/firenze/02.jpg" alt=""></div>
+        <div class="mock-plan__location">Firenze · London · Malta · Switzerland · Nice · Barcelona</div>
+        <div class="mock-plan__name" style="font-family:'Cormorant Garamond',serif; font-weight:300; font-size:1.6rem; letter-spacing:0.06em; margin-bottom:0.2rem;">Europa</div>
+        <div style="font-family:'Noto Sans JP',sans-serif; font-weight:200; font-size:0.7rem; letter-spacing:0.2em; color:#aaa; margin-bottom:1rem;">ヨーロッパプラン</div>
+        <div class="mock-plan__desc">フィレンツェの大聖堂、ロンドンの霧の中、<br>マルタ島の蜂蜜色の石壁。</div>
+        <a class="mock-btn"><span class="mock-btn__text">view plan</span><span class="mock-btn__circle">→</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="height:4rem;"></div>
+
+</body>
+</html>

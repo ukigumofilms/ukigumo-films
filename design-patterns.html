@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ukigumo wedding — Design Patterns</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400&family=Noto+Serif+JP:wght@200;300;400;500&family=Noto+Sans+JP:wght@300;400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=DM+Serif+Display:ital@0;1&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', 'Noto Sans JP', sans-serif;
+    background: #f5f5f5;
+    color: #333;
+  }
+
+  .page-header {
+    text-align: center;
+    padding: 60px 20px 40px;
+    background: #fff;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .page-header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 36px;
+    letter-spacing: 0.2em;
+    margin-bottom: 12px;
+  }
+  .page-header p {
+    font-size: 14px;
+    color: #888;
+    letter-spacing: 0.05em;
+  }
+
+  .patterns-grid {
+    max-width: 1400px;
+    margin: 40px auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+    gap: 40px;
+  }
+
+  @media (max-width: 660px) {
+    .patterns-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .pattern-card {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease;
+  }
+  .pattern-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .pattern-label {
+    background: #fff;
+    padding: 20px 24px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .pattern-label h2 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    letter-spacing: 0.05em;
+  }
+  .pattern-label .num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: #bbb;
+  }
+  .pattern-label .tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .pattern-label .tag {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: #f0f0f0;
+    color: #666;
+    letter-spacing: 0.02em;
+  }
+
+  /* === PATTERN PREVIEW === */
+  .preview {
+    position: relative;
+    height: 520px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* -- Hero Section -- */
+  .preview-hero {
+    flex: 0 0 260px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .preview-hero .hero-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+  .preview-hero .hero-text {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 20px;
+  }
+  .preview-hero .hero-text .brand {
+    letter-spacing: 0.3em;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .preview-hero .hero-text .tagline {
+    margin-bottom: 4px;
+  }
+
+  /* -- Content Section -- */
+  .preview-content {
+    flex: 1;
+    padding: 30px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .preview-content .section-label {
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    margin-bottom: 4px;
+  }
+  .preview-content .section-title {
+    margin-bottom: 8px;
+  }
+  .preview-content .section-body {
+    line-height: 1.8;
+  }
+  .preview-content .divider {
+    width: 40px;
+    height: 1px;
+    margin: 4px 0;
+  }
+
+  /* -- Nav bar -- */
+  .preview-nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+  }
+  .preview-nav .nav-logo {
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .preview-nav .nav-links {
+    display: flex;
+    gap: 20px;
+  }
+  .preview-nav .nav-links span {
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* -- Button -- */
+  .preview-btn {
+    display: inline-block;
+    padding: 10px 32px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    align-self: flex-start;
+  }
+
+  /* -- Color Swatches -- */
+  .swatches {
+    background: #fff;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .swatch {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid #e0e0e0;
+  }
+  .swatch-label {
+    font-size: 11px;
+    color: #999;
+    letter-spacing: 0.02em;
+  }
+
+  /* ==================== */
+  /* PATTERN 1: Warm Beige (MYTHEL-style) */
+  .p1 .preview-hero { background: #C5B9A8; }
+  .p1 .hero-overlay { background: rgba(197,185,168,0.3); }
+  .p1 .hero-text .brand { font-family: 'Cormorant Garamond', serif; font-size: 13px; font-weight: 300; color: #fff; }
+  .p1 .hero-text .tagline { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: #fff; }
+  .p1 .hero-text .sub { font-family: 'Noto Serif JP', serif; font-size: 12px; font-weight: 200; color: rgba(255,255,255,0.85); letter-spacing: 0.15em; }
+  .p1 .preview-content { background: #FAF8F5; }
+  .p1 .section-label { font-family: 'Cormorant Garamond', serif; font-size: 11px; color: #B8A898; }
+  .p1 .section-title { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; color: #2C2824; letter-spacing: 0.08em; }
+  .p1 .section-body { font-family: 'Noto Sans JP', sans-serif; font-size: 13px; color: #6B635A; font-weight: 300; }
+  .p1 .divider { background: #B8A898; }
+  .p1 .preview-btn { border: 1px solid #B8A898; color: #B8A898; font-family: 'Cormorant Garamond', serif; background: transparent; }
+  .p1 .preview-nav .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 14px; color: #fff; font-weight: 300; }
+  .p1 .preview-nav .nav-links span { font-family: 'Cormorant Garamond', serif; font-size: 11px; color: rgba(255,255,255,0.8); font-weight: 300; }
+
+  /* PATTERN 2: Off-White Luxury (Aman/Four Seasons) */
+  .p2 .preview-hero { background: #D5D0C0; }
+  .p2 .hero-overlay { background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.15) 100%); }
+  .p2 .hero-text .brand { font-family: 'Cormorant Garamond', serif; font-size: 12px; font-weight: 400; color: #4A4A3A; letter-spacing: 0.4em; }
+  .p2 .hero-text .tagline { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: #4A4A3A; letter-spacing: 0.05em; }
+  .p2 .hero-text .sub { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 300; color: #6B6B5A; letter-spacing: 0.3em; }
+  .p2 .preview-content { background: #F8F5EE; }
+  .p2 .section-label { font-family: 'Inter', sans-serif; font-size: 10px; color: #6B7C5E; font-weight: 300; }
+  .p2 .section-title { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: #4A4A3A; letter-spacing: 0.06em; }
+  .p2 .section-body { font-family: 'Noto Sans JP', sans-serif; font-size: 13px; color: #6B6B5A; font-weight: 300; }
+  .p2 .divider { background: #C5BFA7; }
+  .p2 .preview-btn { border: 1px solid #4A4A3A; color: #4A4A3A; font-family: 'Inter', sans-serif; font-size: 10px; background: transparent; }
+  .p2 .preview-nav .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 15px; color: #4A4A3A; font-weight: 300; letter-spacing: 0.15em; }
+  .p2 .preview-nav .nav-links span { font-family: 'Inter', sans-serif; font-size: 10px; color: #6B6B5A; font-weight: 300; }
+
+  /* PATTERN 3: Celine / Bottega Veneta — Minimal Fashion */
+  .p3 .preview-hero { background: #EDE9DF; }
+  .p3 .hero-overlay { background: transparent; }
+  .p3 .hero-text .brand { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 400; color: #1A1A1A; letter-spacing: 0.5em; }
+  .p3 .hero-text .tagline { font-family: 'Cormorant Garamond', serif; font-size: 42px; font-weight: 300; color: #1A1A1A; letter-spacing: 0.02em; font-style: italic; }
+  .p3 .hero-text .sub { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 300; color: #888; letter-spacing: 0.25em; }
+  .p3 .preview-content { background: #FAFAFA; }
+  .p3 .section-label { font-family: 'Inter', sans-serif; font-size: 10px; color: #999; font-weight: 400; letter-spacing: 0.3em; }
+  .p3 .section-title { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 300; color: #1A1A1A; }
+  .p3 .section-body { font-family: 'Noto Sans JP', sans-serif; font-size: 13px; color: #666; font-weight: 300; }
+  .p3 .divider { background: #1A1A1A; width: 24px; }
+  .p3 .preview-btn { border: 1px solid #1A1A1A; color: #1A1A1A; font-family: 'Inter', sans-serif; font-size: 10px; background: transparent; }
+  .p3 .preview-nav .nav-logo { font-family: 'Inter', sans-serif; font-size: 12px; color: #1A1A1A; font-weight: 400; letter-spacing: 0.3em; }
+  .p3 .preview-nav .nav-links span { font-family: 'Inter', sans-serif; font-size: 10px; color: #666; font-weight: 300; }
+
+  /* PATTERN 4: Dark Cinematic (Film noir) */
+  .p4 .preview-hero { background: #1C1917; }
+  .p4 .hero-overlay { background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.5) 100%); }
+  .p4 .hero-text .brand { font-family: 'Cormorant Garamond', serif; font-size: 12px; font-weight: 300; color: #C4B5A2; letter-spacing: 0.4em; }
+  .p4 .hero-text .tagline { font-family: 'Cormorant Garamond', serif; font-size: 34px; font-weight: 300; color: #F0EBE3; }
+  .p4 .hero-text .sub { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 300; color: #9A8E80; letter-spacing: 0.2em; }
+  .p4 .preview-content { background: #1C1917; }
+  .p4 .section-label { font-family: 'Inter', sans-serif; font-size: 10px; color: #8A7E70; font-weight: 300; }
+  .p4 .section-title { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; color: #F0EBE3; }
+  .p4 .section-body { font-family: 'Noto Sans JP', sans-serif; font-size: 13px; color: #9A8E80; font-weight: 300; }
+  .p4 .divider { background: #C4B5A2; width: 30px; }
+  .p4 .preview-btn { border: 1px solid #C4B5A2; color: #C4B5A2; font-family: 'Cormorant Garamond', serif; background: transparent; }
+  .p4 .preview-nav .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 14px; color: #F0EBE3; font-weight: 300; }
+  .p4 .preview-nav .nav-links span { font-family: 'Inter', sans-serif; font-size: 10px; color: #9A8E80; font-weight: 300; }
+
+  /* PATTERN 5: Sage Green Organic */
+  .p5 .preview-hero { background: #A8B09E; }
+  .p5 .hero-overlay { background: rgba(168,176,158,0.2); }
+  .p5 .hero-text .brand { font-family: 'Lora', serif; font-size: 12px; font-weight: 400; color: #fff; letter-spacing: 0.3em; }
+  .p5 .hero-text .tagline { font-family: 'Lora', serif; font-size: 30px; font-weight: 400; color: #fff; }
+  .p5 .hero-text .sub { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 300; color: rgba(255,255,255,0.8); letter-spacing: 0.2em; }
+  .p5 .preview-content { background: #F7F6F2; }
+  .p5 .section-label { font-family: 'Inter', sans-serif; font-size: 10px; color: #8B9480; font-weight: 300; }
+  .p5 .section-title { font-family: 'Lora', serif; font-size: 26px; font-weight: 400; color: #3A3E35; }
+  .p5 .section-body { font-family: 'Noto Sans JP', sans-serif; font-size: 13px; color: #6B6E64; font-weight: 300; }
+  .p5 .divider { background: #A8B09E; }
+  .p5 .preview-btn { border: 1px solid #8B9480; color: #8B9480; font-family: 'Lora', serif; font-size: 11px; background: transparent; }
+  .p5 .preview-nav .nav-logo { font-family: 'Lora', serif; font-size: 14px; color: #fff; font-weight: 400; }
+  .p5 .preview-nav .nav-links span { font-family: 'Inter', sans-serif; font-size: 10px; color: rgba(255,255,255,0.8); font-weight: 300; }
+
+  /* PATTERN 6: Warm Charcoal (Aesop-inspired) */
+  .p6 .preview-hero { background: #3A3632; }
+  .p6 .hero-overlay { background: transparent; }
+  .p6 .hero-text .brand { font-family: 'DM Serif Display', serif; font-size: 13px; font-weight: 400; color: #E8DFD3; letter-spacing: 0.2em; }
+  .p6 .hero-text .tagline { font-family: 'DM Serif Display', serif; font-size: 34px; font-weight: 400; color: #E8DFD3; }
+  .p6 .hero-text .sub { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 300; color: #A09487; letter-spacing: 0.15em; }
+  .p6 .preview-content { background: #F0E9E0; }
+  .p6 .section-label { font-family: 'Inter', sans-serif; font-size: 10px; color: #8A7D70; font-weight: 300; }
+  .p6 .section-title { font-family: 'DM Serif Display', serif; font-size: 26px; font-weight: 400; color: #3A3632; }
+  .p6 .section-body { font-family: 'Noto Sans JP', sans-serif; font-size: 13px; color: #6B6058; font-weight: 300; }
+  .p6 .divider { background: #3A3632; width: 30px; }
+  .p6 .preview-btn { border: 1px solid #3A3632; color: #3A3632; font-family: 'DM Serif Display', serif; font-size: 12px; background: transparent; }
+  .p6 .preview-nav .nav-logo { font-family: 'DM Serif Display', serif; font-size: 15px; color: #E8DFD3; font-weight: 400; }
+  .p6 .preview-nav .nav-links span { font-family: 'Inter', sans-serif; font-size: 10px; color: #A09487; font-weight: 300; }
+
+  /* PATTERN 7: Pure White Minimal (Jil Sander) */
+  .p7 .preview-hero { background: #fff; border-bottom: 1px solid #eee; }
+  .p7 .hero-overlay { background: transparent; }
+  .p7 .hero-text .brand { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 300; color: #1A1A1A; letter-spacing: 0.6em; }
+  .p7 .hero-text .tagline { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 400; color: #1A1A1A; letter-spacing: -0.01em; }
+  .p7 .hero-text .sub { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 300; color: #aaa; letter-spacing: 0.2em; }
+  .p7 .preview-content { background: #fff; }
+  .p7 .section-label { font-family: 'Inter', sans-serif; font-size: 9px; color: #bbb; font-weight: 400; letter-spacing: 0.3em; }
+  .p7 .section-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 400; color: #1A1A1A; }
+  .p7 .section-body { font-family: 'Noto Sans JP', sans-serif; font-size: 13px; color: #888; font-weight: 300; }
+  .p7 .divider { background: #1A1A1A; width: 20px; }
+  .p7 .preview-btn { border: 1px solid #1A1A1A; color: #1A1A1A; font-family: 'Inter', sans-serif; font-size: 9px; background: transparent; letter-spacing: 0.2em; }
+  .p7 .preview-nav .nav-logo { font-family: 'Playfair Display', serif; font-size: 16px; color: #1A1A1A; font-weight: 400; }
+  .p7 .preview-nav .nav-links span { font-family: 'Inter', sans-serif; font-size: 9px; color: #aaa; font-weight: 300; letter-spacing: 0.15em; }
+
+  /* PATTERN 8: Dusty Rose Romantic */
+  .p8 .preview-hero { background: #C4A99A; }
+  .p8 .hero-overlay { background: rgba(196,169,154,0.15); }
+  .p8 .hero-text .brand { font-family: 'Cormorant Garamond', serif; font-size: 12px; font-weight: 400; color: #fff; letter-spacing: 0.35em; }
+  .p8 .hero-text .tagline { font-family: 'Cormorant Garamond', serif; font-size: 34px; font-weight: 300; color: #fff; font-style: italic; }
+  .p8 .hero-text .sub { font-family: 'Noto Serif JP', serif; font-size: 11px; font-weight: 200; color: rgba(255,255,255,0.85); letter-spacing: 0.1em; }
+  .p8 .preview-content { background: #FBF5F1; }
+  .p8 .section-label { font-family: 'Cormorant Garamond', serif; font-size: 11px; color: #C4A99A; font-weight: 400; }
+  .p8 .section-title { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: #4A3F3A; font-style: italic; }
+  .p8 .section-body { font-family: 'Noto Sans JP', sans-serif; font-size: 13px; color: #8A7A70; font-weight: 300; }
+  .p8 .divider { background: #C4A99A; }
+  .p8 .preview-btn { border: 1px solid #C4A99A; color: #C4A99A; font-family: 'Cormorant Garamond', serif; background: transparent; font-style: italic; }
+  .p8 .preview-nav .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 15px; color: #fff; font-weight: 300; font-style: italic; }
+  .p8 .preview-nav .nav-links span { font-family: 'Cormorant Garamond', serif; font-size: 11px; color: rgba(255,255,255,0.8); font-weight: 300; }
+
+  /* PATTERN 9: Navy & Gold Classic */
+  .p9 .preview-hero { background: #1E2A3A; }
+  .p9 .hero-overlay { background: linear-gradient(180deg, rgba(30,42,58,0.1) 0%, rgba(30,42,58,0.3) 100%); }
+  .p9 .hero-text .brand { font-family: 'Cormorant Garamond', serif; font-size: 12px; font-weight: 400; color: #C9A96E; letter-spacing: 0.4em; }
+  .p9 .hero-text .tagline { font-family: 'Cormorant Garamond', serif; font-size: 34px; font-weight: 300; color: #F0ECE4; }
+  .p9 .hero-text .sub { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 300; color: #8A9AAA; letter-spacing: 0.2em; }
+  .p9 .preview-content { background: #F5F3EF; }
+  .p9 .section-label { font-family: 'Inter', sans-serif; font-size: 10px; color: #C9A96E; font-weight: 400; letter-spacing: 0.2em; }
+  .p9 .section-title { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 400; color: #1E2A3A; }
+  .p9 .section-body { font-family: 'Noto Sans JP', sans-serif; font-size: 13px; color: #5A6575; font-weight: 300; }
+  .p9 .divider { background: #C9A96E; width: 30px; }
+  .p9 .preview-btn { border: 1px solid #1E2A3A; color: #1E2A3A; font-family: 'Cormorant Garamond', serif; background: transparent; }
+  .p9 .preview-nav .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 15px; color: #C9A96E; font-weight: 400; }
+  .p9 .preview-nav .nav-links span { font-family: 'Inter', sans-serif; font-size: 10px; color: #8A9AAA; font-weight: 300; }
+
+  /* PATTERN 10: Moody Burgundy */
+  .p10 .preview-hero { background: #2C1E1E; }
+  .p10 .hero-overlay { background: linear-gradient(180deg, rgba(44,30,30,0.1) 0%, rgba(44,30,30,0.4) 100%); }
+  .p10 .hero-text .brand { font-family: 'Playfair Display', serif; font-size: 12px; font-weight: 400; color: #C4978A; letter-spacing: 0.3em; }
+  .p10 .hero-text .tagline { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 400; color: #F0E6E0; }
+  .p10 .hero-text .sub { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 300; color: #A08880; letter-spacing: 0.2em; }
+  .p10 .preview-content { background: #F5EFEB; }
+  .p10 .section-label { font-family: 'Inter', sans-serif; font-size: 10px; color: #A08880; font-weight: 300; }
+  .p10 .section-title { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 400; color: #2C1E1E; }
+  .p10 .section-body { font-family: 'Noto Sans JP', sans-serif; font-size: 13px; color: #7A6560; font-weight: 300; }
+  .p10 .divider { background: #C4978A; width: 30px; }
+  .p10 .preview-btn { border: 1px solid #2C1E1E; color: #2C1E1E; font-family: 'Playfair Display', serif; font-size: 11px; background: transparent; }
+  .p10 .preview-nav .nav-logo { font-family: 'Playfair Display', serif; font-size: 15px; color: #C4978A; font-weight: 400; }
+  .p10 .preview-nav .nav-links span { font-family: 'Inter', sans-serif; font-size: 10px; color: #A08880; font-weight: 300; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Design Patterns</h1>
+  <p>ukigumo wedding — 10 color & style variations</p>
+</div>
+
+<div class="patterns-grid">
+
+  <!-- Pattern 1: Warm Beige -->
+  <div class="pattern-card p1">
+    <div class="pattern-label">
+      <div><span class="num">01</span></div>
+      <h2>Warm Beige — MYTHEL Style</h2>
+      <div class="tags"><span class="tag">Warm</span><span class="tag">Elegant</span></div>
+    </div>
+    <div class="preview">
+      <div class="preview-nav">
+        <span class="nav-logo">ukigumo wedding</span>
+        <div class="nav-links"><span>About</span><span>Plan</span><span>Gallery</span></div>
+      </div>
+      <div class="preview-hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-text">
+          <div class="brand">ukigumo wedding</div>
+          <div class="tagline">Dress Guide</div>
+          <div class="sub">あなたの特別な一日に寄り添う</div>
+        </div>
+      </div>
+      <div class="preview-content">
+        <span class="section-label">Partner Dress Shops</span>
+        <div class="divider"></div>
+        <div class="section-title">提携ドレスショップ</div>
+        <div class="section-body">ukigumo weddingが提携する4つのドレスショップをご紹介いたします。各ブランドのInstagramよりお気軽にお問い合わせください。</div>
+        <span class="preview-btn">View More</span>
+      </div>
+    </div>
+    <div class="swatches">
+      <div class="swatch" style="background:#C5B9A8"></div>
+      <div class="swatch" style="background:#FAF8F5"></div>
+      <div class="swatch" style="background:#B8A898"></div>
+      <div class="swatch" style="background:#2C2824"></div>
+      <div class="swatch" style="background:#6B635A"></div>
+      <span class="swatch-label">Cormorant Garamond + Noto Serif JP</span>
+    </div>
+  </div>
+
+  <!-- Pattern 2: Off-White Luxury -->
+  <div class="pattern-card p2">
+    <div class="pattern-label">
+      <div><span class="num">02</span></div>
+      <h2>Off-White Luxury — Aman / Four Seasons</h2>
+      <div class="tags"><span class="tag">Luxury</span><span class="tag">Hotel</span></div>
+    </div>
+    <div class="preview">
+      <div class="preview-nav">
+        <span class="nav-logo">ukigumo wedding</span>
+        <div class="nav-links"><span>About</span><span>Plan</span><span>Gallery</span></div>
+      </div>
+      <div class="preview-hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-text">
+          <div class="brand">ukigumo wedding</div>
+          <div class="tagline">Dress Guide</div>
+          <div class="sub">A Journey of Timeless Elegance</div>
+        </div>
+      </div>
+      <div class="preview-content">
+        <span class="section-label">Partner Dress Shops</span>
+        <div class="divider"></div>
+        <div class="section-title">提携ドレスショップ</div>
+        <div class="section-body">ukigumo weddingが提携する4つのドレスショップをご紹介いたします。各ブランドのInstagramよりお気軽にお問い合わせください。</div>
+        <span class="preview-btn">View More</span>
+      </div>
+    </div>
+    <div class="swatches">
+      <div class="swatch" style="background:#D5D0C0"></div>
+      <div class="swatch" style="background:#F8F5EE"></div>
+      <div class="swatch" style="background:#C5BFA7"></div>
+      <div class="swatch" style="background:#4A4A3A"></div>
+      <div class="swatch" style="background:#6B7C5E"></div>
+      <span class="swatch-label">Cormorant Garamond + Inter</span>
+    </div>
+  </div>
+
+  <!-- Pattern 3: Celine / Bottega Veneta -->
+  <div class="pattern-card p3">
+    <div class="pattern-label">
+      <div><span class="num">03</span></div>
+      <h2>Minimal Fashion — Celine / Bottega Veneta</h2>
+      <div class="tags"><span class="tag">Fashion</span><span class="tag">Minimal</span></div>
+    </div>
+    <div class="preview">
+      <div class="preview-nav">
+        <span class="nav-logo">ukigumo wedding</span>
+        <div class="nav-links"><span>About</span><span>Plan</span><span>Gallery</span></div>
+      </div>
+      <div class="preview-hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-text">
+          <div class="brand">ukigumo wedding</div>
+          <div class="tagline">Dress Guide</div>
+          <div class="sub">Pre-Wedding Photography</div>
+        </div>
+      </div>
+      <div class="preview-content">
+        <span class="section-label">Partner Dress Shops</span>
+        <div class="divider"></div>
+        <div class="section-title">提携ドレスショップ</div>
+        <div class="section-body">ukigumo weddingが提携する4つのドレスショップをご紹介いたします。各ブランドのInstagramよりお気軽にお問い合わせください。</div>
+        <span class="preview-btn">View More</span>
+      </div>
+    </div>
+    <div class="swatches">
+      <div class="swatch" style="background:#EDE9DF"></div>
+      <div class="swatch" style="background:#FAFAFA"></div>
+      <div class="swatch" style="background:#1A1A1A"></div>
+      <div class="swatch" style="background:#666"></div>
+      <div class="swatch" style="background:#999"></div>
+      <span class="swatch-label">Cormorant Garamond (italic) + Inter</span>
+    </div>
+  </div>
+
+  <!-- Pattern 4: Dark Cinematic -->
+  <div class="pattern-card p4">
+    <div class="pattern-label">
+      <div><span class="num">04</span></div>
+      <h2>Dark Cinematic — Film Noir</h2>
+      <div class="tags"><span class="tag">Dark</span><span class="tag">Cinematic</span></div>
+    </div>
+    <div class="preview">
+      <div class="preview-nav">
+        <span class="nav-logo">ukigumo wedding</span>
+        <div class="nav-links"><span>About</span><span>Plan</span><span>Gallery</span></div>
+      </div>
+      <div class="preview-hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-text">
+          <div class="brand">ukigumo wedding</div>
+          <div class="tagline">Dress Guide</div>
+          <div class="sub">A Cinematic Moment in Time</div>
+        </div>
+      </div>
+      <div class="preview-content">
+        <span class="section-label">Partner Dress Shops</span>
+        <div class="divider"></div>
+        <div class="section-title">提携ドレスショップ</div>
+        <div class="section-body">ukigumo weddingが提携する4つのドレスショップをご紹介いたします。各ブランドのInstagramよりお気軽にお問い合わせください。</div>
+        <span class="preview-btn">View More</span>
+      </div>
+    </div>
+    <div class="swatches">
+      <div class="swatch" style="background:#1C1917"></div>
+      <div class="swatch" style="background:#F0EBE3"></div>
+      <div class="swatch" style="background:#C4B5A2"></div>
+      <div class="swatch" style="background:#9A8E80"></div>
+      <div class="swatch" style="background:#3A3530"></div>
+      <span class="swatch-label">Cormorant Garamond + Inter</span>
+    </div>
+  </div>
+
+  <!-- Pattern 5: Sage Green -->
+  <div class="pattern-card p5">
+    <div class="pattern-label">
+      <div><span class="num">05</span></div>
+      <h2>Sage Green — Organic Natural</h2>
+      <div class="tags"><span class="tag">Natural</span><span class="tag">Organic</span></div>
+    </div>
+    <div class="preview">
+      <div class="preview-nav">
+        <span class="nav-logo">ukigumo wedding</span>
+        <div class="nav-links"><span>About</span><span>Plan</span><span>Gallery</span></div>
+      </div>
+      <div class="preview-hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-text">
+          <div class="brand">ukigumo wedding</div>
+          <div class="tagline">Dress Guide</div>
+          <div class="sub">Nature Inspired Elegance</div>
+        </div>
+      </div>
+      <div class="preview-content">
+        <span class="section-label">Partner Dress Shops</span>
+        <div class="divider"></div>
+        <div class="section-title">提携ドレスショップ</div>
+        <div class="section-body">ukigumo weddingが提携する4つのドレスショップをご紹介いたします。各ブランドのInstagramよりお気軽にお問い合わせください。</div>
+        <span class="preview-btn">View More</span>
+      </div>
+    </div>
+    <div class="swatches">
+      <div class="swatch" style="background:#A8B09E"></div>
+      <div class="swatch" style="background:#F7F6F2"></div>
+      <div class="swatch" style="background:#8B9480"></div>
+      <div class="swatch" style="background:#3A3E35"></div>
+      <div class="swatch" style="background:#6B6E64"></div>
+      <span class="swatch-label">Lora + Inter</span>
+    </div>
+  </div>
+
+  <!-- Pattern 6: Warm Charcoal (Aesop) -->
+  <div class="pattern-card p6">
+    <div class="pattern-label">
+      <div><span class="num">06</span></div>
+      <h2>Warm Charcoal — Aesop / Kinfolk</h2>
+      <div class="tags"><span class="tag">Warm Dark</span><span class="tag">Artisan</span></div>
+    </div>
+    <div class="preview">
+      <div class="preview-nav">
+        <span class="nav-logo">ukigumo wedding</span>
+        <div class="nav-links"><span>About</span><span>Plan</span><span>Gallery</span></div>
+      </div>
+      <div class="preview-hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-text">
+          <div class="brand">ukigumo wedding</div>
+          <div class="tagline">Dress Guide</div>
+          <div class="sub">Crafted with Intention</div>
+        </div>
+      </div>
+      <div class="preview-content">
+        <span class="section-label">Partner Dress Shops</span>
+        <div class="divider"></div>
+        <div class="section-title">提携ドレスショップ</div>
+        <div class="section-body">ukigumo weddingが提携する4つのドレスショップをご紹介いたします。各ブランドのInstagramよりお気軽にお問い合わせください。</div>
+        <span class="preview-btn">View More</span>
+      </div>
+    </div>
+    <div class="swatches">
+      <div class="swatch" style="background:#3A3632"></div>
+      <div class="swatch" style="background:#F0E9E0"></div>
+      <div class="swatch" style="background:#E8DFD3"></div>
+      <div class="swatch" style="background:#8A7D70"></div>
+      <div class="swatch" style="background:#6B6058"></div>
+      <span class="swatch-label">DM Serif Display + Inter</span>
+    </div>
+  </div>
+
+  <!-- Pattern 7: Pure White Minimal -->
+  <div class="pattern-card p7">
+    <div class="pattern-label">
+      <div><span class="num">07</span></div>
+      <h2>Pure White — Jil Sander / The Row</h2>
+      <div class="tags"><span class="tag">Ultra Minimal</span><span class="tag">Clean</span></div>
+    </div>
+    <div class="preview">
+      <div class="preview-nav">
+        <span class="nav-logo">ukigumo wedding</span>
+        <div class="nav-links"><span>About</span><span>Plan</span><span>Gallery</span></div>
+      </div>
+      <div class="preview-hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-text">
+          <div class="brand">ukigumo wedding</div>
+          <div class="tagline">Dress Guide</div>
+          <div class="sub">Refined Simplicity</div>
+        </div>
+      </div>
+      <div class="preview-content">
+        <span class="section-label">Partner Dress Shops</span>
+        <div class="divider"></div>
+        <div class="section-title">提携ドレスショップ</div>
+        <div class="section-body">ukigumo weddingが提携する4つのドレスショップをご紹介いたします。各ブランドのInstagramよりお気軽にお問い合わせください。</div>
+        <span class="preview-btn">View More</span>
+      </div>
+    </div>
+    <div class="swatches">
+      <div class="swatch" style="background:#fff; border-color:#ccc"></div>
+      <div class="swatch" style="background:#FAFAFA"></div>
+      <div class="swatch" style="background:#1A1A1A"></div>
+      <div class="swatch" style="background:#888"></div>
+      <div class="swatch" style="background:#bbb"></div>
+      <span class="swatch-label">Playfair Display + Inter</span>
+    </div>
+  </div>
+
+  <!-- Pattern 8: Dusty Rose -->
+  <div class="pattern-card p8">
+    <div class="pattern-label">
+      <div><span class="num">08</span></div>
+      <h2>Dusty Rose — Romantic Elegance</h2>
+      <div class="tags"><span class="tag">Romantic</span><span class="tag">Soft</span></div>
+    </div>
+    <div class="preview">
+      <div class="preview-nav">
+        <span class="nav-logo">ukigumo wedding</span>
+        <div class="nav-links"><span>About</span><span>Plan</span><span>Gallery</span></div>
+      </div>
+      <div class="preview-hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-text">
+          <div class="brand">ukigumo wedding</div>
+          <div class="tagline">Dress Guide</div>
+          <div class="sub">あなたの特別な一日を彩る</div>
+        </div>
+      </div>
+      <div class="preview-content">
+        <span class="section-label">Partner Dress Shops</span>
+        <div class="divider"></div>
+        <div class="section-title">提携ドレスショップ</div>
+        <div class="section-body">ukigumo weddingが提携する4つのドレスショップをご紹介いたします。各ブランドのInstagramよりお気軽にお問い合わせください。</div>
+        <span class="preview-btn">View More</span>
+      </div>
+    </div>
+    <div class="swatches">
+      <div class="swatch" style="background:#C4A99A"></div>
+      <div class="swatch" style="background:#FBF5F1"></div>
+      <div class="swatch" style="background:#4A3F3A"></div>
+      <div class="swatch" style="background:#8A7A70"></div>
+      <div class="swatch" style="background:#D5BFB2"></div>
+      <span class="swatch-label">Cormorant Garamond (italic) + Noto Serif JP</span>
+    </div>
+  </div>
+
+  <!-- Pattern 9: Navy & Gold -->
+  <div class="pattern-card p9">
+    <div class="pattern-label">
+      <div><span class="num">09</span></div>
+      <h2>Navy & Gold — Classic Regal</h2>
+      <div class="tags"><span class="tag">Classic</span><span class="tag">Regal</span></div>
+    </div>
+    <div class="preview">
+      <div class="preview-nav">
+        <span class="nav-logo">ukigumo wedding</span>
+        <div class="nav-links"><span>About</span><span>Plan</span><span>Gallery</span></div>
+      </div>
+      <div class="preview-hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-text">
+          <div class="brand">ukigumo wedding</div>
+          <div class="tagline">Dress Guide</div>
+          <div class="sub">Timeless Sophistication</div>
+        </div>
+      </div>
+      <div class="preview-content">
+        <span class="section-label">Partner Dress Shops</span>
+        <div class="divider"></div>
+        <div class="section-title">提携ドレスショップ</div>
+        <div class="section-body">ukigumo weddingが提携する4つのドレスショップをご紹介いたします。各ブランドのInstagramよりお気軽にお問い合わせください。</div>
+        <span class="preview-btn">View More</span>
+      </div>
+    </div>
+    <div class="swatches">
+      <div class="swatch" style="background:#1E2A3A"></div>
+      <div class="swatch" style="background:#F5F3EF"></div>
+      <div class="swatch" style="background:#C9A96E"></div>
+      <div class="swatch" style="background:#F0ECE4"></div>
+      <div class="swatch" style="background:#5A6575"></div>
+      <span class="swatch-label">Cormorant Garamond + Inter</span>
+    </div>
+  </div>
+
+  <!-- Pattern 10: Moody Burgundy -->
+  <div class="pattern-card p10">
+    <div class="pattern-label">
+      <div><span class="num">10</span></div>
+      <h2>Moody Burgundy — Dramatic Romance</h2>
+      <div class="tags"><span class="tag">Moody</span><span class="tag">Dramatic</span></div>
+    </div>
+    <div class="preview">
+      <div class="preview-nav">
+        <span class="nav-logo">ukigumo wedding</span>
+        <div class="nav-links"><span>About</span><span>Plan</span><span>Gallery</span></div>
+      </div>
+      <div class="preview-hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-text">
+          <div class="brand">ukigumo wedding</div>
+          <div class="tagline">Dress Guide</div>
+          <div class="sub">Where Light Meets Shadow</div>
+        </div>
+      </div>
+      <div class="preview-content">
+        <span class="section-label">Partner Dress Shops</span>
+        <div class="divider"></div>
+        <div class="section-title">提携ドレスショップ</div>
+        <div class="section-body">ukigumo weddingが提携する4つのドレスショップをご紹介いたします。各ブランドのInstagramよりお気軽にお問い合わせください。</div>
+        <span class="preview-btn">View More</span>
+      </div>
+    </div>
+    <div class="swatches">
+      <div class="swatch" style="background:#2C1E1E"></div>
+      <div class="swatch" style="background:#F5EFEB"></div>
+      <div class="swatch" style="background:#C4978A"></div>
+      <div class="swatch" style="background:#F0E6E0"></div>
+      <div class="swatch" style="background:#7A6560"></div>
+      <span class="swatch-label">Playfair Display + Inter</span>
+    </div>
+  </div>
+
+</div>
+
+<div style="text-align:center; padding: 40px 20px 60px; color: #999; font-size: 13px;">
+  <p>気に入ったパターンの番号を教えてください。ミックスも可能です。</p>
+</div>
+
+</body>
+</html>

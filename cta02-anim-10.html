@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CTA02 Animation — 10 Patterns</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#f5f3ef;font-family:'Cormorant Garamond',serif;color:#2a2420;}
+.section{padding:56px 24px;border-bottom:1px solid rgba(42,36,32,0.06);text-align:center;}
+.section:nth-child(even){background:#fff;}
+.label{font-size:9px;letter-spacing:0.2em;color:rgba(42,36,32,0.3);margin-bottom:10px;font-family:sans-serif;}
+.desc{font-size:10px;color:rgba(42,36,32,0.4);margin-bottom:24px;font-family:sans-serif;line-height:1.6;}
+
+/* ═══ Base: Pattern 02 ボーダーピル ═══ */
+.cta{
+  display:inline-block;text-decoration:none;color:#2a2420;
+  font-family:'Cormorant Garamond',serif;font-size:0.82rem;letter-spacing:0.18em;
+  padding:10px 28px;border:1px solid rgba(42,36,32,0.15);border-radius:40px;
+  position:relative;overflow:hidden;transition:all 0.4s ease;
+  cursor:pointer;background:transparent;
+}
+
+/* ═══ A: 中央から下線が伸びる ═══ */
+.cta-a::after{content:'';position:absolute;bottom:6px;left:50%;width:0;height:1px;background:rgba(201,169,110,0.6);transition:all 0.5s cubic-bezier(0.25,0.46,0.45,0.94);transform:translateX(-50%);}
+.cta-a:hover{border-color:rgba(201,169,110,0.35);}
+.cta-a:hover::after{width:55%;}
+
+/* ═══ B: ボーダーがゴールドに変化＋微浮上 ═══ */
+.cta-b{transition:all 0.5s cubic-bezier(0.25,0.46,0.45,0.94);}
+.cta-b:hover{border-color:rgba(201,169,110,0.5);transform:translateY(-2px);box-shadow:0 4px 16px rgba(201,169,110,0.1);}
+
+/* ═══ C: 左から背景スライドイン ═══ */
+.cta-c::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:rgba(201,169,110,0.08);transition:left 0.5s cubic-bezier(0.25,0.46,0.45,0.94);border-radius:40px;}
+.cta-c:hover::before{left:0;}
+.cta-c:hover{border-color:rgba(201,169,110,0.3);}
+.cta-c span{position:relative;z-index:1;}
+
+/* ═══ D: 文字間隔がゆっくり広がる ═══ */
+.cta-d{transition:all 0.6s cubic-bezier(0.25,0.46,0.45,0.94);}
+.cta-d:hover{letter-spacing:0.28em;border-color:rgba(201,169,110,0.35);padding:10px 34px;}
+
+/* ═══ E: ボーダーのみゴールド＋グロー ═══ */
+.cta-e{transition:all 0.4s ease;}
+.cta-e:hover{border-color:rgba(201,169,110,0.5);box-shadow:0 0 20px rgba(201,169,110,0.08),inset 0 0 20px rgba(201,169,110,0.03);}
+
+/* ═══ F: 下から背景フィル ═══ */
+.cta-f::before{content:'';position:absolute;bottom:0;left:0;width:100%;height:0;background:rgba(201,169,110,0.08);transition:height 0.4s cubic-bezier(0.25,0.46,0.45,0.94);border-radius:40px;}
+.cta-f:hover::before{height:100%;}
+.cta-f:hover{border-color:rgba(201,169,110,0.3);}
+.cta-f span{position:relative;z-index:1;}
+
+/* ═══ G: パルス（軽い拡縮）═══ */
+.cta-g{transition:all 0.3s ease;}
+.cta-g:hover{transform:scale(1.04);border-color:rgba(201,169,110,0.4);}
+.cta-g:active{transform:scale(0.97);}
+
+/* ═══ H: ボーダー太く＋テキスト色変化 ═══ */
+.cta-h{transition:all 0.4s ease;border-width:1px;}
+.cta-h:hover{border-width:1.5px;border-color:rgba(201,169,110,0.45);color:rgba(201,169,110,0.85);}
+
+/* ═══ I: 左右からボーダーが描かれる ═══ */
+.cta-i{border-color:transparent;background:
+  linear-gradient(#f5f3ef,#f5f3ef) padding-box,
+  linear-gradient(90deg,rgba(42,36,32,0.15) 0%,rgba(42,36,32,0.15) 100%) border-box;
+  border:1px solid transparent;
+  transition:all 0.5s ease;
+}
+.section:nth-child(even) .cta-i{background:
+  linear-gradient(#fff,#fff) padding-box,
+  linear-gradient(90deg,rgba(42,36,32,0.15) 0%,rgba(42,36,32,0.15) 100%) border-box;
+}
+.cta-i:hover{
+  background:
+    linear-gradient(#f5f3ef,#f5f3ef) padding-box,
+    linear-gradient(90deg,rgba(201,169,110,0.6) 0%,rgba(201,169,110,0.2) 50%,rgba(201,169,110,0.6) 100%) border-box;
+}
+.section:nth-child(even) .cta-i:hover{
+  background:
+    linear-gradient(#fff,#fff) padding-box,
+    linear-gradient(90deg,rgba(201,169,110,0.6) 0%,rgba(201,169,110,0.2) 50%,rgba(201,169,110,0.6) 100%) border-box;
+}
+
+/* ═══ J: シマー（光の帯が横切る）═══ */
+.cta-j::after{
+  content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(201,169,110,0.12),transparent);
+  transition:left 0.7s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.cta-j:hover::after{left:140%;}
+.cta-j:hover{border-color:rgba(201,169,110,0.35);}
+</style>
+</head>
+<body>
+
+<div class="section">
+  <div class="label">A — CENTER UNDERLINE</div>
+  <div class="desc">中央からゴールド下線が伸びる</div>
+  <a href="#" class="cta cta-a">view questions</a>
+</div>
+
+<div class="section">
+  <div class="label">B — FLOAT UP + GOLD BORDER</div>
+  <div class="desc">微浮上＋ボーダーがゴールドに＋影</div>
+  <a href="#" class="cta cta-b">Dress Shop</a>
+</div>
+
+<div class="section">
+  <div class="label">C — BG SLIDE FROM LEFT</div>
+  <div class="desc">左からゴールド背景がスライドイン</div>
+  <a href="#" class="cta cta-c"><span>view questions</span></a>
+</div>
+
+<div class="section">
+  <div class="label">D — LETTER SPACING EXPAND</div>
+  <div class="desc">文字間隔がゆっくり広がる</div>
+  <a href="#" class="cta cta-d">Dress Shop</a>
+</div>
+
+<div class="section">
+  <div class="label">E — GOLD GLOW</div>
+  <div class="desc">ゴールドボーダー＋内外にソフトグロー</div>
+  <a href="#" class="cta cta-e">view questions</a>
+</div>
+
+<div class="section">
+  <div class="label">F — BG FILL FROM BOTTOM</div>
+  <div class="desc">下からゴールド背景がフィル</div>
+  <a href="#" class="cta cta-f"><span>Dress Shop</span></a>
+</div>
+
+<div class="section">
+  <div class="label">G — PULSE (SCALE)</div>
+  <div class="desc">軽く拡大＋押したら縮む</div>
+  <a href="#" class="cta cta-g">view questions</a>
+</div>
+
+<div class="section">
+  <div class="label">H — BORDER THICKEN + TEXT COLOR</div>
+  <div class="desc">ボーダーが太くなり文字がゴールドに</div>
+  <a href="#" class="cta cta-h">Dress Shop</a>
+</div>
+
+<div class="section">
+  <div class="label">I — GRADIENT BORDER</div>
+  <div class="desc">ボーダーがゴールドグラデーションに変化</div>
+  <a href="#" class="cta cta-i">view questions</a>
+</div>
+
+<div class="section">
+  <div class="label">J — SHIMMER (LIGHT SWEEP)</div>
+  <div class="desc">光の帯がボタンを横切る</div>
+  <a href="#" class="cta cta-j">Dress Shop</a>
+</div>
+
+</body>
+</html>

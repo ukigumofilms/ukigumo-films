@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plan / Price – ukigumo wedding</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-serif: 'Cormorant Garamond', serif;
+      --font-sans: 'Inter', sans-serif;
+      --font-jp-serif: 'Noto Serif JP', serif;
+      --font-sans-jp: 'Noto Sans JP', sans-serif;
+    }
+
+    /* Page Hero */
+    .page-hero {
+      position: relative;
+      height: 65vh;
+      min-height: 450px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: clamp(80px, 12vw, 140px);
+    }
+    .page-hero__image {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transform: scale(1);
+      transition: transform 12s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      will-change: transform;
+    }
+    .page-hero.active .page-hero__image {
+      transform: scale(1.1);
+    }
+    .page-hero__overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.55) 100%);
+      z-index: 1;
+    }
+    .page-hero__content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      color: white;
+    }
+    .page-hero__title {
+      font-family: var(--font-serif);
+      font-size: clamp(2.5rem, 8vw, 4rem);
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      opacity: 0;
+      filter: blur(3px);
+      transition: opacity 0.8s ease, filter 0.6s ease;
+    }
+    .page-hero__title.show {
+      opacity: 1;
+      filter: blur(0);
+      transition: opacity 1.5s cubic-bezier(0.19, 1, 0.22, 1), filter 1.2s ease;
+    }
+    .page-hero__subtitle {
+      font-family: var(--font-jp-serif);
+      font-size: clamp(0.875rem, 2.5vw, 1.1rem);
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      margin-top: 0.8rem;
+      opacity: 0;
+      filter: blur(3px);
+      transition: opacity 0.8s ease, filter 0.6s ease;
+    }
+    .page-hero__subtitle.show {
+      opacity: 0.9;
+      filter: blur(0);
+      transition: opacity 1.5s cubic-bezier(0.19, 1, 0.22, 1), filter 1.2s ease;
+    }
+
+
+    /* ========================================
+       WORKS ITEMS — index.htmlと同一
+       ======================================== */
+
+    .works-item {
+      display: grid;
+      grid-template-columns: 48% 52%;
+      min-height: 50vh;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .works-item:nth-child(even) {
+      grid-template-columns: 52% 48%;
+    }
+    .works-item:nth-child(even) .works-item__image {
+      order: 2;
+    }
+    .works-item:nth-child(even) .works-item__content {
+      order: 1;
+    }
+
+    .works-item__image {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 3 / 4;
+      cursor: pointer;
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .works-item__image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: filter 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .works-item__image:hover img {
+      filter: brightness(0.45);
+    }
+
+    .works-item__overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      pointer-events: none;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .works-item__overlay-location {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(0.5rem, 0.8vw, 0.65rem);
+      line-height: 1.8;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 0.5rem;
+      opacity: 0;
+      transform: translateY(15px);
+      transition: opacity 0.5s ease 0.05s, transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.05s;
+    }
+
+    .works-item__overlay-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+      line-height: 1.4;
+      letter-spacing: 0.06em;
+      color: rgba(255, 255, 255, 0.95);
+      margin-bottom: 0.6rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease 0.12s, transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.12s;
+    }
+
+    .works-item__overlay-coords {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(0.45rem, 0.7vw, 0.6rem);
+      letter-spacing: 0.2em;
+      color: rgba(255, 255, 255, 0.45);
+      margin-bottom: 0.5rem;
+      opacity: 0;
+      transform: translateY(15px);
+      transition: opacity 0.5s ease 0.2s, transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.2s;
+    }
+
+    .works-item__image:hover .works-item__overlay-location,
+    .works-item__image:hover .works-item__overlay-title,
+    .works-item__image:hover .works-item__overlay-coords {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .works-item__content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(3rem, 7vw, 6rem) clamp(2.5rem, 6vw, 5rem);
+    }
+
+    .works-item__location {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(0.6rem, 1vw, 0.75rem);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 1.8rem;
+      line-height: 1.8;
+    }
+
+    .works-item__title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      line-height: 1.2;
+      letter-spacing: 0.06em;
+      color: #1a1a1a;
+      margin-bottom: 0.5rem;
+    }
+
+    .works-item__plan-jp {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 300;
+      font-size: clamp(0.65rem, 0.9vw, 0.78rem);
+      letter-spacing: 0.2em;
+      color: #888;
+      margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+    }
+
+    .works-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: #2a2420;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.2em;
+      cursor: pointer;
+    }
+    .works-more__line {
+      display: inline-block;
+      width: 35px;
+      height: 1px;
+      background: #2a2420;
+      transition: width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .works-more:hover .works-more__line { width: 60px; }
+    .works-more__text {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: clamp(0.88rem, 1.4vw, 1.05rem);
+      letter-spacing: 0.18em;
+    }
+    .works-more__arrow {
+      transition: transform 0.3s ease;
+    }
+    .works-more:hover .works-more__arrow { transform: translateX(5px); }
+
+    .works-reveal {
+      opacity: 0;
+      filter: blur(3px);
+      transform: translateY(40px);
+      transition: opacity 1.8s cubic-bezier(0.19, 1, 0.22, 1),
+                  filter 1.4s ease,
+                  transform 1.6s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+    .works-reveal.visible {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateY(0);
+    }
+    .works-reveal--image {
+      opacity: 1;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      /* Works section: 横並びカード on mobile */
+      .works-item {
+        display: flex;
+        min-height: auto;
+        margin-bottom: 1.5rem;
+      }
+      /* 1番目(Japan)：テキスト左・画像右 */
+      .works-item:nth-child(odd) {
+        flex-direction: row;
+      }
+      .works-item:nth-child(odd) .works-item__content {
+        order: 1;
+      }
+      .works-item:nth-child(odd) .works-item__image {
+        order: 2;
+      }
+      /* 2番目(Paris)：画像左・テキスト右 */
+      .works-item:nth-child(even) {
+        flex-direction: row;
+      }
+      .works-item:nth-child(even) .works-item__image {
+        order: 1;
+      }
+      .works-item:nth-child(even) .works-item__content {
+        order: 2;
+      }
+      .works-item__image {
+        width: 42%;
+        flex-shrink: 0;
+        aspect-ratio: 3 / 4;
+        position: relative;
+        overflow: hidden;
+      }
+      .works-item__image img {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .works-item__overlay {
+        display: none;
+      }
+      .works-item__content {
+        width: 58%;
+        padding: 0.8rem 0.6rem;
+        justify-content: center;
+      }
+      /* Paris：テキストブロックを右（画像側）に寄せる、左揃えのまま */
+      .works-item--paris .works-item__content {
+        padding: 0.8rem 0.6rem 0.8rem 25% !important;
+        align-items: flex-start !important;
+        text-align: left !important;
+      }
+      .works-item__location {
+        font-size: 0.48rem;
+        letter-spacing: 0.08em;
+        margin-bottom: 0.3rem;
+        line-height: 1.5;
+      }
+      .works-item__title {
+        font-size: 1.1rem;
+        letter-spacing: 0.02em;
+        margin-bottom: 0.15rem;
+      }
+      .works-item__plan-jp {
+        font-size: 0.55rem;
+        letter-spacing: 0.08em;
+        margin-bottom: 0.5rem;
+      }
+      .works-more__line { width: 18px; }
+      .works-more__text { font-size: 0.7rem; letter-spacing: 0.1em; }
+      .works-more__arrow { font-size: 0.7rem; }
+      .works-more { gap: 8px; }
+
+      .page-hero__title {
+        font-size: 1.8rem;
+        letter-spacing: 0.08em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Side Labels -->
+  <span class="side-text side-text--left side-text--dark">plan</span>
+  <span class="side-text side-text--right side-text--dark">ukigumo wedding &mdash; all rights reserved.</span>
+
+  <!-- Navigation -->
+  <nav class="nav nav--light">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">
+        <img src="images/logo/logo-white.png" alt="ukigumo" class="nav__logo-light">
+        <img src="images/logo/logo-black.png" alt="ukigumo" class="nav__logo-dark">
+      </a>
+      <div class="nav__links">
+        <a href="plan.html">Plan / Price</a>
+        <a href="dress.html">Dress</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="qa.html">Q&A</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <button class="nav__hamburger" aria-label="メニュー"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <div class="nav__menu">
+    <a href="index.html">Home</a>
+    <a href="plan.html">Plan / Price</a>
+    <div class="nav__menu-subs">
+      <a href="plan-japan.html">Japan</a>
+      <a href="plan-paris.html">Paris</a>
+      <a href="plan-europa.html">Europa</a>
+    </div>
+    <a href="gallery.html">Gallery</a>
+    <a href="dress.html">Dress</a>
+    <a href="qa.html">Q&A</a>
+    <a href="contact.html">Contact</a>
+    <a href="https://www.instagram.com/ukigumo_films/" target="_blank" rel="noopener" class="nav-instagram"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+    <span class="nav__menu-brand">ukigumo films — Tokyo</span>
+  </div>
+
+  <!-- Page Hero -->
+  <section class="page-hero" data-nav-dark>
+    <img src="images/plan-hero.jpg" alt="Plan / Price" class="page-hero__image">
+    <div class="page-hero__overlay"></div>
+    <div class="page-hero__content">
+      <h1 class="page-hero__title" style="color: #fff;">Plan / Price</h1>
+      <p class="page-hero__subtitle" style="font-family: var(--font-serif); font-size: 0.75rem; letter-spacing: 0.25em; color: rgba(255,255,255,0.7); margin-top: 1rem; font-weight: 300; text-transform: lowercase;">japan &nbsp;&middot;&nbsp; paris &nbsp;&middot;&nbsp; europe</p>
+    </div>
+  </section>
+
+  <!-- 01 JAPAN（画像左） -->
+  <article class="works-item" id="japan">
+    <a href="plan-japan.html" class="works-item__image works-reveal--image">
+      <img src="images/plan-pg-japan.jpg" alt="Japan wedding photo">
+      <div class="works-item__overlay">
+        <span class="works-item__overlay-location">Tokyo · Karuizawa · Fuji · Jogashima<br>— Japan</span>
+        <h3 class="works-item__overlay-title">Japan</h3>
+        <span class="works-item__overlay-coords">35.6762° N, 139.6503° E</span>
+      </div>
+    </a>
+    <div class="works-item__content">
+      <span class="works-item__location works-reveal" style="transition-delay:0.1s;">Tokyo · Karuizawa · Fuji · Jogashima<br>— Japan</span>
+      <h3 class="works-item__title works-reveal" style="transition-delay:0.2s;">Japan</h3>
+      <p class="works-item__plan-jp works-reveal" style="transition-delay:0.28s;">国内プラン</p>
+      <div class="works-reveal" style="transition-delay:0.4s;">
+        <a href="plan-japan.html" class="works-more">
+          <span class="works-more__line"></span>
+          <span class="works-more__text">view plan</span>
+          <span class="works-more__arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 02 PARIS（画像右） -->
+  <article class="works-item works-item--paris" id="paris">
+    <a href="plan-paris.html" class="works-item__image works-reveal--image">
+      <img src="images/plan-pg-paris.jpg" alt="Paris wedding photo">
+      <div class="works-item__overlay">
+        <span class="works-item__overlay-location">Paris, France</span>
+        <h3 class="works-item__overlay-title">Paris</h3>
+        <span class="works-item__overlay-coords">48.8566° N, 2.3522° E</span>
+      </div>
+    </a>
+    <div class="works-item__content">
+      <span class="works-item__location works-reveal" style="transition-delay:0.1s;">Paris, France</span>
+      <h3 class="works-item__title works-reveal" style="transition-delay:0.2s;">Paris</h3>
+      <p class="works-item__plan-jp works-reveal" style="transition-delay:0.28s;">パリプラン</p>
+      <div class="works-reveal" style="transition-delay:0.4s;">
+        <a href="plan-paris.html" class="works-more">
+          <span class="works-more__line"></span>
+          <span class="works-more__text">view plan</span>
+          <span class="works-more__arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 03 EUROPA（画像左） -->
+  <article class="works-item" id="europa">
+    <a href="plan-europa.html" class="works-item__image works-reveal--image">
+      <img src="images/plan-pg-europa.jpg" alt="Europa wedding photo">
+      <div class="works-item__overlay">
+        <span class="works-item__overlay-location">Switzerland · Firenze · London · Malta · Nice · Barcelona</span>
+        <h3 class="works-item__overlay-title">Europa</h3>
+        <span class="works-item__overlay-coords">46.8182° N, 8.2275° E</span>
+      </div>
+    </a>
+    <div class="works-item__content">
+      <span class="works-item__location works-reveal" style="transition-delay:0.1s;">Switzerland · Firenze · London · Malta · Nice · Barcelona</span>
+      <h3 class="works-item__title works-reveal" style="transition-delay:0.2s;">Europa</h3>
+      <p class="works-item__plan-jp works-reveal" style="transition-delay:0.28s;">ヨーロッパプラン</p>
+      <div class="works-reveal" style="transition-delay:0.4s;">
+        <a href="plan-europa.html" class="works-more">
+          <span class="works-more__line"></span>
+          <span class="works-more__text">view plan</span>
+          <span class="works-more__arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </article>
+
+  <!-- Footer -->
+  <footer class="footer" style="background: #fff;">
+    <div class="footer__logo"><a href="index.html"><img src="images/logo/logo-black.png" alt="ukigumo"></a></div>
+    <div class="footer__links">
+      <a href="plan.html">Plan & Price</a>
+      <a href="dress.html">Dress</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="qa.html">Q&A / Policy</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <p class="footer__copy">&copy; 2026 ukigumo wedding. All rights reserved.</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    // Scroll reveal for works items
+    document.addEventListener('DOMContentLoaded', function() {
+      const reveals = document.querySelectorAll('.works-reveal, .works-reveal--image');
+
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.08,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      reveals.forEach(el => observer.observe(el));
+
+      // Parallax disabled
+    });
+  </script>
+  <script>
+    window.addEventListener('load', function() {
+      var hero = document.querySelector('.page-hero');
+      if (hero) {
+        setTimeout(function() { hero.classList.add('active'); }, 100);
+      }
+      var heroTitle = document.querySelector('.page-hero__title');
+      var heroSub = document.querySelector('.page-hero__subtitle');
+      setTimeout(function() { if (heroTitle) heroTitle.classList.add('show'); }, 300);
+      setTimeout(function() { if (heroSub) heroSub.classList.add('show'); }, 300);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marquee Size Balance — 10 Patterns</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#0a0a0a;color:#fff;font-family:'Cormorant Garamond',serif;}
+.header{text-align:center;padding:1.5rem 1rem 0.5rem;}
+.header h1{font-size:1rem;font-weight:300;letter-spacing:0.15em;}
+.header p{font-size:0.5rem;opacity:0.25;margin-top:0.2rem;}
+
+.patterns{max-width:1000px;margin:0 auto;padding:0 1rem 3rem;}
+
+.pattern{
+  position:relative;overflow:hidden;
+  margin-bottom:1.2rem;border-radius:2px;
+}
+.pattern__bg{position:absolute;top:0;left:0;width:100%;height:100%;}
+.pattern__bg img{width:100%;height:100%;object-fit:cover;}
+.pattern__overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);}
+.pattern__num{
+  position:absolute;top:0.5rem;left:0.6rem;
+  font-size:0.5rem;letter-spacing:0.1em;opacity:0.25;z-index:5;
+}
+.pattern__info{
+  position:absolute;bottom:0.4rem;right:0.6rem;
+  font-size:0.4rem;opacity:0.18;z-index:5;
+}
+
+.marquee-track{
+  position:relative;z-index:2;
+  display:flex;align-items:baseline;
+  width:max-content;
+  gap:var(--mg,3rem);
+  white-space:nowrap;
+}
+.marquee-track .marquee-item{
+  display:flex;flex-direction:column;align-items:center;
+  flex-shrink:0;
+}
+.marquee-track .marquee-name{
+  font-family:'Cormorant Garamond',serif;
+  font-weight:300;
+  font-style:italic;
+  color:rgba(255,255,255,var(--op,0.06));
+  letter-spacing:var(--ls,0.05em);
+  line-height:1.1;
+}
+.marquee-track .marquee-coords{
+  font-family:'Cormorant Garamond',serif;
+  font-weight:300;
+  font-style:normal;
+  color:rgba(255,255,255,calc(var(--op,0.06) * 0.7));
+  letter-spacing:0.05em;
+  margin-top:0.15em;
+  white-space:nowrap;
+}
+
+@keyframes scrollLeft{
+  0%{transform:translateX(5%);}
+  100%{transform:translateX(-50%);}
+}
+
+.footer{text-align:center;padding:1.5rem;font-size:0.42rem;opacity:0.12;}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Marquee Size Balance — 10 Patterns</h1>
+  <p>撮影場所テキスト 特大〜小サイズ混在マーキー 10パターン</p>
+</div>
+
+<div class="patterns" id="patterns"></div>
+<div class="footer">ukigumo — marquee size preview</div>
+
+<script>
+const coords = {
+  'Switzerland':  '46.8182° N, 8.2275° E',
+  'Paris':        '48.8566° N, 2.3522° E',
+  'Firenze':      '43.7696° N, 11.2558° E',
+  'London':       '51.5074° N, 0.1278° W',
+  'Nice':         '43.7102° N, 7.2620° E',
+  'Malta':        '35.9375° N, 14.3754° E',
+  'Tokyo':        '35.6762° N, 139.6503° E',
+  'Karuizawa':    '36.3486° N, 138.5970° E',
+  'Jogashima':    '35.1292° N, 139.6108° E',
+  'Night Garden': '35.6595° N, 139.7006° E',
+};
+
+// 10 patterns with different size configurations
+// sizes: [XL, L, M, S] in rem values for each word
+const patterns = [
+  {
+    label: '特大メイン — 圧倒的存在感',
+    height: '18rem',
+    mHeight: '14rem',
+    gap: '4rem',
+    op: 0.05,
+    ls: '0.05em',
+    speed: 80,
+    sizes: [
+      {w:'Switzerland', s:'clamp(7rem,18vw,12rem)'},
+      {w:'Paris',       s:'clamp(3rem,8vw,5rem)'},
+      {w:'Firenze',     s:'clamp(5rem,13vw,8rem)'},
+      {w:'London',      s:'clamp(2rem,5vw,3rem)'},
+      {w:'Nice',        s:'clamp(6rem,15vw,10rem)'},
+      {w:'Malta',       s:'clamp(1.5rem,4vw,2.5rem)'},
+      {w:'Tokyo',       s:'clamp(4rem,10vw,7rem)'},
+      {w:'Karuizawa',   s:'clamp(2.5rem,6vw,4rem)'},
+      {w:'Jogashima',   s:'clamp(5.5rem,14vw,9rem)'},
+      {w:'Night Garden', s:'clamp(1.8rem,4.5vw,3rem)'},
+    ]
+  },
+  {
+    label: '大小交互 — リズミカル',
+    height: '14rem',
+    mHeight: '11rem',
+    gap: '3rem',
+    op: 0.06,
+    ls: '0.06em',
+    speed: 70,
+    sizes: [
+      {w:'Switzerland', s:'clamp(5rem,13vw,8rem)'},
+      {w:'Paris',       s:'clamp(1.5rem,4vw,2.5rem)'},
+      {w:'Firenze',     s:'clamp(5rem,13vw,8rem)'},
+      {w:'London',      s:'clamp(1.5rem,4vw,2.5rem)'},
+      {w:'Nice',        s:'clamp(5rem,13vw,8rem)'},
+      {w:'Malta',       s:'clamp(1.5rem,4vw,2.5rem)'},
+      {w:'Tokyo',       s:'clamp(5rem,13vw,8rem)'},
+      {w:'Karuizawa',   s:'clamp(1.5rem,4vw,2.5rem)'},
+      {w:'Jogashima',   s:'clamp(5rem,13vw,8rem)'},
+      {w:'Night Garden', s:'clamp(1.5rem,4vw,2.5rem)'},
+    ]
+  },
+  {
+    label: '緩やかグラデーション — 大→小→大',
+    height: '16rem',
+    mHeight: '12rem',
+    gap: '3.5rem',
+    op: 0.05,
+    ls: '0.05em',
+    speed: 90,
+    sizes: [
+      {w:'Switzerland', s:'clamp(6rem,15vw,10rem)'},
+      {w:'Paris',       s:'clamp(4.5rem,11vw,7rem)'},
+      {w:'Firenze',     s:'clamp(3rem,8vw,5rem)'},
+      {w:'London',      s:'clamp(2rem,5vw,3rem)'},
+      {w:'Nice',        s:'clamp(1.5rem,3.5vw,2rem)'},
+      {w:'Malta',       s:'clamp(2rem,5vw,3rem)'},
+      {w:'Tokyo',       s:'clamp(3rem,8vw,5rem)'},
+      {w:'Karuizawa',   s:'clamp(4.5rem,11vw,7rem)'},
+      {w:'Jogashima',   s:'clamp(6rem,15vw,10rem)'},
+      {w:'Night Garden', s:'clamp(4.5rem,11vw,7rem)'},
+    ]
+  },
+  {
+    label: 'ランダムミックス — 自然なバラつき',
+    height: '15rem',
+    mHeight: '11rem',
+    gap: '3rem',
+    op: 0.055,
+    ls: '0.05em',
+    speed: 75,
+    sizes: [
+      {w:'Switzerland', s:'clamp(4rem,10vw,6.5rem)'},
+      {w:'Paris',       s:'clamp(6rem,15vw,9rem)'},
+      {w:'Firenze',     s:'clamp(2rem,5vw,3rem)'},
+      {w:'London',      s:'clamp(3.5rem,9vw,5.5rem)'},
+      {w:'Nice',        s:'clamp(7rem,17vw,11rem)'},
+      {w:'Malta',       s:'clamp(1.5rem,4vw,2.5rem)'},
+      {w:'Tokyo',       s:'clamp(5rem,12vw,8rem)'},
+      {w:'Karuizawa',   s:'clamp(2.5rem,6vw,4rem)'},
+      {w:'Jogashima',   s:'clamp(1.8rem,4.5vw,3rem)'},
+      {w:'Night Garden', s:'clamp(4.5rem,11vw,7rem)'},
+    ]
+  },
+  {
+    label: '控えめ統一 — 中サイズ中心',
+    height: '10rem',
+    mHeight: '8rem',
+    gap: '3rem',
+    op: 0.06,
+    ls: '0.06em',
+    speed: 65,
+    sizes: [
+      {w:'Switzerland', s:'clamp(2.5rem,6vw,4rem)'},
+      {w:'Paris',       s:'clamp(3rem,7vw,4.5rem)'},
+      {w:'Firenze',     s:'clamp(2.5rem,6vw,4rem)'},
+      {w:'London',      s:'clamp(3rem,7vw,4.5rem)'},
+      {w:'Nice',        s:'clamp(2.5rem,6vw,4rem)'},
+      {w:'Malta',       s:'clamp(3rem,7vw,4.5rem)'},
+      {w:'Tokyo',       s:'clamp(2.5rem,6vw,4rem)'},
+      {w:'Karuizawa',   s:'clamp(3rem,7vw,4.5rem)'},
+      {w:'Jogashima',   s:'clamp(2.5rem,6vw,4rem)'},
+      {w:'Night Garden', s:'clamp(3rem,7vw,4.5rem)'},
+    ]
+  },
+  {
+    label: '極端コントラスト — 特大+極小',
+    height: '20rem',
+    mHeight: '15rem',
+    gap: '3.5rem',
+    op: 0.045,
+    ls: '0.04em',
+    speed: 85,
+    sizes: [
+      {w:'Switzerland', s:'clamp(8rem,20vw,14rem)'},
+      {w:'Paris',       s:'clamp(1.2rem,3vw,2rem)'},
+      {w:'Firenze',     s:'clamp(1.2rem,3vw,2rem)'},
+      {w:'London',      s:'clamp(8rem,20vw,14rem)'},
+      {w:'Nice',        s:'clamp(1.2rem,3vw,2rem)'},
+      {w:'Malta',       s:'clamp(8rem,20vw,14rem)'},
+      {w:'Tokyo',       s:'clamp(1.2rem,3vw,2rem)'},
+      {w:'Karuizawa',   s:'clamp(1.2rem,3vw,2rem)'},
+      {w:'Jogashima',   s:'clamp(8rem,20vw,14rem)'},
+      {w:'Night Garden', s:'clamp(1.2rem,3vw,2rem)'},
+    ]
+  },
+  {
+    label: '3段階シンプル — 大/中/小のみ',
+    height: '14rem',
+    mHeight: '10rem',
+    gap: '3rem',
+    op: 0.055,
+    ls: '0.05em',
+    speed: 70,
+    sizes: [
+      {w:'Switzerland', s:'clamp(5rem,12vw,8rem)'},
+      {w:'Paris',       s:'clamp(3rem,7vw,5rem)'},
+      {w:'Firenze',     s:'clamp(1.5rem,4vw,2.5rem)'},
+      {w:'London',      s:'clamp(5rem,12vw,8rem)'},
+      {w:'Nice',        s:'clamp(1.5rem,4vw,2.5rem)'},
+      {w:'Malta',       s:'clamp(3rem,7vw,5rem)'},
+      {w:'Tokyo',       s:'clamp(5rem,12vw,8rem)'},
+      {w:'Karuizawa',   s:'clamp(1.5rem,4vw,2.5rem)'},
+      {w:'Jogashima',   s:'clamp(3rem,7vw,5rem)'},
+      {w:'Night Garden', s:'clamp(5rem,12vw,8rem)'},
+    ]
+  },
+  {
+    label: '超薄 — 全体的に大きめ+低opacity',
+    height: '18rem',
+    mHeight: '14rem',
+    gap: '4rem',
+    op: 0.035,
+    ls: '0.06em',
+    speed: 100,
+    sizes: [
+      {w:'Switzerland', s:'clamp(6rem,15vw,10rem)'},
+      {w:'Paris',       s:'clamp(7rem,17vw,12rem)'},
+      {w:'Firenze',     s:'clamp(5rem,12vw,8rem)'},
+      {w:'London',      s:'clamp(8rem,20vw,13rem)'},
+      {w:'Nice',        s:'clamp(6rem,15vw,10rem)'},
+      {w:'Malta',       s:'clamp(5rem,12vw,8rem)'},
+      {w:'Tokyo',       s:'clamp(7rem,17vw,12rem)'},
+      {w:'Karuizawa',   s:'clamp(6rem,15vw,10rem)'},
+      {w:'Jogashima',   s:'clamp(5rem,12vw,8rem)'},
+      {w:'Night Garden', s:'clamp(7rem,17vw,12rem)'},
+    ]
+  },
+  {
+    label: '密集ミックス — ギャップ狭め+サイズ差',
+    height: '14rem',
+    mHeight: '10rem',
+    gap: '1.5rem',
+    op: 0.055,
+    ls: '0.03em',
+    speed: 60,
+    sizes: [
+      {w:'Switzerland', s:'clamp(5rem,12vw,8rem)'},
+      {w:'Paris',       s:'clamp(2rem,5vw,3rem)'},
+      {w:'Firenze',     s:'clamp(4rem,10vw,6rem)'},
+      {w:'London',      s:'clamp(1.5rem,3.5vw,2.2rem)'},
+      {w:'Nice',        s:'clamp(3rem,7vw,5rem)'},
+      {w:'Malta',       s:'clamp(6rem,14vw,9rem)'},
+      {w:'Tokyo',       s:'clamp(1.8rem,4vw,2.8rem)'},
+      {w:'Karuizawa',   s:'clamp(4rem,10vw,6rem)'},
+      {w:'Jogashima',   s:'clamp(2.5rem,6vw,4rem)'},
+      {w:'Night Garden', s:'clamp(5rem,12vw,8rem)'},
+    ]
+  },
+  {
+    label: 'エアリー — 大きめ間隔+ゆっくり',
+    height: '16rem',
+    mHeight: '12rem',
+    gap: '6rem',
+    op: 0.045,
+    ls: '0.08em',
+    speed: 120,
+    sizes: [
+      {w:'Switzerland', s:'clamp(5rem,13vw,9rem)'},
+      {w:'Paris',       s:'clamp(3rem,7vw,5rem)'},
+      {w:'Firenze',     s:'clamp(6rem,15vw,10rem)'},
+      {w:'London',      s:'clamp(2rem,5vw,3.5rem)'},
+      {w:'Nice',        s:'clamp(4.5rem,11vw,7rem)'},
+      {w:'Malta',       s:'clamp(1.5rem,3.5vw,2.5rem)'},
+      {w:'Tokyo',       s:'clamp(5.5rem,14vw,9rem)'},
+      {w:'Karuizawa',   s:'clamp(3.5rem,8vw,5.5rem)'},
+      {w:'Jogashima',   s:'clamp(2rem,5vw,3.5rem)'},
+      {w:'Night Garden', s:'clamp(4rem,10vw,7rem)'},
+    ]
+  },
+];
+
+const imgs = ['images/london/05.jpg'];
+const container = document.getElementById('patterns');
+
+patterns.forEach((p, pi) => {
+  const div = document.createElement('div');
+  div.className = 'pattern';
+  div.style.height = p.height;
+
+  // Build items (duplicate for seamless loop)
+  const allSizes = [...p.sizes, ...p.sizes];
+  const spans = allSizes.map(s => {
+    const coordSize = `calc(${s.s} * 0.18)`;
+    return `<div class="marquee-item">
+      <span class="marquee-name" style="font-size:${s.s};">${s.w}</span>
+      <span class="marquee-coords" style="font-size:${coordSize};">${coords[s.w]}</span>
+    </div>`;
+  }).join('');
+
+  div.innerHTML = `
+    <div class="pattern__bg">
+      <img src="${imgs[0]}" alt="">
+      <div class="pattern__overlay"></div>
+    </div>
+    <div class="pattern__num">#${String(pi+1).padStart(2,'0')}</div>
+    <div class="pattern__info">${p.label}</div>
+    <div class="marquee-track" style="--mg:${p.gap};--op:${p.op};--ls:${p.ls};animation:scrollLeft ${p.speed}s linear infinite;align-items:center;">
+      ${spans}
+    </div>
+  `;
+
+  // vertical centering for track
+  div.style.display = 'flex';
+  div.style.alignItems = 'center';
+
+  container.appendChild(div);
+});
+
+// mobile height
+if(window.innerWidth <= 480){
+  document.querySelectorAll('.pattern').forEach((p,i) => {
+    p.style.height = patterns[i].mHeight;
+  });
+}
+</script>
+</body>
+</html>

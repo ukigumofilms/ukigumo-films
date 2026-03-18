@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery Location List v2 — Japan + Europe</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "Noto Sans JP", sans-serif; background: #f5f3ef; color: #333; }
+
+  .pattern-nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(8px);
+    padding: 12px 20px; display: flex; gap: 8px; flex-wrap: wrap;
+    align-items: center; border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+  .pattern-nav a {
+    padding: 6px 14px; border: 1px solid rgba(0,0,0,0.15); border-radius: 20px;
+    text-decoration: none; color: #333; font-size: 0.68rem; letter-spacing: 0.05em;
+    transition: all 0.3s; white-space: nowrap;
+  }
+  .pattern-nav a:hover { background: #3D3530; color: #fff; border-color: #3D3530; }
+  .pattern-nav span { font-size: 0.7rem; color: #999; margin-right: 8px; }
+
+  .pattern-label {
+    text-align: center; padding: 100px 20px 20px; background: #f5f3ef;
+  }
+  .pattern-label h2 { font-family: "Cormorant Garamond", serif; font-size: 1.2rem; font-weight: 400; letter-spacing: 0.15em; color: #1a1a1a; margin-bottom: 8px; }
+  .pattern-label p { font-size: 0.72rem; color: #999; }
+
+  .pattern-divider {
+    height: 100px;
+    background: linear-gradient(to bottom, #f5f3ef 0%, #e8e4de 50%, #f5f3ef 100%);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pattern-divider::after { content: ''; width: 60%; height: 1px; background: rgba(0,0,0,0.08); }
+
+  .fake-gallery-end { background: #f5f3ef; padding: 50px 20px; text-align: center; }
+  .fake-gallery-end p { font-size: 0.75rem; color: #bbb; letter-spacing: 0.1em; }
+
+  .fake-dress { background: #f5f3ef; padding: 80px 40px; text-align: center; }
+  .fake-dress h2 { font-family: "Cormorant Garamond", serif; font-weight: 300; font-size: 2rem; letter-spacing: 0.2em; color: #3D3530; margin-bottom: 20px; }
+  .fake-dress p { font-size: 0.8rem; color: #999; }
+
+  :root {
+    --loc-font: "Cormorant Garamond", serif;
+    --serif-jp: "Noto Serif JP", serif;
+    --c-dark: #2a2420;
+    --c-mid: rgba(61,53,48,0.4);
+    --c-light: rgba(61,53,48,0.2);
+    --c-faint: rgba(61,53,48,0.08);
+  }
+
+
+  /* ========================================
+     P1: 左寄せリスト — 都市＋線＋座標 (P2ベース)
+     Japan/Europeをセクション分けせずフラットに
+     ======================================== */
+  .v1 { padding: 60px 8% 100px; background: #f5f3ef; }
+  .v1 ul { list-style: none; display: flex; flex-direction: column; gap: 16px; max-width: 750px; }
+  .v1 li { display: flex; align-items: baseline; gap: 16px; }
+  .v1 .v1-name { font-family: var(--loc-font); font-size: 1.1rem; letter-spacing: 0.1em; color: var(--c-dark); font-weight: 400; min-width: 130px; }
+  .v1 .v1-line { flex: 1; height: 1px; background: var(--c-light); }
+  .v1 .v1-coord { font-family: var(--loc-font); font-size: 0.68rem; letter-spacing: 0.1em; color: var(--c-mid); white-space: nowrap; }
+
+
+  /* ========================================
+     P2: 左寄せリスト — Japan / Europe ラベル分け
+     ======================================== */
+  .v2 { padding: 60px 8% 100px; background: #f5f3ef; }
+  .v2-section { margin-bottom: 40px; max-width: 750px; }
+  .v2-section:last-child { margin-bottom: 0; }
+  .v2-section-label {
+    font-family: var(--loc-font); font-size: 0.65rem; letter-spacing: 0.4em;
+    color: var(--c-light); margin-bottom: 18px; text-transform: uppercase;
+  }
+  .v2 ul { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .v2 li { display: flex; align-items: baseline; gap: 16px; }
+  .v2 .v2-name { font-family: var(--loc-font); font-size: 1.05rem; letter-spacing: 0.1em; color: var(--c-dark); font-weight: 400; min-width: 130px; }
+  .v2 .v2-ja { font-family: var(--serif-jp); font-size: 0.65rem; color: var(--c-mid); font-weight: 200; min-width: 70px; }
+  .v2 .v2-line { flex: 1; height: 1px; background: var(--c-faint); }
+  .v2 .v2-coord { font-family: var(--loc-font); font-size: 0.65rem; color: var(--c-mid); white-space: nowrap; }
+
+
+  /* ========================================
+     P3: タイムライン — 横線＋ドット (P9ベース拡張)
+     7都市を横に並べる
+     ======================================== */
+  .v3 { padding: 60px 3% 100px; background: #f5f3ef; }
+  .v3-timeline {
+    display: flex; justify-content: space-between; position: relative;
+    max-width: 950px; margin: 0 auto; padding-top: 30px;
+  }
+  .v3-timeline::before {
+    content: ''; position: absolute; top: 30px; left: 3%; right: 3%;
+    height: 1px; background: var(--c-light);
+  }
+  .v3-point { text-align: center; position: relative; flex: 1; }
+  .v3-point::before {
+    content: ''; display: block; width: 5px; height: 5px; border-radius: 50%;
+    background: rgba(61,53,48,0.22); margin: 0 auto 14px; position: relative; z-index: 1;
+  }
+  .v3-point .v3-name { font-family: var(--loc-font); font-size: 0.85rem; letter-spacing: 0.06em; color: var(--c-dark); font-weight: 400; margin-bottom: 3px; }
+  .v3-point .v3-ja { font-family: var(--serif-jp); font-size: 0.58rem; color: var(--c-mid); font-weight: 200; }
+
+
+  /* ========================================
+     P4: タイムライン2段 — 上段Japan 下段Europe
+     ======================================== */
+  .v4 { padding: 60px 5% 100px; background: #f5f3ef; max-width: 900px; margin: 0 auto; }
+  .v4-row { position: relative; padding-top: 28px; margin-bottom: 50px; }
+  .v4-row:last-child { margin-bottom: 0; }
+  .v4-row-label {
+    font-family: var(--loc-font); font-size: 0.6rem; letter-spacing: 0.35em;
+    color: var(--c-light); text-transform: uppercase; margin-bottom: 20px;
+  }
+  .v4-row-line {
+    display: flex; justify-content: space-around; position: relative;
+  }
+  .v4-row-line::before {
+    content: ''; position: absolute; top: 0; left: 5%; right: 5%;
+    height: 1px; background: var(--c-light);
+  }
+  .v4-dot { text-align: center; position: relative; padding-top: 20px; }
+  .v4-dot::before {
+    content: ''; position: absolute; top: -3px; left: 50%; transform: translateX(-50%);
+    width: 6px; height: 6px; border-radius: 50%; background: rgba(61,53,48,0.2);
+  }
+  .v4-dot .v4-name { font-family: var(--loc-font); font-size: 0.95rem; letter-spacing: 0.06em; color: var(--c-dark); font-weight: 400; margin-bottom: 2px; }
+  .v4-dot .v4-ja { font-family: var(--serif-jp); font-size: 0.6rem; color: var(--c-mid); font-weight: 200; }
+
+
+  /* ========================================
+     P5: 左寄せリスト + 右端にリージョンタグ
+     ======================================== */
+  .v5 { padding: 60px 8% 100px; background: #f5f3ef; }
+  .v5 ul { list-style: none; display: flex; flex-direction: column; gap: 14px; max-width: 800px; }
+  .v5 li { display: flex; align-items: baseline; gap: 14px; }
+  .v5 .v5-name { font-family: var(--loc-font); font-size: 1.05rem; letter-spacing: 0.1em; color: var(--c-dark); font-weight: 400; min-width: 130px; }
+  .v5 .v5-line { flex: 1; height: 1px; background: var(--c-faint); }
+  .v5 .v5-tag {
+    font-family: var(--loc-font); font-size: 0.55rem; letter-spacing: 0.2em;
+    color: var(--c-mid); border: 1px solid var(--c-faint); border-radius: 20px;
+    padding: 3px 12px; text-transform: uppercase; white-space: nowrap;
+  }
+
+
+  /* ========================================
+     P6: グリッド混在 — 日本とヨーロッパが混ざって並ぶ
+     ======================================== */
+  .v6 { padding: 60px 5% 100px; background: #f5f3ef; }
+  .v6-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 35px 30px; max-width: 850px; margin: 0 auto;
+  }
+  .v6-item { text-align: center; }
+  .v6-item .v6-name { font-family: var(--loc-font); font-size: 1.15rem; letter-spacing: 0.06em; color: var(--c-dark); font-weight: 300; margin-bottom: 4px; }
+  .v6-item .v6-ja { font-family: var(--serif-jp); font-size: 0.62rem; letter-spacing: 0.12em; color: var(--c-mid); font-weight: 200; }
+  .v6-item .v6-line { width: 16px; height: 1px; background: var(--c-light); margin: 10px auto 0; }
+
+
+  /* ========================================
+     P7: 横一列 + ドット — Japan と Europe 2段
+     ======================================== */
+  .v7 { text-align: center; padding: 60px 20px 100px; background: #f5f3ef; }
+  .v7-row { margin-bottom: 24px; }
+  .v7-row:last-child { margin-bottom: 0; }
+  .v7-row-label {
+    font-family: var(--loc-font); font-size: 0.58rem; letter-spacing: 0.4em;
+    color: var(--c-light); margin-bottom: 8px; text-transform: uppercase;
+  }
+  .v7-row-list {
+    font-family: var(--loc-font); font-size: 0.95rem; letter-spacing: 0.15em;
+    color: var(--c-dark); font-weight: 300;
+  }
+  .v7-row-list span { margin: 0 8px; color: var(--c-light); font-size: 0.7rem; }
+
+
+  /* ========================================
+     P8: 左寄せリスト — ナンバリング付き混在
+     ======================================== */
+  .v8 { padding: 60px 8% 100px; background: #f5f3ef; }
+  .v8 ul { list-style: none; display: flex; flex-direction: column; gap: 14px; max-width: 750px; }
+  .v8 li { display: flex; align-items: baseline; gap: 16px; }
+  .v8 .v8-num { font-family: var(--loc-font); font-size: 0.65rem; letter-spacing: 0.1em; color: var(--c-light); min-width: 24px; }
+  .v8 .v8-name { font-family: var(--loc-font); font-size: 1.05rem; letter-spacing: 0.1em; color: var(--c-dark); font-weight: 400; min-width: 130px; }
+  .v8 .v8-ja { font-family: var(--serif-jp); font-size: 0.62rem; color: var(--c-mid); font-weight: 200; min-width: 60px; }
+  .v8 .v8-line { flex: 1; height: 1px; background: var(--c-faint); }
+  .v8 .v8-coord { font-family: var(--loc-font); font-size: 0.62rem; color: var(--c-mid); white-space: nowrap; }
+
+
+  /* ========================================
+     P9: 横スクロール — 都市名がゆっくり流れる
+     Japan + Europe混在
+     ======================================== */
+  .v9 { padding: 50px 0 90px; background: #f5f3ef; overflow: hidden; }
+  .v9-track {
+    display: flex; gap: 50px; white-space: nowrap;
+    animation: v9scroll 28s linear infinite;
+  }
+  .v9-track span {
+    font-family: var(--loc-font); font-size: clamp(1.8rem, 4vw, 3.5rem);
+    font-weight: 300; letter-spacing: 0.04em; color: rgba(61,53,48,0.07);
+  }
+  .v9-track .v9-dot { font-size: clamp(0.8rem, 1.5vw, 1.2rem); color: rgba(61,53,48,0.05); align-self: center; }
+  @keyframes v9scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  .v9-sub {
+    text-align: center; margin-top: 30px;
+    font-family: var(--loc-font); font-size: 0.75rem; letter-spacing: 0.25em; color: var(--c-mid);
+  }
+
+
+  /* ========================================
+     P10: 地図的レイアウト — 左にJapan、右にEurope
+     斜めの線でつなぐイメージ
+     ======================================== */
+  .v10 { padding: 60px 5% 100px; background: #f5f3ef; }
+  .v10-map {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    max-width: 900px; margin: 0 auto; position: relative;
+  }
+  .v10-map::before {
+    content: ''; position: absolute; top: 50%; left: 20%; right: 20%;
+    height: 1px; background: var(--c-faint);
+  }
+  .v10-side { flex: 0 0 35%; }
+  .v10-side-label {
+    font-family: var(--loc-font); font-size: 0.6rem; letter-spacing: 0.35em;
+    color: var(--c-light); text-transform: uppercase; margin-bottom: 20px;
+  }
+  .v10-side ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .v10-side li { display: flex; align-items: baseline; gap: 10px; }
+  .v10-side .v10-name { font-family: var(--loc-font); font-size: 1rem; letter-spacing: 0.08em; color: var(--c-dark); font-weight: 400; }
+  .v10-side .v10-ja { font-family: var(--serif-jp); font-size: 0.6rem; color: var(--c-mid); font-weight: 200; }
+  .v10-center {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 8px; height: 8px; border-radius: 50%;
+    border: 1px solid var(--c-light); background: #f5f3ef;
+  }
+  .v10-right { text-align: right; }
+  .v10-right li { justify-content: flex-end; }
+
+</style>
+</head>
+<body>
+
+<nav class="pattern-nav">
+  <span>Location v2:</span>
+  <a href="#L1">1. フラット+座標</a>
+  <a href="#L2">2. JP/EU分け</a>
+  <a href="#L3">3. 7都市タイムライン</a>
+  <a href="#L4">4. 2段タイムライン</a>
+  <a href="#L5">5. リージョンタグ</a>
+  <a href="#L6">6. 混在グリッド</a>
+  <a href="#L7">7. 2段ドット横一列</a>
+  <a href="#L8">8. ナンバリング混在</a>
+  <a href="#L9">9. 横スクロール混在</a>
+  <a href="#L10">10. 左JP右EU地図風</a>
+</nav>
+
+
+<!-- P1 -->
+<div id="L1" class="pattern-label"><h2>Pattern 1</h2><p>フラットリスト — Japan/Europe 混在＋座標（P2ベース）</p></div>
+<div class="fake-gallery-end"><p>▲ 写真がフェードアウトした下 ▲</p></div>
+<div class="v1">
+  <ul>
+    <li><span class="v1-name">Tokyo</span><span class="v1-line"></span><span class="v1-coord">35.6762° N, 139.6503° E</span></li>
+    <li><span class="v1-name">Karuizawa</span><span class="v1-line"></span><span class="v1-coord">36.3489° N, 138.5970° E</span></li>
+    <li><span class="v1-name">Jogashima</span><span class="v1-line"></span><span class="v1-coord">35.1307° N, 139.6156° E</span></li>
+    <li><span class="v1-name">Paris</span><span class="v1-line"></span><span class="v1-coord">48.8566° N, 2.3522° E</span></li>
+    <li><span class="v1-name">London</span><span class="v1-line"></span><span class="v1-coord">51.5074° N, 0.1278° W</span></li>
+    <li><span class="v1-name">Firenze</span><span class="v1-line"></span><span class="v1-coord">43.7696° N, 11.2558° E</span></li>
+    <li><span class="v1-name">Malta</span><span class="v1-line"></span><span class="v1-coord">35.9375° N, 14.3754° E</span></li>
+  </ul>
+</div>
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESS）</p></div>
+<div class="pattern-divider"></div>
+
+
+<!-- P2 -->
+<div id="L2" class="pattern-label"><h2>Pattern 2</h2><p>Japan / Europe セクション分け＋日本語＋座標</p></div>
+<div class="fake-gallery-end"><p>▲ 写真がフェードアウトした下 ▲</p></div>
+<div class="v2">
+  <div class="v2-section">
+    <p class="v2-section-label">Japan</p>
+    <ul>
+      <li><span class="v2-name">Tokyo</span><span class="v2-ja">東京</span><span class="v2-line"></span><span class="v2-coord">35.6762° N</span></li>
+      <li><span class="v2-name">Karuizawa</span><span class="v2-ja">軽井沢</span><span class="v2-line"></span><span class="v2-coord">36.3489° N</span></li>
+      <li><span class="v2-name">Jogashima</span><span class="v2-ja">城ヶ島</span><span class="v2-line"></span><span class="v2-coord">35.1307° N</span></li>
+    </ul>
+  </div>
+  <div class="v2-section">
+    <p class="v2-section-label">Europe</p>
+    <ul>
+      <li><span class="v2-name">Paris</span><span class="v2-ja">パリ</span><span class="v2-line"></span><span class="v2-coord">48.8566° N</span></li>
+      <li><span class="v2-name">London</span><span class="v2-ja">ロンドン</span><span class="v2-line"></span><span class="v2-coord">51.5074° N</span></li>
+      <li><span class="v2-name">Firenze</span><span class="v2-ja">フィレンツェ</span><span class="v2-line"></span><span class="v2-coord">43.7696° N</span></li>
+      <li><span class="v2-name">Malta</span><span class="v2-ja">マルタ</span><span class="v2-line"></span><span class="v2-coord">35.9375° N</span></li>
+    </ul>
+  </div>
+</div>
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESS）</p></div>
+<div class="pattern-divider"></div>
+
+
+<!-- P3 -->
+<div id="L3" class="pattern-label"><h2>Pattern 3</h2><p>7都市タイムライン — 横一直線にドット（P9ベース拡張）</p></div>
+<div class="fake-gallery-end"><p>▲ 写真がフェードアウトした下 ▲</p></div>
+<div class="v3">
+  <div class="v3-timeline">
+    <div class="v3-point"><p class="v3-name">Tokyo</p><p class="v3-ja">東京</p></div>
+    <div class="v3-point"><p class="v3-name">Karuizawa</p><p class="v3-ja">軽井沢</p></div>
+    <div class="v3-point"><p class="v3-name">Jogashima</p><p class="v3-ja">城ヶ島</p></div>
+    <div class="v3-point"><p class="v3-name">Paris</p><p class="v3-ja">パリ</p></div>
+    <div class="v3-point"><p class="v3-name">London</p><p class="v3-ja">ロンドン</p></div>
+    <div class="v3-point"><p class="v3-name">Firenze</p><p class="v3-ja">フィレンツェ</p></div>
+    <div class="v3-point"><p class="v3-name">Malta</p><p class="v3-ja">マルタ</p></div>
+  </div>
+</div>
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESS）</p></div>
+<div class="pattern-divider"></div>
+
+
+<!-- P4 -->
+<div id="L4" class="pattern-label"><h2>Pattern 4</h2><p>2段タイムライン — 上Japan / 下Europe</p></div>
+<div class="fake-gallery-end"><p>▲ 写真がフェードアウトした下 ▲</p></div>
+<div class="v4">
+  <div class="v4-row">
+    <p class="v4-row-label">Japan</p>
+    <div class="v4-row-line">
+      <div class="v4-dot"><p class="v4-name">Tokyo</p><p class="v4-ja">東京</p></div>
+      <div class="v4-dot"><p class="v4-name">Karuizawa</p><p class="v4-ja">軽井沢</p></div>
+      <div class="v4-dot"><p class="v4-name">Jogashima</p><p class="v4-ja">城ヶ島</p></div>
+    </div>
+  </div>
+  <div class="v4-row">
+    <p class="v4-row-label">Europe</p>
+    <div class="v4-row-line">
+      <div class="v4-dot"><p class="v4-name">Paris</p><p class="v4-ja">パリ</p></div>
+      <div class="v4-dot"><p class="v4-name">London</p><p class="v4-ja">ロンドン</p></div>
+      <div class="v4-dot"><p class="v4-name">Firenze</p><p class="v4-ja">フィレンツェ</p></div>
+      <div class="v4-dot"><p class="v4-name">Malta</p><p class="v4-ja">マルタ</p></div>
+    </div>
+  </div>
+</div>
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESS）</p></div>
+<div class="pattern-divider"></div>
+
+
+<!-- P5 -->
+<div id="L5" class="pattern-label"><h2>Pattern 5</h2><p>リージョンタグ — 各都市の右端にJapan/Europeのタグ</p></div>
+<div class="fake-gallery-end"><p>▲ 写真がフェードアウトした下 ▲</p></div>
+<div class="v5">
+  <ul>
+    <li><span class="v5-name">Tokyo</span><span class="v5-line"></span><span class="v5-tag">Japan</span></li>
+    <li><span class="v5-name">Karuizawa</span><span class="v5-line"></span><span class="v5-tag">Japan</span></li>
+    <li><span class="v5-name">Jogashima</span><span class="v5-line"></span><span class="v5-tag">Japan</span></li>
+    <li><span class="v5-name">Paris</span><span class="v5-line"></span><span class="v5-tag">Europe</span></li>
+    <li><span class="v5-name">London</span><span class="v5-line"></span><span class="v5-tag">Europe</span></li>
+    <li><span class="v5-name">Firenze</span><span class="v5-line"></span><span class="v5-tag">Europe</span></li>
+    <li><span class="v5-name">Malta</span><span class="v5-line"></span><span class="v5-tag">Europe</span></li>
+  </ul>
+</div>
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESS）</p></div>
+<div class="pattern-divider"></div>
+
+
+<!-- P6 -->
+<div id="L6" class="pattern-label"><h2>Pattern 6</h2><p>混在グリッド — Japan/Europe分けず都市名＋日本語で並べる</p></div>
+<div class="fake-gallery-end"><p>▲ 写真がフェードアウトした下 ▲</p></div>
+<div class="v6">
+  <div class="v6-grid">
+    <div class="v6-item"><p class="v6-name">Tokyo</p><p class="v6-ja">東京</p><div class="v6-line"></div></div>
+    <div class="v6-item"><p class="v6-name">Karuizawa</p><p class="v6-ja">軽井沢</p><div class="v6-line"></div></div>
+    <div class="v6-item"><p class="v6-name">Jogashima</p><p class="v6-ja">城ヶ島</p><div class="v6-line"></div></div>
+    <div class="v6-item"><p class="v6-name">Paris</p><p class="v6-ja">パリ</p><div class="v6-line"></div></div>
+    <div class="v6-item"><p class="v6-name">London</p><p class="v6-ja">ロンドン</p><div class="v6-line"></div></div>
+    <div class="v6-item"><p class="v6-name">Firenze</p><p class="v6-ja">フィレンツェ</p><div class="v6-line"></div></div>
+    <div class="v6-item"><p class="v6-name">Malta</p><p class="v6-ja">マルタ</p><div class="v6-line"></div></div>
+  </div>
+</div>
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESS）</p></div>
+<div class="pattern-divider"></div>
+
+
+<!-- P7 -->
+<div id="L7" class="pattern-label"><h2>Pattern 7</h2><p>2段ドット横一列 — Japan行とEurope行</p></div>
+<div class="fake-gallery-end"><p>▲ 写真がフェードアウトした下 ▲</p></div>
+<div class="v7">
+  <div class="v7-row">
+    <p class="v7-row-label">Japan</p>
+    <p class="v7-row-list">Tokyo <span>·</span> Karuizawa <span>·</span> Jogashima</p>
+  </div>
+  <div class="v7-row">
+    <p class="v7-row-label">Europe</p>
+    <p class="v7-row-list">Paris <span>·</span> London <span>·</span> Firenze <span>·</span> Malta</p>
+  </div>
+</div>
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESS）</p></div>
+<div class="pattern-divider"></div>
+
+
+<!-- P8 -->
+<div id="L8" class="pattern-label"><h2>Pattern 8</h2><p>ナンバリング混在 — 01〜07 + 日本語 + 座標</p></div>
+<div class="fake-gallery-end"><p>▲ 写真がフェードアウトした下 ▲</p></div>
+<div class="v8">
+  <ul>
+    <li><span class="v8-num">01</span><span class="v8-name">Tokyo</span><span class="v8-ja">東京</span><span class="v8-line"></span><span class="v8-coord">35.6762° N</span></li>
+    <li><span class="v8-num">02</span><span class="v8-name">Karuizawa</span><span class="v8-ja">軽井沢</span><span class="v8-line"></span><span class="v8-coord">36.3489° N</span></li>
+    <li><span class="v8-num">03</span><span class="v8-name">Jogashima</span><span class="v8-ja">城ヶ島</span><span class="v8-line"></span><span class="v8-coord">35.1307° N</span></li>
+    <li><span class="v8-num">04</span><span class="v8-name">Paris</span><span class="v8-ja">パリ</span><span class="v8-line"></span><span class="v8-coord">48.8566° N</span></li>
+    <li><span class="v8-num">05</span><span class="v8-name">London</span><span class="v8-ja">ロンドン</span><span class="v8-line"></span><span class="v8-coord">51.5074° N</span></li>
+    <li><span class="v8-num">06</span><span class="v8-name">Firenze</span><span class="v8-ja">フィレンツェ</span><span class="v8-line"></span><span class="v8-coord">43.7696° N</span></li>
+    <li><span class="v8-num">07</span><span class="v8-name">Malta</span><span class="v8-ja">マルタ</span><span class="v8-line"></span><span class="v8-coord">35.9375° N</span></li>
+  </ul>
+</div>
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESS）</p></div>
+<div class="pattern-divider"></div>
+
+
+<!-- P9 -->
+<div id="L9" class="pattern-label"><h2>Pattern 9</h2><p>横スクロール — 全都市名が透かしで流れる + 小さなリスト</p></div>
+<div class="fake-gallery-end"><p>▲ 写真がフェードアウトした下 ▲</p></div>
+<div class="v9">
+  <div class="v9-track">
+    <span>Tokyo</span><span class="v9-dot">·</span>
+    <span>Karuizawa</span><span class="v9-dot">·</span>
+    <span>Jogashima</span><span class="v9-dot">·</span>
+    <span>Paris</span><span class="v9-dot">·</span>
+    <span>London</span><span class="v9-dot">·</span>
+    <span>Firenze</span><span class="v9-dot">·</span>
+    <span>Malta</span><span class="v9-dot">·</span>
+    <span>Tokyo</span><span class="v9-dot">·</span>
+    <span>Karuizawa</span><span class="v9-dot">·</span>
+    <span>Jogashima</span><span class="v9-dot">·</span>
+    <span>Paris</span><span class="v9-dot">·</span>
+    <span>London</span><span class="v9-dot">·</span>
+    <span>Firenze</span><span class="v9-dot">·</span>
+    <span>Malta</span><span class="v9-dot">·</span>
+  </div>
+  <p class="v9-sub">Tokyo · Karuizawa · Jogashima · Paris · London · Firenze · Malta</p>
+</div>
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESS）</p></div>
+<div class="pattern-divider"></div>
+
+
+<!-- P10 -->
+<div id="L10" class="pattern-label"><h2>Pattern 10</h2><p>左Japan 右Europe — 地図的に左右で分ける</p></div>
+<div class="fake-gallery-end"><p>▲ 写真がフェードアウトした下 ▲</p></div>
+<div class="v10">
+  <div class="v10-map">
+    <div class="v10-side">
+      <p class="v10-side-label">Japan</p>
+      <ul>
+        <li><span class="v10-name">Tokyo</span><span class="v10-ja">東京</span></li>
+        <li><span class="v10-name">Karuizawa</span><span class="v10-ja">軽井沢</span></li>
+        <li><span class="v10-name">Jogashima</span><span class="v10-ja">城ヶ島</span></li>
+      </ul>
+    </div>
+    <div class="v10-center"></div>
+    <div class="v10-side v10-right">
+      <p class="v10-side-label">Europe</p>
+      <ul>
+        <li><span class="v10-ja">パリ</span><span class="v10-name">Paris</span></li>
+        <li><span class="v10-ja">ロンドン</span><span class="v10-name">London</span></li>
+        <li><span class="v10-ja">フィレンツェ</span><span class="v10-name">Firenze</span></li>
+        <li><span class="v10-ja">マルタ</span><span class="v10-name">Malta</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESS）</p></div>
+
+
+</body>
+</html>

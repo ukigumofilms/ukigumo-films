@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instagram Link — 20 Patterns</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#e8e5e0;font-family:'Cormorant Garamond',serif;color:#2a2420}
+h1{text-align:center;padding:40px 20px 10px;font-weight:300;font-size:1.8rem;letter-spacing:.2em}
+.note{text-align:center;font-size:.8rem;color:#8a8278;margin-bottom:20px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;padding:20px 30px;max-width:1000px;margin:0 auto}
+.box{background:#f5f3ef;padding:50px 30px;text-align:center;position:relative}
+.num{position:absolute;top:12px;left:16px;font-size:.7rem;color:#8a8278;letter-spacing:.1em}
+.desc{font-size:.68rem;color:#8a8278;margin-bottom:24px;letter-spacing:.06em}
+a{text-decoration:none;color:#2a2420}
+
+/* Instagram SVG icon */
+.ig{display:inline-block;vertical-align:middle}
+.ig svg{width:20px;height:20px;color:#2a2420;stroke:currentColor;fill:none;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
+
+/* === 1 ピル枠 + ホバー濃く === */
+.c1{display:inline-flex;align-items:center;gap:10px;padding:12px 28px;border:1px solid rgba(42,36,32,.2);border-radius:50px;font-size:.9rem;letter-spacing:.12em;transition:border-color .4s,background .4s,transform .4s}
+.c1:hover{border-color:#2a2420;background:rgba(42,36,32,.04);transform:scale(1.03)}
+
+/* === 2 ピル枠 + 背景スライド === */
+.c2{display:inline-flex;align-items:center;gap:10px;padding:12px 28px;border:1px solid #2a2420;border-radius:50px;font-size:.9rem;letter-spacing:.12em;position:relative;overflow:hidden;z-index:1;transition:color .4s}
+.c2::before{content:'';position:absolute;top:0;left:0;width:0;height:100%;background:#2a2420;z-index:-1;border-radius:50px;transition:width .5s cubic-bezier(.25,.46,.45,.94)}
+.c2:hover{color:#f5f3ef}.c2:hover::before{width:100%}
+.c2:hover .ig svg{color:#f5f3ef}
+
+/* === 3 下線展開 === */
+.c3{display:inline-flex;align-items:center;gap:10px;font-size:.9rem;letter-spacing:.12em;padding:8px 0;position:relative}
+.c3::after{content:'';position:absolute;bottom:0;left:0;width:25%;height:1px;background:#2a2420;transition:width .5s cubic-bezier(.25,.46,.45,.94)}
+.c3:hover::after{width:100%}
+
+/* === 4 四角枠 + 反転 === */
+.c4{display:inline-flex;align-items:center;gap:10px;padding:14px 30px;border:1px solid #2a2420;font-size:.9rem;letter-spacing:.12em;transition:background .4s,color .4s}
+.c4:hover{background:#2a2420;color:#f5f3ef}
+.c4:hover .ig svg{color:#f5f3ef}
+
+/* === 5 左ライン === */
+.c5{display:inline-flex;align-items:center;gap:12px;font-size:.9rem;letter-spacing:.12em}
+.c5 .ln{width:30px;height:1px;background:#2a2420;transition:width .5s ease}
+.c5:hover .ln{width:55px}
+
+/* === 6 アイコン大 + 下テキスト === */
+.c6{display:inline-flex;flex-direction:column;align-items:center;gap:10px;font-size:.85rem;letter-spacing:.15em}
+.c6 .ig svg{width:28px;height:28px;transition:transform .4s ease}
+.c6:hover .ig svg{transform:scale(1.15)}
+
+/* === 7 ピル + アイコン色変化 === */
+.c7{display:inline-flex;align-items:center;gap:10px;padding:12px 28px;background:rgba(42,36,32,.04);border-radius:50px;font-size:.9rem;letter-spacing:.12em;transition:background .4s}
+.c7 .ig svg{transition:transform .3s,color .3s}
+.c7:hover{background:rgba(42,36,32,.1)}
+.c7:hover .ig svg{transform:rotate(8deg) scale(1.1)}
+
+/* === 8 上下ライン === */
+.c8{display:inline-flex;flex-direction:column;align-items:center}
+.c8 .ln{width:25px;height:1px;background:rgba(42,36,32,.2);transition:width .5s}
+.c8 .inner{display:flex;align-items:center;gap:10px;padding:12px 0;font-size:.9rem;letter-spacing:.12em}
+.c8:hover .ln{width:80px}
+
+/* === 9 シャドウ浮き上がり === */
+.c9{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;border:1px solid rgba(42,36,32,.12);border-radius:8px;font-size:.9rem;letter-spacing:.12em;transition:box-shadow .5s,border-color .4s,transform .4s}
+.c9:hover{box-shadow:0 6px 24px rgba(42,36,32,.1);border-color:rgba(42,36,32,.25);transform:translateY(-3px)}
+
+/* === 10 枠フェードイン === */
+.c10{display:inline-flex;align-items:center;gap:10px;padding:13px 28px;font-size:.9rem;letter-spacing:.12em;position:relative}
+.c10::before{content:'';position:absolute;inset:0;border:1px solid #2a2420;border-radius:50px;opacity:0;transition:opacity .5s}
+.c10:hover::before{opacity:1}
+
+/* === 11 テキスト間隔変化 === */
+.c11{display:inline-flex;align-items:center;gap:10px;font-size:.85rem;letter-spacing:.15em;color:rgba(42,36,32,.55);transition:color .4s,letter-spacing .5s,gap .4s}
+.c11:hover{color:#2a2420;letter-spacing:.25em;gap:14px}
+
+/* === 12 ドット + テキスト === */
+.c12{display:inline-flex;align-items:center;gap:10px;font-size:.9rem;letter-spacing:.12em}
+.c12 .dt{width:6px;height:6px;border-radius:50%;border:1px solid #2a2420;transition:background .3s,transform .4s}
+.c12:hover .dt{background:#2a2420;transform:scale(1.5)}
+
+/* === 13 矢印付きピル === */
+.c13{display:inline-flex;align-items:center;gap:10px;padding:12px 28px;border:1px solid rgba(42,36,32,.2);border-radius:50px;font-size:.9rem;letter-spacing:.12em;transition:border-color .4s,padding-right .4s}
+.c13 .ar{font-size:.75rem;transition:transform .3s}
+.c13:hover{border-color:#2a2420;padding-right:34px}
+.c13:hover .ar{transform:translateX(4px)}
+
+/* === 14 アイコン丸枠 + テキスト === */
+.c14{display:inline-flex;align-items:center;gap:14px;font-size:.9rem;letter-spacing:.12em}
+.c14 .ico{width:44px;height:44px;border-radius:50%;border:1px solid rgba(42,36,32,.2);display:flex;align-items:center;justify-content:center;transition:border-color .4s,background .4s,transform .3s}
+.c14 .ico svg{width:18px;height:18px}
+.c14:hover .ico{border-color:#2a2420;background:rgba(42,36,32,.05);transform:scale(1.06)}
+
+/* === 15 グラデ下線 === */
+.c15{display:inline-flex;align-items:center;gap:10px;font-size:.9rem;letter-spacing:.12em;padding:8px 0;position:relative}
+.c15::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:linear-gradient(90deg,#2a2420,transparent);transition:width .6s ease}
+.c15:hover::after{width:100%}
+
+/* === 16 スラッシュ区切り === */
+.c16{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;letter-spacing:.12em}
+.c16 .sl{color:rgba(42,36,32,.15);font-weight:300;font-size:1.1rem;transition:color .4s}
+.c16:hover .sl{color:#2a2420}
+
+/* === 17 ピル + パルスアニメ === */
+.c17{display:inline-flex;align-items:center;gap:10px;padding:12px 28px;border:1px solid rgba(42,36,32,.2);border-radius:50px;font-size:.9rem;letter-spacing:.12em;transition:border-color .4s}
+.c17 .ig svg{animation:none;transition:transform .3s}
+.c17:hover{border-color:#2a2420}
+.c17:hover .ig svg{animation:pulse17 1.2s ease infinite}
+@keyframes pulse17{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+
+/* === 18 左枠ボーダー === */
+.c18{display:inline-flex;align-items:center;gap:10px;padding:12px 24px;border-left:2px solid rgba(42,36,32,.15);font-size:.9rem;letter-spacing:.12em;transition:border-color .4s,padding-left .4s}
+.c18:hover{border-color:#2a2420;padding-left:32px}
+
+/* === 19 背景色フェード === */
+.c19{display:inline-flex;align-items:center;gap:10px;padding:14px 30px;border-radius:6px;font-size:.9rem;letter-spacing:.12em;background:transparent;transition:background .5s}
+.c19:hover{background:rgba(42,36,32,.06)}
+.c19 .ig svg{transition:transform .3s}.c19:hover .ig svg{transform:rotate(-5deg)}
+
+/* === 20 ダイヤモンド + テキスト === */
+.c20{display:inline-flex;align-items:center;gap:12px;font-size:.9rem;letter-spacing:.12em}
+.c20 .dm{width:7px;height:7px;border:1px solid #2a2420;transform:rotate(45deg);transition:background .3s,transform .4s}
+.c20:hover .dm{background:#2a2420;transform:rotate(45deg) scale(1.3)}
+</style>
+</head>
+<body>
+<h1>Instagram Link — 20 Patterns</h1>
+<p class="note">ホバーでアニメーション確認</p>
+<div class="grid">
+
+<div class="box"><div class="num">1 — ピル枠</div><div class="desc">枠が濃くなる + 少し拡大</div>
+<a href="#" class="c1"><span class="ig"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>ukigumo films</a></div>
+
+<div class="box"><div class="num">2 — ピル背景スライド</div><div class="desc">背景が塗りに + 白文字</div>
+<a href="#" class="c2"><span class="ig"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>ukigumo films</a></div>
+
+<div class="box"><div class="num">3 — 下線展開</div><div class="desc">ラインが伸びる</div>
+<a href="#" class="c3"><span class="ig"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>ukigumo films</a></div>
+
+<div class="box"><div class="num">4 — 四角反転</div><div class="desc">白黒反転</div>
+<a href="#" class="c4"><span class="ig"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>ukigumo films</a></div>
+
+<div class="box"><div class="num">5 — 左ライン</div><div class="desc">ラインが伸びて誘導</div>
+<a href="#" class="c5"><span class="ln"></span><span class="ig"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>ukigumo films</a></div>
+
+<div class="box"><div class="num">6 — アイコン大+下テキスト</div><div class="desc">縦レイアウト</div>
+<a href="#" class="c6"><span class="ig"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>ukigumo films</a></div>
+
+<div class="box"><div class="num">7 — 半透明ピル</div><div class="desc">アイコン回転</div>
+<a href="#" class="c7"><span class="ig"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>ukigumo films</a></div>
+
+<div class="box"><div class="num">8 — 上下ライン</div><div class="desc">上下ラインが広がる</div>
+<a href="#" class="c8"><span class="ln"></span><span class="inner"><span class="ig"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>ukigumo films</span><span class="ln"></span></a></div>
+
+<div class="box"><div class="num">9 — シャドウ浮き上がり</div><div class="desc">影 + 浮き上がり</div>
+<a href="#" class="c9"><span class="ig"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>ukigumo films</a></div>
+
+<div class="box"><div class="num">10 — 枠フェードイン</div><div class="desc">枠がふわっと出る</div>
+<a href="#" class="c10"><span class="ig"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>ukigumo films</a></div>
+
+<div class="box"><div class="num">11 — テキスト間隔変化</div><div class="desc">スペーシング広がる</div>
+<a href="#" class="c11"><span class="ig"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>ukigumo films</a></div>
+
+<div class="box"><div class="num">12 — ドット付き</div><div class="desc">ドット膨らむ</div>
+<a href="#" class="c12"><span class="dt"></span><span class="ig"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>ukigumo films</a></div>
+
+<div class="box"><div class="num">13 — 矢印付きピル</div><div class="desc">矢印スライド</div>
+<a href="#" class="c13"><span class="ig"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>ukigumo films <span class="ar">→</span></a></div>
+
+<div class="box"><div class="num">14 — アイコン丸枠</div><div class="desc">丸がふわっと強調</div>
+<a href="#" class="c14"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#2a2420" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="#2a2420" stroke="none"/></svg></span>ukigumo films</a></div>
+
+<div class="box"><div class="num">15 — グラデ下線</div><div class="desc">フェードする下線</div>
+<a href="#" class="c15"><span class="ig"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>ukigumo films</a></div>
+
+<div class="box"><div class="num">16 — スラッシュ区切り</div><div class="desc">/ が濃くなる</div>
+<a href="#" class="c16"><span class="ig"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span><span class="sl">/</span>ukigumo films</a></div>
+
+<div class="box"><div class="num">17 — パルスアニメ</div><div class="desc">アイコンが脈打つ</div>
+<a href="#" class="c17"><span class="ig"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>ukigumo films</a></div>
+
+<div class="box"><div class="num">18 — 左枠ボーダー</div><div class="desc">左線が濃く + 右にスライド</div>
+<a href="#" class="c18"><span class="ig"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>ukigumo films</a></div>
+
+<div class="box"><div class="num">19 — 背景フェード</div><div class="desc">背景色 + アイコン傾き</div>
+<a href="#" class="c19"><span class="ig"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>ukigumo films</a></div>
+
+<div class="box"><div class="num">20 — ダイヤモンド</div><div class="desc">◇が塗りに</div>
+<a href="#" class="c20"><span class="dm"></span><span class="ig"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>ukigumo films</a></div>
+
+</div>
+<div style="height:40px"></div>
+</body>
+</html>

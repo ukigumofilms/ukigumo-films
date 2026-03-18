@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Layout Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Noto Serif JP', serif;
+      background: #fff;
+      color: #3D3530;
+      max-width: 390px;
+      margin: 0 auto;
+    }
+    .label {
+      text-align: center;
+      padding: 2rem 1rem 1rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: #999;
+      border-top: 1px solid #eee;
+    }
+    .label:first-child { border-top: none; }
+    .label span {
+      display: block;
+      font-size: 0.7rem;
+      color: #bbb;
+      margin-top: 0.3rem;
+    }
+
+    /* Shared styles */
+    .card {
+      display: flex;
+      overflow: hidden;
+      margin: 0 0 1.5rem;
+    }
+    .card__img {
+      flex-shrink: 0;
+      overflow: hidden;
+      width: 42%;
+      min-height: 220px;
+    }
+    .card__img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .card__text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 1rem 1.2rem;
+      width: 58%;
+    }
+    .card__location {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.5rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #a0917f;
+      margin-bottom: 0.4rem;
+    }
+    .card__title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: #3D3530;
+      margin-bottom: 0.15rem;
+    }
+    .card__jp {
+      font-size: 0.65rem;
+      font-weight: 300;
+      color: #8a7e74;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.8rem;
+    }
+    .card__link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.75rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: #3D3530;
+      text-decoration: none;
+    }
+    .card__link::before {
+      content: '';
+      width: 28px;
+      height: 1px;
+      background: #3D3530;
+    }
+
+    /* 画像右（テキスト左・画像右） */
+    .card--img-right {
+      flex-direction: row;
+    }
+    .card--img-right .card__img {
+      order: 2;
+    }
+    .card--img-right .card__text {
+      order: 1;
+    }
+
+    /* 画像左（画像左・テキスト右） */
+    .card--img-left {
+      flex-direction: row;
+    }
+
+    .spacer { height: 1rem; }
+  </style>
+</head>
+<body>
+
+  <!-- Pattern A: コンパクト（画像40%） -->
+  <p class="label">Pattern A<span>コンパクト</span></p>
+
+  <!-- 1. Japan — 画像右 -->
+  <div class="card card--img-right" style="">
+    <div class="card__img" style="width: 40%; min-height: 200px;">
+      <img src="images/firenze/03.jpg" alt="">
+    </div>
+    <div class="card__text" style="width: 60%;">
+      <p class="card__location">Tokyo · Karuizawa · Fuji · Jogashima — Japan</p>
+      <h3 class="card__title">Japan</h3>
+      <p class="card__jp">国内プラン</p>
+      <a href="#" class="card__link">view plan →</a>
+    </div>
+  </div>
+
+  <!-- 2. Paris — 画像左 -->
+  <div class="card card--img-left">
+    <div class="card__img" style="width: 40%; min-height: 200px;">
+      <img src="images/paris/01.jpg" alt="">
+    </div>
+    <div class="card__text" style="width: 60%;">
+      <p class="card__location">Paris · Nice · Firenze — Europe</p>
+      <h3 class="card__title">Paris</h3>
+      <p class="card__jp">パリプラン</p>
+      <a href="#" class="card__link">view plan →</a>
+    </div>
+  </div>
+
+  <!-- 3. Europa — 画像右 -->
+  <div class="card card--img-right">
+    <div class="card__img" style="width: 40%; min-height: 200px;">
+      <img src="images/malta/02.jpg" alt="">
+    </div>
+    <div class="card__text" style="width: 60%;">
+      <p class="card__location">Malta · Switzerland · London — Europe</p>
+      <h3 class="card__title">Europa</h3>
+      <p class="card__jp">ヨーロッパプラン</p>
+      <a href="#" class="card__link">view plan →</a>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+
+  <!-- Pattern B: 画像大きめ（48%） -->
+  <p class="label">Pattern B<span>画像大きめ</span></p>
+
+  <!-- 1. Japan — 画像右 -->
+  <div class="card card--img-right">
+    <div class="card__img" style="width: 48%; min-height: 260px;">
+      <img src="images/firenze/03.jpg" alt="">
+    </div>
+    <div class="card__text" style="width: 52%;">
+      <p class="card__location">Tokyo · Karuizawa · Fuji · Jogashima — Japan</p>
+      <h3 class="card__title">Japan</h3>
+      <p class="card__jp">国内プラン</p>
+      <a href="#" class="card__link">view plan →</a>
+    </div>
+  </div>
+
+  <!-- 2. Paris — 画像左 -->
+  <div class="card card--img-left">
+    <div class="card__img" style="width: 48%; min-height: 260px;">
+      <img src="images/paris/01.jpg" alt="">
+    </div>
+    <div class="card__text" style="width: 52%;">
+      <p class="card__location">Paris · Nice · Firenze — Europe</p>
+      <h3 class="card__title">Paris</h3>
+      <p class="card__jp">パリプラン</p>
+      <a href="#" class="card__link">view plan →</a>
+    </div>
+  </div>
+
+  <!-- 3. Europa — 画像右 -->
+  <div class="card card--img-right">
+    <div class="card__img" style="width: 48%; min-height: 260px;">
+      <img src="images/malta/02.jpg" alt="">
+    </div>
+    <div class="card__text" style="width: 52%;">
+      <p class="card__location">Malta · Switzerland · London — Europe</p>
+      <h3 class="card__title">Europa</h3>
+      <p class="card__jp">ヨーロッパプラン</p>
+      <a href="#" class="card__link">view plan →</a>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+
+  <!-- Pattern C: 画像高め＋余白ゆったり -->
+  <p class="label">Pattern C<span>画像高め＋余白ゆったり</span></p>
+
+  <!-- 1. Japan — 画像右 -->
+  <div class="card card--img-right" style="margin: 0 0 2rem;">
+    <div class="card__img" style="width: 44%; min-height: 300px;">
+      <img src="images/firenze/03.jpg" alt="">
+    </div>
+    <div class="card__text" style="width: 56%; padding: 1.2rem 1.4rem;">
+      <p class="card__location">Tokyo · Karuizawa · Fuji · Jogashima — Japan</p>
+      <h3 class="card__title" style="font-size: 1.5rem;">Japan</h3>
+      <p class="card__jp">国内プラン</p>
+      <a href="#" class="card__link">view plan →</a>
+    </div>
+  </div>
+
+  <!-- 2. Paris — 画像左 -->
+  <div class="card card--img-left" style="margin: 0 0 2rem;">
+    <div class="card__img" style="width: 44%; min-height: 300px;">
+      <img src="images/paris/01.jpg" alt="">
+    </div>
+    <div class="card__text" style="width: 56%; padding: 1.2rem 1.4rem;">
+      <p class="card__location">Paris · Nice · Firenze — Europe</p>
+      <h3 class="card__title" style="font-size: 1.5rem;">Paris</h3>
+      <p class="card__jp">パリプラン</p>
+      <a href="#" class="card__link">view plan →</a>
+    </div>
+  </div>
+
+  <!-- 3. Europa — 画像右 -->
+  <div class="card card--img-right" style="margin: 0 0 2rem;">
+    <div class="card__img" style="width: 44%; min-height: 300px;">
+      <img src="images/malta/02.jpg" alt="">
+    </div>
+    <div class="card__text" style="width: 56%; padding: 1.2rem 1.4rem;">
+      <p class="card__location">Malta · Switzerland · London — Europe</p>
+      <h3 class="card__title" style="font-size: 1.5rem;">Europa</h3>
+      <p class="card__jp">ヨーロッパプラン</p>
+      <a href="#" class="card__link">view plan →</a>
+    </div>
+  </div>
+
+</body>
+</html>

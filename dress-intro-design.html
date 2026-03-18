@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dress Intro Design — 10 Patterns</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #f5f2ed; color: #2a2420; font-family: "Noto Serif JP", serif; }
+
+    h1 {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 300; font-size: 1.4rem;
+      text-align: center; letter-spacing: 0.15em;
+      padding-top: 3rem; margin-bottom: 0.3rem;
+    }
+    .sub { text-align: center; font-size: 0.65rem; color: rgba(61,53,48,0.4); letter-spacing: 0.08em; margin-bottom: 3rem; }
+
+    .section {
+      max-width: 960px;
+      margin: 0 auto 5rem;
+      padding: 0 1.5rem;
+    }
+    .label {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.55rem; color: rgba(61,53,48,0.3);
+      letter-spacing: 0.2em; margin-bottom: 0.15rem;
+    }
+    .name {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 300; font-size: 0.75rem;
+      color: rgba(61,53,48,0.5); margin-bottom: 1.2rem;
+    }
+
+    /* Dummy text — using Pattern 05 as sample */
+    .intro-title {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: #2e2519;
+    }
+    .intro-body {
+      font-weight: 300;
+      color: rgba(61,53,48,0.7);
+      letter-spacing: 0.02em;
+    }
+    .intro-note {
+      font-weight: 300;
+      color: rgba(61,53,48,0.5);
+    }
+
+    /* ==========================================
+       10 DESIGN PATTERNS
+       ========================================== */
+
+    /* --- P01: 白背景センター寄せ シンプル --- */
+    .d01 .box {
+      background: #fff;
+      text-align: center;
+      padding: 3.5rem 3rem;
+      border-radius: 0;
+    }
+    .d01 .intro-title { font-size: 1.4rem; margin-bottom: 1.2rem; }
+    .d01 .intro-body { font-size: 0.75rem; line-height: 2.2; }
+    .d01 .intro-note { font-size: 0.65rem; margin-top: 1.5rem; display: block; }
+
+    /* --- P02: 白背景 + 上下ライン --- */
+    .d02 .box {
+      background: #fff;
+      text-align: center;
+      padding: 3rem;
+      border-top: 1px solid rgba(61,53,48,0.12);
+      border-bottom: 1px solid rgba(61,53,48,0.12);
+    }
+    .d02 .intro-title { font-size: 1.3rem; margin-bottom: 1rem; }
+    .d02 .intro-body { font-size: 0.73rem; line-height: 2.2; }
+    .d02 .intro-note { font-size: 0.63rem; margin-top: 1.2rem; display: block; }
+
+    /* --- P03: ベージュ背景カード --- */
+    .d03 .box {
+      background: #ede4d6;
+      text-align: center;
+      padding: 3.5rem 3rem;
+      border-radius: 16px;
+    }
+    .d03 .intro-title { font-size: 1.4rem; margin-bottom: 1.2rem; }
+    .d03 .intro-body { font-size: 0.75rem; line-height: 2.2; }
+    .d03 .intro-note { font-size: 0.65rem; margin-top: 1.5rem; display: block; }
+
+    /* --- P04: 左寄せ + 縦ライン --- */
+    .d04 .box {
+      background: #fff;
+      padding: 2.5rem 2.5rem 2.5rem 3rem;
+      border-left: 3px solid rgba(61,53,48,0.15);
+    }
+    .d04 .intro-title { font-size: 1.2rem; margin-bottom: 1rem; text-align: left; }
+    .d04 .intro-body { font-size: 0.73rem; line-height: 2.2; text-align: left; }
+    .d04 .intro-note { font-size: 0.63rem; margin-top: 1rem; display: block; text-align: left; }
+
+    /* --- P05: 背景なし・テキストのみセンター --- */
+    .d05 .box {
+      background: transparent;
+      text-align: center;
+      padding: 3rem 2rem;
+    }
+    .d05 .intro-title { font-size: 1.5rem; margin-bottom: 1.5rem; }
+    .d05 .intro-body { font-size: 0.75rem; line-height: 2.4; }
+    .d05 .intro-note { font-size: 0.65rem; margin-top: 1.5rem; display: block; }
+
+    /* --- P06: 白カード + 薄シャドウ + 角丸 --- */
+    .d06 .box {
+      background: #fff;
+      text-align: center;
+      padding: 3rem;
+      border-radius: 16px;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.04);
+    }
+    .d06 .intro-title { font-size: 1.3rem; margin-bottom: 1.2rem; }
+    .d06 .intro-body { font-size: 0.73rem; line-height: 2.2; }
+    .d06 .intro-note { font-size: 0.65rem; margin-top: 1.3rem; display: block; }
+
+    /* --- P07: 2カラム（タイトル左 + テキスト右） --- */
+    .d07 .box {
+      background: #fff;
+      padding: 3rem;
+      display: flex;
+      gap: 3rem;
+      align-items: flex-start;
+    }
+    .d07 .col-left { flex: 0 0 200px; }
+    .d07 .col-right { flex: 1; }
+    .d07 .intro-title { font-size: 1.3rem; margin-bottom: 0.5rem; text-align: left; line-height: 1.4; }
+    .d07 .intro-sub { font-size: 0.6rem; color: rgba(61,53,48,0.35); letter-spacing: 0.1em; }
+    .d07 .intro-body { font-size: 0.73rem; line-height: 2.2; text-align: left; }
+    .d07 .intro-note { font-size: 0.63rem; margin-top: 1rem; display: block; text-align: left; }
+
+    /* --- P08: ベージュ背景フルワイド --- */
+    .d08 .box {
+      background: #ede4d6;
+      text-align: center;
+      padding: 4rem 3rem;
+      margin-left: -1.5rem;
+      margin-right: -1.5rem;
+      border-radius: 0;
+    }
+    .d08 .intro-title { font-size: 1.4rem; margin-bottom: 1.2rem; }
+    .d08 .intro-body { font-size: 0.75rem; line-height: 2.2; max-width: 600px; margin: 0 auto; }
+    .d08 .intro-note { font-size: 0.65rem; margin-top: 1.5rem; display: block; }
+
+    /* --- P09: 白カード + 細ボーダー --- */
+    .d09 .box {
+      background: #fff;
+      text-align: center;
+      padding: 3rem;
+      border: 1px solid rgba(61,53,48,0.1);
+    }
+    .d09 .intro-title { font-size: 1.3rem; margin-bottom: 1.2rem; }
+    .d09 .intro-body { font-size: 0.73rem; line-height: 2.2; }
+    .d09 .intro-note { font-size: 0.65rem; margin-top: 1.3rem; display: block; }
+
+    /* --- P10: タイトル大きめ + セパレータ + テキスト小さめ --- */
+    .d10 .box {
+      background: #fff;
+      text-align: center;
+      padding: 3.5rem 3rem;
+    }
+    .d10 .intro-title { font-size: 1.8rem; margin-bottom: 0.8rem; }
+    .d10 .sep { width: 40px; height: 1px; background: rgba(61,53,48,0.2); margin: 0 auto 1.5rem; }
+    .d10 .intro-body { font-size: 0.7rem; line-height: 2.2; max-width: 550px; margin: 0 auto; }
+    .d10 .intro-note { font-size: 0.62rem; margin-top: 1.5rem; display: block; }
+  </style>
+</head>
+<body>
+
+<h1>Intro Design</h1>
+<p class="sub">ヒーロー下ご案内エリアのデザイン — 10パターン</p>
+
+<!-- ===== D01 ===== -->
+<div class="section d01">
+  <p class="label">PATTERN 01</p>
+  <p class="name">白背景・センター寄せ・シンプル</p>
+  <div class="box">
+    <h2 class="intro-title">Partner Dress Shops</h2>
+    <p class="intro-body">
+      弊社提携のドレスショップのご紹介です。<br>
+      お問い合わせは各ショップの Instagram DM・公式LINE にて承っております。<br>
+      弊社プランにドレスは含まれませんが、持ち込み料は無料ですのでご安心ください。
+    </p>
+  </div>
+</div>
+
+<!-- ===== D02 ===== -->
+<div class="section d02">
+  <p class="label">PATTERN 02</p>
+  <p class="name">白背景 + 上下ライン</p>
+  <div class="box">
+    <h2 class="intro-title">Partner Dress Shops</h2>
+    <p class="intro-body">
+      弊社提携のドレスショップのご紹介です。<br>
+      お問い合わせは各ショップの Instagram DM・公式LINE にて承っております。<br>
+      弊社プランにドレスは含まれませんが、持ち込み料は無料ですのでご安心ください。
+    </p>
+  </div>
+</div>
+
+<!-- ===== D03 ===== -->
+<div class="section d03">
+  <p class="label">PATTERN 03</p>
+  <p class="name">ベージュ背景カード・角丸</p>
+  <div class="box">
+    <h2 class="intro-title">Partner Dress Shops</h2>
+    <p class="intro-body">
+      弊社提携のドレスショップのご紹介です。<br>
+      お問い合わせは各ショップの Instagram DM・公式LINE にて承っております。<br>
+      弊社プランにドレスは含まれませんが、持ち込み料は無料ですのでご安心ください。
+    </p>
+  </div>
+</div>
+
+<!-- ===== D04 ===== -->
+<div class="section d04">
+  <p class="label">PATTERN 04</p>
+  <p class="name">左寄せ + 縦ライン</p>
+  <div class="box">
+    <h2 class="intro-title">Partner Dress Shops</h2>
+    <p class="intro-body">
+      弊社提携のドレスショップのご紹介です。<br>
+      お問い合わせは各ショップの Instagram DM・公式LINE にて承っております。<br>
+      弊社プランにドレスは含まれませんが、持ち込み料は無料ですのでご安心ください。
+    </p>
+  </div>
+</div>
+
+<!-- ===== D05 ===== -->
+<div class="section d05">
+  <p class="label">PATTERN 05</p>
+  <p class="name">背景なし・テキストのみ・ミニマル</p>
+  <div class="box">
+    <h2 class="intro-title">Partner Dress Shops</h2>
+    <p class="intro-body">
+      弊社提携のドレスショップのご紹介です。<br>
+      お問い合わせは各ショップの Instagram DM・公式LINE にて承っております。<br>
+      弊社プランにドレスは含まれませんが、持ち込み料は無料ですのでご安心ください。
+    </p>
+  </div>
+</div>
+
+<!-- ===== D06 ===== -->
+<div class="section d06">
+  <p class="label">PATTERN 06</p>
+  <p class="name">白カード + シャドウ + 角丸</p>
+  <div class="box">
+    <h2 class="intro-title">Partner Dress Shops</h2>
+    <p class="intro-body">
+      弊社提携のドレスショップのご紹介です。<br>
+      お問い合わせは各ショップの Instagram DM・公式LINE にて承っております。<br>
+      弊社プランにドレスは含まれませんが、持ち込み料は無料ですのでご安心ください。
+    </p>
+  </div>
+</div>
+
+<!-- ===== D07 ===== -->
+<div class="section d07">
+  <p class="label">PATTERN 07</p>
+  <p class="name">2カラム（タイトル左 + テキスト右）</p>
+  <div class="box">
+    <div class="col-left">
+      <h2 class="intro-title">Partner<br>Dress<br>Shops</h2>
+      <p class="intro-sub">提携ショップのご案内</p>
+    </div>
+    <div class="col-right">
+      <p class="intro-body">
+        弊社提携のドレスショップのご紹介です。<br>
+        お問い合わせは各ショップの Instagram DM・公式LINE にて承っております。<br>
+        弊社プランにドレスは含まれませんが、持ち込み料は無料ですのでご安心ください。
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== D08 ===== -->
+<div class="section d08">
+  <p class="label">PATTERN 08</p>
+  <p class="name">ベージュ背景フルワイド</p>
+  <div class="box">
+    <h2 class="intro-title">Partner Dress Shops</h2>
+    <p class="intro-body">
+      弊社提携のドレスショップのご紹介です。<br>
+      お問い合わせは各ショップの Instagram DM・公式LINE にて承っております。<br>
+      弊社プランにドレスは含まれませんが、持ち込み料は無料ですのでご安心ください。
+    </p>
+  </div>
+</div>
+
+<!-- ===== D09 ===== -->
+<div class="section d09">
+  <p class="label">PATTERN 09</p>
+  <p class="name">白カード + 細ボーダー</p>
+  <div class="box">
+    <h2 class="intro-title">Partner Dress Shops</h2>
+    <p class="intro-body">
+      弊社提携のドレスショップのご紹介です。<br>
+      お問い合わせは各ショップの Instagram DM・公式LINE にて承っております。<br>
+      弊社プランにドレスは含まれませんが、持ち込み料は無料ですのでご安心ください。
+    </p>
+  </div>
+</div>
+
+<!-- ===== D10 ===== -->
+<div class="section d10">
+  <p class="label">PATTERN 10</p>
+  <p class="name">タイトル大きめ + セパレータ + テキスト小さめ</p>
+  <div class="box">
+    <h2 class="intro-title">Partner Dress Shops</h2>
+    <div class="sep"></div>
+    <p class="intro-body">
+      弊社提携のドレスショップのご紹介です。<br>
+      お問い合わせは各ショップの Instagram DM・公式LINE にて承っております。<br>
+      弊社プランにドレスは含まれませんが、持ち込み料は無料ですのでご安心ください。
+    </p>
+  </div>
+</div>
+
+</body>
+</html>

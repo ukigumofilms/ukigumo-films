@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery Location List — 10 Patterns</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans JP", sans-serif;
+    background: #f5f3ef;
+    color: #333;
+  }
+
+  /* Nav */
+  .pattern-nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(8px);
+    padding: 12px 20px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+  .pattern-nav a {
+    padding: 6px 14px;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 20px;
+    text-decoration: none;
+    color: #333;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    transition: all 0.3s;
+    white-space: nowrap;
+  }
+  .pattern-nav a:hover { background: #3D3530; color: #fff; border-color: #3D3530; }
+  .pattern-nav span { font-size: 0.7rem; color: #999; margin-right: 8px; }
+
+  /* Label */
+  .pattern-label {
+    text-align: center;
+    padding: 100px 20px 20px;
+    background: #f5f3ef;
+  }
+  .pattern-label h2 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.2rem; font-weight: 400; letter-spacing: 0.15em;
+    color: #1a1a1a; margin-bottom: 8px;
+  }
+  .pattern-label p { font-size: 0.72rem; color: #999; }
+
+  /* Divider between patterns */
+  .pattern-divider {
+    height: 120px;
+    background: linear-gradient(to bottom, #f5f3ef 0%, #e8e4de 50%, #f5f3ef 100%);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pattern-divider::after { content: ''; width: 60%; height: 1px; background: rgba(0,0,0,0.08); }
+
+  /* Fake gallery ending (represents where photos fade out) */
+  .fake-gallery-end {
+    background: #f5f3ef;
+    padding: 60px 20px;
+    text-align: center;
+  }
+  .fake-gallery-end p {
+    font-size: 0.75rem;
+    color: #bbb;
+    letter-spacing: 0.1em;
+  }
+
+  /* Fake dress section */
+  .fake-dress {
+    background: #f5f3ef;
+    padding: 80px 40px;
+    text-align: center;
+  }
+  .fake-dress h2 {
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 300; font-size: 2rem; letter-spacing: 0.2em; color: #3D3530;
+    margin-bottom: 20px;
+  }
+  .fake-dress p { font-size: 0.8rem; color: #999; line-height: 2; }
+
+  /* Shared location data */
+  :root {
+    --loc-color: rgba(61,53,48,0.4);
+    --loc-color-light: rgba(61,53,48,0.2);
+    --loc-font: "Cormorant Garamond", serif;
+  }
+
+
+  /* ========================================
+     PATTERN 1: 横一列 — ドット区切り
+     Paris · London · Firenze · Malta
+     ======================================== */
+  .loc1 {
+    text-align: center;
+    padding: 80px 20px 100px;
+    background: #f5f3ef;
+  }
+  .loc1 p {
+    font-family: var(--loc-font);
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    color: var(--loc-color);
+    font-weight: 400;
+  }
+
+
+  /* ========================================
+     PATTERN 2: 縦並びリスト — 左寄せ＋座標
+     ======================================== */
+  .loc2 {
+    padding: 60px 8% 100px;
+    background: #f5f3ef;
+  }
+  .loc2 ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .loc2 li {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+  }
+  .loc2 .loc2-name {
+    font-family: var(--loc-font);
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+    color: #2a2420;
+    font-weight: 400;
+    min-width: 120px;
+  }
+  .loc2 .loc2-line {
+    flex: 1;
+    height: 1px;
+    background: var(--loc-color-light);
+  }
+  .loc2 .loc2-coord {
+    font-family: var(--loc-font);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--loc-color);
+    white-space: nowrap;
+  }
+
+
+  /* ========================================
+     PATTERN 3: グリッド — 2列×2行で整然と
+     ======================================== */
+  .loc3 {
+    padding: 60px 8% 100px;
+    background: #f5f3ef;
+  }
+  .loc3-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px 60px;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .loc3-item {
+    text-align: center;
+  }
+  .loc3-item .loc3-name {
+    font-family: var(--loc-font);
+    font-size: 1.3rem;
+    letter-spacing: 0.08em;
+    color: #2a2420;
+    font-weight: 300;
+    margin-bottom: 6px;
+  }
+  .loc3-item .loc3-sub {
+    font-family: "Noto Serif JP", serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--loc-color);
+    font-weight: 200;
+  }
+
+
+  /* ========================================
+     PATTERN 4: 横スクロール風 — 大きな都市名が流れる
+     ======================================== */
+  .loc4 {
+    padding: 60px 0 100px;
+    background: #f5f3ef;
+    overflow: hidden;
+  }
+  .loc4-track {
+    display: flex;
+    gap: 60px;
+    animation: loc4Scroll 20s linear infinite;
+    white-space: nowrap;
+  }
+  .loc4-track span {
+    font-family: var(--loc-font);
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    color: rgba(61,53,48,0.08);
+  }
+  .loc4-track .loc4-dot {
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    color: rgba(61,53,48,0.06);
+    align-self: center;
+  }
+  @keyframes loc4Scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+
+  /* ========================================
+     PATTERN 5: 縦書き（右から左）— 和テイスト
+     ======================================== */
+  .loc5 {
+    padding: 60px 20px 100px;
+    background: #f5f3ef;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+  }
+  .loc5-item {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+  .loc5-item .loc5-en {
+    font-family: var(--loc-font);
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+    color: #2a2420;
+    font-weight: 400;
+  }
+  .loc5-item .loc5-ja {
+    font-family: "Noto Serif JP", serif;
+    font-size: 0.65rem;
+    color: var(--loc-color);
+    font-weight: 200;
+    margin-right: 8px;
+  }
+
+
+  /* ========================================
+     PATTERN 6: ナンバリング付きミニマル
+     01 Paris  02 London  03 Firenze  04 Malta
+     ======================================== */
+  .loc6 {
+    padding: 60px 8% 100px;
+    background: #f5f3ef;
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    flex-wrap: wrap;
+  }
+  .loc6-item {
+    text-align: center;
+  }
+  .loc6-item .loc6-num {
+    font-family: var(--loc-font);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--loc-color-light);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .loc6-item .loc6-name {
+    font-family: var(--loc-font);
+    font-size: 1.2rem;
+    letter-spacing: 0.08em;
+    color: #2a2420;
+    font-weight: 300;
+  }
+
+
+  /* ========================================
+     PATTERN 7: 横並び — スラッシュ区切り＋ヘッダー付き
+     ======================================== */
+  .loc7 {
+    text-align: center;
+    padding: 60px 20px 100px;
+    background: #f5f3ef;
+  }
+  .loc7 .loc7-label {
+    font-family: var(--loc-font);
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    color: var(--loc-color-light);
+    margin-bottom: 18px;
+    text-transform: uppercase;
+  }
+  .loc7 .loc7-list {
+    font-family: var(--loc-font);
+    font-size: 1rem;
+    letter-spacing: 0.15em;
+    color: #2a2420;
+    font-weight: 300;
+  }
+  .loc7 .loc7-list span {
+    margin: 0 12px;
+    color: var(--loc-color-light);
+  }
+
+
+  /* ========================================
+     PATTERN 8: カード風 — 写真の下に都市＋線
+     ======================================== */
+  .loc8 {
+    padding: 60px 5% 100px;
+    background: #f5f3ef;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+  .loc8-card {
+    text-align: center;
+    width: 140px;
+  }
+  .loc8-card .loc8-line {
+    width: 20px;
+    height: 1px;
+    background: var(--loc-color-light);
+    margin: 0 auto 12px;
+  }
+  .loc8-card .loc8-name {
+    font-family: var(--loc-font);
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    color: #2a2420;
+    font-weight: 400;
+    margin-bottom: 4px;
+  }
+  .loc8-card .loc8-country {
+    font-family: var(--loc-font);
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--loc-color);
+    text-transform: uppercase;
+  }
+
+
+  /* ========================================
+     PATTERN 9: タイムライン風 — 横の線＋ドット
+     ======================================== */
+  .loc9 {
+    padding: 60px 5% 100px;
+    background: #f5f3ef;
+    position: relative;
+  }
+  .loc9-timeline {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    padding-top: 30px;
+  }
+  .loc9-timeline::before {
+    content: '';
+    position: absolute;
+    top: 30px;
+    left: 5%;
+    right: 5%;
+    height: 1px;
+    background: var(--loc-color-light);
+  }
+  .loc9-point {
+    text-align: center;
+    position: relative;
+    flex: 1;
+  }
+  .loc9-point::before {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(61,53,48,0.25);
+    margin: 0 auto 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .loc9-point .loc9-name {
+    font-family: var(--loc-font);
+    font-size: 0.95rem;
+    letter-spacing: 0.08em;
+    color: #2a2420;
+    font-weight: 400;
+    margin-bottom: 4px;
+  }
+  .loc9-point .loc9-coord {
+    font-family: var(--loc-font);
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    color: var(--loc-color);
+  }
+
+
+  /* ========================================
+     PATTERN 10: 大きな透かし都市名 + Gallery CTA
+     ======================================== */
+  .loc10 {
+    text-align: center;
+    padding: 40px 20px 100px;
+    background: #f5f3ef;
+    position: relative;
+    overflow: hidden;
+  }
+  .loc10-bg {
+    font-family: var(--loc-font);
+    font-size: clamp(3rem, 10vw, 8rem);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    color: rgba(61,53,48,0.04);
+    line-height: 1.2;
+    margin-bottom: 30px;
+  }
+  .loc10-list {
+    font-family: var(--loc-font);
+    font-size: 0.8rem;
+    letter-spacing: 0.25em;
+    color: var(--loc-color);
+    font-weight: 400;
+    margin-bottom: 40px;
+  }
+  .loc10 .loc10-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 32px;
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 40px;
+    color: #555;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-decoration: none;
+    font-family: var(--loc-font);
+    transition: all 0.4s;
+  }
+  .loc10 .loc10-cta:hover {
+    border-color: rgba(61,53,48,0.4);
+    color: #2a2420;
+  }
+
+</style>
+</head>
+<body>
+
+<nav class="pattern-nav">
+  <span>Location List:</span>
+  <a href="#L1">1. ドット横一列</a>
+  <a href="#L2">2. 左寄せ+座標</a>
+  <a href="#L3">3. 2×2グリッド</a>
+  <a href="#L4">4. 横スクロール</a>
+  <a href="#L5">5. 縦書き和風</a>
+  <a href="#L6">6. ナンバリング</a>
+  <a href="#L7">7. スラッシュ区切り</a>
+  <a href="#L8">8. カード+線</a>
+  <a href="#L9">9. タイムライン</a>
+  <a href="#L10">10. 透かし+CTA</a>
+</nav>
+
+
+<!-- ================================================
+     PATTERN 1: ドット横一列
+     ================================================ -->
+<div id="L1" class="pattern-label"><h2>Pattern 1</h2><p>横一列 · ドット区切り — シンプル＆ミニマル</p></div>
+<div class="fake-gallery-end"><p>▲ ギャラリー写真がフェードアウトした下 ▲</p></div>
+<div class="loc1">
+  <p>Paris · London · Firenze · Malta</p>
+</div>
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESSセクション）</p></div>
+
+<div class="pattern-divider"></div>
+
+
+<!-- ================================================
+     PATTERN 2: 左寄せ + 線 + 座標
+     ================================================ -->
+<div id="L2" class="pattern-label"><h2>Pattern 2</h2><p>左寄せ縦並び — 都市名＋線＋座標でデータっぽく</p></div>
+<div class="fake-gallery-end"><p>▲ ギャラリー写真がフェードアウトした下 ▲</p></div>
+<div class="loc2">
+  <ul>
+    <li>
+      <span class="loc2-name">Paris</span>
+      <span class="loc2-line"></span>
+      <span class="loc2-coord">48.8566° N, 2.3522° E</span>
+    </li>
+    <li>
+      <span class="loc2-name">London</span>
+      <span class="loc2-line"></span>
+      <span class="loc2-coord">51.5074° N, 0.1278° W</span>
+    </li>
+    <li>
+      <span class="loc2-name">Firenze</span>
+      <span class="loc2-line"></span>
+      <span class="loc2-coord">43.7696° N, 11.2558° E</span>
+    </li>
+    <li>
+      <span class="loc2-name">Malta</span>
+      <span class="loc2-line"></span>
+      <span class="loc2-coord">35.9375° N, 14.3754° E</span>
+    </li>
+  </ul>
+</div>
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESSセクション）</p></div>
+
+<div class="pattern-divider"></div>
+
+
+<!-- ================================================
+     PATTERN 3: 2×2 グリッド
+     ================================================ -->
+<div id="L3" class="pattern-label"><h2>Pattern 3</h2><p>2×2グリッド — 都市名＋日本語サブテキスト</p></div>
+<div class="fake-gallery-end"><p>▲ ギャラリー写真がフェードアウトした下 ▲</p></div>
+<div class="loc3">
+  <div class="loc3-grid">
+    <div class="loc3-item">
+      <p class="loc3-name">Paris</p>
+      <p class="loc3-sub">パリ</p>
+    </div>
+    <div class="loc3-item">
+      <p class="loc3-name">London</p>
+      <p class="loc3-sub">ロンドン</p>
+    </div>
+    <div class="loc3-item">
+      <p class="loc3-name">Firenze</p>
+      <p class="loc3-sub">フィレンツェ</p>
+    </div>
+    <div class="loc3-item">
+      <p class="loc3-name">Malta</p>
+      <p class="loc3-sub">マルタ</p>
+    </div>
+  </div>
+</div>
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESSセクション）</p></div>
+
+<div class="pattern-divider"></div>
+
+
+<!-- ================================================
+     PATTERN 4: 横スクロール（マーキー）
+     ================================================ -->
+<div id="L4" class="pattern-label"><h2>Pattern 4</h2><p>横スクロール — 大きな透かし文字が流れ続ける</p></div>
+<div class="fake-gallery-end"><p>▲ ギャラリー写真がフェードアウトした下 ▲</p></div>
+<div class="loc4">
+  <div class="loc4-track">
+    <span>Paris</span><span class="loc4-dot">·</span>
+    <span>London</span><span class="loc4-dot">·</span>
+    <span>Firenze</span><span class="loc4-dot">·</span>
+    <span>Malta</span><span class="loc4-dot">·</span>
+    <span>Paris</span><span class="loc4-dot">·</span>
+    <span>London</span><span class="loc4-dot">·</span>
+    <span>Firenze</span><span class="loc4-dot">·</span>
+    <span>Malta</span><span class="loc4-dot">·</span>
+    <span>Paris</span><span class="loc4-dot">·</span>
+    <span>London</span><span class="loc4-dot">·</span>
+    <span>Firenze</span><span class="loc4-dot">·</span>
+    <span>Malta</span><span class="loc4-dot">·</span>
+  </div>
+</div>
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESSセクション）</p></div>
+
+<div class="pattern-divider"></div>
+
+
+<!-- ================================================
+     PATTERN 5: 縦書き和テイスト
+     ================================================ -->
+<div id="L5" class="pattern-label"><h2>Pattern 5</h2><p>縦書き — 和テイストで右から左に都市名</p></div>
+<div class="fake-gallery-end"><p>▲ ギャラリー写真がフェードアウトした下 ▲</p></div>
+<div class="loc5">
+  <div class="loc5-item">
+    <span class="loc5-ja">パリ</span>
+    <span class="loc5-en">Paris</span>
+  </div>
+  <div class="loc5-item">
+    <span class="loc5-ja">倫敦</span>
+    <span class="loc5-en">London</span>
+  </div>
+  <div class="loc5-item">
+    <span class="loc5-ja">花の都</span>
+    <span class="loc5-en">Firenze</span>
+  </div>
+  <div class="loc5-item">
+    <span class="loc5-ja">馬耳他</span>
+    <span class="loc5-en">Malta</span>
+  </div>
+</div>
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESSセクション）</p></div>
+
+<div class="pattern-divider"></div>
+
+
+<!-- ================================================
+     PATTERN 6: ナンバリング付き
+     ================================================ -->
+<div id="L6" class="pattern-label"><h2>Pattern 6</h2><p>ナンバリング — 01 Paris 02 London …</p></div>
+<div class="fake-gallery-end"><p>▲ ギャラリー写真がフェードアウトした下 ▲</p></div>
+<div class="loc6">
+  <div class="loc6-item">
+    <span class="loc6-num">01</span>
+    <span class="loc6-name">Paris</span>
+  </div>
+  <div class="loc6-item">
+    <span class="loc6-num">02</span>
+    <span class="loc6-name">London</span>
+  </div>
+  <div class="loc6-item">
+    <span class="loc6-num">03</span>
+    <span class="loc6-name">Firenze</span>
+  </div>
+  <div class="loc6-item">
+    <span class="loc6-num">04</span>
+    <span class="loc6-name">Malta</span>
+  </div>
+</div>
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESSセクション）</p></div>
+
+<div class="pattern-divider"></div>
+
+
+<!-- ================================================
+     PATTERN 7: スラッシュ区切り + ラベル
+     ================================================ -->
+<div id="L7" class="pattern-label"><h2>Pattern 7</h2><p>"Locations" ラベル + スラッシュ区切り</p></div>
+<div class="fake-gallery-end"><p>▲ ギャラリー写真がフェードアウトした下 ▲</p></div>
+<div class="loc7">
+  <p class="loc7-label">Locations</p>
+  <p class="loc7-list">Paris <span>/</span> London <span>/</span> Firenze <span>/</span> Malta</p>
+</div>
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESSセクション）</p></div>
+
+<div class="pattern-divider"></div>
+
+
+<!-- ================================================
+     PATTERN 8: カード風 — 線 + 都市名 + 国
+     ================================================ -->
+<div id="L8" class="pattern-label"><h2>Pattern 8</h2><p>カード風 — 短い線＋都市名＋国名</p></div>
+<div class="fake-gallery-end"><p>▲ ギャラリー写真がフェードアウトした下 ▲</p></div>
+<div class="loc8">
+  <div class="loc8-card">
+    <div class="loc8-line"></div>
+    <p class="loc8-name">Paris</p>
+    <p class="loc8-country">France</p>
+  </div>
+  <div class="loc8-card">
+    <div class="loc8-line"></div>
+    <p class="loc8-name">London</p>
+    <p class="loc8-country">England</p>
+  </div>
+  <div class="loc8-card">
+    <div class="loc8-line"></div>
+    <p class="loc8-name">Firenze</p>
+    <p class="loc8-country">Italy</p>
+  </div>
+  <div class="loc8-card">
+    <div class="loc8-line"></div>
+    <p class="loc8-name">Malta</p>
+    <p class="loc8-country">Malta</p>
+  </div>
+</div>
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESSセクション）</p></div>
+
+<div class="pattern-divider"></div>
+
+
+<!-- ================================================
+     PATTERN 9: タイムライン風 — 横線＋ドット
+     ================================================ -->
+<div id="L9" class="pattern-label"><h2>Pattern 9</h2><p>タイムライン — 横線の上にドット＋都市名</p></div>
+<div class="fake-gallery-end"><p>▲ ギャラリー写真がフェードアウトした下 ▲</p></div>
+<div class="loc9">
+  <div class="loc9-timeline">
+    <div class="loc9-point">
+      <p class="loc9-name">Paris</p>
+      <p class="loc9-coord">48.85° N</p>
+    </div>
+    <div class="loc9-point">
+      <p class="loc9-name">London</p>
+      <p class="loc9-coord">51.50° N</p>
+    </div>
+    <div class="loc9-point">
+      <p class="loc9-name">Firenze</p>
+      <p class="loc9-coord">43.76° N</p>
+    </div>
+    <div class="loc9-point">
+      <p class="loc9-name">Malta</p>
+      <p class="loc9-coord">35.93° N</p>
+    </div>
+  </div>
+</div>
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESSセクション）</p></div>
+
+<div class="pattern-divider"></div>
+
+
+<!-- ================================================
+     PATTERN 10: 透かし大文字 + CTA
+     ================================================ -->
+<div id="L10" class="pattern-label"><h2>Pattern 10</h2><p>巨大透かし都市名 + 小さなリスト + Gallery CTA</p></div>
+<div class="fake-gallery-end"><p>▲ ギャラリー写真がフェードアウトした下 ▲</p></div>
+<div class="loc10">
+  <div class="loc10-bg">Paris<br>London<br>Firenze<br>Malta</div>
+  <p class="loc10-list">Paris · London · Firenze · Malta</p>
+  <a href="#" class="loc10-cta">View All Gallery →</a>
+</div>
+<div class="fake-dress"><h2>Dress Shop</h2><p>（DRESSセクション）</p></div>
+
+
+</body>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dress Section — Animation 10 Patterns</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #e8e5e0; font-family: "Cormorant Garamond", serif; }
+
+  .pattern-label {
+    text-align: center; padding: 60px 0 20px;
+    font-size: 0.75rem; letter-spacing: 0.4em; color: rgba(61,53,48,0.4); text-transform: uppercase;
+  }
+  .pattern-label span { font-size: 1.4rem; display: block; margin-bottom: 6px; color: #2a2420; letter-spacing: 0.1em; }
+  .pattern-label em { font-style: normal; font-size: 0.7rem; color: rgba(61,53,48,0.5); display: block; margin-top: 4px; letter-spacing: 0.15em; }
+  .divider { width: 60px; height: 1px; background: rgba(61,53,48,0.15); margin: 0 auto 80px; }
+
+  /* ====== BASE DRESS SECTION (Pattern 1) ====== */
+  .dress-section {
+    background: #f5f3ef; padding: 120px 8%; text-align: center;
+    overflow: hidden;
+  }
+  .dress-section h2 {
+    font-weight: 300; font-size: clamp(2rem, 5vw, 3.2rem);
+    letter-spacing: 0.3em; color: #2a2420; margin-bottom: 16px;
+  }
+  .dress-section .sub {
+    font-family: "Noto Serif JP", serif; font-size: 0.65rem; font-weight: 300;
+    color: rgba(61,53,48,0.4); letter-spacing: 0.3em; margin-bottom: 48px;
+  }
+  .dress-section p {
+    font-family: "Noto Serif JP", serif; font-size: 0.85rem; font-weight: 300;
+    color: rgba(61,53,48,0.7); line-height: 2.2; max-width: 520px; margin: 0 auto 48px;
+    letter-spacing: 0.05em;
+  }
+  .dress-section .cta {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 14px 42px; border: 1px solid #2a2420; border-radius: 8px;
+    color: #2a2420; font-size: 0.9rem; letter-spacing: 0.25em;
+    text-decoration: none; font-family: "Cormorant Garamond", serif;
+    transition: all 0.4s ease;
+  }
+  .dress-section .cta:hover { border-radius: 40px; background: rgba(61,53,48,0.06); }
+  .dress-section .cta .arrow { transition: transform 0.3s ease; }
+  .dress-section .cta:hover .arrow { transform: translateX(5px); }
+
+  /* ====== ANIM 1: フェードアップ（全要素が下から順に浮かび上がる） ====== */
+  .anim1 h2, .anim1 .sub, .anim1 p, .anim1 .cta {
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.9s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+  .anim1.visible h2 { opacity: 1; transform: translateY(0); transition-delay: 0s; }
+  .anim1.visible .sub { opacity: 1; transform: translateY(0); transition-delay: 0.15s; }
+  .anim1.visible p { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
+  .anim1.visible .cta { opacity: 1; transform: translateY(0); transition-delay: 0.45s; }
+
+  /* ====== ANIM 2: フェード＋ブラー（じわっと霧が晴れる） ====== */
+  .anim2 h2, .anim2 .sub, .anim2 p, .anim2 .cta {
+    opacity: 0; filter: blur(8px);
+    transition: opacity 1.2s ease, filter 1s ease;
+  }
+  .anim2.visible h2 { opacity: 1; filter: blur(0); transition-delay: 0s; }
+  .anim2.visible .sub { opacity: 1; filter: blur(0); transition-delay: 0.2s; }
+  .anim2.visible p { opacity: 1; filter: blur(0); transition-delay: 0.4s; }
+  .anim2.visible .cta { opacity: 1; filter: blur(0); transition-delay: 0.6s; }
+
+  /* ====== ANIM 3: スケールイン（小さい→原寸に柔らかく） ====== */
+  .anim3 h2, .anim3 .sub, .anim3 p, .anim3 .cta {
+    opacity: 0; transform: scale(0.85);
+    transition: opacity 0.8s ease, transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .anim3.visible h2 { opacity: 1; transform: scale(1); transition-delay: 0s; }
+  .anim3.visible .sub { opacity: 1; transform: scale(1); transition-delay: 0.12s; }
+  .anim3.visible p { opacity: 1; transform: scale(1); transition-delay: 0.24s; }
+  .anim3.visible .cta { opacity: 1; transform: scale(1); transition-delay: 0.36s; }
+
+  /* ====== ANIM 4: 左からスライドイン ====== */
+  .anim4 h2, .anim4 .sub, .anim4 p, .anim4 .cta {
+    opacity: 0; transform: translateX(-60px);
+    transition: opacity 0.7s ease, transform 0.9s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+  .anim4.visible h2 { opacity: 1; transform: translateX(0); transition-delay: 0s; }
+  .anim4.visible .sub { opacity: 1; transform: translateX(0); transition-delay: 0.1s; }
+  .anim4.visible p { opacity: 1; transform: translateX(0); transition-delay: 0.2s; }
+  .anim4.visible .cta { opacity: 1; transform: translateX(0); transition-delay: 0.35s; }
+
+  /* ====== ANIM 5: クリップパス（上から幕が開く） ====== */
+  .anim5 .anim5-inner {
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .anim5.visible .anim5-inner {
+    clip-path: inset(0 0 0% 0);
+  }
+
+  /* ====== ANIM 6: タイトルのみレタースペーシング拡張 ====== */
+  .anim6 h2 {
+    opacity: 0; letter-spacing: 1.5em;
+    transition: opacity 1s ease, letter-spacing 1.4s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+  .anim6 .sub, .anim6 p, .anim6 .cta {
+    opacity: 0; transform: translateY(25px);
+    transition: opacity 0.8s ease, transform 0.9s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+  .anim6.visible h2 { opacity: 1; letter-spacing: 0.3em; }
+  .anim6.visible .sub { opacity: 1; transform: translateY(0); transition-delay: 0.4s; }
+  .anim6.visible p { opacity: 1; transform: translateY(0); transition-delay: 0.55s; }
+  .anim6.visible .cta { opacity: 1; transform: translateY(0); transition-delay: 0.7s; }
+
+  /* ====== ANIM 7: ライン展開＋フェード ====== */
+  .anim7 .line-anim {
+    width: 0; height: 1px; background: rgba(61,53,48,0.15);
+    margin: 0 auto 40px; transition: width 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .anim7 h2 {
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.8s ease;
+  }
+  .anim7 .sub, .anim7 p, .anim7 .cta {
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.8s ease;
+  }
+  .anim7.visible h2 { opacity: 1; transform: translateY(0); }
+  .anim7.visible .line-anim { width: 80px; transition-delay: 0.3s; }
+  .anim7.visible .sub { opacity: 1; transform: translateY(0); transition-delay: 0.5s; }
+  .anim7.visible p { opacity: 1; transform: translateY(0); transition-delay: 0.65s; }
+  .anim7.visible .cta { opacity: 1; transform: translateY(0); transition-delay: 0.8s; }
+
+  /* ====== ANIM 8: フェードアップ＋回転わずか ====== */
+  .anim8 h2 {
+    opacity: 0; transform: translateY(30px) rotate(-2deg);
+    transition: opacity 0.8s ease, transform 1s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+  .anim8 .sub {
+    opacity: 0; transform: translateY(25px) rotate(-1deg);
+    transition: opacity 0.8s ease, transform 1s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+  .anim8 p {
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.9s ease;
+  }
+  .anim8 .cta {
+    opacity: 0; transform: translateY(15px);
+    transition: opacity 0.7s ease, transform 0.8s ease;
+  }
+  .anim8.visible h2 { opacity: 1; transform: translateY(0) rotate(0); transition-delay: 0s; }
+  .anim8.visible .sub { opacity: 1; transform: translateY(0) rotate(0); transition-delay: 0.15s; }
+  .anim8.visible p { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
+  .anim8.visible .cta { opacity: 1; transform: translateY(0); transition-delay: 0.45s; }
+
+  /* ====== ANIM 9: 交互スライド（タイトル左から、テキスト右から） ====== */
+  .anim9 h2 {
+    opacity: 0; transform: translateX(-50px);
+    transition: opacity 0.8s ease, transform 0.9s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+  .anim9 .sub {
+    opacity: 0; transform: translateX(50px);
+    transition: opacity 0.8s ease, transform 0.9s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+  .anim9 p {
+    opacity: 0; transform: translateX(-30px);
+    transition: opacity 0.8s ease, transform 0.9s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+  .anim9 .cta {
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.8s ease;
+  }
+  .anim9.visible h2 { opacity: 1; transform: translateX(0); transition-delay: 0s; }
+  .anim9.visible .sub { opacity: 1; transform: translateX(0); transition-delay: 0.15s; }
+  .anim9.visible p { opacity: 1; transform: translateX(0); transition-delay: 0.3s; }
+  .anim9.visible .cta { opacity: 1; transform: translateY(0); transition-delay: 0.5s; }
+
+  /* ====== ANIM 10: マスク展開（中央から左右に広がる） ====== */
+  .anim10 .anim10-inner {
+    clip-path: inset(0 50% 0 50%);
+    transition: clip-path 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .anim10.visible .anim10-inner {
+    clip-path: inset(0 0% 0 0%);
+  }
+
+  /* Replay button */
+  .replay-btn {
+    display: block; margin: 20px auto 0; padding: 8px 24px;
+    background: none; border: 1px solid rgba(61,53,48,0.2); border-radius: 20px;
+    font-family: "Cormorant Garamond", serif; font-size: 0.7rem;
+    letter-spacing: 0.2em; color: rgba(61,53,48,0.5); cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .replay-btn:hover { border-color: rgba(61,53,48,0.5); color: #2a2420; }
+</style>
+</head>
+<body>
+
+<!-- ANIM 1 -->
+<div class="pattern-label"><span>01</span>フェードアップ<em>下から順に浮かび上がる</em></div>
+<div class="divider"></div>
+<section class="dress-section anim1" data-anim="anim1">
+  <h2>Dress</h2>
+  <div class="sub">ドレスショップ</div>
+  <p>あなたらしい一着を見つけるために。<br>ukigumoが厳選したドレスショップと提携し、<br>撮影にふさわしいスタイリングをご提案します。</p>
+  <a href="dress.html" class="cta">Dress Shop <span class="arrow">→</span></a>
+</section>
+<button class="replay-btn" onclick="replay('anim1')">▶ Replay</button>
+
+<!-- ANIM 2 -->
+<div class="pattern-label"><span>02</span>フェード＋ブラー<em>霧が晴れるようにじわっと</em></div>
+<div class="divider"></div>
+<section class="dress-section anim2" data-anim="anim2">
+  <h2>Dress</h2>
+  <div class="sub">ドレスショップ</div>
+  <p>あなたらしい一着を見つけるために。<br>ukigumoが厳選したドレスショップと提携し、<br>撮影にふさわしいスタイリングをご提案します。</p>
+  <a href="dress.html" class="cta">Dress Shop <span class="arrow">→</span></a>
+</section>
+<button class="replay-btn" onclick="replay('anim2')">▶ Replay</button>
+
+<!-- ANIM 3 -->
+<div class="pattern-label"><span>03</span>スケールイン<em>小さくから原寸にフワッと</em></div>
+<div class="divider"></div>
+<section class="dress-section anim3" data-anim="anim3">
+  <h2>Dress</h2>
+  <div class="sub">ドレスショップ</div>
+  <p>あなたらしい一着を見つけるために。<br>ukigumoが厳選したドレスショップと提携し、<br>撮影にふさわしいスタイリングをご提案します。</p>
+  <a href="dress.html" class="cta">Dress Shop <span class="arrow">→</span></a>
+</section>
+<button class="replay-btn" onclick="replay('anim3')">▶ Replay</button>
+
+<!-- ANIM 4 -->
+<div class="pattern-label"><span>04</span>左からスライドイン<em>左側からスッと入ってくる</em></div>
+<div class="divider"></div>
+<section class="dress-section anim4" data-anim="anim4">
+  <h2>Dress</h2>
+  <div class="sub">ドレスショップ</div>
+  <p>あなたらしい一着を見つけるために。<br>ukigumoが厳選したドレスショップと提携し、<br>撮影にふさわしいスタイリングをご提案します。</p>
+  <a href="dress.html" class="cta">Dress Shop <span class="arrow">→</span></a>
+</section>
+<button class="replay-btn" onclick="replay('anim4')">▶ Replay</button>
+
+<!-- ANIM 5 -->
+<div class="pattern-label"><span>05</span>クリップパス（幕開き）<em>上から幕が下りるように表示</em></div>
+<div class="divider"></div>
+<section class="dress-section anim5" data-anim="anim5">
+  <div class="anim5-inner">
+    <h2>Dress</h2>
+    <div class="sub">ドレスショップ</div>
+    <p>あなたらしい一着を見つけるために。<br>ukigumoが厳選したドレスショップと提携し、<br>撮影にふさわしいスタイリングをご提案します。</p>
+    <a href="dress.html" class="cta">Dress Shop <span class="arrow">→</span></a>
+  </div>
+</section>
+<button class="replay-btn" onclick="replay('anim5')">▶ Replay</button>
+
+<!-- ANIM 6 -->
+<div class="pattern-label"><span>06</span>レタースペーシング<em>タイトルの文字間隔が縮まりながら登場</em></div>
+<div class="divider"></div>
+<section class="dress-section anim6" data-anim="anim6">
+  <h2>Dress</h2>
+  <div class="sub">ドレスショップ</div>
+  <p>あなたらしい一着を見つけるために。<br>ukigumoが厳選したドレスショップと提携し、<br>撮影にふさわしいスタイリングをご提案します。</p>
+  <a href="dress.html" class="cta">Dress Shop <span class="arrow">→</span></a>
+</section>
+<button class="replay-btn" onclick="replay('anim6')">▶ Replay</button>
+
+<!-- ANIM 7 -->
+<div class="pattern-label"><span>07</span>ライン展開＋フェード<em>中央のラインが伸びてからテキスト登場</em></div>
+<div class="divider"></div>
+<section class="dress-section anim7" data-anim="anim7">
+  <h2>Dress</h2>
+  <div class="line-anim"></div>
+  <div class="sub">ドレスショップ</div>
+  <p>あなたらしい一着を見つけるために。<br>ukigumoが厳選したドレスショップと提携し、<br>撮影にふさわしいスタイリングをご提案します。</p>
+  <a href="dress.html" class="cta">Dress Shop <span class="arrow">→</span></a>
+</section>
+<button class="replay-btn" onclick="replay('anim7')">▶ Replay</button>
+
+<!-- ANIM 8 -->
+<div class="pattern-label"><span>08</span>フェードアップ＋微回転<em>わずかに傾きながら浮かぶ</em></div>
+<div class="divider"></div>
+<section class="dress-section anim8" data-anim="anim8">
+  <h2>Dress</h2>
+  <div class="sub">ドレスショップ</div>
+  <p>あなたらしい一着を見つけるために。<br>ukigumoが厳選したドレスショップと提携し、<br>撮影にふさわしいスタイリングをご提案します。</p>
+  <a href="dress.html" class="cta">Dress Shop <span class="arrow">→</span></a>
+</section>
+<button class="replay-btn" onclick="replay('anim8')">▶ Replay</button>
+
+<!-- ANIM 9 -->
+<div class="pattern-label"><span>09</span>交互スライド<em>タイトル左から、サブ右から交互に</em></div>
+<div class="divider"></div>
+<section class="dress-section anim9" data-anim="anim9">
+  <h2>Dress</h2>
+  <div class="sub">ドレスショップ</div>
+  <p>あなたらしい一着を見つけるために。<br>ukigumoが厳選したドレスショップと提携し、<br>撮影にふさわしいスタイリングをご提案します。</p>
+  <a href="dress.html" class="cta">Dress Shop <span class="arrow">→</span></a>
+</section>
+<button class="replay-btn" onclick="replay('anim9')">▶ Replay</button>
+
+<!-- ANIM 10 -->
+<div class="pattern-label"><span>10</span>中央マスク展開<em>中央から左右に広がるように出現</em></div>
+<div class="divider"></div>
+<section class="dress-section anim10" data-anim="anim10">
+  <div class="anim10-inner">
+    <h2>Dress</h2>
+    <div class="sub">ドレスショップ</div>
+    <p>あなたらしい一着を見つけるために。<br>ukigumoが厳選したドレスショップと提携し、<br>撮影にふさわしいスタイリングをご提案します。</p>
+    <a href="dress.html" class="cta">Dress Shop <span class="arrow">→</span></a>
+  </div>
+</section>
+<button class="replay-btn" onclick="replay('anim10')">▶ Replay</button>
+
+<div style="height: 100px;"></div>
+
+<script>
+// IntersectionObserver for scroll-triggered animations
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.25 });
+
+document.querySelectorAll('.dress-section').forEach(function(el) {
+  observer.observe(el);
+});
+
+// Replay function
+function replay(animClass) {
+  var el = document.querySelector('.' + animClass);
+  el.classList.remove('visible');
+  // Force reflow
+  void el.offsetWidth;
+  setTimeout(function() {
+    el.classList.add('visible');
+  }, 100);
+}
+</script>
+
+</body>
+</html>

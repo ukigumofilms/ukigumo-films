@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dress Layout Preview — 写真左 + 白ポスター右</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #fff; color: #2a2420; }
+
+    h1 {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 300; font-size: 1.4rem;
+      text-align: center; letter-spacing: 0.15em;
+      padding-top: 3rem; margin-bottom: 0.3rem;
+    }
+    .sub {
+      text-align: center; font-family: "Noto Serif JP", serif;
+      font-size: 0.65rem; color: rgba(61,53,48,0.4);
+      letter-spacing: 0.08em; margin-bottom: 3rem;
+    }
+
+    /* ===== Shop Row: photo + white poster ===== */
+    .shops-wrapper {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 0 1.5rem 4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 4rem;
+    }
+
+    .shop-row {
+      display: flex;
+      gap: 0;
+      align-items: stretch;
+    }
+
+    /* Alternating: even rows flip */
+    .shop-row:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    /* --- Left: Tall vertical photo --- */
+    .shop-photo {
+      flex: 0 0 380px;
+      border-radius: 14px;
+      overflow: hidden;
+      position: relative;
+    }
+    .shop-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .shop-photo__overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 1.5rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+    }
+    .shop-photo__name {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.2rem; font-weight: 300;
+      color: #fff; letter-spacing: 0.1em;
+    }
+    .shop-photo__loc {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.58rem; font-weight: 300;
+      color: rgba(255,255,255,0.6);
+    }
+
+    /* --- Right: White poster card --- */
+    .shop-card {
+      flex: 1;
+      background: #ede4d6;
+      border-radius: 14px;
+      padding: 2.5rem 2.2rem 2rem;
+      display: flex;
+      flex-direction: column;
+      margin-left: -20px;
+      z-index: 1;
+      position: relative;
+    }
+    /* Even rows: card overlaps from the left */
+    .shop-row:nth-child(even) .shop-card {
+      margin-left: 0;
+      margin-right: -20px;
+    }
+
+    .shop-card__number {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.72rem; font-weight: 400;
+      color: rgba(61,53,48,0.35);
+      letter-spacing: 0.15em;
+      margin-bottom: 0.5rem;
+    }
+    .shop-card__name {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(1.5rem, 3.5vw, 1.9rem);
+      font-weight: 400; letter-spacing: 0.04em;
+      color: #2e2519; margin-bottom: 0.2rem;
+    }
+    .shop-card__location {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.7rem; font-weight: 300;
+      color: rgba(61,53,48,0.5);
+      margin-bottom: 1.2rem;
+    }
+    .shop-card__tags {
+      display: flex; flex-wrap: wrap;
+      gap: 0.4rem; margin-bottom: 1.5rem;
+    }
+    .shop-card__tag {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.62rem; font-weight: 300;
+      padding: 0.25rem 0.7rem;
+      border: 1px solid rgba(61,53,48,0.12);
+      border-radius: 20px;
+      color: rgba(61,53,48,0.6);
+    }
+
+    /* Pricing block — white inside beige card */
+    .pricing-block {
+      background: rgba(255,255,255,0.7);
+      border-radius: 12px;
+      padding: 1.1rem 1.3rem 0.9rem;
+      margin-bottom: 0.7rem;
+    }
+    .pricing-block__header {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.7rem; font-weight: 400;
+      letter-spacing: 0.05em; color: #2a2420;
+      padding-bottom: 0.45rem;
+      border-bottom: 1px solid rgba(61,53,48,0.08);
+      margin-bottom: 0.5rem;
+    }
+    .pricing-row {
+      display: flex; justify-content: space-between;
+      align-items: baseline; padding: 0.25rem 0;
+    }
+    .pricing-row + .pricing-row {
+      border-top: 1px solid rgba(61,53,48,0.04);
+    }
+    .pricing-row__label {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.68rem; font-weight: 300;
+      color: rgba(61,53,48,0.7);
+    }
+    .pricing-row__value {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.78rem; font-weight: 400;
+      color: #2a2420;
+    }
+    .pricing-note {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.62rem; font-weight: 300;
+      color: rgba(61,53,48,0.5);
+      margin-top: 0.3rem; line-height: 1.7;
+    }
+
+    /* Dress List pill */
+    .dress-link {
+      display: inline-block;
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.62rem; font-weight: 300;
+      letter-spacing: 0.08em;
+      padding: 0.35rem 1.2rem;
+      border-radius: 30px;
+      color: #2a2420;
+      border: 1px solid rgba(61,53,48,0.18);
+      text-decoration: none;
+      margin-top: 0.4rem;
+      transition: all 0.35s ease;
+    }
+    .dress-link:hover {
+      background: rgba(140,140,110,0.12);
+      border-color: rgba(140,140,110,0.25);
+    }
+
+    /* Plan badge */
+    .plan-badge {
+      display: inline-block;
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.55rem;
+      padding: 0.1rem 0.45rem;
+      background: rgba(61,53,48,0.08);
+      color: rgba(61,53,48,0.6);
+      border-radius: 10px;
+      font-weight: 300;
+      margin-left: 0.3rem;
+    }
+
+    /* IG CTA */
+    .ig-cta {
+      display: inline-flex;
+      align-items: center; gap: 0.4rem;
+      padding: 0.45rem 1.1rem;
+      background: transparent;
+      color: #2a2420;
+      border: 1px solid rgba(61,53,48,0.18);
+      text-decoration: none;
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.65rem; font-weight: 300;
+      border-radius: 30px;
+      margin-top: 1rem;
+      transition: all 0.35s ease;
+    }
+    .ig-cta:hover {
+      background: rgba(140,140,110,0.12);
+      border-color: rgba(140,140,110,0.25);
+    }
+    .cta-group {
+      display: flex; flex-wrap: wrap;
+      align-items: center; gap: 0.5rem;
+      margin-top: 0.8rem;
+    }
+
+    @media (max-width: 768px) {
+      .shop-row,
+      .shop-row:nth-child(even) {
+        flex-direction: column;
+      }
+      .shop-photo {
+        flex: 0 0 auto;
+        height: 280px;
+        border-radius: 14px 14px 0 0;
+      }
+      .shop-card {
+        margin-left: 0;
+        margin-right: 0;
+        border-radius: 0 0 14px 14px;
+      }
+      .shop-row:nth-child(even) .shop-card {
+        margin-right: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<h1>Layout Preview</h1>
+<p class="sub">縦長写真（左）＋ 白ポスターカード（右）— 互い違い</p>
+
+<!-- ===== Shop 01: Bee's Knees ===== -->
+<div class="shops-wrapper">
+
+  <div class="shop-row">
+    <div class="shop-photo">
+      <img src="images/paris/02.jpg" alt="Bee's Knees">
+      <div class="shop-photo__overlay">
+        <div class="shop-photo__name">Bee's Knees</div>
+        <div class="shop-photo__loc">Tokyo · Akasaka</div>
+      </div>
+    </div>
+    <div class="shop-card">
+      <div class="shop-card__number">01</div>
+      <h2 class="shop-card__name">Bee's Knees</h2>
+      <p class="shop-card__location">ukigumo films 特別価格｜東京・赤坂</p>
+      <div class="shop-card__tags">
+        <span class="shop-card__tag">豊富なラインナップ</span>
+        <span class="shop-card__tag">国内・海外 同一価格</span>
+        <span class="shop-card__tag">タキシード込み</span>
+      </div>
+
+      <div class="pricing-block">
+        <div class="pricing-block__header">Base Price（ドレス＋タキシード込み）</div>
+        <div class="pricing-row">
+          <span class="pricing-row__label">国内・海外共通</span>
+          <span class="pricing-row__value">¥110,000（税込）</span>
+        </div>
+      </div>
+
+      <div class="pricing-block">
+        <div class="pricing-block__header">国内 — Dress Collection</div>
+        <div class="pricing-row">
+          <span class="pricing-row__label"><strong>A</strong>&ensp;プラン内 — 31着</span>
+          <span class="pricing-row__value">プラン内</span>
+        </div>
+        <a href="#" class="dress-link">Dress List</a>
+        <div class="pricing-row" style="margin-top:0.4rem;">
+          <span class="pricing-row__label"><strong>B</strong>&ensp;オプション — 29着</span>
+          <span class="pricing-row__value">+ ¥55,000</span>
+        </div>
+        <a href="#" class="dress-link">Dress List</a>
+        <div class="pricing-row" style="margin-top:0.4rem;">
+          <span class="pricing-row__label"><strong>C</strong>&ensp;オプション</span>
+          <span class="pricing-row__value">+ ¥242,000</span>
+        </div>
+        <p class="pricing-note">Milia London & 韓国ドレス LEMERE</p>
+      </div>
+
+      <div class="pricing-block">
+        <div class="pricing-block__header">海外撮影の場合</div>
+        <div class="pricing-row">
+          <span class="pricing-row__label">セレクト可能数</span>
+          <span class="pricing-row__value">13型（全てプラン内）</span>
+        </div>
+        <div class="pricing-row">
+          <span class="pricing-row__label">アクセサリー</span>
+          <span class="pricing-row__value">1点追加（料金内）</span>
+        </div>
+        <a href="#" class="dress-link">Dress List</a>
+        <p class="pricing-note" style="margin-top:0.6rem;">※ 試着2回必須（難しい場合は要相談）</p>
+      </div>
+
+      <div class="cta-group">
+        <a href="#" class="ig-cta">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+          @beesknees_dress
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Shop 02: Beacon / Befits You (互い違い: 写真右) ===== -->
+  <div class="shop-row">
+    <div class="shop-photo">
+      <img src="images/firenze/03.jpg" alt="Beacon / Befits You">
+      <div class="shop-photo__overlay">
+        <div class="shop-photo__name">Beacon / Befits You</div>
+        <div class="shop-photo__loc">Tokyo · Azabu-Juban / Osaka</div>
+      </div>
+    </div>
+    <div class="shop-card">
+      <div class="shop-card__number">02</div>
+      <h2 class="shop-card__name">Beacon / Befits You</h2>
+      <p class="shop-card__location">ukigumo films 特別価格｜東京・麻布十番 / 大阪</p>
+      <div class="shop-card__tags">
+        <span class="shop-card__tag">海外ブランドセレクト</span>
+        <span class="shop-card__tag">大人の洗練スタイル</span>
+        <span class="shop-card__tag">オンライン試着OK</span>
+      </div>
+
+      <div class="pricing-block">
+        <div class="pricing-block__header">1. Standard Plan <span class="plan-badge">人気 No.1</span></div>
+        <p class="pricing-note" style="margin-top:0; margin-bottom:0.3rem;">厳選13着・最大40万円相当のドレスも選べる</p>
+        <a href="#" class="dress-link">Dress List</a>
+        <div class="pricing-row" style="margin-top:0.3rem;">
+          <span class="pricing-row__label">国内（4泊5日）</span>
+          <span class="pricing-row__value">¥126,500（税込）</span>
+        </div>
+        <div class="pricing-row">
+          <span class="pricing-row__label">海外（9泊10日）</span>
+          <span class="pricing-row__value">¥181,500（税込）</span>
+        </div>
+      </div>
+
+      <div class="pricing-block">
+        <div class="pricing-block__header">2. Casual Plan <span class="plan-badge">価格重視</span></div>
+        <p class="pricing-note" style="margin-top:0; margin-bottom:0.3rem;">ミニマルで洗練されたカジュアルプラン</p>
+        <a href="#" class="dress-link">Dress List</a>
+        <div class="pricing-row" style="margin-top:0.3rem;">
+          <span class="pricing-row__label">国内（4泊5日）</span>
+          <span class="pricing-row__value">¥82,500（税込）</span>
+        </div>
+        <div class="pricing-row">
+          <span class="pricing-row__label">海外（9泊10日）</span>
+          <span class="pricing-row__value">¥104,500（税込）</span>
+        </div>
+      </div>
+
+      <div class="pricing-block">
+        <div class="pricing-block__header">Tuxedo Option</div>
+        <div class="pricing-row">
+          <span class="pricing-row__label">国内（4泊5日）</span>
+          <span class="pricing-row__value">¥55,000（税込）</span>
+        </div>
+        <div class="pricing-row">
+          <span class="pricing-row__label">海外（9泊10日）</span>
+          <span class="pricing-row__value">¥88,000（税込）</span>
+        </div>
+      </div>
+
+      <div class="cta-group">
+        <a href="#" class="ig-cta">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+          @beacondress
+        </a>
+        <a href="#" class="ig-cta">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+          @befitsyou
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coordinate Font Design — 10 Patterns</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500&family=IBM+Plex+Mono:wght@300;400&family=Space+Mono:wght@400&family=DM+Mono:wght@300;400&family=Cutive+Mono&family=Overpass+Mono:wght@300;400&family=Source+Code+Pro:wght@300;400&family=JetBrains+Mono:wght@300;400&family=Fira+Code:wght@300;400&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Noto Sans JP',sans-serif; background:#f5f5f5; color:#333; }
+h1 { text-align:center; font-family:'Cormorant Garamond',serif; font-weight:300; font-size:26px; letter-spacing:0.15em; padding:40px 0 6px; color:#2a2420; }
+.subtitle { text-align:center; font-size:10px; color:#999; margin-bottom:40px; letter-spacing:0.1em; }
+
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; max-width:800px; margin:0 auto; padding:0 20px 60px; }
+@media(max-width:600px){ .grid{grid-template-columns:1fr; max-width:400px;} }
+
+.pattern { background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 2px 12px rgba(0,0,0,0.05); padding:20px 24px; }
+.pattern-label { font-family:'Cormorant Garamond',serif; font-size:12px; letter-spacing:0.15em; font-weight:400; color:#999; margin-bottom:14px; padding-bottom:8px; border-bottom:1px solid #f0f0f0; }
+.title-sample { font-family:'Cormorant Garamond',serif; font-size:15px; font-weight:300; letter-spacing:0.05em; color:#4A4A3A; margin-bottom:6px; }
+
+/* ====== Pattern A: IBM Plex Mono Light ====== */
+.pa .coord {
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px;
+  font-weight:300;
+  letter-spacing:0.15em;
+  color:rgba(0,0,0,0.3);
+}
+
+/* ====== Pattern B: Space Mono ====== */
+.pb .coord {
+  font-family:'Space Mono', monospace;
+  font-size:9px;
+  font-weight:400;
+  letter-spacing:0.08em;
+  color:rgba(0,0,0,0.28);
+}
+
+/* ====== Pattern C: DM Mono Light ====== */
+.pc .coord {
+  font-family:'DM Mono', monospace;
+  font-size:10px;
+  font-weight:300;
+  letter-spacing:0.12em;
+  color:rgba(0,0,0,0.32);
+}
+
+/* ====== Pattern D: Cormorant Garamond (Serif) ====== */
+.pd .coord {
+  font-family:'Cormorant Garamond', serif;
+  font-size:11px;
+  font-weight:300;
+  letter-spacing:0.2em;
+  color:rgba(0,0,0,0.3);
+  font-style:italic;
+}
+
+/* ====== Pattern E: Overpass Mono ====== */
+.pe .coord {
+  font-family:'Overpass Mono', monospace;
+  font-size:9px;
+  font-weight:300;
+  letter-spacing:0.18em;
+  color:rgba(0,0,0,0.25);
+  text-transform:uppercase;
+}
+
+/* ====== Pattern F: Source Code Pro Light ====== */
+.pf .coord {
+  font-family:'Source Code Pro', monospace;
+  font-size:9.5px;
+  font-weight:300;
+  letter-spacing:0.14em;
+  color:rgba(0,0,0,0.3);
+}
+
+/* ====== Pattern G: JetBrains Mono Light ====== */
+.pg .coord {
+  font-family:'JetBrains Mono', monospace;
+  font-size:9px;
+  font-weight:300;
+  letter-spacing:0.1em;
+  color:rgba(0,0,0,0.28);
+}
+
+/* ====== Pattern H: Fira Code Light ====== */
+.ph .coord {
+  font-family:'Fira Code', monospace;
+  font-size:9px;
+  font-weight:300;
+  letter-spacing:0.12em;
+  color:rgba(0,0,0,0.32);
+}
+
+/* ====== Pattern I: Cutive Mono (Typewriter) ====== */
+.pi .coord {
+  font-family:'Cutive Mono', monospace;
+  font-size:10px;
+  font-weight:400;
+  letter-spacing:0.1em;
+  color:rgba(0,0,0,0.3);
+}
+
+/* ====== Pattern J: Cormorant Garamond + Small Caps Style ====== */
+.pj .coord {
+  font-family:'Cormorant Garamond', serif;
+  font-size:10px;
+  font-weight:400;
+  letter-spacing:0.25em;
+  color:rgba(0,0,0,0.25);
+  font-variant:small-caps;
+}
+</style>
+</head>
+<body>
+<h1>Coordinate Font Design</h1>
+<p class="subtitle">10 Patterns — 緯度経度のフォントスタイル比較</p>
+
+<div class="grid">
+
+<!-- Pattern A -->
+<div class="pattern pa">
+  <div class="pattern-label">A — IBM Plex Mono Light</div>
+  <p class="title-sample">Film in Paris</p>
+  <p class="coord">48.8566°N 2.3522°E</p>
+</div>
+
+<!-- Pattern B -->
+<div class="pattern pb">
+  <div class="pattern-label">B — Space Mono</div>
+  <p class="title-sample">Film in Paris</p>
+  <p class="coord">48.8566°N 2.3522°E</p>
+</div>
+
+<!-- Pattern C -->
+<div class="pattern pc">
+  <div class="pattern-label">C — DM Mono Light</div>
+  <p class="title-sample">Film in Paris</p>
+  <p class="coord">48.8566°N 2.3522°E</p>
+</div>
+
+<!-- Pattern D -->
+<div class="pattern pd">
+  <div class="pattern-label">D — Cormorant Garamond Italic</div>
+  <p class="title-sample">Film in Paris</p>
+  <p class="coord">48.8566°N 2.3522°E</p>
+</div>
+
+<!-- Pattern E -->
+<div class="pattern pe">
+  <div class="pattern-label">E — Overpass Mono Thin</div>
+  <p class="title-sample">Film in Paris</p>
+  <p class="coord">48.8566°N 2.3522°E</p>
+</div>
+
+<!-- Pattern F -->
+<div class="pattern pf">
+  <div class="pattern-label">F — Source Code Pro Light</div>
+  <p class="title-sample">Film in Paris</p>
+  <p class="coord">48.8566°N 2.3522°E</p>
+</div>
+
+<!-- Pattern G -->
+<div class="pattern pg">
+  <div class="pattern-label">G — JetBrains Mono Light</div>
+  <p class="title-sample">Film in Paris</p>
+  <p class="coord">48.8566°N 2.3522°E</p>
+</div>
+
+<!-- Pattern H -->
+<div class="pattern ph">
+  <div class="pattern-label">H — Fira Code Light</div>
+  <p class="title-sample">Film in Paris</p>
+  <p class="coord">48.8566°N 2.3522°E</p>
+</div>
+
+<!-- Pattern I -->
+<div class="pattern pi">
+  <div class="pattern-label">I — Cutive Mono (Typewriter)</div>
+  <p class="title-sample">Film in Paris</p>
+  <p class="coord">48.8566°N 2.3522°E</p>
+</div>
+
+<!-- Pattern J -->
+<div class="pattern pj">
+  <div class="pattern-label">J — Cormorant Garamond Small Caps</div>
+  <p class="title-sample">Film in Paris</p>
+  <p class="coord">48.8566°N 2.3522°E</p>
+</div>
+
+</div>
+</body>
+</html>

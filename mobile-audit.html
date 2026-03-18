@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iPhone最適化レポート - ukigumo films</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', sans-serif; background: #f8f7f5; color: #2a2420; line-height: 1.8; }
+  .header { background: #2a2420; color: #fff; padding: 3rem 2rem; text-align: center; }
+  .header h1 { font-size: 1.5rem; font-weight: 300; letter-spacing: 0.2em; margin-bottom: 0.5rem; }
+  .header p { font-size: 0.85rem; opacity: 0.6; }
+  .container { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+  .page-section { margin-bottom: 3rem; }
+  .page-title { font-size: 1.1rem; font-weight: 600; letter-spacing: 0.1em; color: #2a2420; border-bottom: 2px solid #2a2420; padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
+  .issue { background: #fff; border-radius: 8px; padding: 1.5rem; margin-bottom: 1.2rem; border-left: 4px solid #c9a96e; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+  .issue--critical { border-left-color: #d44; }
+  .issue--medium { border-left-color: #e8a830; }
+  .issue--low { border-left-color: #6a9; }
+  .issue-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; }
+  .issue-num { font-size: 0.75rem; font-weight: 700; color: #fff; background: #2a2420; padding: 2px 10px; border-radius: 12px; }
+  .issue-severity { font-size: 0.7rem; font-weight: 600; padding: 2px 10px; border-radius: 12px; }
+  .severity-high { background: #fde; color: #d44; }
+  .severity-medium { background: #fef3d0; color: #b07800; }
+  .severity-low { background: #e0f5ea; color: #2a7a4b; }
+  .issue h3 { font-size: 0.95rem; margin-bottom: 0.5rem; }
+  .issue p { font-size: 0.82rem; color: #555; margin-bottom: 0.4rem; }
+  .issue code { background: #f0ede8; padding: 1px 6px; border-radius: 3px; font-size: 0.78rem; color: #8b4513; }
+  .question { background: #f9f5ee; border: 1px dashed #c9a96e; border-radius: 6px; padding: 1rem; margin-top: 0.8rem; font-size: 0.85rem; font-weight: 500; color: #6b4e2e; }
+  .toc { background: #fff; border-radius: 8px; padding: 1.5rem 2rem; margin-bottom: 2rem; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+  .toc h2 { font-size: 0.95rem; margin-bottom: 1rem; }
+  .toc ol { padding-left: 1.5rem; }
+  .toc li { font-size: 0.85rem; margin-bottom: 0.4rem; }
+  .toc a { color: #6b4e2e; text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  .stat-bar { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+  .stat { background: #fff; padding: 1rem 1.5rem; border-radius: 8px; text-align: center; flex: 1; min-width: 120px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+  .stat-num { font-size: 1.8rem; font-weight: 700; color: #2a2420; }
+  .stat-label { font-size: 0.7rem; color: #888; letter-spacing: 0.05em; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>MOBILE AUDIT REPORT</h1>
+  <p>ukigumo films — iPhone (390px) 最適化チェック</p>
+</div>
+
+<div class="container">
+
+<div class="stat-bar">
+  <div class="stat"><div class="stat-num">8</div><div class="stat-label">対象ページ</div></div>
+  <div class="stat"><div class="stat-num" style="color:#d44;">12</div><div class="stat-label">重要度：高</div></div>
+  <div class="stat"><div class="stat-num" style="color:#b07800;">10</div><div class="stat-label">重要度：中</div></div>
+  <div class="stat"><div class="stat-num" style="color:#2a7a4b;">5</div><div class="stat-label">重要度：低</div></div>
+</div>
+
+<div class="toc">
+  <h2>目次</h2>
+  <ol>
+    <li><a href="#index">index.html（トップページ）</a></li>
+    <li><a href="#about">about.html（アバウト）</a></li>
+    <li><a href="#plan">plan.html（プラン一覧）</a></li>
+    <li><a href="#plan-detail">plan-japan / paris / europa（プラン詳細）</a></li>
+    <li><a href="#contact">contact.html（お問い合わせ）</a></li>
+    <li><a href="#qa">qa.html（よくある質問）</a></li>
+    <li><a href="#gallery">gallery.html（ギャラリー）</a></li>
+    <li><a href="#dress">dress.html（ドレス）</a></li>
+    <li><a href="#common">全ページ共通の問題</a></li>
+  </ol>
+</div>
+
+<!-- ==================== INDEX.HTML ==================== -->
+<div class="page-section" id="index">
+<h2 class="page-title">1. index.html（トップページ）</h2>
+
+<div class="issue issue--critical">
+  <div class="issue-header">
+    <span class="issue-num">#1</span>
+    <span class="issue-severity severity-high">重要度：高</span>
+  </div>
+  <h3>Worksセクション — 2カラムグリッドがモバイルで窮屈</h3>
+  <p>プラン3枚（Japan / Paris / Europa）の画像+テキストが <code>grid-template-columns: 48% 52%</code> のまま。390pxだと各カラム約190pxしかなく、テキストが詰まって読みにくい。</p>
+  <p>現在値: <code>grid-template-columns: 48% 52%</code>（768px以下の切り替えなし）</p>
+  <div class="question">→ モバイルでは画像を上・テキストを下の1カラム縦積みに変更してよいですか？</div>
+</div>
+
+<div class="issue issue--critical">
+  <div class="issue-header">
+    <span class="issue-num">#2</span>
+    <span class="issue-severity severity-high">重要度：高</span>
+  </div>
+  <h3>ギャラリーセクション — 写真の配置がモバイルで崩れるリスク</h3>
+  <p>パララックスギャラリーの写真が <code>width: 52vw, 45vw, 40vw, 48vw</code> と絶対配置。390pxでは写真同士が重なったり、横スクロールが発生する可能性あり。<code>height: 220vh</code> のスクロール距離も長すぎる。</p>
+  <div class="question">→ モバイルではパララックスをやめて縦並びのシンプルなレイアウトにしますか？それとも写真サイズを調整して維持しますか？</div>
+</div>
+
+<div class="issue issue--medium">
+  <div class="issue-header">
+    <span class="issue-num">#3</span>
+    <span class="issue-severity severity-medium">重要度：中</span>
+  </div>
+  <h3>ヒーローセクション — 都市名フォントサイズ</h3>
+  <p>スライダー上の都市名が <code>clamp(2.5rem, 7vw, 5rem)</code>。390pxでは最小値2.5rem（40px）が適用され、大きすぎる可能性。</p>
+  <div class="question">→ モバイルでは都市名をもっと小さく（1.4rem程度）にしますか？</div>
+</div>
+
+<div class="issue issue--medium">
+  <div class="issue-header">
+    <span class="issue-num">#4</span>
+    <span class="issue-severity severity-medium">重要度：中</span>
+  </div>
+  <h3>Works — コンテンツ部分のパディングが大きすぎ</h3>
+  <p>テキスト側のパディングが <code>clamp(3rem, 7vw, 6rem) clamp(2.5rem, 6vw, 5rem)</code>。390pxでは左右約40px × 2 = 80pxが消費され、テキスト領域が狭くなる。</p>
+  <div class="question">→ モバイルのパディングを <code>1.5rem 1rem</code> 程度に詰めてよいですか？</div>
+</div>
+
+<div class="issue issue--medium">
+  <div class="issue-header">
+    <span class="issue-num">#5</span>
+    <span class="issue-severity severity-medium">重要度：中</span>
+  </div>
+  <h3>ドレスセクション — 写真3枚が横並び</h3>
+  <p>ドレス写真が <code>max-width: 28vw</code>（約109px）で横3枚並び。モバイルでは写真が小さすぎて何が写っているか見えない。</p>
+  <div class="question">→ モバイルでは2枚×2行、または縦1列に変更しますか？</div>
+</div>
+
+<div class="issue issue--low">
+  <div class="issue-header">
+    <span class="issue-num">#6</span>
+    <span class="issue-severity severity-low">重要度：低</span>
+  </div>
+  <h3>PLAN/PRICEヘッダー — 上パディングが大きい</h3>
+  <p><code>padding: clamp(5rem, 12vw, 10rem)</code> でモバイルでも最低5rem（80px）の余白。画面の20%が空白になる。</p>
+  <div class="question">→ モバイルでは <code>2.5rem</code> 程度に縮めてよいですか？</div>
+</div>
+
+</div>
+
+<!-- ==================== ABOUT.HTML ==================== -->
+<div class="page-section" id="about">
+<h2 class="page-title">2. about.html（アバウト）</h2>
+
+<div class="issue issue--critical">
+  <div class="issue-header">
+    <span class="issue-num">#7</span>
+    <span class="issue-severity severity-high">重要度：高</span>
+  </div>
+  <h3>パララックスギャラリー — 写真の重なり・配置</h3>
+  <p>4枚の写真が <code>50vw, 45vw, 40vw, 48vw</code> で絶対配置。768px以下で <code>85vw-80vw</code> に切り替わるが、<code>top/left</code> の位置調整が不十分で、写真同士が被る可能性あり。</p>
+  <div class="question">→ モバイルでは写真を縦積みのシンプルなスクロールに変更しますか？</div>
+</div>
+
+<div class="issue issue--medium">
+  <div class="issue-header">
+    <span class="issue-num">#8</span>
+    <span class="issue-severity severity-medium">重要度：中</span>
+  </div>
+  <h3>Philosophyセクション — テキストサイズのバランス</h3>
+  <p>本文 <code>.phil-body</code> が <code>clamp(0.8rem, 1.1vw, 0.95rem)</code> = 最小12.8px。行間 <code>line-height: 2.6</code> が広すぎて、テキストがスカスカに見える。<code>margin-bottom: 36px</code> も大きい。</p>
+  <div class="question">→ モバイルで行間を2.0程度に詰め、margin-bottomも24pxに減らしてよいですか？</div>
+</div>
+
+<div class="issue issue--medium">
+  <div class="issue-header">
+    <span class="issue-num">#9</span>
+    <span class="issue-severity severity-medium">重要度：中</span>
+  </div>
+  <h3>Voice Cards — テキストが小さすぎる</h3>
+  <p>カードのボディテキスト <code>.voice-split-card__text</code> が <code>0.72rem</code>（11.5px）。モバイルでの可読性が低い。パディングも <code>2.5rem 3rem</code> と大きい（768pxで修正あり）。</p>
+  <div class="question">→ テキストを <code>0.82rem</code> に上げてよいですか？</div>
+</div>
+
+</div>
+
+<!-- ==================== PLAN.HTML ==================== -->
+<div class="page-section" id="plan">
+<h2 class="page-title">3. plan.html（プラン一覧）</h2>
+
+<div class="issue issue--critical">
+  <div class="issue-header">
+    <span class="issue-num">#10</span>
+    <span class="issue-severity severity-high">重要度：高</span>
+  </div>
+  <h3>プランカード — 2カラムグリッドがモバイルで詰まる</h3>
+  <p>index.htmlと同じ <code>grid-template-columns: 48% 52%</code>。390pxでは画像約187px、テキスト約203px。ロケーション名 "Tokyo · Karuizawa · Fuji · Jogashima — Japan" が1行に収まらない。</p>
+  <div class="question">→ index.htmlと同様、モバイルで1カラム縦積みにしますか？</div>
+</div>
+
+<div class="issue issue--medium">
+  <div class="issue-header">
+    <span class="issue-num">#11</span>
+    <span class="issue-severity severity-medium">重要度：中</span>
+  </div>
+  <h3>ヒーロータイトル — フォントサイズ大きすぎ</h3>
+  <p><code>clamp(2.5rem, 8vw, 4rem)</code> で390pxでは8vw=31.2px → 最小2.5rem（40px）。<code>letter-spacing: 0.15em</code> と合わせて横幅を圧迫。</p>
+  <div class="question">→ モバイルで <code>1.8rem</code> 程度に下げてよいですか？</div>
+</div>
+
+</div>
+
+<!-- ==================== PLAN DETAIL ==================== -->
+<div class="page-section" id="plan-detail">
+<h2 class="page-title">4. plan-japan / paris / europa（プラン詳細）</h2>
+
+<div class="issue issue--critical">
+  <div class="issue-header">
+    <span class="issue-num">#12</span>
+    <span class="issue-severity severity-high">重要度：高</span>
+  </div>
+  <h3>3ページ共通 — イントロのパディングが大きすぎ</h3>
+  <p><code>.plan-intro</code> のパディングが <code>3.5rem 3rem</code>。390pxでは左右3rem（48px）× 2 = 96px消費。コンテンツエリアは294pxしか残らない。</p>
+  <div class="question">→ モバイルで <code>2rem 1rem</code> に縮めてよいですか？</div>
+</div>
+
+<div class="issue issue--medium">
+  <div class="issue-header">
+    <span class="issue-num">#13</span>
+    <span class="issue-severity severity-medium">重要度：中</span>
+  </div>
+  <h3>プランカード — コンテンツパディング</h3>
+  <p><code>.plan-card__content</code> が <code>3rem 2.2rem 2rem</code>。左右2.2rem（35px）× 2 = 70pxでコンテンツ幅が320pxに。</p>
+  <div class="question">→ モバイルで <code>1.5rem 1rem</code> に減らしてよいですか？</div>
+</div>
+
+<div class="issue issue--medium">
+  <div class="issue-header">
+    <span class="issue-num">#14</span>
+    <span class="issue-severity severity-medium">重要度：中</span>
+  </div>
+  <h3>見積もりリスト — max-widthが画面幅を超える</h3>
+  <p><code>.estimate-list</code> の <code>max-width: 480px</code> が390pxを超えている。横スクロールが発生する可能性。</p>
+  <div class="question">→ <code>max-width: 100%</code> に変更してよいですか？</div>
+</div>
+
+</div>
+
+<!-- ==================== CONTACT.HTML ==================== -->
+<div class="page-section" id="contact">
+<h2 class="page-title">5. contact.html（お問い合わせ）</h2>
+
+<div class="issue issue--critical">
+  <div class="issue-header">
+    <span class="issue-num">#15</span>
+    <span class="issue-severity severity-high">重要度：高</span>
+  </div>
+  <h3>タイムライン — 左パディングが大きすぎ</h3>
+  <p><code>.timeline-step</code> の <code>padding-left: 3.5rem</code>（56px）。390pxでは334pxしか残らず、ステップ説明文が窮屈。</p>
+  <div class="question">→ モバイルで <code>2rem</code> に減らしてよいですか？</div>
+</div>
+
+<div class="issue issue--medium">
+  <div class="issue-header">
+    <span class="issue-num">#16</span>
+    <span class="issue-severity severity-medium">重要度：中</span>
+  </div>
+  <h3>見積もりフォーム — ラベルの折り返し</h3>
+  <p>日本語ラベル（"ご希望撮影地"、"日程（第3希望日まで）"）が flex レイアウトで横並び。390pxではラベルが折り返して見た目が崩れる可能性。</p>
+  <div class="question">→ モバイルでラベルと値を縦積みにしますか？</div>
+</div>
+
+</div>
+
+<!-- ==================== QA.HTML ==================== -->
+<div class="page-section" id="qa">
+<h2 class="page-title">6. qa.html（よくある質問）</h2>
+
+<div class="issue issue--critical">
+  <div class="issue-header">
+    <span class="issue-num">#17</span>
+    <span class="issue-severity severity-high">重要度：高</span>
+  </div>
+  <h3>タブボタン — 横並びがはみ出す</h3>
+  <p><code>.qa-tabs</code> の <code>gap: 3rem</code> + 2つのタブボタン（padding: 1.2rem 2rem）が390pxに収まらない。横スクロールまたは折り返しが発生。</p>
+  <div class="question">→ モバイルで gap を <code>0.5rem</code>、ボタンの padding を <code>0.6rem 0.8rem</code> に縮めるか、縦並びにしますか？</div>
+</div>
+
+<div class="issue issue--medium">
+  <div class="issue-header">
+    <span class="issue-num">#18</span>
+    <span class="issue-severity severity-medium">重要度：中</span>
+  </div>
+  <h3>ポリシーセクション — パディング過大</h3>
+  <p><code>.policy-subsection</code> の <code>padding: 2.5rem</code>。390pxでは左右50px × 2 = 100pxが消費される。</p>
+  <div class="question">→ モバイルで <code>1.2rem</code> に減らしてよいですか？</div>
+</div>
+
+<div class="issue issue--medium">
+  <div class="issue-header">
+    <span class="issue-num">#19</span>
+    <span class="issue-severity severity-medium">重要度：中</span>
+  </div>
+  <h3>回答テキスト — 左パディングが大きい</h3>
+  <p><code>.qa-answer__inner</code> の <code>padding-left: 2.6rem</code>（42px）。回答テキストの横幅が圧迫される。</p>
+  <div class="question">→ モバイルで <code>1rem</code> に減らしてよいですか？</div>
+</div>
+
+</div>
+
+<!-- ==================== GALLERY.HTML ==================== -->
+<div class="page-section" id="gallery">
+<h2 class="page-title">7. gallery.html（ギャラリー）</h2>
+
+<div class="issue issue--critical">
+  <div class="issue-header">
+    <span class="issue-num">#20</span>
+    <span class="issue-severity severity-high">重要度：高</span>
+  </div>
+  <h3>写真グリッド — 768pxで2カラム（48%）のまま</h3>
+  <p>768px breakpointで <code>width: 48% !important</code> が適用される。390〜480pxの間では2枚並びが窮屈。480pxで1カラムに切り替わるが、このギャップが問題。</p>
+  <div class="question">→ 768px breakpointでも1カラム（100%）にして、すっきりさせますか？</div>
+</div>
+
+<div class="issue issue--medium">
+  <div class="issue-header">
+    <span class="issue-num">#21</span>
+    <span class="issue-severity severity-medium">重要度：中</span>
+  </div>
+  <h3>ヘッダー — パディングとサブタイトルが小さすぎ</h3>
+  <p>ギャラリーヘッダーのパディングが <code>8rem 3rem 0</code>。左右3rem（48px）は大きい。サブタイトルの <code>font-size: 0.6rem</code>（9.6px）は読めない。</p>
+  <div class="question">→ パディングを <code>5rem 1rem 0</code>、サブタイトルを <code>0.7rem</code> に調整してよいですか？</div>
+</div>
+
+</div>
+
+<!-- ==================== DRESS.HTML ==================== -->
+<div class="page-section" id="dress">
+<h2 class="page-title">8. dress.html（ドレス）</h2>
+
+<div class="issue issue--critical">
+  <div class="issue-header">
+    <span class="issue-num">#22</span>
+    <span class="issue-severity severity-high">重要度：高</span>
+  </div>
+  <h3>ドレスショップ写真 — 高さ400pxが画面を占領</h3>
+  <p><code>.dress-shop__image</code> の <code>min-height: 400px</code>。390px幅のiPhoneでは画面の約47%を1枚の写真が占める。768pxで250pxに減るが、390pxではさらに小さくすべき。</p>
+  <div class="question">→ モバイルで <code>200px</code> に減らしてよいですか？</div>
+</div>
+
+<div class="issue issue--medium">
+  <div class="issue-header">
+    <span class="issue-num">#23</span>
+    <span class="issue-severity severity-medium">重要度：中</span>
+  </div>
+  <h3>イントロセクション — パディング過大</h3>
+  <p><code>.dress-intro</code> の <code>padding: 3.5rem 3rem</code>。左右3rem（48px）× 2 = 96px。テキストエリアが294pxに。</p>
+  <div class="question">→ モバイルで <code>2rem 1rem</code> に減らしてよいですか？</div>
+</div>
+
+</div>
+
+<!-- ==================== COMMON ==================== -->
+<div class="page-section" id="common">
+<h2 class="page-title">9. 全ページ共通の問題</h2>
+
+<div class="issue issue--critical">
+  <div class="issue-header">
+    <span class="issue-num">#24</span>
+    <span class="issue-severity severity-high">重要度：高</span>
+  </div>
+  <h3>ナビゲーション — ロゴが大きすぎる</h3>
+  <p><code>height: 5rem</code>（80px）。iPhoneの画面高さの約10%を占める。</p>
+  <div class="question">→ モバイルで <code>3rem</code>（48px）に縮めてよいですか？</div>
+</div>
+
+<div class="issue issue--critical">
+  <div class="issue-header">
+    <span class="issue-num">#25</span>
+    <span class="issue-severity severity-high">重要度：高</span>
+  </div>
+  <h3>全ページのページヒーロー — letter-spacingが広すぎ</h3>
+  <p>タイトル <code>letter-spacing: 0.15em</code>、サブタイトル <code>0.3em</code>。日本語テキストでは特に問題で、文字間が開きすぎて読みにくい。</p>
+  <div class="question">→ モバイルでタイトルを <code>0.08em</code>、サブタイトルを <code>0.15em</code> に減らしてよいですか？</div>
+</div>
+
+<div class="issue issue--medium">
+  <div class="issue-header">
+    <span class="issue-num">#26</span>
+    <span class="issue-severity severity-medium">重要度：中</span>
+  </div>
+  <h3>side-text（左右の固定テキスト）— モバイルで邪魔</h3>
+  <p>固定配置のサイドテキストが左右 <code>1.5rem</code> の位置にあり、390pxでは約48pxの幅を消費。</p>
+  <div class="question">→ モバイルでは非表示 <code>display: none</code> にしてよいですか？（現状768pxで非表示かもしれませんが要確認）</div>
+</div>
+
+<div class="issue issue--low">
+  <div class="issue-header">
+    <span class="issue-num">#27</span>
+    <span class="issue-severity severity-low">重要度：低</span>
+  </div>
+  <h3>フッター — ロゴ高さ5rem</h3>
+  <p>ナビと同じく <code>height: 5rem</code>。モバイルでは大きすぎる。</p>
+  <div class="question">→ <code>3rem</code> に揃えてよいですか？</div>
+</div>
+
+</div>
+
+<div style="text-align:center; padding: 3rem 0; color: #aaa; font-size: 0.75rem;">
+  Generated for ukigumo films mobile optimization — 2026.03.16
+</div>
+
+</div>
+</body>
+</html>

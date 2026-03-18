@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Header Font — 10 Patterns</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@200;300;400&family=Noto+Sans+JP:wght@200;300;400&family=Noto+Serif+JP:wght@300;400&family=Shippori+Mincho:wght@400;500&family=Jost:wght@200;300;400&family=Montserrat:wght@200;300;400&family=Lora:ital,wght@0,400;0,500;1,400&family=Playfair+Display:wght@300;400&family=DM+Sans:wght@300;400&family=Poppins:wght@200;300;400&family=Libre+Baskerville:wght@400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #f5f3ef;
+    font-family: 'Noto Sans JP', sans-serif;
+    color: #1a1a1a;
+    padding: 3rem 2rem;
+  }
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 1.8rem;
+    letter-spacing: 0.2em;
+    text-align: center;
+    margin-bottom: 0.8rem;
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 0.75rem;
+    color: #999;
+    margin-bottom: 3rem;
+    letter-spacing: 0.1em;
+  }
+
+  .pattern {
+    margin-bottom: 3.5rem;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .pattern__header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.2rem;
+    margin-bottom: 0.8rem;
+  }
+  .pattern__num {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 1.5rem;
+    color: #ccc;
+    letter-spacing: 0.1em;
+  }
+  .pattern__name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 0.95rem;
+    letter-spacing: 0.12em;
+  }
+  .pattern__desc {
+    font-size: 0.7rem;
+    color: #999;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+
+  /* Nav bar simulation */
+  .nav-sim {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 2.5rem;
+    border: 1px solid rgba(0,0,0,0.06);
+    background: #fff;
+    border-radius: 2px;
+  }
+  .nav-sim--dark {
+    background: #1a1a1a;
+    border-color: transparent;
+  }
+  .nav-sim__logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 1.4rem;
+    letter-spacing: 0.1em;
+    color: #1a1a1a;
+  }
+  .nav-sim--dark .nav-sim__logo { color: #fff; }
+  .nav-sim__links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+  .nav-sim__links a {
+    text-decoration: none;
+    color: #1a1a1a;
+    position: relative;
+  }
+  .nav-sim--dark .nav-sim__links a { color: rgba(255,255,255,0.7); }
+
+  /* Hover underline */
+  .nav-sim__links a::after {
+    content: '';
+    position: absolute;
+    bottom: -3px; left: 0;
+    width: 0; height: 1px;
+    background: currentColor;
+    transition: width 0.3s ease;
+  }
+  .nav-sim__links a:hover::after { width: 100%; }
+
+  .dual-row {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+  .dual-row .nav-sim { flex: 1; }
+
+  /* === Pattern fonts === */
+
+  /* 01: Current — Inter Light */
+  .p1 .nav-sim__links a {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* 02: Cormorant Garamond 300 */
+  .p2 .nav-sim__links a {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 0.95rem;
+    letter-spacing: 0.08em;
+  }
+
+  /* 03: Cormorant Garamond 400 + uppercase */
+  .p3 .nav-sim__links a {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 0.82rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  /* 04: Jost Light */
+  .p4 .nav-sim__links a {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* 05: Montserrat ExtraLight uppercase */
+  .p5 .nav-sim__links a {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 200;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  /* 06: DM Sans Light */
+  .p6 .nav-sim__links a {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+  }
+
+  /* 07: Poppins ExtraLight */
+  .p7 .nav-sim__links a {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 200;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+  }
+
+  /* 08: Lora Regular (serif) */
+  .p8 .nav-sim__links a {
+    font-family: 'Lora', serif;
+    font-weight: 400;
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+  }
+
+  /* 09: Libre Baskerville */
+  .p9 .nav-sim__links a {
+    font-family: 'Libre Baskerville', serif;
+    font-weight: 400;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+  }
+
+  /* 10: Jost 300 uppercase small */
+  .p10 .nav-sim__links a {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<h1>HEADER FONT — 10 PATTERNS</h1>
+<p class="subtitle">ナビゲーションのフォント提案 — 白背景 + 暗い背景の両方で確認</p>
+
+<!-- Pattern 1 -->
+<div class="pattern p1">
+  <div class="pattern__header">
+    <span class="pattern__num">01</span>
+    <span class="pattern__name">Inter Light（現在）</span>
+  </div>
+  <p class="pattern__desc">現在使用中。クリーンなサンセリフ。モダンで読みやすい。</p>
+  <div class="dual-row">
+    <nav class="nav-sim">
+      <span class="nav-sim__logo">ukigumo</span>
+      <div class="nav-sim__links">
+        <a href="#">About</a>
+        <a href="#">Plan / Price</a>
+        <a href="#">Dress</a>
+        <a href="#">Location</a>
+        <a href="#">Gallery</a>
+        <a href="#">Q&A</a>
+        <a href="#">Contact</a>
+      </div>
+    </nav>
+    <nav class="nav-sim nav-sim--dark">
+      <span class="nav-sim__logo">ukigumo</span>
+      <div class="nav-sim__links">
+        <a href="#">About</a>
+        <a href="#">Plan / Price</a>
+        <a href="#">Dress</a>
+        <a href="#">Location</a>
+        <a href="#">Gallery</a>
+        <a href="#">Q&A</a>
+        <a href="#">Contact</a>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<!-- Pattern 2 -->
+<div class="pattern p2">
+  <div class="pattern__header">
+    <span class="pattern__num">02</span>
+    <span class="pattern__name">Cormorant Garamond Light</span>
+  </div>
+  <p class="pattern__desc">サイト全体のタイトルと統一。エレガントなセリフ体。高級感とブランド一貫性。</p>
+  <div class="dual-row">
+    <nav class="nav-sim">
+      <span class="nav-sim__logo">ukigumo</span>
+      <div class="nav-sim__links">
+        <a href="#">About</a>
+        <a href="#">Plan / Price</a>
+        <a href="#">Dress</a>
+        <a href="#">Location</a>
+        <a href="#">Gallery</a>
+        <a href="#">Q&A</a>
+        <a href="#">Contact</a>
+      </div>
+    </nav>
+    <nav class="nav-sim nav-sim--dark">
+      <span class="nav-sim__logo">ukigumo</span>
+      <div class="nav-sim__links">
+        <a href="#">About</a>
+        <a href="#">Plan / Price</a>
+        <a href="#">Dress</a>
+        <a href="#">Location</a>
+        <a href="#">Gallery</a>
+        <a href="#">Q&A</a>
+        <a href="#">Contact</a>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<!-- Pattern 3 -->
+<div class="pattern p3">
+  <div class="pattern__header">
+    <span class="pattern__num">03</span>
+    <span class="pattern__name">Cormorant Garamond 400 + Uppercase</span>
+  </div>
+  <p class="pattern__desc">セリフ体をオールキャップスに。ワイドレタースペーシングでラグジュアリーブランド風。</p>
+  <div class="dual-row">
+    <nav class="nav-sim">
+      <span class="nav-sim__logo">ukigumo</span>
+      <div class="nav-sim__links">
+        <a href="#">About</a>
+        <a href="#">Plan / Price</a>
+        <a href="#">Dress</a>
+        <a href="#">Location</a>
+        <a href="#">Gallery</a>
+        <a href="#">Q&A</a>
+        <a href="#">Contact</a>
+      </div>
+    </nav>
+    <nav class="nav-sim nav-sim--dark">
+      <span class="nav-sim__logo">ukigumo</span>
+      <div class="nav-sim__links">
+        <a href="#">About</a>
+        <a href="#">Plan / Price</a>
+        <a href="#">Dress</a>
+        <a href="#">Location</a>
+        <a href="#">Gallery</a>
+        <a href="#">Q&A</a>
+        <a href="#">Contact</a>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<!-- Pattern 4 -->
+<div class="pattern p4">
+  <div class="pattern__header">
+    <span class="pattern__num">04</span>
+    <span class="pattern__name">Jost Light</span>
+  </div>
+  <p class="pattern__desc">幾何学的サンセリフ。Futuraに近い端正さ。アート・建築系のサイトに多い。</p>
+  <div class="dual-row">
+    <nav class="nav-sim">
+      <span class="nav-sim__logo">ukigumo</span>
+      <div class="nav-sim__links">
+        <a href="#">About</a>
+        <a href="#">Plan / Price</a>
+        <a href="#">Dress</a>
+        <a href="#">Location</a>
+        <a href="#">Gallery</a>
+        <a href="#">Q&A</a>
+        <a href="#">Contact</a>
+      </div>
+    </nav>
+    <nav class="nav-sim nav-sim--dark">
+      <span class="nav-sim__logo">ukigumo</span>
+      <div class="nav-sim__links">
+        <a href="#">About</a>
+        <a href="#">Plan / Price</a>
+        <a href="#">Dress</a>
+        <a href="#">Location</a>
+        <a href="#">Gallery</a>
+        <a href="#">Q&A</a>
+        <a href="#">Contact</a>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<!-- Pattern 5 -->
+<div class="pattern p5">
+  <div class="pattern__header">
+    <span class="pattern__num">05</span>
+    <span class="pattern__name">Montserrat ExtraLight + Uppercase</span>
+  </div>
+  <p class="pattern__desc">極細ウェイトの大文字。ミニマルで上品。ファッション・ブライダル系に人気。</p>
+  <div class="dual-row">
+    <nav class="nav-sim">
+      <span class="nav-sim__logo">ukigumo</span>
+      <div class="nav-sim__links">
+        <a href="#">About</a>
+        <a href="#">Plan / Price</a>
+        <a href="#">Dress</a>
+        <a href="#">Location</a>
+        <a href="#">Gallery</a>
+        <a href="#">Q&A</a>
+        <a href="#">Contact</a>
+      </div>
+    </nav>
+    <nav class="nav-sim nav-sim--dark">
+      <span class="nav-sim__logo">ukigumo</span>
+      <div class="nav-sim__links">
+        <a href="#">About</a>
+        <a href="#">Plan / Price</a>
+        <a href="#">Dress</a>
+        <a href="#">Location</a>
+        <a href="#">Gallery</a>
+        <a href="#">Q&A</a>
+        <a href="#">Contact</a>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<!-- Pattern 6 -->
+<div class="pattern p6">
+  <div class="pattern__header">
+    <span class="pattern__num">06</span>
+    <span class="pattern__name">DM Sans Light</span>
+  </div>
+  <p class="pattern__desc">Googleフォントの中でもやや丸みのあるサンセリフ。親しみやすさと上品さのバランス。</p>
+  <div class="dual-row">
+    <nav class="nav-sim">
+      <span class="nav-sim__logo">ukigumo</span>
+      <div class="nav-sim__links">
+        <a href="#">About</a>
+        <a href="#">Plan / Price</a>
+        <a href="#">Dress</a>
+        <a href="#">Location</a>
+        <a href="#">Gallery</a>
+        <a href="#">Q&A</a>
+        <a href="#">Contact</a>
+      </div>
+    </nav>
+    <nav class="nav-sim nav-sim--dark">
+      <span class="nav-sim__logo">ukigumo</span>
+      <div class="nav-sim__links">
+        <a href="#">About</a>
+        <a href="#">Plan / Price</a>
+        <a href="#">Dress</a>
+        <a href="#">Location</a>
+        <a href="#">Gallery</a>
+        <a href="#">Q&A</a>
+        <a href="#">Contact</a>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<!-- Pattern 7 -->
+<div class="pattern p7">
+  <div class="pattern__header">
+    <span class="pattern__num">07</span>
+    <span class="pattern__name">Poppins ExtraLight</span>
+  </div>
+  <p class="pattern__desc">モダンなジオメトリックサンセリフ。極細で洗練された印象。テック・クリエイティブ系。</p>
+  <div class="dual-row">
+    <nav class="nav-sim">
+      <span class="nav-sim__logo">ukigumo</span>
+      <div class="nav-sim__links">
+        <a href="#">About</a>
+        <a href="#">Plan / Price</a>
+        <a href="#">Dress</a>
+        <a href="#">Location</a>
+        <a href="#">Gallery</a>
+        <a href="#">Q&A</a>
+        <a href="#">Contact</a>
+      </div>
+    </nav>
+    <nav class="nav-sim nav-sim--dark">
+      <span class="nav-sim__logo">ukigumo</span>
+      <div class="nav-sim__links">
+        <a href="#">About</a>
+        <a href="#">Plan / Price</a>
+        <a href="#">Dress</a>
+        <a href="#">Location</a>
+        <a href="#">Gallery</a>
+        <a href="#">Q&A</a>
+        <a href="#">Contact</a>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<!-- Pattern 8 -->
+<div class="pattern p8">
+  <div class="pattern__header">
+    <span class="pattern__num">08</span>
+    <span class="pattern__name">Lora Regular</span>
+  </div>
+  <p class="pattern__desc">柔らかいセリフ体。ウェディング・ファッション誌的な温かみ。文学的な雰囲気。</p>
+  <div class="dual-row">
+    <nav class="nav-sim">
+      <span class="nav-sim__logo">ukigumo</span>
+      <div class="nav-sim__links">
+        <a href="#">About</a>
+        <a href="#">Plan / Price</a>
+        <a href="#">Dress</a>
+        <a href="#">Location</a>
+        <a href="#">Gallery</a>
+        <a href="#">Q&A</a>
+        <a href="#">Contact</a>
+      </div>
+    </nav>
+    <nav class="nav-sim nav-sim--dark">
+      <span class="nav-sim__logo">ukigumo</span>
+      <div class="nav-sim__links">
+        <a href="#">About</a>
+        <a href="#">Plan / Price</a>
+        <a href="#">Dress</a>
+        <a href="#">Location</a>
+        <a href="#">Gallery</a>
+        <a href="#">Q&A</a>
+        <a href="#">Contact</a>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<!-- Pattern 9 -->
+<div class="pattern p9">
+  <div class="pattern__header">
+    <span class="pattern__num">09</span>
+    <span class="pattern__name">Libre Baskerville</span>
+  </div>
+  <p class="pattern__desc">クラシックなセリフ体。Times系の品格。伝統的で格式高い印象。</p>
+  <div class="dual-row">
+    <nav class="nav-sim">
+      <span class="nav-sim__logo">ukigumo</span>
+      <div class="nav-sim__links">
+        <a href="#">About</a>
+        <a href="#">Plan / Price</a>
+        <a href="#">Dress</a>
+        <a href="#">Location</a>
+        <a href="#">Gallery</a>
+        <a href="#">Q&A</a>
+        <a href="#">Contact</a>
+      </div>
+    </nav>
+    <nav class="nav-sim nav-sim--dark">
+      <span class="nav-sim__logo">ukigumo</span>
+      <div class="nav-sim__links">
+        <a href="#">About</a>
+        <a href="#">Plan / Price</a>
+        <a href="#">Dress</a>
+        <a href="#">Location</a>
+        <a href="#">Gallery</a>
+        <a href="#">Q&A</a>
+        <a href="#">Contact</a>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<!-- Pattern 10 -->
+<div class="pattern p10">
+  <div class="pattern__header">
+    <span class="pattern__num">10</span>
+    <span class="pattern__name">Jost Light + Uppercase + Wide Spacing</span>
+  </div>
+  <p class="pattern__desc">極小サイズ×広レタースペーシング×大文字。空間を活かしたミニマルデザイン。最も高級感あり。</p>
+  <div class="dual-row">
+    <nav class="nav-sim">
+      <span class="nav-sim__logo">ukigumo</span>
+      <div class="nav-sim__links">
+        <a href="#">About</a>
+        <a href="#">Plan / Price</a>
+        <a href="#">Dress</a>
+        <a href="#">Location</a>
+        <a href="#">Gallery</a>
+        <a href="#">Q&A</a>
+        <a href="#">Contact</a>
+      </div>
+    </nav>
+    <nav class="nav-sim nav-sim--dark">
+      <span class="nav-sim__logo">ukigumo</span>
+      <div class="nav-sim__links">
+        <a href="#">About</a>
+        <a href="#">Plan / Price</a>
+        <a href="#">Dress</a>
+        <a href="#">Location</a>
+        <a href="#">Gallery</a>
+        <a href="#">Q&A</a>
+        <a href="#">Contact</a>
+      </div>
+    </nav>
+  </div>
+</div>
+
+</body>
+</html>

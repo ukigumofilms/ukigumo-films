@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JP Main + Cursive Sub — 30 Patterns</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@400&family=Allura&family=Sacramento&family=Pinyon+Script&family=Alex+Brush&family=Tangerine&family=Satisfy&family=Parisienne&family=Italianno&family=Corinthia&family=Style+Script&family=Lavishly+Yours&family=Carattere&family=Monsieur+La+Doulaise&family=Arizonia&family=Noto+Sans+JP:wght@100;200;300;400&family=Noto+Serif+JP:wght@200;300;400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Shippori+Mincho:wght@300;400;500&family=Zen+Old+Mincho:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#111; color:#fff; font-family:'Noto Sans JP',sans-serif; }
+
+  .header { text-align:center; padding:1.5rem 1rem 0.8rem; }
+  .header h1 { font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:300; letter-spacing:0.15em; }
+  .header p { font-size:0.6rem; opacity:0.35; margin-top:0.2rem; }
+
+  .grid {
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap:1.2rem;
+    padding:1rem 1.2rem 3rem;
+    max-width:1200px;
+    margin:0 auto;
+  }
+
+  .card {
+    position:relative; overflow:hidden;
+    aspect-ratio: 16/10; border-radius:3px;
+    cursor:pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .card:hover { transform:scale(1.02); box-shadow:0 8px 30px rgba(0,0,0,0.5); }
+  .card__bg { position:absolute; top:0; left:0; width:100%; height:100%; }
+  .card__bg img { width:100%; height:100%; object-fit:cover; }
+  .card__overlay {
+    position:absolute; top:0; left:0; width:100%; height:100%;
+    background:rgba(0,0,0,0.72);
+  }
+  .card__num {
+    position:absolute; top:0.5rem; left:0.7rem;
+    font-family:'Cormorant Garamond',serif;
+    font-size:0.55rem; letter-spacing:0.12em; opacity:0.35;
+  }
+  .card__info {
+    position:absolute; bottom:0.4rem; right:0.7rem;
+    font-size:0.45rem; letter-spacing:0.06em; opacity:0.25;
+    font-family:'Cormorant Garamond',serif;
+  }
+  .card__text {
+    position:relative; z-index:2;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    height:100%; padding:1.5rem 1.5rem; text-align:center;
+  }
+  .footer { text-align:center; padding:1.5rem; font-size:0.5rem; opacity:0.15; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Japanese Main + Cursive Sub — 30 Patterns</h1>
+  <p>日本語メイン ＋ 筆記体英語（小さく・細く）</p>
+</div>
+
+<div class="grid" id="grid"></div>
+<div class="footer">ukigumo — text layout preview</div>
+
+<script>
+const jpL1 = 'あなたの人生を支える杖のような作品になりますように';
+const jpL2 = 'この瞬間を、未来へと紡ぐ一枚、一秒に';
+
+const enVersions = {
+  A: { l1:'May this film be a gentle staff to walk beside you through life', l2:'Weaving each moment into the future, one frame, one second at a time' },
+  B: { l1:'A film to lean on through every chapter of your life', l2:'Spinning this moment into forever — one frame, one second' },
+  C: { l1:'May our work become a pillar that gently supports your journey', l2:'Every frame, every second — weaving now into tomorrow' },
+  D: { l1:'Like a walking staff for your life, may this work always be with you', l2:'Each moment, woven into the future — one photograph, one heartbeat' },
+  E: { l1:'A companion for your journey — may this film be your gentle guide', l2:'Threading this moment into every tomorrow to come' },
+  F: { l1:'May these images walk with you as a quiet strength through life', l2:'One frame at a time, we weave now into forever' },
+};
+
+const imgs = [
+  'images/london/05.jpg','images/paris/03.jpg','images/firenze/04.jpg',
+  'images/malta/04.jpg','images/london/03.jpg','images/firenze/06.jpg',
+];
+
+// Japanese font families
+const jpFonts = [
+  { name:'Noto Sans JP', weight:200 },
+  { name:'Noto Sans JP', weight:100 },
+  { name:'Noto Sans JP', weight:300 },
+  { name:'Noto Serif JP', weight:200 },
+  { name:'Noto Serif JP', weight:300 },
+  { name:'Shippori Mincho', weight:300 },
+  { name:'Shippori Mincho', weight:400 },
+  { name:'Zen Old Mincho', weight:400 },
+];
+
+// Cursive fonts (thin/delicate ones)
+const cursiveFonts = [
+  'Great Vibes','Allura','Sacramento','Pinyon Script','Alex Brush',
+  'Tangerine','Parisienne','Italianno','Corinthia','Style Script',
+  'Lavishly Yours','Carattere','Monsieur La Doulaise','Arizonia','Dancing Script',
+];
+
+const enKeys = ['A','B','C','D','E','F'];
+
+// Layout types
+// 0: JP 2行 → 英語下に
+// 1: JP 1行目 → 英語 → JP 2行目
+// 2: 英語上 → JP 2行
+// 3: JP 2行 → ライン → 英語
+// 4: JP 1行目大 + 2行目やや小 → 英語
+
+function buildLayout(type, jp, en, cursiveFont, cursiveSize, jpFont, jpWeight, jpSize, jpL2Size, gap) {
+  const csF = `font-family:'${cursiveFont}',cursive;`;
+  const csS = `font-size:${cursiveSize};`;
+  const jpF = `font-family:'${jpFont}',sans-serif;`;
+  const jpW = `font-weight:${jpWeight};`;
+
+  const enStyle = `${csF}${csS}font-weight:400;letter-spacing:0.06em;color:rgba(255,255,255,0.22);line-height:1.6;`;
+  const jp1Style = `${jpF}${jpW}font-size:${jpSize};letter-spacing:0.1em;color:rgba(255,255,255,0.92);line-height:2.2;`;
+  const jp2Style = `${jpF}${jpW}font-size:${jpL2Size};letter-spacing:0.08em;color:rgba(255,255,255,0.6);line-height:2.2;margin-top:0.3rem;`;
+
+  if (type === 0) {
+    return `
+      <p style="${jp1Style}">${jpL1}</p>
+      <p style="${jp2Style}">${jpL2}</p>
+      <p style="${enStyle}margin-top:${gap};">${en.l1}</p>`;
+  }
+  if (type === 1) {
+    return `
+      <p style="${jp1Style}">${jpL1}</p>
+      <p style="${enStyle}margin:${gap} 0;">${en.l1}</p>
+      <p style="${jp2Style}">${jpL2}</p>`;
+  }
+  if (type === 2) {
+    return `
+      <p style="${enStyle}margin-bottom:${gap};">${en.l1}</p>
+      <p style="${jp1Style}">${jpL1}</p>
+      <p style="${jp2Style}">${jpL2}</p>`;
+  }
+  if (type === 3) {
+    return `
+      <p style="${jp1Style}">${jpL1}</p>
+      <p style="${jp2Style}">${jpL2}</p>
+      <div style="width:30px;height:1px;background:rgba(255,255,255,0.12);margin:${gap} auto;"></div>
+      <p style="${enStyle}">${en.l1}</p>`;
+  }
+  if (type === 4) {
+    return `
+      <p style="${jp1Style}">${jpL1}</p>
+      <p style="${jp2Style}">${jpL2}</p>
+      <p style="${enStyle}margin-top:${gap};">${en.l2}</p>`;
+  }
+}
+
+const patterns = [
+  // #01-05: Noto Sans JP w200 + various cursive
+  { jpF:0, cf:0,  csz:'0.55rem', layout:0, en:'A', jpSz:'clamp(1rem,2.5vw,1.3rem)', jp2Sz:'clamp(0.85rem,2vw,1.05rem)', gap:'1.2rem' },
+  { jpF:0, cf:1,  csz:'0.55rem', layout:0, en:'B', jpSz:'clamp(1.05rem,2.5vw,1.35rem)', jp2Sz:'clamp(0.85rem,2vw,1.05rem)', gap:'1rem' },
+  { jpF:0, cf:2,  csz:'0.6rem',  layout:3, en:'C', jpSz:'clamp(1rem,2.5vw,1.3rem)', jp2Sz:'clamp(0.85rem,2vw,1.05rem)', gap:'1rem' },
+  { jpF:0, cf:3,  csz:'0.5rem',  layout:0, en:'D', jpSz:'clamp(1.05rem,2.5vw,1.35rem)', jp2Sz:'clamp(0.9rem,2vw,1.1rem)', gap:'1.2rem' },
+  { jpF:0, cf:4,  csz:'0.55rem', layout:4, en:'E', jpSz:'clamp(1rem,2.5vw,1.3rem)', jp2Sz:'clamp(0.85rem,2vw,1.05rem)', gap:'1rem' },
+  // #06-10: Noto Sans JP w100 (ultra thin) + various cursive
+  { jpF:1, cf:5,  csz:'0.5rem',  layout:0, en:'F', jpSz:'clamp(1.1rem,2.8vw,1.4rem)', jp2Sz:'clamp(0.9rem,2.2vw,1.1rem)', gap:'1.2rem' },
+  { jpF:1, cf:6,  csz:'0.55rem', layout:3, en:'A', jpSz:'clamp(1.05rem,2.5vw,1.35rem)', jp2Sz:'clamp(0.85rem,2vw,1.05rem)', gap:'1rem' },
+  { jpF:1, cf:7,  csz:'0.5rem',  layout:0, en:'B', jpSz:'clamp(1.1rem,2.8vw,1.4rem)', jp2Sz:'clamp(0.9rem,2.2vw,1.1rem)', gap:'1rem' },
+  { jpF:1, cf:8,  csz:'0.55rem', layout:4, en:'C', jpSz:'clamp(1rem,2.5vw,1.3rem)', jp2Sz:'clamp(0.85rem,2vw,1.05rem)', gap:'1.2rem' },
+  { jpF:1, cf:9,  csz:'0.5rem',  layout:1, en:'D', jpSz:'clamp(1.05rem,2.5vw,1.35rem)', jp2Sz:'clamp(0.85rem,2vw,1.05rem)', gap:'0.8rem' },
+  // #11-15: Noto Serif JP w200 (明朝 thin)
+  { jpF:3, cf:0,  csz:'0.5rem',  layout:0, en:'E', jpSz:'clamp(1.05rem,2.5vw,1.35rem)', jp2Sz:'clamp(0.85rem,2vw,1.05rem)', gap:'1.2rem' },
+  { jpF:3, cf:10, csz:'0.55rem', layout:3, en:'F', jpSz:'clamp(1rem,2.5vw,1.3rem)', jp2Sz:'clamp(0.85rem,2vw,1.05rem)', gap:'1rem' },
+  { jpF:3, cf:11, csz:'0.5rem',  layout:0, en:'A', jpSz:'clamp(1.1rem,2.8vw,1.4rem)', jp2Sz:'clamp(0.9rem,2.2vw,1.1rem)', gap:'1rem' },
+  { jpF:3, cf:12, csz:'0.5rem',  layout:4, en:'B', jpSz:'clamp(1rem,2.5vw,1.3rem)', jp2Sz:'clamp(0.85rem,2vw,1.05rem)', gap:'1.2rem' },
+  { jpF:4, cf:13, csz:'0.55rem', layout:0, en:'C', jpSz:'clamp(1rem,2.5vw,1.3rem)', jp2Sz:'clamp(0.85rem,2vw,1.05rem)', gap:'1rem' },
+  // #16-20: Shippori Mincho (エレガント明朝)
+  { jpF:5, cf:0,  csz:'0.5rem',  layout:0, en:'D', jpSz:'clamp(1.05rem,2.5vw,1.35rem)', jp2Sz:'clamp(0.85rem,2vw,1.05rem)', gap:'1.2rem' },
+  { jpF:5, cf:1,  csz:'0.55rem', layout:3, en:'E', jpSz:'clamp(1rem,2.5vw,1.3rem)', jp2Sz:'clamp(0.85rem,2vw,1.05rem)', gap:'1rem' },
+  { jpF:5, cf:3,  csz:'0.5rem',  layout:0, en:'F', jpSz:'clamp(1.1rem,2.8vw,1.4rem)', jp2Sz:'clamp(0.9rem,2.2vw,1.1rem)', gap:'1rem' },
+  { jpF:5, cf:4,  csz:'0.5rem',  layout:4, en:'A', jpSz:'clamp(1rem,2.5vw,1.3rem)', jp2Sz:'clamp(0.85rem,2vw,1.05rem)', gap:'1.2rem' },
+  { jpF:6, cf:7,  csz:'0.55rem', layout:1, en:'B', jpSz:'clamp(1.05rem,2.5vw,1.35rem)', jp2Sz:'clamp(0.85rem,2vw,1.05rem)', gap:'0.8rem' },
+  // #21-25: Zen Old Mincho
+  { jpF:7, cf:0,  csz:'0.5rem',  layout:0, en:'C', jpSz:'clamp(1.05rem,2.5vw,1.35rem)', jp2Sz:'clamp(0.85rem,2vw,1.05rem)', gap:'1.2rem' },
+  { jpF:7, cf:2,  csz:'0.55rem', layout:3, en:'D', jpSz:'clamp(1rem,2.5vw,1.3rem)', jp2Sz:'clamp(0.85rem,2vw,1.05rem)', gap:'1rem' },
+  { jpF:7, cf:5,  csz:'0.5rem',  layout:0, en:'E', jpSz:'clamp(1.1rem,2.8vw,1.4rem)', jp2Sz:'clamp(0.9rem,2.2vw,1.1rem)', gap:'1rem' },
+  { jpF:7, cf:8,  csz:'0.5rem',  layout:4, en:'F', jpSz:'clamp(1rem,2.5vw,1.3rem)', jp2Sz:'clamp(0.85rem,2vw,1.05rem)', gap:'1.2rem' },
+  { jpF:7, cf:12, csz:'0.5rem',  layout:1, en:'A', jpSz:'clamp(1.05rem,2.5vw,1.35rem)', jp2Sz:'clamp(0.85rem,2vw,1.05rem)', gap:'0.8rem' },
+  // #26-30: Mix best combos
+  { jpF:0, cf:0,  csz:'0.45rem', layout:0, en:'F', jpSz:'clamp(1.15rem,2.8vw,1.45rem)', jp2Sz:'clamp(0.9rem,2.2vw,1.1rem)', gap:'1.5rem' },
+  { jpF:3, cf:3,  csz:'0.45rem', layout:0, en:'A', jpSz:'clamp(1.15rem,2.8vw,1.45rem)', jp2Sz:'clamp(0.9rem,2.2vw,1.1rem)', gap:'1.5rem' },
+  { jpF:5, cf:0,  csz:'0.45rem', layout:3, en:'E', jpSz:'clamp(1.15rem,2.8vw,1.45rem)', jp2Sz:'clamp(0.9rem,2.2vw,1.1rem)', gap:'1.2rem' },
+  { jpF:1, cf:1,  csz:'0.45rem', layout:0, en:'B', jpSz:'clamp(1.2rem,3vw,1.5rem)', jp2Sz:'clamp(0.95rem,2.2vw,1.15rem)', gap:'1.5rem' },
+  { jpF:7, cf:0,  csz:'0.45rem', layout:3, en:'D', jpSz:'clamp(1.15rem,2.8vw,1.45rem)', jp2Sz:'clamp(0.9rem,2.2vw,1.1rem)', gap:'1.2rem' },
+];
+
+const grid = document.getElementById('grid');
+
+patterns.forEach((p, i) => {
+  const jf = jpFonts[p.jpF];
+  const cf = cursiveFonts[p.cf];
+  const en = enVersions[p.en];
+  const img = imgs[i % imgs.length];
+
+  const html = buildLayout(p.layout, {l1:jpL1,l2:jpL2}, en, cf, p.csz, jf.name, jf.weight, p.jpSz, p.jp2Sz, p.gap);
+
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <div class="card__bg">
+      <img src="${img}" alt="">
+      <div class="card__overlay"></div>
+    </div>
+    <div class="card__num">#${String(i+1).padStart(2,'0')}</div>
+    <div class="card__info">${jf.name} w${jf.weight} + ${cf}</div>
+    <div class="card__text">${html}</div>
+  `;
+  grid.appendChild(card);
+});
+</script>
+</body>
+</html>

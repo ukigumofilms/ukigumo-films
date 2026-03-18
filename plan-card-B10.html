@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan Card — Pattern B Variations</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #f5f3f0; font-family: 'Noto Sans JP', sans-serif; font-weight: 300; }
+  .label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px; letter-spacing: 0.3em; color: #999;
+    text-align: center; padding: 60px 0 18px; text-transform: uppercase;
+  }
+  .label span { font-size: 26px; display: block; margin-bottom: 4px; color: #555; }
+  .wrap { max-width: 400px; margin: 0 auto 30px; padding: 0 20px; }
+
+  /* ====== Shared base (Pattern B) ====== */
+  .card {
+    border-radius: 16px;
+    padding: 36px 28px 32px;
+    text-align: center;
+  }
+  .card-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300; letter-spacing: 0.08em;
+    margin-bottom: 3px;
+  }
+  .card-jp {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 300; letter-spacing: 0.18em;
+  }
+  .card-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+  }
+  .card-tax { font-family: 'Noto Sans JP', sans-serif; font-weight: 300; }
+  .tags { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
+  .tag {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 10px; font-weight: 300; border-radius: 20px; padding: 4px 12px;
+  }
+  .bh {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300; text-transform: uppercase; text-align: left;
+  }
+  .block { margin-bottom: 20px; }
+  .row {
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'Noto Sans JP', sans-serif; font-weight: 300;
+  }
+  .rv { font-family: 'Cormorant Garamond', serif; }
+  .note { font-family: 'Noto Sans JP', sans-serif; font-weight: 300; text-align: left; }
+
+  /* ================================
+     B1 — Original Warm
+     ベーシックB: ベージュ背景 + シャドウ
+     ================================ */
+  .b1 .card { background: #FAF8F5; box-shadow: 0 4px 24px rgba(61,53,48,0.06); }
+  .b1 .card-name { font-size: 24px; color: #2e2519; }
+  .b1 .card-jp { font-size: 10px; color: #B5A99A; margin-bottom: 18px; }
+  .b1 .card-price { font-size: 30px; color: #2e2519; letter-spacing: 0.03em; }
+  .b1 .card-tax { font-size: 10px; color: #B5A99A; margin-bottom: 22px; }
+  .b1 .tag { color: #8a7d6f; background: rgba(181,169,154,0.15); }
+  .b1 .tags { margin-bottom: 24px; }
+  .b1 .bh { font-size: 11px; letter-spacing: 0.15em; color: #B5A99A; margin-bottom: 10px; }
+  .b1 .row { padding: 9px 0; border-bottom: 1px solid rgba(181,169,154,0.2); font-size: 12px; color: #4a4035; }
+  .b1 .rv { font-size: 14px; }
+  .b1 .note { font-size: 10px; color: #B5A99A; margin-top: 6px; }
+
+  /* ================================
+     B2 — Warm + Thin Border
+     淡いベージュ + 極細ボーダー追加
+     ================================ */
+  .b2 .card { background: #FAF8F5; border: 1px solid rgba(181,169,154,0.2); box-shadow: none; }
+  .b2 .card-name { font-size: 23px; color: #2e2519; }
+  .b2 .card-jp { font-size: 10px; color: rgba(61,53,48,0.35); margin-bottom: 16px; }
+  .b2 .sep { width: 28px; height: 1px; background: rgba(181,169,154,0.35); margin: 0 auto 16px; }
+  .b2 .card-price { font-size: 28px; color: #2e2519; }
+  .b2 .card-tax { font-size: 10px; color: rgba(61,53,48,0.3); margin-bottom: 22px; }
+  .b2 .tag { color: #8a7d6f; background: rgba(181,169,154,0.12); }
+  .b2 .tags { margin-bottom: 24px; }
+  .b2 .bh { font-size: 10px; letter-spacing: 0.18em; color: rgba(181,169,154,0.7); margin-bottom: 10px; }
+  .b2 .row { padding: 9px 0; border-bottom: 1px solid rgba(181,169,154,0.15); font-size: 12px; color: #4a4035; }
+  .b2 .rv { font-size: 14px; }
+  .b2 .note { font-size: 10px; color: rgba(61,53,48,0.3); margin-top: 6px; }
+
+  /* ================================
+     B3 — Ivory Depth
+     アイボリー + 深めシャドウ + セリフ統一
+     ================================ */
+  .b3 .card { background: #FFFDF9; box-shadow: 0 6px 32px rgba(61,53,48,0.08); }
+  .b3 .card-name { font-size: 25px; color: #2a2420; font-weight: 400; }
+  .b3 .card-jp { font-size: 10px; color: rgba(61,53,48,0.3); margin-bottom: 20px; }
+  .b3 .card-price { font-size: 32px; color: #2a2420; letter-spacing: 0.02em; }
+  .b3 .card-tax { font-size: 10px; color: rgba(61,53,48,0.3); margin-bottom: 24px; }
+  .b3 .tag { color: rgba(61,53,48,0.5); background: rgba(61,53,48,0.05); }
+  .b3 .tags { margin-bottom: 26px; }
+  .b3 .bh { font-size: 11px; letter-spacing: 0.12em; color: rgba(61,53,48,0.35); margin-bottom: 12px; font-family: 'Noto Serif JP', serif; }
+  .b3 .row { padding: 9px 0; border-bottom: 1px solid rgba(61,53,48,0.06); font-size: 12px; color: #3D3530; }
+  .b3 .rv { font-size: 14px; }
+  .b3 .note { font-size: 10px; color: rgba(61,53,48,0.3); margin-top: 6px; }
+
+  /* ================================
+     B4 — Warm + Gold Accent Line
+     上部ゴールドライン + ウォーム
+     ================================ */
+  .b4 .card { background: #FAF8F5; box-shadow: 0 4px 20px rgba(61,53,48,0.05); border-radius: 4px 4px 16px 16px; overflow: hidden; padding: 0; }
+  .b4 .accent { height: 2px; background: linear-gradient(90deg, transparent, #C8B496, transparent); }
+  .b4 .inner { padding: 34px 28px 32px; }
+  .b4 .card-name { font-size: 23px; color: #2e2519; }
+  .b4 .card-jp { font-size: 10px; color: #B5A99A; margin-bottom: 18px; }
+  .b4 .card-price { font-size: 28px; color: #2e2519; }
+  .b4 .card-tax { font-size: 10px; color: #B5A99A; margin-bottom: 22px; }
+  .b4 .tag { color: #8a7d6f; background: rgba(181,169,154,0.12); }
+  .b4 .tags { margin-bottom: 24px; }
+  .b4 .bh { font-size: 10px; letter-spacing: 0.18em; color: #C8B496; margin-bottom: 10px; }
+  .b4 .row { padding: 9px 0; border-bottom: 1px solid rgba(181,169,154,0.15); font-size: 12px; color: #4a4035; }
+  .b4 .rv { font-size: 14px; color: #2e2519; }
+  .b4 .note { font-size: 10px; color: #B5A99A; margin-top: 6px; }
+
+  /* ================================
+     B5 — Subtle Gradient
+     微グラデーション + ソフトシャドウ
+     ================================ */
+  .b5 .card { background: linear-gradient(170deg, #FDFBF8 0%, #F6F2EC 100%); box-shadow: 0 4px 28px rgba(61,53,48,0.06); }
+  .b5 .card-name { font-size: 24px; color: #2e2519; }
+  .b5 .card-jp { font-size: 10px; color: rgba(61,53,48,0.32); margin-bottom: 18px; }
+  .b5 .sep { width: 20px; height: 2px; background: #C8B496; border-radius: 1px; margin: 0 auto 18px; }
+  .b5 .card-price { font-size: 29px; color: #2e2519; }
+  .b5 .card-tax { font-size: 10px; color: rgba(61,53,48,0.3); margin-bottom: 22px; }
+  .b5 .tag { color: rgba(61,53,48,0.45); background: rgba(255,255,255,0.6); }
+  .b5 .tags { margin-bottom: 24px; }
+  .b5 .bh { font-size: 10px; letter-spacing: 0.18em; color: rgba(61,53,48,0.35); margin-bottom: 10px; }
+  .b5 .row { padding: 9px 0; border-bottom: 1px solid rgba(61,53,48,0.06); font-size: 12px; color: #4a4035; }
+  .b5 .rv { font-size: 14px; }
+  .b5 .note { font-size: 10px; color: rgba(61,53,48,0.3); margin-top: 6px; }
+
+  /* ================================
+     B6 — Warm + Left Align
+     左揃え + ウォームベージュ
+     ================================ */
+  .b6 .card { background: #FAF8F5; box-shadow: 0 4px 24px rgba(61,53,48,0.06); text-align: left; }
+  .b6 .card-name { font-size: 24px; color: #2e2519; letter-spacing: 0.06em; }
+  .b6 .card-jp { font-size: 10px; color: #B5A99A; margin-bottom: 20px; }
+  .b6 .card-price { font-size: 34px; color: #2e2519; line-height: 1; }
+  .b6 .card-tax { font-size: 10px; color: #B5A99A; margin-bottom: 26px; }
+  .b6 .tag { color: #8a7d6f; background: rgba(181,169,154,0.15); }
+  .b6 .tags { justify-content: flex-start; margin-bottom: 26px; }
+  .b6 .bh { font-size: 11px; letter-spacing: 0.12em; color: #B5A99A; margin-bottom: 10px; }
+  .b6 .row { padding: 9px 0; border-bottom: 1px solid rgba(181,169,154,0.18); font-size: 12px; color: #4a4035; }
+  .b6 .rv { font-size: 14px; }
+  .b6 .note { font-size: 10px; color: #B5A99A; margin-top: 6px; }
+
+  /* ================================
+     B7 — Warm + Section Dividers
+     セクション区切りがはっきり
+     ================================ */
+  .b7 .card { background: #FAF8F5; box-shadow: 0 4px 24px rgba(61,53,48,0.06); }
+  .b7 .card-name { font-size: 22px; color: #2e2519; letter-spacing: 0.12em; }
+  .b7 .card-jp { font-size: 10px; color: rgba(61,53,48,0.35); margin-bottom: 18px; }
+  .b7 .card-price { font-size: 28px; color: #2e2519; }
+  .b7 .card-tax { font-size: 10px; color: rgba(61,53,48,0.3); margin-bottom: 20px; }
+  .b7 .tag { color: #8a7d6f; background: rgba(181,169,154,0.12); }
+  .b7 .tags { margin-bottom: 24px; }
+  .b7 .section-div { height: 1px; background: rgba(181,169,154,0.2); margin: 0 -28px 20px; }
+  .b7 .bh { font-size: 10px; letter-spacing: 0.2em; color: #B5A99A; margin-bottom: 12px; text-align: center; }
+  .b7 .row { padding: 8px 0; border-bottom: 1px solid rgba(181,169,154,0.12); font-size: 12px; color: #4a4035; }
+  .b7 .rv { font-size: 14px; }
+  .b7 .note { font-size: 10px; color: rgba(61,53,48,0.3); margin-top: 6px; text-align: center; }
+
+  /* ================================
+     B8 — Warm + Dotted Lines
+     点線ロウ + 柔らかいトーン
+     ================================ */
+  .b8 .card { background: #FBF9F6; box-shadow: 0 3px 20px rgba(61,53,48,0.05); }
+  .b8 .card-name { font-size: 23px; color: #2e2519; font-weight: 400; }
+  .b8 .card-jp { font-size: 10px; color: rgba(61,53,48,0.3); margin-bottom: 16px; }
+  .b8 .sep { width: 40px; height: 1px; background: rgba(181,169,154,0.3); margin: 0 auto 16px; }
+  .b8 .card-price { font-size: 28px; color: #2e2519; }
+  .b8 .card-tax { font-size: 10px; color: rgba(61,53,48,0.3); margin-bottom: 22px; }
+  .b8 .tag { color: rgba(61,53,48,0.45); border: 1px solid rgba(181,169,154,0.25); background: transparent; }
+  .b8 .tags { margin-bottom: 24px; }
+  .b8 .bh { font-size: 10px; letter-spacing: 0.18em; color: rgba(181,169,154,0.65); margin-bottom: 10px; }
+  .b8 .row { padding: 9px 0; border-bottom: 1px dotted rgba(181,169,154,0.3); font-size: 12px; color: #4a4035; }
+  .b8 .rv { font-size: 14px; }
+  .b8 .note { font-size: 10px; color: rgba(61,53,48,0.3); margin-top: 6px; }
+
+  /* ================================
+     B9 — Warm + Badge Style Tags
+     バッジスタイルタグ + やや角ばり
+     ================================ */
+  .b9 .card { background: #FAF8F5; box-shadow: 0 4px 24px rgba(61,53,48,0.06); border-radius: 12px; }
+  .b9 .card-name { font-size: 24px; color: #2e2519; }
+  .b9 .card-jp { font-size: 10px; color: #B5A99A; margin-bottom: 18px; }
+  .b9 .card-price { font-size: 30px; color: #2e2519; }
+  .b9 .card-tax { font-size: 10px; color: #B5A99A; margin-bottom: 20px; }
+  .b9 .tag {
+    color: #fff; background: rgba(181,169,154,0.55);
+    border-radius: 4px; padding: 4px 10px; font-size: 9.5px; letter-spacing: 0.04em;
+  }
+  .b9 .tags { margin-bottom: 26px; }
+  .b9 .bh { font-size: 10px; letter-spacing: 0.18em; color: #B5A99A; margin-bottom: 10px; }
+  .b9 .row { padding: 9px 0; border-bottom: 1px solid rgba(181,169,154,0.18); font-size: 12px; color: #4a4035; }
+  .b9 .rv { font-size: 14px; }
+  .b9 .note { font-size: 10px; color: #B5A99A; margin-top: 6px; }
+
+  /* ================================
+     B10 — Warm + Large Price Focus
+     価格を大きく + ミニマルな情報
+     ================================ */
+  .b10 .card { background: #FAF8F5; box-shadow: 0 4px 24px rgba(61,53,48,0.06); }
+  .b10 .card-name { font-size: 20px; color: rgba(61,53,48,0.45); letter-spacing: 0.15em; text-transform: uppercase; }
+  .b10 .card-jp { font-size: 10px; color: rgba(61,53,48,0.25); margin-bottom: 22px; }
+  .b10 .card-price { font-size: 36px; color: #2e2519; letter-spacing: -0.01em; line-height: 1; }
+  .b10 .card-tax { font-size: 10px; color: rgba(61,53,48,0.3); margin-bottom: 8px; }
+  .b10 .price-sub {
+    font-family: 'Noto Sans JP', sans-serif; font-size: 10px; font-weight: 300;
+    color: rgba(61,53,48,0.35); margin-bottom: 26px;
+  }
+  .b10 .tag { color: #8a7d6f; background: rgba(181,169,154,0.12); }
+  .b10 .tags { margin-bottom: 26px; }
+  .b10 .bh { font-size: 10px; letter-spacing: 0.18em; color: #B5A99A; margin-bottom: 10px; }
+  .b10 .row { padding: 9px 0; border-bottom: 1px solid rgba(181,169,154,0.15); font-size: 12px; color: #4a4035; }
+  .b10 .rv { font-size: 14px; }
+  .b10 .note { font-size: 10px; color: #B5A99A; margin-top: 6px; }
+</style>
+</head>
+<body>
+
+<div style="text-align:center; padding: 50px 20px 0;">
+  <span style="font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:300; letter-spacing:0.15em; color:#2a2420;">Pattern B — 10 Variations</span><br>
+  <span style="font-size:11px; color:#999; letter-spacing:0.08em;">フォント統一: Cormorant Garamond / Noto Serif JP / Noto Sans JP</span>
+</div>
+
+<!-- ===== B1 ===== -->
+<div class="label"><span>B1</span>Original Warm</div>
+<div class="wrap b1"><div class="card">
+  <div class="card-name">Basic Plan</div>
+  <div class="card-jp">ベーシックプラン</div>
+  <div class="card-price">¥168,000</div>
+  <div class="card-tax">税込</div>
+  <div class="tags"><span class="tag">前撮り撮影</span><span class="tag">200カット以上</span><span class="tag">ショートフィルム</span></div>
+  <div class="block"><div class="bh">shooting plan</div>
+    <div class="row"><span>Photo + Movie</span><span class="rv">¥168,000</span></div>
+    <div class="row"><span>Photo Only / Movie Only</span><span class="rv">¥128,000</span></div>
+    <div class="note">※ Photo Only / Movie Only は ¥40,000 OFF</div>
+  </div>
+  <div class="block"><div class="bh">included</div>
+    <div class="row"><span>前撮り撮影</span><span class="rv">✓</span></div>
+    <div class="row"><span>200カット以上</span><span class="rv">✓</span></div>
+    <div class="row"><span>撮影データ全納品</span><span class="rv">✓</span></div>
+    <div class="row"><span>3分のショートフィルム</span><span class="rv">✓</span></div>
+  </div>
+</div></div>
+
+<!-- ===== B2 ===== -->
+<div class="label"><span>B2</span>Warm + Thin Border</div>
+<div class="wrap b2"><div class="card">
+  <div class="card-name">Basic Plan</div>
+  <div class="card-jp">ベーシックプラン</div>
+  <div class="sep"></div>
+  <div class="card-price">¥168,000</div>
+  <div class="card-tax">税込</div>
+  <div class="tags"><span class="tag">前撮り撮影</span><span class="tag">200カット以上</span><span class="tag">ショートフィルム</span></div>
+  <div class="block"><div class="bh">shooting plan</div>
+    <div class="row"><span>Photo + Movie</span><span class="rv">¥168,000</span></div>
+    <div class="row"><span>Photo Only / Movie Only</span><span class="rv">¥128,000</span></div>
+    <div class="note">※ Photo Only / Movie Only は ¥40,000 OFF</div>
+  </div>
+  <div class="block"><div class="bh">included</div>
+    <div class="row"><span>前撮り撮影</span><span class="rv">✓</span></div>
+    <div class="row"><span>200カット以上</span><span class="rv">✓</span></div>
+    <div class="row"><span>撮影データ全納品</span><span class="rv">✓</span></div>
+    <div class="row"><span>3分のショートフィルム</span><span class="rv">✓</span></div>
+  </div>
+</div></div>
+
+<!-- ===== B3 ===== -->
+<div class="label"><span>B3</span>Ivory Depth</div>
+<div class="wrap b3"><div class="card">
+  <div class="card-name">Basic Plan</div>
+  <div class="card-jp">ベーシックプラン</div>
+  <div class="card-price">¥168,000</div>
+  <div class="card-tax">税込</div>
+  <div class="tags"><span class="tag">前撮り撮影</span><span class="tag">200カット以上</span><span class="tag">ショートフィルム</span></div>
+  <div class="block"><div class="bh">含まれるもの</div>
+    <div class="row"><span>Photo + Movie</span><span class="rv">¥168,000</span></div>
+    <div class="row"><span>Photo Only / Movie Only</span><span class="rv">¥128,000</span></div>
+    <div class="note">※ Photo Only / Movie Only は ¥40,000 OFF</div>
+  </div>
+  <div class="block"><div class="bh">含まれるもの</div>
+    <div class="row"><span>前撮り撮影</span><span class="rv">✓</span></div>
+    <div class="row"><span>200カット以上</span><span class="rv">✓</span></div>
+    <div class="row"><span>撮影データ全納品</span><span class="rv">✓</span></div>
+    <div class="row"><span>3分のショートフィルム</span><span class="rv">✓</span></div>
+  </div>
+</div></div>
+
+<!-- ===== B4 ===== -->
+<div class="label"><span>B4</span>Warm + Gold Line</div>
+<div class="wrap b4"><div class="card">
+  <div class="accent"></div>
+  <div class="inner">
+    <div class="card-name">Basic Plan</div>
+    <div class="card-jp">ベーシックプラン</div>
+    <div class="card-price">¥168,000</div>
+    <div class="card-tax">税込</div>
+    <div class="tags"><span class="tag">前撮り撮影</span><span class="tag">200カット以上</span><span class="tag">ショートフィルム</span></div>
+    <div class="block"><div class="bh">shooting plan</div>
+      <div class="row"><span>Photo + Movie</span><span class="rv">¥168,000</span></div>
+      <div class="row"><span>Photo Only / Movie Only</span><span class="rv">¥128,000</span></div>
+      <div class="note">※ Photo Only / Movie Only は ¥40,000 OFF</div>
+    </div>
+    <div class="block"><div class="bh">included</div>
+      <div class="row"><span>前撮り撮影</span><span class="rv">✓</span></div>
+      <div class="row"><span>200カット以上</span><span class="rv">✓</span></div>
+      <div class="row"><span>撮影データ全納品</span><span class="rv">✓</span></div>
+      <div class="row"><span>3分のショートフィルム</span><span class="rv">✓</span></div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ===== B5 ===== -->
+<div class="label"><span>B5</span>Subtle Gradient</div>
+<div class="wrap b5"><div class="card">
+  <div class="card-name">Basic Plan</div>
+  <div class="card-jp">ベーシックプラン</div>
+  <div class="sep"></div>
+  <div class="card-price">¥168,000</div>
+  <div class="card-tax">税込</div>
+  <div class="tags"><span class="tag">前撮り撮影</span><span class="tag">200カット以上</span><span class="tag">ショートフィルム</span></div>
+  <div class="block"><div class="bh">shooting plan</div>
+    <div class="row"><span>Photo + Movie</span><span class="rv">¥168,000</span></div>
+    <div class="row"><span>Photo Only / Movie Only</span><span class="rv">¥128,000</span></div>
+    <div class="note">※ Photo Only / Movie Only は ¥40,000 OFF</div>
+  </div>
+  <div class="block"><div class="bh">included</div>
+    <div class="row"><span>前撮り撮影</span><span class="rv">✓</span></div>
+    <div class="row"><span>200カット以上</span><span class="rv">✓</span></div>
+    <div class="row"><span>撮影データ全納品</span><span class="rv">✓</span></div>
+    <div class="row"><span>3分のショートフィルム</span><span class="rv">✓</span></div>
+  </div>
+</div></div>
+
+<!-- ===== B6 ===== -->
+<div class="label"><span>B6</span>Warm + Left Align</div>
+<div class="wrap b6"><div class="card">
+  <div class="card-name">Basic Plan</div>
+  <div class="card-jp">ベーシックプラン</div>
+  <div class="card-price">¥168,000</div>
+  <div class="card-tax">税込</div>
+  <div class="tags"><span class="tag">前撮り撮影</span><span class="tag">200カット以上</span><span class="tag">ショートフィルム</span></div>
+  <div class="block"><div class="bh">shooting plan</div>
+    <div class="row"><span>Photo + Movie</span><span class="rv">¥168,000</span></div>
+    <div class="row"><span>Photo Only / Movie Only</span><span class="rv">¥128,000</span></div>
+    <div class="note">※ Photo Only / Movie Only は ¥40,000 OFF</div>
+  </div>
+  <div class="block"><div class="bh">included</div>
+    <div class="row"><span>前撮り撮影</span><span class="rv">✓</span></div>
+    <div class="row"><span>200カット以上</span><span class="rv">✓</span></div>
+    <div class="row"><span>撮影データ全納品</span><span class="rv">✓</span></div>
+    <div class="row"><span>3分のショートフィルム</span><span class="rv">✓</span></div>
+  </div>
+</div></div>
+
+<!-- ===== B7 ===== -->
+<div class="label"><span>B7</span>Section Dividers</div>
+<div class="wrap b7"><div class="card">
+  <div class="card-name">Basic Plan</div>
+  <div class="card-jp">ベーシックプラン</div>
+  <div class="card-price">¥168,000</div>
+  <div class="card-tax">税込</div>
+  <div class="tags"><span class="tag">前撮り撮影</span><span class="tag">200カット以上</span><span class="tag">ショートフィルム</span></div>
+  <div class="section-div"></div>
+  <div class="block"><div class="bh">shooting plan</div>
+    <div class="row"><span>Photo + Movie</span><span class="rv">¥168,000</span></div>
+    <div class="row"><span>Photo Only / Movie Only</span><span class="rv">¥128,000</span></div>
+    <div class="note">※ Photo Only / Movie Only は ¥40,000 OFF</div>
+  </div>
+  <div class="section-div"></div>
+  <div class="block"><div class="bh">included</div>
+    <div class="row"><span>前撮り撮影</span><span class="rv">✓</span></div>
+    <div class="row"><span>200カット以上</span><span class="rv">✓</span></div>
+    <div class="row"><span>撮影データ全納品</span><span class="rv">✓</span></div>
+    <div class="row"><span>3分のショートフィルム</span><span class="rv">✓</span></div>
+  </div>
+</div></div>
+
+<!-- ===== B8 ===== -->
+<div class="label"><span>B8</span>Dotted Lines</div>
+<div class="wrap b8"><div class="card">
+  <div class="card-name">Basic Plan</div>
+  <div class="card-jp">ベーシックプラン</div>
+  <div class="sep"></div>
+  <div class="card-price">¥168,000</div>
+  <div class="card-tax">税込</div>
+  <div class="tags"><span class="tag">前撮り撮影</span><span class="tag">200カット以上</span><span class="tag">ショートフィルム</span></div>
+  <div class="block"><div class="bh">shooting plan</div>
+    <div class="row"><span>Photo + Movie</span><span class="rv">¥168,000</span></div>
+    <div class="row"><span>Photo Only / Movie Only</span><span class="rv">¥128,000</span></div>
+    <div class="note">※ Photo Only / Movie Only は ¥40,000 OFF</div>
+  </div>
+  <div class="block"><div class="bh">included</div>
+    <div class="row"><span>前撮り撮影</span><span class="rv">✓</span></div>
+    <div class="row"><span>200カット以上</span><span class="rv">✓</span></div>
+    <div class="row"><span>撮影データ全納品</span><span class="rv">✓</span></div>
+    <div class="row"><span>3分のショートフィルム</span><span class="rv">✓</span></div>
+  </div>
+</div></div>
+
+<!-- ===== B9 ===== -->
+<div class="label"><span>B9</span>Badge Style Tags</div>
+<div class="wrap b9"><div class="card">
+  <div class="card-name">Basic Plan</div>
+  <div class="card-jp">ベーシックプラン</div>
+  <div class="card-price">¥168,000</div>
+  <div class="card-tax">税込</div>
+  <div class="tags"><span class="tag">前撮り撮影</span><span class="tag">200カット以上</span><span class="tag">ショートフィルム</span></div>
+  <div class="block"><div class="bh">shooting plan</div>
+    <div class="row"><span>Photo + Movie</span><span class="rv">¥168,000</span></div>
+    <div class="row"><span>Photo Only / Movie Only</span><span class="rv">¥128,000</span></div>
+    <div class="note">※ Photo Only / Movie Only は ¥40,000 OFF</div>
+  </div>
+  <div class="block"><div class="bh">included</div>
+    <div class="row"><span>前撮り撮影</span><span class="rv">✓</span></div>
+    <div class="row"><span>200カット以上</span><span class="rv">✓</span></div>
+    <div class="row"><span>撮影データ全納品</span><span class="rv">✓</span></div>
+    <div class="row"><span>3分のショートフィルム</span><span class="rv">✓</span></div>
+  </div>
+</div></div>
+
+<!-- ===== B10 ===== -->
+<div class="label"><span>B10</span>Large Price Focus</div>
+<div class="wrap b10"><div class="card">
+  <div class="card-name">Basic Plan</div>
+  <div class="card-jp">ベーシックプラン</div>
+  <div class="card-price">¥168,000</div>
+  <div class="card-tax">税込</div>
+  <div class="price-sub">Photo + Movie</div>
+  <div class="tags"><span class="tag">前撮り撮影</span><span class="tag">200カット以上</span><span class="tag">ショートフィルム</span></div>
+  <div class="block"><div class="bh">shooting plan</div>
+    <div class="row"><span>Photo + Movie</span><span class="rv">¥168,000</span></div>
+    <div class="row"><span>Photo Only / Movie Only</span><span class="rv">¥128,000</span></div>
+    <div class="note">※ Photo Only / Movie Only は ¥40,000 OFF</div>
+  </div>
+  <div class="block"><div class="bh">included</div>
+    <div class="row"><span>前撮り撮影</span><span class="rv">✓</span></div>
+    <div class="row"><span>200カット以上</span><span class="rv">✓</span></div>
+    <div class="row"><span>撮影データ全納品</span><span class="rv">✓</span></div>
+    <div class="row"><span>3分のショートフィルム</span><span class="rv">✓</span></div>
+  </div>
+</div></div>
+
+<div style="height: 80px;"></div>
+</body>
+</html>

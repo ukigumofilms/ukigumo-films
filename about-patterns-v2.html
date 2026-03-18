@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About セクション デザイン案 V2 — Pattern 3 & 8 ベース 10パターン</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #f5f3ef; color: #2a2420; font-family: "Noto Serif JP", serif; }
+
+  .toc { position: fixed; top: 0; left: 0; width: 100%; background: rgba(245,243,239,0.95); backdrop-filter: blur(10px); z-index: 100; padding: 12px 5%; border-bottom: 1px solid rgba(42,36,32,0.08); display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .toc span { font-family: "Cormorant Garamond", serif; font-size: 0.75rem; letter-spacing: 0.1em; color: #999; }
+  .toc a { font-family: "Cormorant Garamond", serif; font-size: 0.7rem; padding: 4px 10px; border: 1px solid rgba(42,36,32,0.15); border-radius: 20px; text-decoration: none; color: #2a2420; transition: all 0.3s; }
+  .toc a:hover { background: #2a2420; color: #f5f3ef; }
+
+  .pattern { min-height: 100vh; padding: 120px 0 80px; border-bottom: 1px solid rgba(42,36,32,0.06); overflow: hidden; position: relative; }
+  .pattern-label { font-family: "Cormorant Garamond", serif; font-size: 0.7rem; letter-spacing: 0.3em; color: #999; text-transform: uppercase; padding: 0 8%; margin-bottom: 40px; }
+
+  .demo-text-ja { font-family: "Noto Serif JP", serif; font-weight: 300; font-size: clamp(0.85rem, 1.2vw, 1rem); line-height: 2.4; color: #2a2420; letter-spacing: 0.04em; }
+  .demo-text-en { font-family: "Cormorant Garamond", serif; font-weight: 300; font-size: 0.8rem; line-height: 2; color: #aaa; letter-spacing: 0.06em; margin-top: 24px; }
+  .demo-heading { font-family: "Noto Serif JP", serif; font-weight: 200; font-size: clamp(1.4rem, 2.5vw, 2.2rem); line-height: 1.7; letter-spacing: 0.08em; }
+
+  /* ============ V2-01 — マーキー多段＋大英字背景＋グラデーションフェード（アニメーション重め） ============ */
+  #v1 { min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; }
+  #v1 .v1-bg-text { position: absolute; font-family: "Cormorant Garamond", serif; font-size: clamp(6rem, 14vw, 12rem); font-weight: 300; color: rgba(42,36,32,0.03); letter-spacing: 0.15em; white-space: nowrap; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; }
+  #v1 .v1-marquee-top, #v1 .v1-marquee-btm { position: absolute; white-space: nowrap; font-family: "Cormorant Garamond", serif; font-weight: 300; color: rgba(42,36,32,0.05); letter-spacing: 0.12em; pointer-events: none; }
+  #v1 .v1-marquee-top { top: 18%; font-size: 1.6rem; animation: v1m1 35s linear infinite; }
+  #v1 .v1-marquee-btm { bottom: 18%; font-size: 1.2rem; animation: v1m2 40s linear infinite reverse; }
+  @keyframes v1m1 { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes v1m2 { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  #v1 .v1-content { position: relative; z-index: 2; text-align: center; padding: 0 8%; }
+  #v1 .v1-content .demo-heading { opacity: 0; transform: translateY(30px); transition: all 1.4s cubic-bezier(0.19, 1, 0.22, 1); }
+  #v1 .v1-content .demo-text-ja { opacity: 0; transform: translateY(20px); transition: all 1.2s ease 0.4s; }
+  #v1 .v1-content .demo-text-en { opacity: 0; transform: translateY(20px); transition: all 1.2s ease 0.7s; }
+  #v1 .v1-line { width: 0; height: 1px; background: linear-gradient(to right, transparent, #c9a96e, transparent); margin: 32px auto; transition: width 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s; }
+  #v1.visible .v1-content .demo-heading { opacity: 1; transform: translateY(0); }
+  #v1.visible .v1-content .demo-text-ja { opacity: 1; transform: translateY(0); }
+  #v1.visible .v1-content .demo-text-en { opacity: 1; transform: translateY(0); }
+  #v1.visible .v1-line { width: 120px; }
+
+  /* ============ V2-02 — マーキー＋縦ライン左右＋中央テキスト（アニメーション重め） ============ */
+  #v2 { min-height: 90vh; display: flex; align-items: center; position: relative; overflow: hidden; }
+  #v2 .v2-marquee { position: absolute; white-space: nowrap; font-family: "Cormorant Garamond", serif; font-size: 3.5rem; font-weight: 300; color: rgba(42,36,32,0.04); letter-spacing: 0.1em; animation: v2scroll 28s linear infinite; top: 50%; }
+  @keyframes v2scroll { from { transform: translateX(0) translateY(-50%); } to { transform: translateX(-50%) translateY(-50%); } }
+  #v2 .v2-line-left, #v2 .v2-line-right { position: absolute; width: 1px; background: linear-gradient(to bottom, transparent, #c9a96e 40%, #c9a96e 60%, transparent); height: 0; transition: height 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+  #v2 .v2-line-left { left: 6%; top: 10%; }
+  #v2 .v2-line-right { right: 6%; top: 10%; }
+  #v2.visible .v2-line-left, #v2.visible .v2-line-right { height: 80%; }
+  #v2 .v2-content { position: relative; z-index: 2; text-align: center; width: 100%; padding: 0 10%; }
+  #v2 .v2-content > * { opacity: 0; transform: translateY(20px); transition: all 1s ease; }
+  #v2.visible .v2-content > *:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.5s; }
+  #v2.visible .v2-content > *:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.8s; }
+  #v2.visible .v2-content > *:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 1.1s; }
+  #v2.visible .v2-content > *:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 1.4s; }
+
+  /* ============ V2-03 — 大英字スライドイン＋テキストマスクリビール（アニメーション重め） ============ */
+  #v3 { min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; }
+  #v3 .v3-bg { font-family: "Cormorant Garamond", serif; font-size: clamp(5rem, 13vw, 11rem); font-weight: 300; color: rgba(42,36,32,0.04); letter-spacing: 0.2em; text-align: center; position: absolute; top: 50%; left: 50%; white-space: nowrap; pointer-events: none; transform: translate(-50%, -50%) translateX(80px); opacity: 0; transition: all 2s cubic-bezier(0.19, 1, 0.22, 1); }
+  #v3.visible .v3-bg { transform: translate(-50%, -50%) translateX(0); opacity: 1; }
+  #v3 .v3-content { position: relative; z-index: 2; text-align: center; padding: 0 8%; }
+  #v3 .v3-reveal { overflow: hidden; }
+  #v3 .v3-reveal > * { transform: translateY(100%); transition: transform 1s cubic-bezier(0.19, 1, 0.22, 1); }
+  #v3.visible .v3-reveal:nth-child(1) > * { transform: translateY(0); transition-delay: 0.6s; }
+  #v3.visible .v3-reveal:nth-child(2) > * { transform: translateY(0); transition-delay: 0.9s; }
+  #v3.visible .v3-reveal:nth-child(3) > * { transform: translateY(0); transition-delay: 1.2s; }
+  #v3 .v3-gold-line { width: 0; height: 1px; background: #c9a96e; margin: 36px auto; transition: width 1.5s ease 1.5s; }
+  #v3.visible .v3-gold-line { width: 80px; }
+
+  /* ============ V2-04 — マーキー3段＋パララックス感テキスト（アニメーション重め） ============ */
+  #v4 { min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  #v4 .v4-m { position: absolute; white-space: nowrap; font-family: "Cormorant Garamond", serif; font-weight: 300; color: rgba(42,36,32,0.03); letter-spacing: 0.08em; pointer-events: none; }
+  #v4 .v4-m1 { top: 15%; font-size: 2.5rem; animation: v4a 25s linear infinite; }
+  #v4 .v4-m2 { top: 50%; font-size: 3.5rem; animation: v4b 35s linear infinite reverse; }
+  #v4 .v4-m3 { bottom: 15%; font-size: 1.8rem; animation: v4c 30s linear infinite; }
+  @keyframes v4a { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes v4b { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes v4c { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  #v4 .v4-content { position: relative; z-index: 2; text-align: center; padding: 0 8%; }
+  #v4 .v4-content .demo-heading { opacity: 0; transform: translateY(40px) scale(0.96); transition: all 1.5s cubic-bezier(0.19, 1, 0.22, 1); }
+  #v4 .v4-sub { opacity: 0; transform: translateY(25px); transition: all 1.2s ease 0.5s; }
+  #v4 .v4-en { opacity: 0; transform: translateY(20px); transition: all 1.2s ease 0.8s; }
+  #v4 .v4-dots { display: flex; justify-content: center; gap: 12px; margin: 30px 0; }
+  #v4 .v4-dot { width: 4px; height: 4px; border-radius: 50%; background: #c9a96e; opacity: 0; transform: scale(0); transition: all 0.5s ease; }
+  #v4.visible .v4-content .demo-heading { opacity: 1; transform: translateY(0) scale(1); }
+  #v4.visible .v4-sub { opacity: 1; transform: translateY(0); }
+  #v4.visible .v4-en { opacity: 1; transform: translateY(0); }
+  #v4.visible .v4-dot:nth-child(1) { opacity: 1; transform: scale(1); transition-delay: 1s; }
+  #v4.visible .v4-dot:nth-child(2) { opacity: 1; transform: scale(1); transition-delay: 1.15s; }
+  #v4.visible .v4-dot:nth-child(3) { opacity: 1; transform: scale(1); transition-delay: 1.3s; }
+
+  /* ============ V2-05 — 大英字背景＋clip-path展開（中程度） ============ */
+  #v5 { min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; }
+  #v5 .v5-bg { font-family: "Cormorant Garamond", serif; font-size: clamp(5rem, 12vw, 10rem); font-weight: 300; color: rgba(42,36,32,0.04); letter-spacing: 0.15em; text-align: center; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); white-space: nowrap; pointer-events: none; }
+  #v5 .v5-content { position: relative; z-index: 2; text-align: center; padding: 0 8%; clip-path: circle(0% at 50% 50%); transition: clip-path 2s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+  #v5.visible .v5-content { clip-path: circle(80% at 50% 50%); }
+
+  /* ============ V2-06 — マーキー＋ブラーtoシャープ（中程度） ============ */
+  #v6 { min-height: 90vh; display: flex; align-items: center; position: relative; overflow: hidden; }
+  #v6 .v6-marquee { position: absolute; white-space: nowrap; font-family: "Cormorant Garamond", serif; font-size: 5rem; font-weight: 300; color: rgba(42,36,32,0.04); letter-spacing: 0.1em; animation: v6flow 32s linear infinite; top: 50%; }
+  @keyframes v6flow { from { transform: translateX(0) translateY(-50%); } to { transform: translateX(-50%) translateY(-50%); } }
+  #v6 .v6-content { position: relative; z-index: 2; text-align: center; width: 100%; padding: 0 8%; }
+  #v6 .v6-content > * { filter: blur(12px); opacity: 0; transition: all 1.5s ease; }
+  #v6.visible .v6-content > *:nth-child(1) { filter: blur(0); opacity: 1; transition-delay: 0.2s; }
+  #v6.visible .v6-content > *:nth-child(2) { filter: blur(0); opacity: 1; transition-delay: 0.5s; }
+  #v6.visible .v6-content > *:nth-child(3) { filter: blur(0); opacity: 1; transition-delay: 0.8s; }
+  #v6.visible .v6-content > *:nth-child(4) { filter: blur(0); opacity: 1; transition-delay: 1.1s; }
+
+  /* ============ V2-07 — 大英字＋横スクロール背景＋シンプルフェード（中程度） ============ */
+  #v7 { min-height: 90vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  #v7 .v7-bg { font-family: "Cormorant Garamond", serif; font-size: clamp(4rem, 10vw, 8rem); font-weight: 300; color: rgba(42,36,32,0.03); letter-spacing: 0.2em; white-space: nowrap; position: absolute; top: 50%; animation: v7drift 50s linear infinite; pointer-events: none; }
+  @keyframes v7drift { from { transform: translateX(0) translateY(-50%); } to { transform: translateX(-50%) translateY(-50%); } }
+  #v7 .v7-content { position: relative; z-index: 2; text-align: center; padding: 0 8%; }
+  #v7 .v7-content > * { opacity: 0; transform: translateY(15px); transition: all 1s ease; }
+  #v7.visible .v7-content > *:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
+  #v7.visible .v7-content > *:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.5s; }
+  #v7.visible .v7-content > *:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.8s; }
+
+  /* ============ V2-08 — 大英字背景＋金箔線展開（シンプル寄り） ============ */
+  #v8 { min-height: 90vh; display: flex; align-items: center; justify-content: center; position: relative; }
+  #v8 .v8-bg { font-family: "Cormorant Garamond", serif; font-size: clamp(5rem, 12vw, 10rem); font-weight: 300; color: rgba(42,36,32,0.04); letter-spacing: 0.15em; text-align: center; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); white-space: nowrap; pointer-events: none; }
+  #v8 .v8-content { position: relative; z-index: 2; text-align: center; padding: 0 8%; }
+  #v8 .v8-line-top, #v8 .v8-line-btm { width: 0; height: 1px; background: linear-gradient(to right, transparent, #c9a96e, transparent); margin: 0 auto; transition: width 2s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+  #v8 .v8-line-top { margin-bottom: 40px; }
+  #v8 .v8-line-btm { margin-top: 40px; }
+  #v8.visible .v8-line-top, #v8.visible .v8-line-btm { width: 100px; }
+  #v8 .v8-content .v8-text { opacity: 0; transition: opacity 1.2s ease 0.6s; }
+  #v8.visible .v8-content .v8-text { opacity: 1; }
+
+  /* ============ V2-09 — ロケーションマーキー＋センターテキスト ============ */
+  #v9 { min-height: 100vh; display: flex; align-items: center; position: relative; overflow: hidden; }
+  #v9 .v9-marquee-wrap { position: absolute; top: 50%; width: 100%; transform: translateY(-50%); overflow: hidden; pointer-events: none; }
+  #v9 .v9-marquee-track { display: flex; align-items: center; gap: clamp(5rem, 12vw, 9rem); width: max-content; animation: v9scroll 45s linear infinite; }
+  #v9 .v9-loc { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+  #v9 .v9-loc-name { font-family: "Cormorant Garamond", serif; font-weight: 300; font-style: italic; font-size: clamp(2.5rem, 6vw, 4.2rem); color: rgba(42,36,32,0.05); letter-spacing: 0.06em; line-height: 1.1; }
+  #v9 .v9-loc-coords { font-family: "Cormorant Garamond", serif; font-weight: 300; font-size: clamp(0.55rem, 1.1vw, 0.75rem); color: rgba(42,36,32,0.06); letter-spacing: 0.1em; margin-top: 0.3em; white-space: nowrap; }
+  @keyframes v9scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  #v9 .v9-content { position: relative; z-index: 2; text-align: center; width: 100%; max-width: 780px; margin: 0 auto; padding: 0 6%; }
+  #v9 .v9-content > * { opacity: 0; transform: translateY(12px); transition: opacity 1.2s ease, transform 1.2s ease; }
+  #v9 .v9-heading { font-family: "Noto Serif JP", serif; font-weight: 200; font-size: clamp(1.5rem, 2.8vw, 2.4rem); line-height: 1.7; letter-spacing: 0.1em; color: #2a2420; margin-bottom: 36px; }
+  #v9 .v9-body { font-family: "Noto Serif JP", serif; font-weight: 300; font-size: clamp(0.8rem, 1.1vw, 0.95rem); line-height: 2.6; color: #2a2420; letter-spacing: 0.03em; margin-bottom: 20px; }
+  #v9 .v9-closing { font-family: "Noto Serif JP", serif; font-weight: 200; font-size: clamp(1rem, 1.8vw, 1.5rem); line-height: 1.7; letter-spacing: 0.1em; color: #2a2420; margin-top: 36px; margin-bottom: 40px; }
+  #v9 .v9-line { width: 0; height: 1px; background: linear-gradient(to right, transparent, #c9a96e, transparent); margin: 0 auto; transition: width 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1.8s; }
+  #v9 .v9-en { font-family: "Cormorant Garamond", serif; font-weight: 300; font-size: clamp(0.72rem, 0.95vw, 0.85rem); line-height: 2.2; color: rgba(42,36,32,0.4); letter-spacing: 0.04em; margin-top: 40px; }
+  #v9.visible .v9-content > *:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
+  #v9.visible .v9-content > *:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.7s; }
+  #v9.visible .v9-content > *:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 1.1s; }
+  #v9.visible .v9-content > *:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 1.5s; }
+  #v9.visible .v9-line { width: 100px; }
+  #v9.visible .v9-content > *:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: 2.2s; }
+
+  /* ============ V2-10 — 大英字背景のみ＋静かなフェード（最シンプル） ============ */
+  #v10 { min-height: 85vh; display: flex; align-items: center; justify-content: center; position: relative; }
+  #v10 .v10-bg { font-family: "Cormorant Garamond", serif; font-size: clamp(5rem, 11vw, 9rem); font-weight: 300; color: rgba(42,36,32,0.04); letter-spacing: 0.15em; text-align: center; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); white-space: nowrap; pointer-events: none; }
+  #v10 .v10-content { position: relative; z-index: 2; text-align: center; padding: 0 8%; opacity: 0; transform: translateY(10px); transition: all 1.5s ease; }
+  #v10.visible .v10-content { opacity: 1; transform: translateY(0); }
+
+</style>
+</head>
+<body>
+
+<nav class="toc">
+  <span>V2 PATTERNS</span>
+  <a href="#v1">01</a><a href="#v2">02</a><a href="#v3">03</a><a href="#v4">04</a><a href="#v5">05</a>
+  <a href="#v6">06</a><a href="#v7">07</a><a href="#v8">08</a><a href="#v9">09</a><a href="#v10">10</a>
+</nav>
+
+<!-- V2-01: マーキー多段＋大英字背景＋ゴールドライン（アニメ重） -->
+<section class="pattern" id="v1">
+  <div class="pattern-label">V2-01 — マーキー多段＋大英字背景＋ゴールドライン展開（アニメーション多め）</div>
+  <div class="v1-bg-text">STORY</div>
+  <div class="v1-marquee-top">PHOTO &nbsp;&bull;&nbsp; FILM &nbsp;&bull;&nbsp; DRONE &nbsp;&bull;&nbsp; EUROPE &nbsp;&bull;&nbsp; JAPAN &nbsp;&bull;&nbsp; WEDDING &nbsp;&bull;&nbsp; CINEMA &nbsp;&bull;&nbsp; PHOTO &nbsp;&bull;&nbsp; FILM &nbsp;&bull;&nbsp; DRONE &nbsp;&bull;&nbsp; EUROPE &nbsp;&bull;&nbsp; JAPAN &nbsp;&bull;&nbsp; WEDDING &nbsp;&bull;&nbsp; CINEMA &nbsp;&bull;&nbsp;</div>
+  <div class="v1-marquee-btm">FLORENCE &nbsp;&bull;&nbsp; PARIS &nbsp;&bull;&nbsp; MALTA &nbsp;&bull;&nbsp; LONDON &nbsp;&bull;&nbsp; TOKYO &nbsp;&bull;&nbsp; KYOTO &nbsp;&bull;&nbsp; OKINAWA &nbsp;&bull;&nbsp; FLORENCE &nbsp;&bull;&nbsp; PARIS &nbsp;&bull;&nbsp; MALTA &nbsp;&bull;&nbsp; LONDON &nbsp;&bull;&nbsp; TOKYO &nbsp;&bull;&nbsp; KYOTO &nbsp;&bull;&nbsp; OKINAWA &nbsp;&bull;&nbsp;</div>
+  <div class="v1-content">
+    <p class="demo-heading" style="margin-bottom:16px;">写真と映像の全技術で<br>ふたりの物語を描く。</p>
+    <div class="v1-line"></div>
+    <p class="demo-text-ja">世界中の美しいロケーションを舞台に、国内もヨーロッパも<br>ひとつのチームで最高の一日を創り上げます。</p>
+    <p class="demo-text-en">Every tool, every technique — channeled into your story like cinema.</p>
+  </div>
+</section>
+
+<!-- V2-02: マーキー＋左右の縦ゴールドライン＋テキスト（アニメ重） -->
+<section class="pattern" id="v2">
+  <div class="pattern-label">V2-02 — マーキー背景＋左右縦ゴールドライン＋中央テキスト（アニメーション多め）</div>
+  <div class="v2-marquee">PHOTO &middot; FILM &middot; DRONE &middot; EUROPE &middot; JAPAN &middot; CINEMA &middot; WEDDING &middot; PHOTO &middot; FILM &middot; DRONE &middot; EUROPE &middot; JAPAN &middot; CINEMA &middot; WEDDING &middot;</div>
+  <div class="v2-line-left"></div>
+  <div class="v2-line-right"></div>
+  <div class="v2-content">
+    <p class="demo-heading" style="margin-bottom:32px;">写真と映像の全技術で<br>ふたりの物語を描く。</p>
+    <p class="demo-text-ja">世界中の美しいロケーションを舞台に<br>国内もヨーロッパも、ひとつのチームで。</p>
+    <p class="demo-text-ja">すべてのプランに200カット以上の写真と<br>3分のショートフィルム。</p>
+    <p class="demo-text-en">Photo, film, and drone — from Japan to Europe, one team, one vision.</p>
+  </div>
+</section>
+
+<!-- V2-03: 大英字スライドイン＋テキストマスクリビール（アニメ重） -->
+<section class="pattern" id="v3">
+  <div class="pattern-label">V2-03 — 大英字横スライド＋テキストマスクリビール＋ゴールドライン（アニメーション多め）</div>
+  <div class="v3-bg">UKIGUMO</div>
+  <div class="v3-content">
+    <div class="v3-reveal"><p class="demo-heading" style="margin-bottom:28px;">写真と映像の全技術で<br>ふたりの物語を描く。</p></div>
+    <div class="v3-reveal"><p class="demo-text-ja">世界中の美しいロケーションを舞台に、国内もヨーロッパも<br>ひとつのチームで最高の一日を創り上げます。</p></div>
+    <div class="v3-gold-line"></div>
+    <div class="v3-reveal"><p class="demo-text-en">Every tool, every technique, every emotion — channeled into your story.</p></div>
+  </div>
+</section>
+
+<!-- V2-04: マーキー3段＋中央見出し＋ドット装飾（アニメ重） -->
+<section class="pattern" id="v4">
+  <div class="pattern-label">V2-04 — マーキー3段レイヤー＋中央テキスト＋ドット装飾（アニメーション多め）</div>
+  <div class="v4-m v4-m1">PHOTO &nbsp; FILM &nbsp; DRONE &nbsp; WEDDING &nbsp; CINEMA &nbsp; EUROPE &nbsp; JAPAN &nbsp; PHOTO &nbsp; FILM &nbsp; DRONE &nbsp; WEDDING &nbsp; CINEMA &nbsp; EUROPE &nbsp; JAPAN &nbsp;</div>
+  <div class="v4-m v4-m2">FLORENCE &middot; PARIS &middot; MALTA &middot; LONDON &middot; TOKYO &middot; KYOTO &middot; OKINAWA &middot; FLORENCE &middot; PARIS &middot; MALTA &middot; LONDON &middot; TOKYO &middot; KYOTO &middot; OKINAWA &middot;</div>
+  <div class="v4-m v4-m3">STORY &nbsp; MEMORY &nbsp; LOVE &nbsp; JOURNEY &nbsp; MOMENT &nbsp; ETERNAL &nbsp; STORY &nbsp; MEMORY &nbsp; LOVE &nbsp; JOURNEY &nbsp; MOMENT &nbsp; ETERNAL &nbsp;</div>
+  <div class="v4-content">
+    <p class="demo-heading" style="margin-bottom:20px;">写真と映像の全技術で<br>ふたりの物語を描く。</p>
+    <div class="v4-dots">
+      <span class="v4-dot"></span><span class="v4-dot"></span><span class="v4-dot"></span>
+    </div>
+    <p class="v4-sub demo-text-ja">世界中の美しいロケーションを舞台に<br>国内もヨーロッパも、ひとつのチームで。</p>
+    <p class="v4-en demo-text-en">Photo, film, and drone — your story, told like cinema.</p>
+  </div>
+</section>
+
+<!-- V2-05: 大英字＋clip-path円形展開（中程度） -->
+<section class="pattern" id="v5">
+  <div class="pattern-label">V2-05 — 大英字背景＋circle clip-path展開（中程度アニメーション）</div>
+  <div class="v5-bg">VISION</div>
+  <div class="v5-content">
+    <p class="demo-heading" style="margin-bottom:32px;">写真と映像の全技術で<br>ふたりの物語を描く。</p>
+    <p class="demo-text-ja">世界中の美しいロケーションを舞台に、国内もヨーロッパも<br>ひとつのチームで最高の一日を創り上げます。</p>
+    <p class="demo-text-en">Every tool, every technique, every emotion — channeled into your story.</p>
+  </div>
+</section>
+
+<!-- V2-06: マーキー＋ブラーtoシャープ（中程度） -->
+<section class="pattern" id="v6">
+  <div class="pattern-label">V2-06 — マーキー背景＋ブラーからシャープ登場（中程度アニメーション）</div>
+  <div class="v6-marquee">PHOTO &middot; FILM &middot; DRONE &middot; EUROPE &middot; JAPAN &middot; CINEMA &middot; WEDDING &middot; PHOTO &middot; FILM &middot; DRONE &middot; EUROPE &middot; JAPAN &middot; CINEMA &middot; WEDDING &middot;</div>
+  <div class="v6-content">
+    <p class="demo-heading" style="margin-bottom:32px;">写真と映像の全技術で<br>ふたりの物語を描く。</p>
+    <p class="demo-text-ja">世界中の美しいロケーションを舞台に<br>国内もヨーロッパも、ひとつのチームで。</p>
+    <p class="demo-text-ja">すべてのプランに200カット以上の写真と<br>3分のショートフィルム。</p>
+    <p class="demo-text-en">Photo, film, and drone — from Japan to Europe, one team, one vision.</p>
+  </div>
+</section>
+
+<!-- V2-07: 大英字スクロール＋シンプルフェード（中程度） -->
+<section class="pattern" id="v7">
+  <div class="pattern-label">V2-07 — 大英字横スクロール背景＋シンプルフェードイン（中程度アニメーション）</div>
+  <div class="v7-bg">PHILOSOPHY &nbsp;&nbsp; PHILOSOPHY &nbsp;&nbsp; PHILOSOPHY &nbsp;&nbsp; PHILOSOPHY &nbsp;&nbsp; PHILOSOPHY &nbsp;&nbsp; PHILOSOPHY &nbsp;&nbsp;</div>
+  <div class="v7-content">
+    <p class="demo-heading" style="margin-bottom:32px;">写真と映像の全技術で<br>ふたりの物語を描く。</p>
+    <p class="demo-text-ja">世界中の美しいロケーションを舞台に、国内もヨーロッパも<br>ひとつのチームで最高の一日を創り上げます。</p>
+    <p class="demo-text-en">Every tool, every technique, every emotion — channeled into your story.</p>
+  </div>
+</section>
+
+<!-- V2-08: 大英字＋金箔線で囲む（シンプル寄り） -->
+<section class="pattern" id="v8">
+  <div class="pattern-label">V2-08 — 大英字背景＋上下ゴールドライン展開（シンプル寄り）</div>
+  <div class="v8-bg">CREED</div>
+  <div class="v8-content">
+    <div class="v8-line-top"></div>
+    <div class="v8-text">
+      <p class="demo-heading" style="margin-bottom:28px;">写真と映像の全技術で<br>ふたりの物語を描く。</p>
+      <p class="demo-text-ja">世界中の美しいロケーションを舞台に、国内もヨーロッパも<br>ひとつのチームで最高の一日を創り上げます。</p>
+      <p class="demo-text-en">Every tool, every technique — channeled into your story like cinema.</p>
+    </div>
+    <div class="v8-line-btm"></div>
+  </div>
+</section>
+
+<!-- V2-09: ロケーションマーキー＋本番コピー -->
+<section class="pattern" id="v9">
+  <div class="pattern-label">V2-09 — ロケーション名＋緯度経度マーキー背景＋本番テキスト</div>
+  <div class="v9-marquee-wrap">
+    <div class="v9-marquee-track">
+      <div class="v9-loc"><span class="v9-loc-name">Switzerland</span><span class="v9-loc-coords">46.8182° N, 8.2275° E</span></div>
+      <div class="v9-loc"><span class="v9-loc-name">Paris</span><span class="v9-loc-coords">48.8566° N, 2.3522° E</span></div>
+      <div class="v9-loc"><span class="v9-loc-name">Firenze</span><span class="v9-loc-coords">43.7696° N, 11.2558° E</span></div>
+      <div class="v9-loc"><span class="v9-loc-name">London</span><span class="v9-loc-coords">51.5074° N, 0.1278° W</span></div>
+      <div class="v9-loc"><span class="v9-loc-name">Nice</span><span class="v9-loc-coords">43.7102° N, 7.2620° E</span></div>
+      <div class="v9-loc"><span class="v9-loc-name">Malta</span><span class="v9-loc-coords">35.9375° N, 14.3754° E</span></div>
+      <div class="v9-loc"><span class="v9-loc-name">Tokyo</span><span class="v9-loc-coords">35.6762° N, 139.6503° E</span></div>
+      <div class="v9-loc"><span class="v9-loc-name">Karuizawa</span><span class="v9-loc-coords">36.3486° N, 138.5970° E</span></div>
+      <div class="v9-loc"><span class="v9-loc-name">Fuji</span><span class="v9-loc-coords">35.3606° N, 138.7274° E</span></div>
+      <div class="v9-loc"><span class="v9-loc-name">Jogashima</span><span class="v9-loc-coords">35.1292° N, 139.6108° E</span></div>
+      <div class="v9-loc"><span class="v9-loc-name">Night Garden</span><span class="v9-loc-coords">35.6595° N, 139.7006° E</span></div>
+      <!-- duplicate for seamless loop -->
+      <div class="v9-loc"><span class="v9-loc-name">Switzerland</span><span class="v9-loc-coords">46.8182° N, 8.2275° E</span></div>
+      <div class="v9-loc"><span class="v9-loc-name">Paris</span><span class="v9-loc-coords">48.8566° N, 2.3522° E</span></div>
+      <div class="v9-loc"><span class="v9-loc-name">Firenze</span><span class="v9-loc-coords">43.7696° N, 11.2558° E</span></div>
+      <div class="v9-loc"><span class="v9-loc-name">London</span><span class="v9-loc-coords">51.5074° N, 0.1278° W</span></div>
+      <div class="v9-loc"><span class="v9-loc-name">Nice</span><span class="v9-loc-coords">43.7102° N, 7.2620° E</span></div>
+      <div class="v9-loc"><span class="v9-loc-name">Malta</span><span class="v9-loc-coords">35.9375° N, 14.3754° E</span></div>
+      <div class="v9-loc"><span class="v9-loc-name">Tokyo</span><span class="v9-loc-coords">35.6762° N, 139.6503° E</span></div>
+      <div class="v9-loc"><span class="v9-loc-name">Karuizawa</span><span class="v9-loc-coords">36.3486° N, 138.5970° E</span></div>
+      <div class="v9-loc"><span class="v9-loc-name">Fuji</span><span class="v9-loc-coords">35.3606° N, 138.7274° E</span></div>
+      <div class="v9-loc"><span class="v9-loc-name">Jogashima</span><span class="v9-loc-coords">35.1292° N, 139.6108° E</span></div>
+      <div class="v9-loc"><span class="v9-loc-name">Night Garden</span><span class="v9-loc-coords">35.6595° N, 139.7006° E</span></div>
+    </div>
+  </div>
+  <div class="v9-content">
+    <p class="v9-heading">光と記憶を、映像にする。</p>
+    <p class="v9-body">浮雲 ── ukigumo films は、<br>写真と映像をひとつのチームで届ける<br>ウェディングフィルムブランドです。</p>
+    <p class="v9-body">日本全国、そして世界へ。<br>その作品が時間と距離を飛び越えて、<br>あなたの人生を支える"杖"のような存在となりますように。</p>
+    <p class="v9-closing">ふたりの物語を、一枚、一秒に。</p>
+    <div class="v9-line"></div>
+    <p class="v9-en">Capturing light and memory, in motion.<br>ukigumo films is a wedding film brand that delivers photo and cinema as one team.<br>Across Japan, and around the world.<br>May our work travel beyond time and distance,<br>and become something that supports your life —<br>like a staff you carry with you always.<br>Your story — in every frame, every second.</p>
+  </div>
+</section>
+
+<!-- V2-10: 大英字背景＋最小限フェード（最シンプル） -->
+<section class="pattern" id="v10">
+  <div class="pattern-label">V2-10 — 大英字背景＋最小限フェード（もっともシンプル）</div>
+  <div class="v10-bg">PROMISE</div>
+  <div class="v10-content">
+    <p class="demo-heading" style="margin-bottom:28px;">写真と映像の全技術で<br>ふたりの物語を描く。</p>
+    <p class="demo-text-ja">世界中の美しいロケーションを舞台に、国内もヨーロッパも<br>ひとつのチームで最高の一日を創り上げます。</p>
+    <p class="demo-text-en">Every tool, every technique, every emotion — channeled into your story.</p>
+  </div>
+</section>
+
+<script>
+// IntersectionObserver for scroll-triggered animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.25 });
+
+document.querySelectorAll('.pattern').forEach(p => observer.observe(p));
+
+// Smooth scroll for TOC links
+document.querySelectorAll('.toc a').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

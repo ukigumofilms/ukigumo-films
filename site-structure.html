@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ukigumo wedding — サイト構成案</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Inter:wght@300;400&family=Noto+Sans+JP:wght@300;400&family=Noto+Serif+JP:wght@200;300&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', 'Noto Sans JP', sans-serif;
+    background: #F8F5EE;
+    color: #4A4A3A;
+    line-height: 1.8;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 60px 20px 50px;
+    border-bottom: 1px solid #D5D0C0;
+  }
+  .header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 32px;
+    letter-spacing: 0.15em;
+    color: #4A4A3A;
+  }
+  .header p {
+    font-size: 13px;
+    color: #6B7C5E;
+    margin-top: 8px;
+    letter-spacing: 0.05em;
+  }
+  .header .design-tag {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 6px 20px;
+    border: 1px solid #C5BFA7;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: #6B7C5E;
+    border-radius: 2px;
+  }
+
+  /* Navigation overview */
+  .nav-overview {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 0 24px;
+  }
+  .nav-overview h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 22px;
+    letter-spacing: 0.12em;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .nav-overview .sub {
+    text-align: center;
+    font-size: 11px;
+    color: #6B7C5E;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  .nav-bar-demo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 28px;
+    background: rgba(255,253,249,0.95);
+    border: 1px solid #D5D0C0;
+    border-radius: 2px;
+    margin-bottom: 40px;
+  }
+  .nav-bar-demo .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 300;
+    color: #4A4A3A;
+    letter-spacing: 0.15em;
+  }
+  .nav-bar-demo .links {
+    display: flex;
+    gap: 24px;
+  }
+  .nav-bar-demo .links span {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #6B6B5A;
+  }
+  .nav-bar-demo .links span.active {
+    color: #4A4A3A;
+    border-bottom: 1px solid #4A4A3A;
+    padding-bottom: 2px;
+  }
+
+  /* Page cards */
+  .pages {
+    max-width: 900px;
+    margin: 0 auto 60px;
+    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .page-card {
+    border: 1px solid #D5D0C0;
+    border-radius: 2px;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+  }
+  .page-card:hover {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  }
+
+  .page-card__header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    background: #EDE9DF;
+    border-bottom: 1px solid #D5D0C0;
+  }
+  .page-card__num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 300;
+    color: #C5BFA7;
+    min-width: 42px;
+  }
+  .page-card__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    color: #4A4A3A;
+  }
+  .page-card__title-jp {
+    font-size: 11px;
+    color: #6B7C5E;
+    letter-spacing: 0.05em;
+    margin-top: 2px;
+  }
+  .page-card__url {
+    margin-left: auto;
+    font-size: 10px;
+    color: #C5BFA7;
+    letter-spacing: 0.05em;
+    font-family: 'Inter', monospace;
+  }
+
+  .page-card__body {
+    padding: 24px;
+  }
+
+  .section-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .section-list li {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 13px;
+    color: #5A524A;
+    line-height: 1.7;
+  }
+  .section-list li .icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    background: #EDE9DF;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: #6B7C5E;
+    margin-top: 2px;
+  }
+  .section-list li strong {
+    font-weight: 400;
+    color: #4A4A3A;
+  }
+
+  .note {
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: #FAF7F3;
+    border-left: 2px solid #C5BFA7;
+    font-size: 12px;
+    color: #6B6B5A;
+    line-height: 1.7;
+  }
+
+  /* Footer */
+  .footer-note {
+    text-align: center;
+    padding: 40px 24px 60px;
+    font-size: 13px;
+    color: #6B7C5E;
+    letter-spacing: 0.03em;
+    border-top: 1px solid #D5D0C0;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .footer-note strong {
+    color: #4A4A3A;
+    font-weight: 400;
+  }
+
+  @media (max-width: 600px) {
+    .nav-bar-demo .links { gap: 12px; }
+    .nav-bar-demo .links span { font-size: 9px; }
+    .page-card__url { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Site Structure</h1>
+  <p>ukigumo wedding — ホームページ構成案</p>
+  <span class="design-tag">Design: Pattern 02 — Off-White Luxury</span>
+</div>
+
+<!-- Navigation Demo -->
+<div class="nav-overview">
+  <h2>Navigation</h2>
+  <div class="sub">ナビゲーション構成</div>
+  <div class="nav-bar-demo">
+    <span class="logo">ukigumo</span>
+    <div class="links">
+      <span class="active">Top</span>
+      <span>About</span>
+      <span>Plan / Price</span>
+      <span>Gallery</span>
+      <span>Dress</span>
+      <span>Q&A</span>
+      <span>Contact</span>
+    </div>
+  </div>
+</div>
+
+<!-- Pages -->
+<div class="pages">
+
+  <!-- Page 1: TOP -->
+  <div class="page-card">
+    <div class="page-card__header">
+      <span class="page-card__num">01</span>
+      <div>
+        <div class="page-card__title">Top</div>
+        <div class="page-card__title-jp">トップページ</div>
+      </div>
+      <span class="page-card__url">index.html</span>
+    </div>
+    <div class="page-card__body">
+      <ul class="section-list">
+        <li><span class="icon">A</span><strong>Hero — 全画面写真 + テキストアニメーション</strong><br>MIZENのようにテキストが浮かび上がるアニメーション。スクロールインジケーター付き</li>
+        <li><span class="icon">B</span><strong>About Preview — ブランド紹介</strong><br>「ふたりの今を、映画のように残す。」短い紹介文 + View Moreボタン</li>
+        <li><span class="icon">C</span><strong>Gallery Preview — 写真グリッド（6枚）</strong><br>非対称グリッドレイアウト。Paris / Malta / Firenze / Londonの写真を配置</li>
+        <li><span class="icon">D</span><strong>Plan Preview — 3プラン紹介カード</strong><br>国内・Paris・Europaの3枚カード。写真+プラン名+View Moreボタン</li>
+        <li><span class="icon">E</span><strong>Dress Guide Preview</strong><br>提携ドレスショップの簡単な紹介 + 詳細ページへの誘導</li>
+        <li><span class="icon">F</span><strong>Instagram CTA</strong><br>@ukigumo_films + DM誘導ボタン</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Page 2: ABOUT -->
+  <div class="page-card">
+    <div class="page-card__header">
+      <span class="page-card__num">02</span>
+      <div>
+        <div class="page-card__title">About</div>
+        <div class="page-card__title-jp">浮雲ウェディングについて</div>
+      </div>
+      <span class="page-card__url">about.html</span>
+    </div>
+    <div class="page-card__body">
+      <ul class="section-list">
+        <li><span class="icon">A</span><strong>ブランドフィロソフィー</strong><br>「ふたりの今を、映画のように残す。」キャッチコピー + ブランドストーリー</li>
+        <li><span class="icon">B</span><strong>撮影地紹介 — Shooting Locations</strong><br>Paris / Firenze / Malta / London 各ロケーションの写真＋説明文</li>
+        <li><span class="icon">C</span><strong>国内撮影について</strong><br>日本全国対応の説明</li>
+        <li><span class="icon">D</span><strong>サービス紹介 — Photo & Film</strong><br>写真・映像の2サービス</li>
+      </ul>
+      <div class="note">※フォトグラファー紹介なし（前回の確認通り）</div>
+    </div>
+  </div>
+
+  <!-- Page 3: PLAN / PRICE -->
+  <div class="page-card">
+    <div class="page-card__header">
+      <span class="page-card__num">03</span>
+      <div>
+        <div class="page-card__title">Plan / Price</div>
+        <div class="page-card__title-jp">撮影プラン・料金</div>
+      </div>
+      <span class="page-card__url">plan.html</span>
+    </div>
+    <div class="page-card__body">
+      <ul class="section-list">
+        <li><span class="icon">A</span><strong>冒頭メッセージ</strong><br>「衣装はお持ち込み前提のプランです。提携ドレスショップのご紹介も可能です。」</li>
+        <li><span class="icon">B</span><strong>国内プラン — Japan</strong><br>¥180,000〜（税込）/ 撮影6時間目安 / ヘアメイク / 撮影アテンド / 全国対応</li>
+        <li><span class="icon">C</span><strong>パリプラン — Paris</strong><br>Half Day ¥330,000〜 / All Day ¥480,000〜 / ヘアメイク / 撮影アテンド</li>
+        <li><span class="icon">D</span><strong>ヨーロッパプラン — Europa</strong><br>¥380,000〜 / Malta・Firenze・London等 / フルday / ヘアメイク / 撮影アテンド</li>
+        <li><span class="icon">E</span><strong>オプション一覧</strong><br>ドレスチェンジ / ヘアチェンジ / 送迎車手配 / ムービー別撮り etc</li>
+        <li><span class="icon">F</span><strong>ギャラリープレビュー（小）+ CTA</strong><br>写真数枚 + お問い合わせ誘導</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Page 4: GALLERY -->
+  <div class="page-card">
+    <div class="page-card__header">
+      <span class="page-card__num">04</span>
+      <div>
+        <div class="page-card__title">Gallery</div>
+        <div class="page-card__title-jp">作品紹介</div>
+      </div>
+      <span class="page-card__url">gallery.html</span>
+    </div>
+    <div class="page-card__body">
+      <ul class="section-list">
+        <li><span class="icon">A</span><strong>ロケーションフィルター</strong><br>All / Paris / Malta / Firenze / London のタブ切り替え</li>
+        <li><span class="icon">B</span><strong>フォトグリッド — 非対称レイアウト</strong><br>2列（モバイル）/ 3列（PC）の写真ギャラリー。30枚程度</li>
+      </ul>
+      <div class="note">写真は4ロケーションからバランスよく選定。タップで拡大表示も検討可</div>
+    </div>
+  </div>
+
+  <!-- Page 5: DRESS -->
+  <div class="page-card">
+    <div class="page-card__header">
+      <span class="page-card__num">05</span>
+      <div>
+        <div class="page-card__title">Dress Guide</div>
+        <div class="page-card__title-jp">提携ドレスショップ</div>
+      </div>
+      <span class="page-card__url">dress.html</span>
+    </div>
+    <div class="page-card__body">
+      <ul class="section-list">
+        <li><span class="icon">A</span><strong>冒頭メッセージ</strong><br>提携4ショップの紹介。各ブランドのInstagramよりお問い合わせ</li>
+        <li><span class="icon">B</span><strong>ドレスショップカード × 4</strong><br>Bee's Knees / Beacon・Befits You / Lumiere / Chez Robe<br>各ショップ：名前・特徴タグ・価格帯・Instagram リンク</li>
+        <li><span class="icon">C</span><strong>レンタルフロー</strong><br>DMで連絡 → URL送付 → 試着 の流れ</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Page 6: Q&A -->
+  <div class="page-card">
+    <div class="page-card__header">
+      <span class="page-card__num">06</span>
+      <div>
+        <div class="page-card__title">Q&A / Policy</div>
+        <div class="page-card__title-jp">よくある質問・ポリシー</div>
+      </div>
+      <span class="page-card__url">qa.html</span>
+    </div>
+    <div class="page-card__body">
+      <ul class="section-list">
+        <li><span class="icon">A</span><strong>Q&A — アコーディオン形式（19項目）</strong><br>6カテゴリ：撮影全般 / 海外撮影 / 国内撮影 / ドレス / 映像 / その他</li>
+        <li><span class="icon">B</span><strong>Policy — キャンセルポリシー</strong><br>国内ポリシー（撮影日からの日数別）+ 海外ポリシー（撮影日からの日数別）</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Page 7: CONTACT -->
+  <div class="page-card">
+    <div class="page-card__header">
+      <span class="page-card__num">07</span>
+      <div>
+        <div class="page-card__title">Contact</div>
+        <div class="page-card__title-jp">お問い合わせ</div>
+      </div>
+      <span class="page-card__url">contact.html</span>
+    </div>
+    <div class="page-card__body">
+      <ul class="section-list">
+        <li><span class="icon">A</span><strong>お問い合わせフロー（7ステップ）</strong><br>① DM → ② お見積り → ③ 前金ご入金 → ④ グループLINE作成 → ⑤ 撮影 → ⑥ 残金ご案内 → ⑦ 納品</li>
+        <li><span class="icon">B</span><strong>DM テンプレート</strong><br>コピーして使えるフォーマット：お名前 / Plan・ご希望撮影地 / 日程 / オプション / ドレス試着有無</li>
+        <li><span class="icon">C</span><strong>Instagram DMボタン</strong><br>@ukigumo_films への直接リンク</li>
+      </ul>
+      <div class="note">納品目安：写真8週間 / 映像8週間</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer-note">
+  <p>全<strong>7ページ</strong>構成 / デザイン: <strong>Pattern 02 — Off-White Luxury</strong> / モバイルファースト + PC対応</p>
+  <p style="margin-top: 12px;">この構成案でOKであれば、制作に進みます。</p>
+</div>
+
+</body>
+</html>

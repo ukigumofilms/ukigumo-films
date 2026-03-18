@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pattern 01 — 10 Variations</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #111; color: #fff; font-family: 'Georgia', serif; }
+
+    h1 {
+      text-align: center;
+      padding: 2.5rem 1rem 1rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: #666;
+    }
+    h1 span { display: block; font-size: 1.3rem; color: #ccc; margin-bottom: 0.4rem; letter-spacing: 0.15em; }
+
+    .section {
+      padding: 3rem 1.5rem 2rem;
+      border-bottom: 1px solid #222;
+    }
+    .label {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .label span {
+      display: block;
+      font-size: 1rem;
+      color: #ddd;
+      letter-spacing: 0.15em;
+      margin-bottom: 0.3rem;
+    }
+    .label p { font-size: 0.7rem; color: #666; letter-spacing: 0.2em; }
+
+    .btn {
+      display: block;
+      margin: 1.2rem auto 0;
+      padding: 0.4rem 1.4rem;
+      background: transparent;
+      border: 1px solid #444;
+      color: #777;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn:hover { border-color: #aaa; color: #ddd; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+    .grid div {
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      background: #1e1e1e;
+    }
+    .grid div img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+
+    /* ==========================================
+       A: ポコッと弾む（スプリング）
+       ========================================== */
+    .va .grid div { opacity: 0; transform: scale(0.7); }
+    .va.go .grid div {
+      animation: va-anim 0.55s cubic-bezier(0.34, 1.6, 0.64, 1) forwards;
+    }
+    @keyframes va-anim { to { opacity: 1; transform: scale(1); } }
+
+    /* ==========================================
+       B: ふわっとフェードアップ
+       ========================================== */
+    .vb .grid div { opacity: 0; transform: translateY(18px); }
+    .vb.go .grid div {
+      animation: vb-anim 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+    @keyframes vb-anim { to { opacity: 1; transform: translateY(0); } }
+
+    /* ==========================================
+       C: ぼかしから鮮明に
+       ========================================== */
+    .vc .grid div { opacity: 0; filter: blur(10px) brightness(1.4); }
+    .vc.go .grid div {
+      animation: vc-anim 0.7s ease forwards;
+    }
+    @keyframes vc-anim { to { opacity: 1; filter: blur(0) brightness(1); } }
+
+    /* ==========================================
+       D: 真上からドスン（バウンス）
+       ========================================== */
+    .vd .grid div { opacity: 0; transform: translateY(-50px) scaleY(0.8); }
+    .vd.go .grid div {
+      animation: vd-anim 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
+    }
+    @keyframes vd-anim { to { opacity: 1; transform: translateY(0) scaleY(1); } }
+
+    /* ==========================================
+       E: パタッとめくれる（X軸回転）
+       ========================================== */
+    .ve .grid div { opacity: 0; transform: perspective(400px) rotateX(-70deg); transform-origin: top center; }
+    .ve.go .grid div {
+      animation: ve-anim 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+    @keyframes ve-anim { to { opacity: 1; transform: perspective(400px) rotateX(0); } }
+
+    /* ==========================================
+       F: 細くなってから広がる
+       ========================================== */
+    .vf .grid div { opacity: 0; transform: scaleX(0.1) scaleY(0.9); }
+    .vf.go .grid div {
+      animation: vf-anim 0.55s cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
+    }
+    @keyframes vf-anim { to { opacity: 1; transform: scale(1); } }
+
+    /* ==========================================
+       G: 外から内へぎゅっと（ズームイン）
+       ========================================== */
+    .vg .grid div { opacity: 0; transform: scale(1.5); }
+    .vg.go .grid div {
+      animation: vg-anim 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+    @keyframes vg-anim { to { opacity: 1; transform: scale(1); } }
+
+    /* ==========================================
+       H: ぐるっと回転しながら登場
+       ========================================== */
+    .vh .grid div { opacity: 0; transform: scale(0.6) rotate(-15deg); }
+    .vh.go .grid div {
+      animation: vh-anim 0.55s cubic-bezier(0.34, 1.5, 0.64, 1) forwards;
+    }
+    @keyframes vh-anim { to { opacity: 1; transform: scale(1) rotate(0); } }
+
+    /* ==========================================
+       I: 白くフラッシュして現れる
+       ========================================== */
+    .vi .grid div { opacity: 0; filter: brightness(3) saturate(0); transform: scale(1.05); }
+    .vi.go .grid div {
+      animation: vi-anim 0.6s ease forwards;
+    }
+    @keyframes vi-anim {
+      50% { opacity: 1; filter: brightness(3) saturate(0); transform: scale(1.05); }
+      to  { opacity: 1; filter: brightness(1) saturate(1); transform: scale(1); }
+    }
+
+    /* ==========================================
+       J: 下から突き上げてバウンス
+       ========================================== */
+    .vj .grid div { opacity: 0; transform: translateY(40px) scale(0.9); }
+    .vj.go .grid div {
+      animation: vj-anim 0.6s cubic-bezier(0.34, 1.7, 0.64, 1) forwards;
+    }
+    @keyframes vj-anim { to { opacity: 1; transform: translateY(0) scale(1); } }
+
+  </style>
+</head>
+<body>
+
+<h1><span>Pattern 01 — 10 Variations</span>ランダム出現 × 各コマのアニメーション</h1>
+
+<!-- A -->
+<div class="section va" id="va">
+  <div class="label"><span>A — スプリングポップ</span><p>scale 0.7 → 1 に弾みながら登場</p></div>
+  <div class="grid" id="ga"></div>
+  <button class="btn" onclick="replay('va','a')">↺ replay</button>
+</div>
+
+<!-- B -->
+<div class="section vb" id="vb">
+  <div class="label"><span>B — ふわフェードアップ</span><p>下から18px ふわっと浮き上がる</p></div>
+  <div class="grid" id="gb"></div>
+  <button class="btn" onclick="replay('vb','b')">↺ replay</button>
+</div>
+
+<!-- C -->
+<div class="section vc" id="vc">
+  <div class="label"><span>C — ブラーフラッシュ</span><p>ぼやけた明るい状態から鮮明に</p></div>
+  <div class="grid" id="gc"></div>
+  <button class="btn" onclick="replay('vc','c')">↺ replay</button>
+</div>
+
+<!-- D -->
+<div class="section vd" id="vd">
+  <div class="label"><span>D — 上からドスン</span><p>真上から落ちてバウンド</p></div>
+  <div class="grid" id="gd"></div>
+  <button class="btn" onclick="replay('vd','d')">↺ replay</button>
+</div>
+
+<!-- E -->
+<div class="section ve" id="ve">
+  <div class="label"><span>E — パタッとめくれる</span><p>上辺を軸にX回転でめくれる</p></div>
+  <div class="grid" id="ge"></div>
+  <button class="btn" onclick="replay('ve','e')">↺ replay</button>
+</div>
+
+<!-- F -->
+<div class="section vf" id="vf">
+  <div class="label"><span>F — 細→広がる</span><p>縦線状から横に広がる</p></div>
+  <div class="grid" id="gf"></div>
+  <button class="btn" onclick="replay('vf','f')">↺ replay</button>
+</div>
+
+<!-- G -->
+<div class="section vg" id="vg">
+  <div class="label"><span>G — ズームイン</span><p>大きい状態からすっと縮んで定位置</p></div>
+  <div class="grid" id="gg"></div>
+  <button class="btn" onclick="replay('vg','g')">↺ replay</button>
+</div>
+
+<!-- H -->
+<div class="section vh" id="vh">
+  <div class="label"><span>H — 回転ポップ</span><p>回転しながらスケールアップ</p></div>
+  <div class="grid" id="gh"></div>
+  <button class="btn" onclick="replay('vh','h')">↺ replay</button>
+</div>
+
+<!-- I -->
+<div class="section vi" id="vi">
+  <div class="label"><span>I — フラッシュ現像</span><p>白飛びから写真が現像されるように</p></div>
+  <div class="grid" id="gi"></div>
+  <button class="btn" onclick="replay('vi','i')">↺ replay</button>
+</div>
+
+<!-- J -->
+<div class="section vj" id="vj">
+  <div class="label"><span>J — 突き上げバウンス</span><p>下から突き上げてぽんと弾む</p></div>
+  <div class="grid" id="gj"></div>
+  <button class="btn" onclick="replay('vj','j')">↺ replay</button>
+</div>
+
+<script>
+  const imgs = Array.from({length: 18}, (_, i) =>
+    `images/gallery-index/g${String(i+1).padStart(2,'0')}.jpg`
+  );
+
+  const grids = ['a','b','c','d','e','f','g','h','i','j'];
+
+  grids.forEach(id => {
+    const el = document.getElementById('g' + id);
+    imgs.forEach(src => {
+      const div = document.createElement('div');
+      div.innerHTML = `<img src="${src}" alt="" loading="lazy">`;
+      el.appendChild(div);
+    });
+  });
+
+  function setRandomDelays(sec) {
+    const items = sec.querySelectorAll('.grid div');
+    const n = items.length;
+    const order = Array.from({length: n}, (_, i) => i);
+    order.sort(() => Math.random() - 0.5);
+    items.forEach((el, i) => {
+      el.style.animationDelay = (order.indexOf(i) * 0.07) + 's';
+    });
+  }
+
+  // 初期ディレイ設定
+  grids.forEach(id => setRandomDelays(document.getElementById('v' + id)));
+
+  // IntersectionObserver
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !e.target.classList.contains('played')) {
+        e.target.classList.add('go', 'played');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  grids.forEach(id => io.observe(document.getElementById('v' + id)));
+
+  // Replay
+  function replay(secId) {
+    const sec = document.getElementById(secId);
+    sec.classList.remove('go');
+    sec.querySelectorAll('.grid div').forEach(el => {
+      el.style.animationName = 'none';
+    });
+    setRandomDelays(sec);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      sec.querySelectorAll('.grid div').forEach(el => {
+        el.style.animationName = '';
+      });
+      sec.classList.add('go');
+    }));
+  }
+</script>
+</body>
+</html>

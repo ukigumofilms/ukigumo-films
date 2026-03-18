@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery Mobile V2 — 10 Collage Patterns</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #f5f5f3;
+    color: #333;
+    max-width: 430px;
+    margin: 0 auto;
+  }
+
+  .page-header {
+    text-align: center;
+    padding: 2rem 1.5rem 0.8rem;
+    background: #fff;
+    border-bottom: 1px solid #eee;
+  }
+  .page-header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 300;
+    letter-spacing: 0.15em;
+  }
+  .page-header p {
+    font-size: 0.55rem;
+    color: #999;
+    margin-top: 0.3rem;
+  }
+
+  .pattern-section {
+    margin-bottom: 1.5rem;
+    background: #fff;
+    border-top: 1px solid #eee;
+  }
+  .pattern-title {
+    padding: 0.8rem 1rem 0.3rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: #999;
+    display: flex;
+    justify-content: space-between;
+  }
+  .pattern-title span { color: #c9a96e; }
+  .pattern-desc {
+    padding: 0 1rem 0.6rem;
+    font-size: 0.5rem;
+    color: #bbb;
+  }
+
+  /* Gallery frame */
+  .gf {
+    width: 100%;
+    background: #fff;
+    overflow: hidden;
+    padding: 0 2.5vw 1.5rem;
+  }
+
+  .gf img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Shared item */
+  .gi {
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+  }
+
+  /* Hover overlay */
+  .gi .overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0);
+    transition: background 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+  .gi:hover .overlay {
+    background: rgba(0,0,0,0.45);
+  }
+  .gi .overlay .loc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    color: #fff;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: all 0.4s ease 0.05s;
+  }
+  .gi:hover .overlay .loc {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .gi .overlay .coords {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.45rem;
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0);
+    margin-top: 0.2rem;
+    transition: color 0.4s ease 0.1s;
+  }
+  .gi:hover .overlay .coords {
+    color: rgba(255,255,255,0.6);
+  }
+
+  /* ============================
+     PATTERN 1: Scattered Collage
+     不規則なサイズ・ギャップ変化
+     ============================ */
+  .p1 .gf { display: flex; flex-wrap: wrap; gap: 5px; padding: 5px; }
+  .p1 .gi-a { width: calc(35% - 3px); aspect-ratio: 3/4; }
+  .p1 .gi-b { width: calc(65% - 3px); aspect-ratio: 4/3; }
+  .p1 .gi-c { width: calc(50% - 3px); aspect-ratio: 1/1; }
+  .p1 .gi-d { width: calc(50% - 3px); aspect-ratio: 3/4; }
+  .p1 .gi-e { width: 100%; aspect-ratio: 21/9; }
+  .p1 .gi-f { width: calc(40% - 3px); aspect-ratio: 4/5; }
+  .p1 .gi-g { width: calc(60% - 3px); aspect-ratio: 3/4; }
+  .p1 .gi-h { width: calc(55% - 3px); aspect-ratio: 16/10; }
+  .p1 .gi-i { width: calc(45% - 3px); aspect-ratio: 1/1; }
+  .p1 .gi-j { width: calc(30% - 3px); aspect-ratio: 2/3; }
+  .p1 .gi-k { width: calc(70% - 3px); aspect-ratio: 4/3; }
+
+  /* ============================
+     PATTERN 2: Mosaic Random
+     小さめタイル・3列ベース
+     ============================ */
+  .p2 .gf { display: flex; flex-wrap: wrap; gap: 4px; padding: 4px; }
+  .p2 .gi-s { width: calc(33.33% - 3px); aspect-ratio: 1/1; }
+  .p2 .gi-w { width: calc(66.66% - 2px); aspect-ratio: 16/9; }
+  .p2 .gi-t { width: calc(33.33% - 3px); aspect-ratio: 2/3; }
+  .p2 .gi-m { width: calc(50% - 2px); aspect-ratio: 3/4; }
+  .p2 .gi-f { width: 100%; aspect-ratio: 21/9; }
+
+  /* ============================
+     PATTERN 3: Brick Wall
+     レンガ積み — 2列と3列の交互
+     ============================ */
+  .p3 .gf { display: flex; flex-wrap: wrap; gap: 4px; padding: 4px; }
+  .p3 .gi-2 { width: calc(50% - 2px); aspect-ratio: 4/5; }
+  .p3 .gi-3 { width: calc(33.33% - 3px); aspect-ratio: 3/4; }
+  .p3 .gi-1 { width: 100%; aspect-ratio: 16/9; }
+
+  /* ============================
+     PATTERN 4: Chaotic Grid
+     カオスグリッド — サイズ完全ランダム
+     ============================ */
+  .p4 .gf { display: flex; flex-wrap: wrap; gap: 5px; padding: 5px; }
+  .p4 .gi-xs { width: calc(25% - 4px); aspect-ratio: 1/1; }
+  .p4 .gi-sm { width: calc(35% - 4px); aspect-ratio: 3/4; }
+  .p4 .gi-md { width: calc(40% - 4px); aspect-ratio: 4/3; }
+  .p4 .gi-lg { width: calc(60% - 4px); aspect-ratio: 16/10; }
+  .p4 .gi-xl { width: calc(75% - 4px); aspect-ratio: 4/3; }
+  .p4 .gi-fw { width: 100%; aspect-ratio: 21/9; }
+
+  /* ============================
+     PATTERN 5: Offset Columns
+     ずらし2列 — 片方下にオフセット
+     ============================ */
+  .p5 .gf {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    padding: 6px;
+  }
+  .p5 .gi { aspect-ratio: 3/4; }
+  .p5 .gi:nth-child(even) { margin-top: 25px; }
+  .p5 .gi-span { grid-column: span 2; aspect-ratio: 16/9; margin-top: 0; }
+
+  /* ============================
+     PATTERN 6: Stagger Mix
+     スタガー — 左右交互＋サイズ変化
+     ============================ */
+  .p6 .gf { display: flex; flex-wrap: wrap; gap: 5px; padding: 5px; }
+  .p6 .row { display: flex; width: 100%; gap: 5px; margin-bottom: 5px; }
+  .p6 .row-l { justify-content: flex-start; }
+  .p6 .row-r { justify-content: flex-end; }
+  .p6 .row-c { justify-content: center; }
+  .p6 .gi-60 { width: 58%; aspect-ratio: 4/5; }
+  .p6 .gi-45 { width: 43%; aspect-ratio: 3/4; }
+  .p6 .gi-70 { width: 68%; aspect-ratio: 16/10; }
+  .p6 .gi-35 { width: 33%; aspect-ratio: 2/3; }
+  .p6 .gi-100 { width: 100%; aspect-ratio: 21/9; }
+
+  /* ============================
+     PATTERN 7: Pinterest Style
+     ピンタレスト — masonry 2列
+     ============================ */
+  .p7 .gf {
+    columns: 2;
+    column-gap: 5px;
+    padding: 5px;
+  }
+  .p7 .gi {
+    break-inside: avoid;
+    margin-bottom: 5px;
+    display: block;
+  }
+  .p7 .gi img {
+    height: auto;
+  }
+  .p7 .gi-v { aspect-ratio: 2/3; }
+  .p7 .gi-sq { aspect-ratio: 1/1; }
+  .p7 .gi-h { aspect-ratio: 4/3; }
+  .p7 .gi-tv { aspect-ratio: 3/5; }
+
+  /* ============================
+     PATTERN 8: Film Contact Sheet
+     コンタクトシート — 均等3列小サイズ
+     ============================ */
+  .p8 .gf {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+    padding: 3px;
+    background: #111;
+  }
+  .p8 .gi { aspect-ratio: 3/4; }
+  .p8 .gi-wide { grid-column: span 2; aspect-ratio: 4/3; }
+  .p8 .gi-tall { grid-row: span 2; aspect-ratio: 2/5; }
+
+  /* ============================
+     PATTERN 9: Floating Fragments
+     フラグメント — absolute配置でバラバラ
+     ============================ */
+  .p9-frame {
+    position: relative;
+    width: 100%;
+    height: 2400px;
+    background: #faf9f7;
+    overflow: hidden;
+  }
+  .p9-frame .gi {
+    position: absolute;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+  .p9-frame .gi img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* ============================
+     PATTERN 10: Collage Rhythm
+     リズムコラージュ — 変則flexフロー
+     ============================ */
+  .p10 .gf { display: flex; flex-wrap: wrap; gap: 4px; padding: 4px; }
+  .p10 .gi-a { width: calc(45% - 2px); aspect-ratio: 3/4; }
+  .p10 .gi-b { width: calc(55% - 2px); aspect-ratio: 1/1; }
+  .p10 .gi-c { width: calc(30% - 2px); aspect-ratio: 2/3; }
+  .p10 .gi-d { width: calc(35% - 2px); aspect-ratio: 1/1; }
+  .p10 .gi-e { width: calc(35% - 2px); aspect-ratio: 3/4; }
+  .p10 .gi-f { width: 100%; aspect-ratio: 21/9; }
+  .p10 .gi-g { width: calc(55% - 2px); aspect-ratio: 4/3; }
+  .p10 .gi-h { width: calc(45% - 2px); aspect-ratio: 4/5; }
+  .p10 .gi-i { width: calc(40% - 2px); aspect-ratio: 3/4; }
+  .p10 .gi-j { width: calc(60% - 2px); aspect-ratio: 16/10; }
+  .p10 .gi-k { width: calc(25% - 2px); aspect-ratio: 1/1; }
+  .p10 .gi-l { width: calc(50% - 2px); aspect-ratio: 3/4; }
+  .p10 .gi-m { width: calc(25% - 2px); aspect-ratio: 2/3; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Gallery Mobile V2 — Collage Patterns</h1>
+  <p>50枚・小さめ・コラージュ感・ランダム・ホバーで場所表示</p>
+</div>
+
+<!-- ========== PATTERN 1: Scattered Collage ========== -->
+<div class="pattern-section p1">
+  <div class="pattern-title">P1 — Scattered Collage <span>50枚</span></div>
+  <div class="pattern-desc">不規則サイズのflex wrap。コラージュの基本形</div>
+  <div class="gf">
+    <div class="gi gi-a"><img src="images/paris/01.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-b"><img src="images/malta/07.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-c"><img src="images/firenze/05.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-d"><img src="images/london/02.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-e"><img src="images/paris/06.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-f"><img src="images/firenze/01.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-g"><img src="images/london/08.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-h"><img src="images/malta/03.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-i"><img src="images/paris/04.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-j"><img src="images/firenze/03.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-k"><img src="images/london/05.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-a"><img src="images/malta/01.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-b"><img src="images/firenze/08.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-d"><img src="images/paris/08.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-c"><img src="images/london/04.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-g"><img src="images/malta/06.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-f"><img src="images/paris/02.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-e"><img src="images/firenze/04.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-h"><img src="images/london/01.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-i"><img src="images/malta/05.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-j"><img src="images/paris/07.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-k"><img src="images/firenze/07.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-b"><img src="images/london/06.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-a"><img src="images/malta/02.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-c"><img src="images/paris/03.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-d"><img src="images/firenze/06.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-f"><img src="images/london/03.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-g"><img src="images/malta/08.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-e"><img src="images/firenze/02.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-h"><img src="images/london/07.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-i"><img src="images/paris/05.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-a"><img src="images/malta/04.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+  </div>
+</div>
+
+<!-- ========== PATTERN 2: Mosaic Random ========== -->
+<div class="pattern-section p2">
+  <div class="pattern-title">P2 — Mosaic Random <span>50枚</span></div>
+  <div class="pattern-desc">3列ベースの小タイルモザイク</div>
+  <div class="gf">
+    <div class="gi gi-s"><img src="images/paris/03.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-s"><img src="images/malta/07.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-s"><img src="images/firenze/05.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-w"><img src="images/london/08.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-t"><img src="images/paris/04.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-s"><img src="images/malta/01.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-s"><img src="images/firenze/01.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-t"><img src="images/london/02.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-m"><img src="images/paris/06.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-m"><img src="images/malta/03.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-f"><img src="images/firenze/08.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-s"><img src="images/london/05.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-w"><img src="images/paris/01.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-s"><img src="images/malta/06.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-s"><img src="images/firenze/03.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-s"><img src="images/london/04.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-m"><img src="images/paris/08.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-m"><img src="images/malta/05.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-t"><img src="images/firenze/07.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-w"><img src="images/london/01.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-s"><img src="images/paris/02.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-s"><img src="images/malta/02.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-s"><img src="images/firenze/06.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-s"><img src="images/london/06.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-w"><img src="images/paris/07.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-t"><img src="images/malta/08.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-s"><img src="images/firenze/04.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-s"><img src="images/london/03.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-t"><img src="images/paris/05.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-f"><img src="images/malta/04.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-s"><img src="images/firenze/02.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-s"><img src="images/london/07.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-s"><img src="images/paris/03.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+  </div>
+</div>
+
+<!-- ========== PATTERN 3: Brick Wall ========== -->
+<div class="pattern-section p3">
+  <div class="pattern-title">P3 — Brick Wall <span>50枚</span></div>
+  <div class="pattern-desc">レンガ積み。2列と3列を交互に繰り返す</div>
+  <div class="gf">
+    <div class="gi gi-2"><img src="images/paris/03.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-2"><img src="images/malta/07.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-3"><img src="images/firenze/05.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-3"><img src="images/london/02.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-3"><img src="images/paris/06.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-1"><img src="images/firenze/01.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-2"><img src="images/london/08.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-2"><img src="images/malta/03.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-3"><img src="images/paris/01.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-3"><img src="images/firenze/08.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-3"><img src="images/london/05.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-2"><img src="images/malta/01.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-2"><img src="images/paris/04.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-3"><img src="images/malta/06.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-3"><img src="images/firenze/03.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-3"><img src="images/london/04.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-1"><img src="images/paris/08.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-2"><img src="images/malta/05.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-2"><img src="images/firenze/07.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-3"><img src="images/london/01.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-3"><img src="images/paris/02.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-3"><img src="images/malta/02.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-2"><img src="images/firenze/06.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-2"><img src="images/london/06.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-3"><img src="images/paris/07.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-3"><img src="images/malta/08.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-3"><img src="images/firenze/04.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-1"><img src="images/london/03.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-2"><img src="images/paris/05.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-2"><img src="images/malta/04.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-3"><img src="images/firenze/02.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-3"><img src="images/london/07.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-3"><img src="images/paris/03.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+  </div>
+</div>
+
+<!-- ========== PATTERN 5: Offset Columns ========== -->
+<div class="pattern-section p5">
+  <div class="pattern-title">P5 — Offset Columns <span>50枚</span></div>
+  <div class="pattern-desc">ずらし2列グリッド。偶数行が下にオフセット</div>
+  <div class="gf">
+    <div class="gi"><img src="images/paris/03.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi"><img src="images/malta/07.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi"><img src="images/firenze/05.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi"><img src="images/london/02.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-span"><img src="images/paris/06.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi"><img src="images/firenze/01.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi"><img src="images/london/08.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi"><img src="images/malta/03.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi"><img src="images/paris/01.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi"><img src="images/firenze/08.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi"><img src="images/london/05.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-span"><img src="images/malta/01.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi"><img src="images/paris/04.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi"><img src="images/malta/06.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi"><img src="images/firenze/03.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi"><img src="images/london/04.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi"><img src="images/paris/08.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi"><img src="images/malta/05.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-span"><img src="images/firenze/07.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi"><img src="images/london/01.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi"><img src="images/paris/02.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi"><img src="images/malta/02.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi"><img src="images/firenze/06.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi"><img src="images/london/06.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi"><img src="images/paris/07.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-span"><img src="images/malta/08.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi"><img src="images/firenze/04.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi"><img src="images/london/03.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi"><img src="images/paris/05.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi"><img src="images/malta/04.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi"><img src="images/firenze/02.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi"><img src="images/london/07.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+  </div>
+</div>
+
+<!-- ========== PATTERN 7: Pinterest Style ========== -->
+<div class="pattern-section p7">
+  <div class="pattern-title">P7 — Pinterest Masonry <span>50枚</span></div>
+  <div class="pattern-desc">CSS columnsで2列masonry。高さバラバラ</div>
+  <div class="gf">
+    <div class="gi gi-v"><img src="images/paris/03.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-sq"><img src="images/malta/07.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-h"><img src="images/firenze/05.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-tv"><img src="images/london/02.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-sq"><img src="images/paris/06.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-v"><img src="images/firenze/01.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-h"><img src="images/london/08.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-v"><img src="images/malta/03.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-sq"><img src="images/paris/01.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-tv"><img src="images/firenze/08.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-h"><img src="images/london/05.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-v"><img src="images/malta/01.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-sq"><img src="images/paris/04.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-v"><img src="images/malta/06.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-h"><img src="images/firenze/03.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-tv"><img src="images/london/04.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-sq"><img src="images/paris/08.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-v"><img src="images/malta/05.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-h"><img src="images/firenze/07.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-v"><img src="images/london/01.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-sq"><img src="images/paris/02.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-tv"><img src="images/malta/02.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-h"><img src="images/firenze/06.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-v"><img src="images/london/06.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-sq"><img src="images/paris/07.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-v"><img src="images/malta/08.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-h"><img src="images/firenze/04.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-tv"><img src="images/london/03.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-sq"><img src="images/paris/05.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-v"><img src="images/malta/04.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-h"><img src="images/firenze/02.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-v"><img src="images/london/07.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+  </div>
+</div>
+
+<!-- ========== PATTERN 8: Film Contact Sheet ========== -->
+<div class="pattern-section p8">
+  <div class="pattern-title">P8 — Film Contact Sheet <span>50枚</span></div>
+  <div class="pattern-desc">黒背景の3列コンタクトシート。フィルム現像感</div>
+  <div class="gf">
+    <div class="gi"><img src="images/paris/03.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-wide"><img src="images/malta/07.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi"><img src="images/firenze/05.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi"><img src="images/london/02.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi"><img src="images/paris/06.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi"><img src="images/firenze/01.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-wide"><img src="images/london/08.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi"><img src="images/malta/03.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi"><img src="images/paris/01.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi"><img src="images/firenze/08.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi"><img src="images/london/05.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-wide"><img src="images/malta/01.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi"><img src="images/paris/04.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi"><img src="images/malta/06.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi"><img src="images/firenze/03.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi"><img src="images/london/04.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-wide"><img src="images/paris/08.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi"><img src="images/malta/05.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi"><img src="images/firenze/07.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi"><img src="images/london/01.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi"><img src="images/paris/02.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-wide"><img src="images/malta/02.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi"><img src="images/firenze/06.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi"><img src="images/london/06.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi"><img src="images/paris/07.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi"><img src="images/malta/08.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-wide"><img src="images/firenze/04.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi"><img src="images/london/03.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi"><img src="images/paris/05.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi"><img src="images/malta/04.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi"><img src="images/firenze/02.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi"><img src="images/london/07.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+  </div>
+</div>
+
+<!-- ========== PATTERN 10: Collage Rhythm ========== -->
+<div class="pattern-section p10">
+  <div class="pattern-title">P10 — Collage Rhythm <span>50枚</span></div>
+  <div class="pattern-desc">全サイズmix。リズミカルなコラージュ</div>
+  <div class="gf">
+    <div class="gi gi-a"><img src="images/paris/03.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-b"><img src="images/malta/07.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-c"><img src="images/firenze/05.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-d"><img src="images/london/02.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-e"><img src="images/paris/06.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-f"><img src="images/firenze/01.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-g"><img src="images/london/08.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-h"><img src="images/malta/03.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-i"><img src="images/paris/01.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-j"><img src="images/firenze/08.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-k"><img src="images/london/05.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-l"><img src="images/malta/01.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-m"><img src="images/paris/04.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-a"><img src="images/malta/06.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-b"><img src="images/firenze/03.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-c"><img src="images/london/04.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-d"><img src="images/paris/08.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-e"><img src="images/malta/05.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-f"><img src="images/firenze/07.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-g"><img src="images/london/01.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-h"><img src="images/paris/02.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-i"><img src="images/malta/02.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-j"><img src="images/firenze/06.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-k"><img src="images/london/06.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-l"><img src="images/paris/07.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-m"><img src="images/malta/08.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-a"><img src="images/firenze/04.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-b"><img src="images/london/03.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+    <div class="gi gi-c"><img src="images/paris/05.jpg"><div class="overlay"><span class="loc">Paris</span><span class="coords">48.8566° N 2.3522° E</span></div></div>
+    <div class="gi gi-d"><img src="images/malta/04.jpg"><div class="overlay"><span class="loc">Malta</span><span class="coords">35.8989° N 14.5146° E</span></div></div>
+    <div class="gi gi-e"><img src="images/firenze/02.jpg"><div class="overlay"><span class="loc">Firenze</span><span class="coords">43.7696° N 11.2558° E</span></div></div>
+    <div class="gi gi-f"><img src="images/london/07.jpg"><div class="overlay"><span class="loc">London</span><span class="coords">51.5074° N 0.1278° W</span></div></div>
+  </div>
+</div>
+
+</body>
+</html>

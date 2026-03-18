@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mobile Nav — 10 Patterns</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Noto Sans JP', sans-serif; background: #1a1a1a; color: #fff; }
+  .page-header { text-align: center; padding: 3rem 2rem 1rem; }
+  .page-header h1 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 300; letter-spacing: 0.15em; }
+  .page-header p { font-size: 0.7rem; color: rgba(255,255,255,0.4); margin-top: 0.5rem; }
+  .patterns-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 2rem; padding: 2rem; max-width: 1400px; margin: 0 auto; }
+  .pattern-card { border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; overflow: hidden; }
+  .pattern-label { padding: 1rem 1.5rem; font-size: 0.75rem; letter-spacing: 0.1em; color: rgba(255,255,255,0.5); border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; }
+  .pattern-label span { color: #c9a96e; }
+
+  /* Phone frame */
+  .phone { width: 320px; height: 640px; margin: 1.5rem auto; border: 2px solid rgba(255,255,255,0.15); border-radius: 28px; overflow: hidden; position: relative; background: #000; }
+  .phone-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.5; }
+
+  /* Shared nav items */
+  .nav-items { list-style: none; }
+  .nav-items li a {
+    font-family: 'Cormorant Garamond', serif;
+    text-decoration: none;
+    color: #fff;
+    display: block;
+  }
+
+  /* ========== PATTERN 1: Diagonal Lines ========== */
+  .p1 .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); }
+  .p1 .content { position: relative; z-index: 2; padding: 80px 40px 40px; }
+  .p1 .nav-items li { border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .p1 .nav-items li a { font-size: 1.4rem; font-weight: 300; letter-spacing: 0.12em; padding: 18px 0; display: flex; justify-content: space-between; align-items: center; }
+  .p1 .nav-items li a::after { content: '——'; font-size: 0.7rem; color: rgba(255,255,255,0.3); letter-spacing: 0.3em; }
+  .p1 .diagonal-text { position: absolute; right: -20px; top: 50%; transform: rotate(-90deg) translateX(50%); font-family: 'Cormorant Garamond', serif; font-size: 0.6rem; letter-spacing: 0.4em; color: rgba(255,255,255,0.12); white-space: nowrap; text-transform: uppercase; }
+
+  /* ========== PATTERN 2: Right-aligned + Large Numbers ========== */
+  .p2 .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.65) 100%); backdrop-filter: blur(12px); }
+  .p2 .content { position: relative; z-index: 2; padding: 80px 30px 40px; text-align: right; }
+  .p2 .nav-items li a { font-size: 1.3rem; font-weight: 300; letter-spacing: 0.15em; text-transform: uppercase; padding: 14px 0; display: flex; justify-content: flex-end; align-items: baseline; gap: 12px; }
+  .p2 .nav-items li a .num { font-size: 0.55rem; color: rgba(255,255,255,0.25); letter-spacing: 0.05em; }
+  .p2 .nav-items li a::after { content: '—'; color: rgba(255,255,255,0.3); margin-left: 8px; }
+  .p2 .brand-bg { position: absolute; left: 20px; bottom: 60px; font-family: 'Cormorant Garamond', serif; font-size: 4rem; font-weight: 300; font-style: italic; color: rgba(255,255,255,0.04); line-height: 1; writing-mode: vertical-rl; letter-spacing: 0.1em; }
+
+  /* ========== PATTERN 3: Stacked with Italic Accent ========== */
+  .p3 .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(20,18,15,0.82); backdrop-filter: blur(6px) saturate(1.2); }
+  .p3 .content { position: relative; z-index: 2; padding: 100px 36px 40px; }
+  .p3 .nav-items li a { font-size: 1.5rem; font-weight: 300; letter-spacing: 0.08em; padding: 20px 0; position: relative; }
+  .p3 .nav-items li a .italic-sub { display: block; font-style: italic; font-size: 0.6rem; color: rgba(255,255,255,0.3); letter-spacing: 0.2em; margin-top: 2px; }
+  .p3 .slash { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg); width: 200%; height: 1px; background: rgba(255,255,255,0.04); pointer-events: none; }
+
+  /* ========== PATTERN 4: Centered Minimal ========== */
+  .p4 .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(20px); }
+  .p4 .content { position: relative; z-index: 2; padding: 90px 40px 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; }
+  .p4 .nav-items { text-align: center; }
+  .p4 .nav-items li a { font-size: 1.2rem; font-weight: 300; letter-spacing: 0.25em; text-transform: uppercase; padding: 16px 0; color: rgba(255,255,255,0.7); }
+  .p4 .nav-items li a:hover { color: #fff; }
+  .p4 .deco-line { width: 40px; height: 1px; background: rgba(255,255,255,0.15); margin: 0 auto 30px; }
+  .p4 .deco-coords { font-family: 'Cormorant Garamond', serif; font-size: 0.5rem; color: rgba(255,255,255,0.15); letter-spacing: 0.15em; text-align: center; margin-top: 40px; }
+
+  /* ========== PATTERN 5: Split Layout ========== */
+  .p5 .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to right, rgba(0,0,0,0.9) 55%, rgba(0,0,0,0.4) 100%); backdrop-filter: blur(4px); }
+  .p5 .content { position: relative; z-index: 2; padding: 80px 0 40px 36px; }
+  .p5 .nav-items li a { font-size: 1.3rem; font-weight: 300; letter-spacing: 0.1em; padding: 16px 0; color: rgba(255,255,255,0.85); }
+  .p5 .nav-items li { position: relative; padding-left: 20px; }
+  .p5 .nav-items li::before { content: ''; position: absolute; left: 0; top: 50%; width: 8px; height: 1px; background: rgba(255,255,255,0.3); }
+  .p5 .side-label { position: absolute; right: 20px; top: 50%; transform: translateY(-50%) rotate(90deg); font-family: 'Cormorant Garamond', serif; font-size: 0.5rem; letter-spacing: 0.5em; color: rgba(255,255,255,0.1); text-transform: uppercase; white-space: nowrap; }
+
+  /* ========== PATTERN 6: Overlapping Text ========== */
+  .p6 .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,12,10,0.88); backdrop-filter: blur(10px); }
+  .p6 .content { position: relative; z-index: 2; padding: 70px 30px 40px; }
+  .p6 .nav-items li a { font-size: 1.6rem; font-weight: 300; letter-spacing: 0.06em; padding: 12px 0; color: rgba(255,255,255,0.8); position: relative; }
+  .p6 .nav-items li a .ghost { position: absolute; left: 10px; top: -8px; font-size: 2.8rem; font-style: italic; color: rgba(255,255,255,0.04); pointer-events: none; letter-spacing: 0.02em; }
+  .p6 .accent-line { width: 60px; height: 1px; background: linear-gradient(to right, rgba(201,169,110,0.4), transparent); margin: 20px 0; }
+
+  /* ========== PATTERN 7: Grid + Coordinates ========== */
+  .p7 .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.78); backdrop-filter: blur(6px); }
+  .p7 .content { position: relative; z-index: 2; padding: 80px 24px 40px; }
+  .p7 .nav-items { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; }
+  .p7 .nav-items li { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); }
+  .p7 .nav-items li a { font-size: 0.85rem; font-weight: 300; letter-spacing: 0.15em; text-transform: uppercase; padding: 28px 16px; text-align: center; color: rgba(255,255,255,0.7); }
+  .p7 .nav-items li a .coord { display: block; font-size: 0.45rem; color: rgba(255,255,255,0.2); margin-top: 6px; letter-spacing: 0.1em; }
+  .p7 .nav-items li.full { grid-column: 1 / -1; }
+
+  /* ========== PATTERN 8: Sideways Scroll Feel ========== */
+  .p8 .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.9) 100%); backdrop-filter: blur(15px); }
+  .p8 .content { position: relative; z-index: 2; padding: 90px 20px 40px; display: flex; flex-direction: column; justify-content: center; height: 100%; }
+  .p8 .nav-items li a { font-size: 1.8rem; font-weight: 300; letter-spacing: 0.04em; padding: 8px 0; color: rgba(255,255,255,0.15); font-style: italic; }
+  .p8 .nav-items li:nth-child(1) a { padding-left: 0; }
+  .p8 .nav-items li:nth-child(2) a { padding-left: 30px; }
+  .p8 .nav-items li:nth-child(3) a { padding-left: 60px; }
+  .p8 .nav-items li:nth-child(4) a { padding-left: 40px; }
+  .p8 .nav-items li:nth-child(5) a { padding-left: 10px; }
+  .p8 .nav-items li:nth-child(6) a { padding-left: 50px; }
+  .p8 .nav-items li:nth-child(7) a { padding-left: 20px; color: rgba(201,169,110,0.3); }
+  .p8 .nav-items li a:hover { color: rgba(255,255,255,0.9); }
+  .p8 .vertical-line { position: absolute; left: 12px; top: 80px; bottom: 40px; width: 1px; background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.08), transparent); }
+
+  /* ========== PATTERN 9: Dark Luxury ========== */
+  .p9 .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10,8,6,0.92); backdrop-filter: blur(8px) saturate(0.8); }
+  .p9 .content { position: relative; z-index: 2; padding: 80px 40px 40px; }
+  .p9 .nav-items li a { font-size: 1.1rem; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; padding: 18px 0; color: rgba(255,255,255,0.6); display: flex; align-items: center; gap: 14px; }
+  .p9 .nav-items li a::before { content: ''; display: inline-block; width: 20px; height: 1px; background: rgba(201,169,110,0.4); transition: width 0.3s; }
+  .p9 .nav-items li a:hover::before { width: 40px; }
+  .p9 .nav-items li a:hover { color: #c9a96e; }
+  .p9 .bottom-brand { position: absolute; bottom: 40px; left: 40px; }
+  .p9 .bottom-brand span { font-family: 'Cormorant Garamond', serif; font-size: 0.55rem; letter-spacing: 0.3em; color: rgba(255,255,255,0.12); text-transform: uppercase; }
+
+  /* ========== PATTERN 10: Full Bleed Cinematic ========== */
+  .p10 .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.85) 40%, rgba(0,0,0,0.95) 100%); }
+  .p10 .content { position: relative; z-index: 2; padding: 60px 30px 40px; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; }
+  .p10 .nav-items li a { font-size: 1.3rem; font-weight: 300; letter-spacing: 0.1em; padding: 12px 0; color: rgba(255,255,255,0.75); border-left: 2px solid transparent; padding-left: 16px; transition: all 0.3s; }
+  .p10 .nav-items li a:hover { border-left-color: #c9a96e; color: #fff; padding-left: 24px; }
+  .p10 .top-text { position: absolute; top: 80px; left: 30px; font-family: 'Cormorant Garamond', serif; }
+  .p10 .top-text .brand { font-size: 1.6rem; font-weight: 300; font-style: italic; color: rgba(255,255,255,0.5); letter-spacing: 0.05em; }
+  .p10 .top-text .sub { font-size: 0.5rem; color: rgba(255,255,255,0.2); letter-spacing: 0.3em; margin-top: 4px; text-transform: uppercase; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>MOBILE NAV — 10 PATTERNS</h1>
+  <p>ukigumo films / 背景透過 + アニメーション対応ナビメニュー</p>
+</div>
+
+<div class="patterns-grid">
+
+<!-- Pattern 1 -->
+<div class="pattern-card">
+  <div class="pattern-label">Pattern 1 <span>Diagonal Lines</span></div>
+  <div class="phone p1">
+    <img src="images/london/05.jpg" class="phone-bg" alt="">
+    <div class="overlay"></div>
+    <div class="diagonal-text">ukigumo films — wedding cinematography</div>
+    <div class="content">
+      <ul class="nav-items">
+        <li><a href="#">About</a></li>
+        <li><a href="#">Plan / Price</a></li>
+        <li><a href="#">Gallery</a></li>
+        <li><a href="#">Dress</a></li>
+        <li><a href="#">Q&A</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Instagram</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Pattern 2 -->
+<div class="pattern-card">
+  <div class="pattern-label">Pattern 2 <span>Right-aligned + Numbers</span></div>
+  <div class="phone p2">
+    <img src="images/paris/03.jpg" class="phone-bg" alt="">
+    <div class="overlay"></div>
+    <div class="brand-bg">ukigumo</div>
+    <div class="content">
+      <ul class="nav-items">
+        <li><a href="#"><span class="num">01</span>About</a></li>
+        <li><a href="#"><span class="num">02</span>Plan / Price</a></li>
+        <li><a href="#"><span class="num">03</span>Gallery</a></li>
+        <li><a href="#"><span class="num">04</span>Dress</a></li>
+        <li><a href="#"><span class="num">05</span>Q&A</a></li>
+        <li><a href="#"><span class="num">06</span>Contact</a></li>
+        <li><a href="#"><span class="num">07</span>Instagram</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Pattern 3 -->
+<div class="pattern-card">
+  <div class="pattern-label">Pattern 3 <span>Italic Sub Labels</span></div>
+  <div class="phone p3">
+    <img src="images/firenze/06.jpg" class="phone-bg" alt="">
+    <div class="overlay"></div>
+    <div class="slash"></div>
+    <div class="content">
+      <ul class="nav-items">
+        <li><a href="#">About<span class="italic-sub">— our philosophy</span></a></li>
+        <li><a href="#">Plan / Price<span class="italic-sub">— wedding plans</span></a></li>
+        <li><a href="#">Gallery<span class="italic-sub">— selected works</span></a></li>
+        <li><a href="#">Dress<span class="italic-sub">— styling partner</span></a></li>
+        <li><a href="#">Q&A<span class="italic-sub">— frequently asked</span></a></li>
+        <li><a href="#">Contact<span class="italic-sub">— get in touch</span></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Pattern 4 -->
+<div class="pattern-card">
+  <div class="pattern-label">Pattern 4 <span>Centered Minimal</span></div>
+  <div class="phone p4">
+    <img src="images/malta/06.jpg" class="phone-bg" alt="">
+    <div class="overlay"></div>
+    <div class="content">
+      <div class="deco-line"></div>
+      <ul class="nav-items">
+        <li><a href="#">About</a></li>
+        <li><a href="#">Plan / Price</a></li>
+        <li><a href="#">Gallery</a></li>
+        <li><a href="#">Dress</a></li>
+        <li><a href="#">Q&A</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Instagram</a></li>
+      </ul>
+      <div class="deco-coords">35.6762° N, 139.6503° E</div>
+    </div>
+  </div>
+</div>
+
+<!-- Pattern 5 -->
+<div class="pattern-card">
+  <div class="pattern-label">Pattern 5 <span>Split + Side Label</span></div>
+  <div class="phone p5">
+    <img src="images/london/03.jpg" class="phone-bg" alt="">
+    <div class="overlay"></div>
+    <div class="side-label">ukigumo films</div>
+    <div class="content">
+      <ul class="nav-items">
+        <li><a href="#">About</a></li>
+        <li><a href="#">Plan / Price</a></li>
+        <li><a href="#">Gallery</a></li>
+        <li><a href="#">Dress</a></li>
+        <li><a href="#">Q&A</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Instagram</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Pattern 6 -->
+<div class="pattern-card">
+  <div class="pattern-label">Pattern 6 <span>Ghost Text Overlap</span></div>
+  <div class="phone p6">
+    <img src="images/firenze/01.jpg" class="phone-bg" alt="">
+    <div class="overlay"></div>
+    <div class="content">
+      <div class="accent-line"></div>
+      <ul class="nav-items">
+        <li><a href="#"><span class="ghost">About</span>About</a></li>
+        <li><a href="#"><span class="ghost">Plan</span>Plan / Price</a></li>
+        <li><a href="#"><span class="ghost">Gallery</span>Gallery</a></li>
+        <li><a href="#"><span class="ghost">Dress</span>Dress</a></li>
+        <li><a href="#"><span class="ghost">Q&A</span>Q&A</a></li>
+        <li><a href="#"><span class="ghost">Contact</span>Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Pattern 7 -->
+<div class="pattern-card">
+  <div class="pattern-label">Pattern 7 <span>Grid + Coordinates</span></div>
+  <div class="phone p7">
+    <img src="images/paris/05.jpg" class="phone-bg" alt="">
+    <div class="overlay"></div>
+    <div class="content">
+      <ul class="nav-items">
+        <li><a href="#">About<span class="coord">Philosophy & Story</span></a></li>
+        <li><a href="#">Plan<span class="coord">¥380,000〜</span></a></li>
+        <li><a href="#">Gallery<span class="coord">Selected Works</span></a></li>
+        <li><a href="#">Dress<span class="coord">Styling Partner</span></a></li>
+        <li><a href="#">Q&A<span class="coord">FAQ</span></a></li>
+        <li><a href="#">Contact<span class="coord">Instagram DM</span></a></li>
+        <li class="full"><a href="#">Instagram<span class="coord">@ukigumo_films</span></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Pattern 8 -->
+<div class="pattern-card">
+  <div class="pattern-label">Pattern 8 <span>Staggered Italic</span></div>
+  <div class="phone p8">
+    <img src="images/malta/01.jpg" class="phone-bg" alt="">
+    <div class="overlay"></div>
+    <div class="vertical-line"></div>
+    <div class="content">
+      <ul class="nav-items">
+        <li><a href="#">About</a></li>
+        <li><a href="#">Plan / Price</a></li>
+        <li><a href="#">Gallery</a></li>
+        <li><a href="#">Dress</a></li>
+        <li><a href="#">Q&A</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Instagram</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Pattern 9 -->
+<div class="pattern-card">
+  <div class="pattern-label">Pattern 9 <span>Dark Luxury + Gold</span></div>
+  <div class="phone p9">
+    <img src="images/london/07.jpg" class="phone-bg" alt="">
+    <div class="overlay"></div>
+    <div class="content">
+      <ul class="nav-items">
+        <li><a href="#">About</a></li>
+        <li><a href="#">Plan / Price</a></li>
+        <li><a href="#">Gallery</a></li>
+        <li><a href="#">Dress</a></li>
+        <li><a href="#">Q&A</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Instagram</a></li>
+      </ul>
+    </div>
+    <div class="bottom-brand"><span>ukigumo films — Tokyo</span></div>
+  </div>
+</div>
+
+<!-- Pattern 10 -->
+<div class="pattern-card">
+  <div class="pattern-label">Pattern 10 <span>Cinematic Left Border</span></div>
+  <div class="phone p10">
+    <img src="images/firenze/08.jpg" class="phone-bg" alt="">
+    <div class="overlay"></div>
+    <div class="top-text">
+      <div class="brand">ukigumo films</div>
+      <div class="sub">wedding cinematography</div>
+    </div>
+    <div class="content">
+      <ul class="nav-items">
+        <li><a href="#">About</a></li>
+        <li><a href="#">Plan / Price</a></li>
+        <li><a href="#">Gallery</a></li>
+        <li><a href="#">Dress</a></li>
+        <li><a href="#">Q&A</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Instagram</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div style="text-align:center;padding:2rem;font-size:0.6rem;color:rgba(255,255,255,0.2);">ukigumo films — Mobile Nav Patterns</div>
+
+</body>
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section Border — 10 Patterns</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Noto+Sans+JP:wght@300;400&family=Noto+Sans:wght@300;400&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root {
+    --bg: #F8F5EE;
+    --text: #4A4A3A;
+    --accent: #6B7C5E;
+    --font-serif: 'Cormorant Garamond', serif;
+    --font-jp: 'Noto Sans JP', sans-serif;
+    --font-sans: 'Noto Sans', sans-serif;
+  }
+  body { background:#1a1a1a; color:#fff; font-family:var(--font-sans); }
+  .header { text-align:center; padding:2rem 1rem 1rem; font-family:var(--font-serif); }
+  .header h1 { font-size:1.5rem; font-weight:300; letter-spacing:0.15em; }
+  .header p { font-size:0.75rem; opacity:0.5; margin-top:0.3rem; }
+
+  .tabs { display:flex; flex-wrap:wrap; justify-content:center; gap:0.5rem; padding:1rem; max-width:900px; margin:0 auto; position:sticky; top:0; z-index:100; background:#1a1a1a; }
+  .tab { padding:0.5rem 1.2rem; border:1px solid rgba(255,255,255,0.2); background:transparent; color:#fff; font-size:0.8rem; cursor:pointer; letter-spacing:0.05em; transition:all 0.3s; }
+  .tab:hover { border-color:rgba(255,255,255,0.5); }
+  .tab.active { background:rgba(255,255,255,0.15); border-color:rgba(255,255,255,0.6); }
+
+  .stage { width:100%; max-width:800px; margin:2rem auto; }
+
+  /* Hero mock */
+  .mock-hero {
+    position:relative; height:50vh; overflow:hidden;
+  }
+  .mock-hero img {
+    width:100%; height:100%; object-fit:cover;
+  }
+  .mock-hero__overlay {
+    position:absolute; bottom:0; left:0; width:100%; padding:2rem;
+    display:flex; flex-direction:column; align-items:center; color:#fff;
+    font-family:var(--font-serif); letter-spacing:0.15em;
+  }
+  .mock-hero__overlay span:first-child { font-size:0.65rem; text-transform:uppercase; opacity:0.7; }
+  .mock-hero__overlay span:last-child { font-size:0.55rem; opacity:0.4; margin-top:0.3rem; }
+
+  /* About mock */
+  .mock-about {
+    position:relative; min-height:50vh; overflow:hidden;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .mock-about img {
+    position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover;
+  }
+  .mock-about__overlay {
+    position:absolute; top:0; left:0; width:100%; height:100%;
+    background:rgba(0,0,0,0.65);
+  }
+  .mock-about__text {
+    position:relative; z-index:2; text-align:center; padding:4rem 2rem;
+    font-family:var(--font-serif); color:#fff;
+  }
+  .mock-about__text .label { font-size:0.6rem; letter-spacing:0.3em; text-transform:uppercase; opacity:0.5; margin-bottom:1rem; }
+  .mock-about__text h2 { font-size:1.6rem; font-weight:300; line-height:1.8; }
+
+  /* ===== Border transition area ===== */
+  .border-zone {
+    position:relative; z-index:10;
+  }
+
+  /* Pattern styles injected dynamically */
+  .desc-block { text-align:center; padding:1.2rem 1rem; max-width:700px; margin:0 auto; }
+  .desc-block h3 { font-size:0.95rem; font-weight:400; margin-bottom:0.4rem; }
+  .desc-block p { font-size:0.75rem; opacity:0.5; line-height:1.6; }
+  .footer { text-align:center; padding:2rem; font-size:0.65rem; opacity:0.3; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Section Border — 10 Patterns</h1>
+  <p>ヒーロー ↔ About セクション境界デザイン</p>
+</div>
+
+<div class="tabs" id="tabs"></div>
+
+<div class="stage" id="stage">
+  <!-- Hero -->
+  <div class="mock-hero" id="mockHero">
+    <img src="images/malta/04.jpg" alt="">
+    <div class="mock-hero__overlay">
+      <span>Scroll</span>
+      <span>|</span>
+    </div>
+  </div>
+
+  <!-- Border transition zone -->
+  <div class="border-zone" id="borderZone"></div>
+
+  <!-- About -->
+  <div class="mock-about" id="mockAbout">
+    <img src="images/paris/03.jpg" alt="">
+    <div class="mock-about__overlay" id="aboutOverlay"></div>
+    <div class="mock-about__text">
+      <p class="label">About</p>
+      <h2>ふたりの「今」を、<br>映画のように残す。</h2>
+    </div>
+  </div>
+</div>
+
+<div class="desc-block"><h3 id="descTitle"></h3><p id="descText"></p></div>
+<div class="footer">ukigumo — section border preview</div>
+
+<script>
+const borderZone = document.getElementById('borderZone');
+const mockHero = document.getElementById('mockHero');
+const mockAbout = document.getElementById('mockAbout');
+const aboutOverlay = document.getElementById('aboutOverlay');
+
+const patterns = [
+  {
+    title: '#01 — ダークグラデーション融合',
+    desc: 'ヒーロー下部とAbout上部の両方にダークグラデーションを追加。暗部で自然に溶け込む。',
+    apply() {
+      borderZone.innerHTML = '';
+      borderZone.style.cssText = '';
+      mockHero.style.cssText = '';
+      mockAbout.style.cssText = '';
+      // Hero bottom gradient
+      const heroGrad = document.createElement('div');
+      heroGrad.style.cssText = 'position:absolute;bottom:0;left:0;width:100%;height:40%;background:linear-gradient(to bottom,transparent,rgba(0,0,0,0.9));z-index:1;pointer-events:none;';
+      mockHero.querySelectorAll('.injected').forEach(e=>e.remove());
+      heroGrad.classList.add('injected');
+      mockHero.appendChild(heroGrad);
+      // About top gradient
+      const aboutGrad = document.createElement('div');
+      aboutGrad.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:30%;background:linear-gradient(to bottom,rgba(0,0,0,0.9),transparent);z-index:1;pointer-events:none;';
+      mockAbout.querySelectorAll('.injected').forEach(e=>e.remove());
+      aboutGrad.classList.add('injected');
+      mockAbout.appendChild(aboutGrad);
+      aboutOverlay.style.background = 'rgba(0,0,0,0.65)';
+    }
+  },
+  {
+    title: '#02 — ブラックバンド（細い黒帯）',
+    desc: '2〜3pxの極細の黒帯を挿入。ミニマルで上品な区切り。',
+    apply() {
+      cleanup();
+      borderZone.style.cssText = 'height:3px; background:#000;';
+    }
+  },
+  {
+    title: '#03 — クリーム色のスペーサー',
+    desc: 'ブランドカラーのアイボリー帯（30px）で呼吸感を入れる。',
+    apply() {
+      cleanup();
+      borderZone.style.cssText = 'height:30px; background:#F8F5EE;';
+    }
+  },
+  {
+    title: '#04 — ダークスペーサー＋ライン',
+    desc: '80pxの暗い帯の中央に極細のゴールドラインを配置。高級感。',
+    apply() {
+      cleanup();
+      borderZone.style.cssText = 'height:80px; background:#111; display:flex; align-items:center; justify-content:center;';
+      borderZone.innerHTML = '<div style="width:60px; height:1px; background:rgba(180,160,130,0.5);"></div>';
+    }
+  },
+  {
+    title: '#05 — オーバーラップ（About が上に重なる）',
+    desc: 'Aboutセクションがヒーローの上にネガティブマージンで被さる。シネマティック。',
+    apply() {
+      cleanup();
+      mockAbout.style.cssText = 'margin-top:-60px; border-radius:0; position:relative;';
+      const topGrad = document.createElement('div');
+      topGrad.classList.add('injected');
+      topGrad.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:60px;background:linear-gradient(to bottom,transparent,rgba(0,0,0,0.6));z-index:1;pointer-events:none;';
+      mockAbout.appendChild(topGrad);
+    }
+  },
+  {
+    title: '#06 — ヒーロー下グラデーション＋黒帯0px',
+    desc: 'ヒーロー下端だけ暗くフェード。境界は完全にシームレス。',
+    apply() {
+      cleanup();
+      const heroGrad = document.createElement('div');
+      heroGrad.classList.add('injected');
+      heroGrad.style.cssText = 'position:absolute;bottom:0;left:0;width:100%;height:35%;background:linear-gradient(to bottom,transparent,#000);z-index:1;pointer-events:none;';
+      mockHero.appendChild(heroGrad);
+      aboutOverlay.style.background = 'linear-gradient(to bottom,rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.65) 20%)';
+    }
+  },
+  {
+    title: '#07 — 対角線クリップ',
+    desc: 'Aboutセクションの上端を斜めにカット。モダンで動きのある印象。',
+    apply() {
+      cleanup();
+      mockAbout.style.cssText = 'margin-top:-40px; clip-path:polygon(0 40px, 100% 0, 100% 100%, 0 100%); position:relative;';
+    }
+  },
+  {
+    title: '#08 — ロゴ付きダークバンド',
+    desc: '80pxの暗帯にブランドロゴ「ukigumo」を小さく配置。セクション間のブランディング。',
+    apply() {
+      cleanup();
+      borderZone.style.cssText = 'height:80px; background:#0a0a0a; display:flex; align-items:center; justify-content:center;';
+      borderZone.innerHTML = '<span style="font-family:\'Cormorant Garamond\',serif;font-size:0.7rem;letter-spacing:0.4em;color:rgba(255,255,255,0.15);text-transform:lowercase;">ukigumo</span>';
+    }
+  },
+  {
+    title: '#09 — ダブルグラデーション＋ブラー境界',
+    desc: '両セクションの端をぼかし（+暗転）で溶け合わせる。映画のフェードトランジション風。',
+    apply() {
+      cleanup();
+      // Hero: bottom fade + slight blur
+      const heroGrad = document.createElement('div');
+      heroGrad.classList.add('injected');
+      heroGrad.style.cssText = 'position:absolute;bottom:0;left:0;width:100%;height:50%;background:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,0.95) 100%);z-index:1;pointer-events:none;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);mask-image:linear-gradient(to bottom,transparent,black);-webkit-mask-image:linear-gradient(to bottom,transparent,black);';
+      mockHero.appendChild(heroGrad);
+      // About: top fade
+      const aboutGrad = document.createElement('div');
+      aboutGrad.classList.add('injected');
+      aboutGrad.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:40%;background:linear-gradient(to bottom,rgba(0,0,0,0.95),transparent);z-index:1;pointer-events:none;';
+      mockAbout.appendChild(aboutGrad);
+      aboutOverlay.style.background = 'rgba(0,0,0,0.65)';
+    }
+  },
+  {
+    title: '#10 — ビネット＋ダーク融合（推奨）',
+    desc: 'ヒーロー全体にビネット効果＋下端ダークグラデーション。About上端もダークから始まり、完全にシームレス。',
+    apply() {
+      cleanup();
+      // Hero: vignette + strong bottom fade
+      const heroGrad = document.createElement('div');
+      heroGrad.classList.add('injected');
+      heroGrad.style.cssText = 'position:absolute;bottom:0;left:0;width:100%;height:45%;background:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,0.4) 50%,rgba(0,0,0,0.95) 100%);z-index:1;pointer-events:none;';
+      mockHero.appendChild(heroGrad);
+      // About: starts very dark, eases into overlay
+      aboutOverlay.style.background = 'linear-gradient(to bottom, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.75) 15%, rgba(0,0,0,0.65) 100%)';
+    }
+  },
+];
+
+function cleanup() {
+  borderZone.innerHTML = '';
+  borderZone.style.cssText = '';
+  mockHero.style.cssText = '';
+  mockAbout.style.cssText = '';
+  aboutOverlay.style.background = 'rgba(0,0,0,0.65)';
+  document.querySelectorAll('.injected').forEach(e => e.remove());
+}
+
+// Build tabs
+const tabsEl = document.getElementById('tabs');
+patterns.forEach((p, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'tab' + (i === 0 ? ' active' : '');
+  btn.textContent = '#' + String(i+1).padStart(2,'0');
+  btn.onclick = () => selectPattern(i);
+  tabsEl.appendChild(btn);
+});
+
+function selectPattern(idx) {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', i===idx));
+  document.getElementById('descTitle').textContent = patterns[idx].title;
+  document.getElementById('descText').textContent = patterns[idx].desc;
+  cleanup();
+  patterns[idx].apply();
+}
+
+selectPattern(0);
+</script>
+</body>
+</html>

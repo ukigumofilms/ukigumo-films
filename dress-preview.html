@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dress Page — Layout Preview</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #ffffff;
+      color: #2a2420;
+      font-family: "Noto Serif JP", serif;
+    }
+
+    /* Hero placeholder */
+    .hero {
+      height: 40vh;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.5)),
+                  #8a7e70;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    .hero h1 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 3rem; font-weight: 300;
+      letter-spacing: 0.15em; color: #fff;
+    }
+    .hero p {
+      font-size: 0.8rem; font-weight: 300;
+      letter-spacing: 0.3em; color: rgba(255,255,255,0.55);
+      margin-top: 0.8rem;
+    }
+
+    /* Wrapper — single column, centered */
+    .wrapper {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 4rem;
+    }
+
+    /* Shop Card — beige background */
+    .card {
+      background: #f0ece6;
+      border-radius: 16px;
+      padding: 2.5rem 2rem 2rem;
+      margin-bottom: 2.5rem;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.03);
+    }
+
+    /* Number */
+    .card__number {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.72rem;
+      font-weight: 400;
+      color: rgba(61,53,48,0.4);
+      letter-spacing: 0.15em;
+      margin-bottom: 0.6rem;
+    }
+
+    /* Shop Name */
+    .card__name {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.8rem;
+      font-weight: 400;
+      color: #2e2519;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.3rem;
+    }
+
+    /* Location */
+    .card__location {
+      font-size: 0.72rem;
+      font-weight: 300;
+      color: rgba(61,53,48,0.55);
+      margin-bottom: 1.2rem;
+    }
+
+    /* Tags */
+    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; }
+    .tag {
+      font-size: 0.65rem; font-weight: 300;
+      color: rgba(61,53,48,0.6);
+      padding: 0.25rem 0.7rem;
+      border: 1px solid rgba(61,53,48,0.12);
+      border-radius: 20px;
+      background: transparent;
+    }
+
+    /* Pricing Block — white inside beige card */
+    .price-block {
+      background: rgba(255,255,255,0.7);
+      border-radius: 12px;
+      padding: 1.2rem 1.4rem 1rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .price-block__header {
+      font-size: 0.72rem;
+      font-weight: 400;
+      color: #2a2420;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(61,53,48,0.08);
+      margin-bottom: 0.6rem;
+      letter-spacing: 0.05em;
+    }
+
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.3rem 0;
+    }
+    .price-row + .price-row {
+      border-top: 1px solid rgba(61,53,48,0.04);
+    }
+    .price-label {
+      font-size: 0.72rem; font-weight: 300;
+      color: rgba(61,53,48,0.7);
+    }
+    .price-val {
+      font-size: 0.8rem; font-weight: 400;
+      color: #2a2420;
+    }
+    .price-note {
+      font-size: 0.65rem; font-weight: 300;
+      color: rgba(61,53,48,0.5);
+      margin-top: 0.3rem; line-height: 1.7;
+    }
+
+    /* Dress List pill */
+    .pill {
+      display: inline-block;
+      font-size: 0.65rem; font-weight: 300;
+      letter-spacing: 0.08em;
+      padding: 0.4rem 1.3rem;
+      border-radius: 30px;
+      color: #2a2420;
+      border: 1px solid rgba(61,53,48,0.18);
+      text-decoration: none;
+      margin-top: 0.4rem;
+      transition: all 0.35s ease;
+    }
+    .pill:hover {
+      background: rgba(140,140,110,0.12);
+      border-color: rgba(140,140,110,0.25);
+    }
+
+    /* Instagram CTA — outline */
+    .ig-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 1.2rem;
+      background: transparent;
+      color: #2a2420;
+      border: 1px solid rgba(61,53,48,0.18);
+      font-size: 0.68rem; font-weight: 300;
+      border-radius: 30px;
+      text-decoration: none;
+      margin-top: 1rem;
+      transition: all 0.35s ease;
+    }
+    .ig-btn:hover {
+      background: rgba(140,140,110,0.12);
+      border-color: rgba(140,140,110,0.25);
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.58rem;
+      padding: 0.12rem 0.5rem;
+      background: rgba(61,53,48,0.08);
+      color: rgba(61,53,48,0.6);
+      border-radius: 10px;
+      margin-left: 0.4rem;
+    }
+
+    /* Divider between shops */
+    .divider {
+      height: 1px;
+      background: rgba(61,53,48,0.06);
+      margin: 0 2rem 2.5rem;
+    }
+
+    /* Label */
+    .preview-label {
+      text-align: center;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.6rem;
+      color: rgba(61,53,48,0.3);
+      letter-spacing: 0.3em;
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <h1>Dress</h1>
+  <p>提 携 先 の ご 紹 介</p>
+</div>
+
+<div class="wrapper">
+  <p class="preview-label">— Layout Preview —</p>
+
+  <!-- Shop 01 -->
+  <div class="card">
+    <div class="card__number">01</div>
+    <h2 class="card__name">Bee's Knees</h2>
+    <p class="card__location">ukigumo films 特別価格｜東京・赤坂</p>
+
+    <div class="tags">
+      <span class="tag">豊富なラインナップ</span>
+      <span class="tag">国内・海外 同一価格</span>
+      <span class="tag">タキシード込み</span>
+    </div>
+
+    <div class="price-block">
+      <div class="price-block__header">Base Price（ドレス＋タキシード込み）</div>
+      <div class="price-row">
+        <span class="price-label">国内・海外共通</span>
+        <span class="price-val">¥110,000（税込）</span>
+      </div>
+    </div>
+
+    <div class="price-block">
+      <div class="price-block__header">国内 — Dress Collection</div>
+      <div class="price-row">
+        <span class="price-label"><strong>A</strong>&ensp;プラン内 — 31着</span>
+        <span class="price-val">プラン内</span>
+      </div>
+      <a href="#" class="pill">Dress List</a>
+      <div class="price-row" style="margin-top:0.4rem;">
+        <span class="price-label"><strong>B</strong>&ensp;オプション — 29着</span>
+        <span class="price-val">+ ¥55,000</span>
+      </div>
+      <a href="#" class="pill">Dress List</a>
+      <div class="price-row" style="margin-top:0.4rem;">
+        <span class="price-label"><strong>C</strong>&ensp;オプション</span>
+        <span class="price-val">+ ¥242,000</span>
+      </div>
+      <p class="price-note">Milia London & 韓国ドレス LEMERE</p>
+    </div>
+
+    <div class="price-block">
+      <div class="price-block__header">海外撮影の場合</div>
+      <div class="price-row">
+        <span class="price-label">セレクト可能数</span>
+        <span class="price-val">13型（全てプラン内）</span>
+      </div>
+      <div class="price-row">
+        <span class="price-label">アクセサリー</span>
+        <span class="price-val">1点追加（料金内）</span>
+      </div>
+      <a href="#" class="pill">Dress List</a>
+      <p class="price-note">※ 試着2回必須（難しい場合は要相談）</p>
+    </div>
+
+    <a href="#" class="ig-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+      @beesknees_dress
+    </a>
+  </div>
+
+  <!-- Shop 02 -->
+  <div class="card">
+    <div class="card__number">02</div>
+    <h2 class="card__name">Beacon / Befits You</h2>
+    <p class="card__location">ukigumo films 特別価格｜東京・麻布十番 / 大阪</p>
+
+    <div class="tags">
+      <span class="tag">海外ブランドセレクト</span>
+      <span class="tag">大人の洗練スタイル</span>
+      <span class="tag">オンライン試着OK</span>
+    </div>
+
+    <div class="price-block">
+      <div class="price-block__header">1. Standard Plan <span class="badge">人気 No.1</span></div>
+      <p class="price-note" style="margin-top:0; margin-bottom:0.4rem;">厳選13着・最大40万円相当のドレスも選べる</p>
+      <a href="#" class="pill">Dress List</a>
+      <div class="price-row" style="margin-top:0.4rem;">
+        <span class="price-label">国内（4泊5日）</span>
+        <span class="price-val">¥126,500（税込）</span>
+      </div>
+      <div class="price-row">
+        <span class="price-label">海外（9泊10日）</span>
+        <span class="price-val">¥181,500（税込）</span>
+      </div>
+    </div>
+
+    <div class="price-block">
+      <div class="price-block__header">2. Casual Plan <span class="badge">価格重視</span></div>
+      <p class="price-note" style="margin-top:0; margin-bottom:0.4rem;">ミニマルで洗練されたカジュアルプラン</p>
+      <a href="#" class="pill">Dress List</a>
+      <div class="price-row" style="margin-top:0.4rem;">
+        <span class="price-label">国内（4泊5日）</span>
+        <span class="price-val">¥82,500（税込）</span>
+      </div>
+      <div class="price-row">
+        <span class="price-label">海外（9泊10日）</span>
+        <span class="price-val">¥104,500（税込）</span>
+      </div>
+    </div>
+
+    <div class="price-block">
+      <div class="price-block__header">Tuxedo Option</div>
+      <div class="price-row">
+        <span class="price-label">国内（4泊5日）</span>
+        <span class="price-val">¥55,000（税込）</span>
+      </div>
+      <div class="price-row">
+        <span class="price-label">海外（9泊10日）</span>
+        <span class="price-val">¥88,000（税込）</span>
+      </div>
+      <p class="price-note">※ クリーニング込み／ドレスレンタルの方のみ</p>
+    </div>
+
+    <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+      <a href="#" class="ig-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+        @beacondress
+      </a>
+      <a href="#" class="ig-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+        @befitsyou
+      </a>
+    </div>
+  </div>
+
+  <!-- Shop 03 (abbreviated) -->
+  <div class="card">
+    <div class="card__number">03</div>
+    <h2 class="card__name">Lumiere Wedding Dress</h2>
+    <p class="card__location">ukigumo films 特別価格｜東京・新宿</p>
+
+    <div class="tags">
+      <span class="tag">繊細で上品なデザイン</span>
+      <span class="tag">50着以上から選べる</span>
+      <span class="tag">カラードレスも充実</span>
+      <span class="tag">タキシードあり</span>
+    </div>
+
+    <div class="price-block">
+      <div class="price-block__header">Dress + Tuxedo セット</div>
+      <div class="price-row">
+        <span class="price-label">セット価格</span>
+        <span class="price-val">¥85,000〜¥165,000（税別）</span>
+      </div>
+      <p class="price-note">・クリーニング代込み／セット割適用<br>・ukigumo特別価格：さらに10%OFF<br>・4泊5日／延泊 +¥5,000/着（1日あたり）</p>
+    </div>
+
+    <div class="price-block">
+      <div class="price-block__header">Dress のみ</div>
+      <div class="price-row">
+        <span class="price-label">ドレスレンタル</span>
+        <span class="price-val">¥40,000〜¥120,000（税別）</span>
+      </div>
+      <a href="#" class="pill" style="margin-top:0.5rem;">Dress List</a>
+    </div>
+
+    <a href="#" class="ig-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+      @lumierewedding_dress
+    </a>
+  </div>
+
+  <!-- Shop 04 (abbreviated) -->
+  <div class="card">
+    <div class="card__number">04</div>
+    <h2 class="card__name">Chez Robe</h2>
+    <p class="card__location">東京・芝浦</p>
+
+    <div class="tags">
+      <span class="tag">Vera Wang / Galia Lahav 取扱</span>
+      <span class="tag">ハイブランドも選べる</span>
+      <span class="tag">国内・海外対応</span>
+    </div>
+
+    <div class="price-block">
+      <div class="price-block__header">国内 — Dress Plan</div>
+      <div class="price-row">
+        <span class="price-label">価格帯（5段階・税込）</span>
+        <span class="price-val">¥71,500〜¥319,000</span>
+      </div>
+    </div>
+
+    <div class="price-block">
+      <div class="price-block__header">Tuxedo Option</div>
+      <div class="price-row">
+        <span class="price-label">タキシード</span>
+        <span class="price-val">¥33,000（税込）</span>
+      </div>
+    </div>
+
+    <a href="#" class="ig-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+      @chezrobe
+    </a>
+  </div>
+
+</div>
+
+</body>
+</html>

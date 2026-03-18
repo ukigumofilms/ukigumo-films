@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plan Detail — 10 Patterns</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #f5f2ed; color: #1a1a1a; font-family: "Noto Sans JP", sans-serif; }
+    :root {
+      --serif: "Cormorant Garamond", serif;
+      --sans: "Inter", sans-serif;
+      --jp: "Noto Sans JP", sans-serif;
+      --jp-serif: "Noto Serif JP", serif;
+    }
+
+    .page-title {
+      font-family: var(--serif); font-weight: 300; font-size: 1.4rem;
+      text-align: center; letter-spacing: 0.15em;
+      padding-top: 3rem; margin-bottom: 0.3rem;
+    }
+    .page-sub { text-align: center; font-size: 0.65rem; color: rgba(61,53,48,0.4); letter-spacing: 0.08em; margin-bottom: 3rem; }
+
+    .section {
+      max-width: 1100px; margin: 0 auto 5rem; padding: 0 1.5rem;
+    }
+    .section-label {
+      font-family: var(--serif); font-size: 0.55rem; color: rgba(61,53,48,0.3);
+      letter-spacing: 0.2em; margin-bottom: 0.15rem;
+    }
+    .section-name {
+      font-family: var(--serif); font-weight: 300; font-size: 0.75rem;
+      color: rgba(61,53,48,0.5); margin-bottom: 1.2rem;
+    }
+
+    .demo-box { background: #fff; overflow: hidden; }
+
+    /* Placeholder */
+    .hero-ph { background: linear-gradient(135deg, #c8bea8 0%, #a99c88 100%); width: 100%; aspect-ratio: 21/9; position: relative; }
+    .hero-ph--tall { aspect-ratio: 16/9; }
+    .hero-ph--half { aspect-ratio: 2/1; }
+    .hero-ph .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.35); display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; }
+    .hero-ph .h-title { font-family: var(--serif); font-size: 2.5rem; font-weight: 300; letter-spacing: 0.08em; }
+    .hero-ph .h-sub { font-family: var(--jp-serif); font-size: 0.75rem; font-weight: 300; letter-spacing: 0.15em; margin-top: 0.5rem; opacity: 0.8; }
+
+    /* ==========================================
+       PATTERN 01: ミニマル白背景 + セパレータ
+       ========================================== */
+    .p01 { background: #fff; }
+    .p01 .content { max-width: 900px; margin: 0 auto; padding: 4rem 3rem; }
+    .p01 .intro { text-align: center; margin-bottom: 3rem; }
+    .p01 .intro-title { font-family: var(--serif); font-size: 1.6rem; font-weight: 300; letter-spacing: 0.1em; margin-bottom: 0.3rem; }
+    .p01 .intro-sub { font-family: var(--jp); font-size: 0.65rem; color: #999; letter-spacing: 0.15em; }
+    .p01 .sep { width: 40px; height: 1px; background: #ddd; margin: 2rem auto; }
+
+    .p01 .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: #eee; }
+    .p01 .card { background: #fff; padding: 2.5rem 2rem; text-align: center; }
+    .p01 .card-badge { font-size: 0.55rem; letter-spacing: 0.15em; color: #fff; background: #3D3530; padding: 0.25rem 0.8rem; display: inline-block; margin-bottom: 1rem; }
+    .p01 .card-name { font-family: var(--serif); font-size: 1.2rem; font-weight: 300; letter-spacing: 0.06em; margin-bottom: 1rem; }
+    .p01 .card-price { font-family: var(--serif); font-size: 2rem; font-weight: 300; letter-spacing: 0.04em; margin-bottom: 0.5rem; }
+    .p01 .card-yen { font-size: 0.9rem; }
+    .p01 .card-opt { font-size: 0.65rem; color: #999; margin-bottom: 1.5rem; }
+    .p01 .card-line { width: 30px; height: 1px; background: #ddd; margin: 0 auto 1rem; }
+    .p01 .card-feat { font-family: var(--jp); font-size: 0.7rem; color: #888; line-height: 2; }
+
+    /* ==========================================
+       PATTERN 02: サイドバイサイド（写真+テキスト交互）
+       ========================================== */
+    .p02 { background: #f5f3ef; }
+    .p02 .plan-row { display: grid; grid-template-columns: 1fr 1fr; min-height: 300px; }
+    .p02 .plan-row:nth-child(even) .plan-img { order: 2; }
+    .p02 .plan-row:nth-child(even) .plan-info { order: 1; }
+    .p02 .plan-img { background: #d5cdc2; position: relative; }
+    .p02 .plan-img-label { position: absolute; top: 1rem; left: 1rem; font-size: 0.5rem; letter-spacing: 0.2em; color: rgba(255,255,255,0.6); }
+    .p02 .plan-info { padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
+    .p02 .plan-info-loc { font-family: var(--serif); font-size: 0.6rem; letter-spacing: 0.25em; color: #999; margin-bottom: 1rem; text-transform: uppercase; }
+    .p02 .plan-info-name { font-family: var(--serif); font-size: 1.8rem; font-weight: 300; letter-spacing: 0.06em; margin-bottom: 0.3rem; }
+    .p02 .plan-info-jp { font-family: var(--jp); font-size: 0.65rem; color: #999; letter-spacing: 0.15em; margin-bottom: 1.5rem; }
+    .p02 .plan-info-price { font-family: var(--serif); font-size: 2.2rem; font-weight: 300; margin-bottom: 1.5rem; }
+    .p02 .plan-info-feat { font-family: var(--jp); font-size: 0.7rem; color: #777; line-height: 2.2; }
+
+    /* ==========================================
+       PATTERN 03: 全幅カード + ホバー拡大
+       ========================================== */
+    .p03 { background: #fff; }
+    .p03 .content { max-width: 1000px; margin: 0 auto; padding: 4rem 3rem; }
+    .p03 .header { text-align: center; margin-bottom: 3rem; }
+    .p03 .header-title { font-family: var(--serif); font-size: 2rem; font-weight: 300; letter-spacing: 0.08em; }
+    .p03 .header-sub { font-family: var(--jp-serif); font-size: 0.7rem; color: #999; margin-top: 0.3rem; letter-spacing: 0.1em; }
+
+    .p03 .card-full { border: 1px solid #eee; padding: 3rem; margin-bottom: 1.5rem; display: flex; gap: 3rem; align-items: center; transition: box-shadow 0.4s; }
+    .p03 .card-full:hover { box-shadow: 0 4px 30px rgba(0,0,0,0.06); }
+    .p03 .card-left { flex: 0 0 200px; text-align: center; }
+    .p03 .card-right { flex: 1; }
+    .p03 .cf-name { font-family: var(--serif); font-size: 1.4rem; font-weight: 300; margin-bottom: 0.5rem; }
+    .p03 .cf-price { font-family: var(--serif); font-size: 2.5rem; font-weight: 300; }
+    .p03 .cf-yen { font-size: 1rem; }
+    .p03 .cf-badge { font-size: 0.5rem; letter-spacing: 0.15em; color: #fff; background: #1a1a1a; padding: 0.2rem 0.6rem; display: inline-block; margin-bottom: 0.5rem; }
+    .p03 .cf-opts { font-size: 0.7rem; color: #999; margin-bottom: 1rem; }
+    .p03 .cf-line { width: 100%; height: 1px; background: #eee; margin-bottom: 1rem; }
+    .p03 .cf-feats { font-family: var(--jp); font-size: 0.7rem; color: #777; line-height: 2; }
+
+    /* ==========================================
+       PATTERN 04: アコーディオン型
+       ========================================== */
+    .p04 { background: #f5f3ef; }
+    .p04 .content { max-width: 800px; margin: 0 auto; padding: 4rem 3rem; }
+    .p04 .header { text-align: center; margin-bottom: 3rem; }
+    .p04 .header-title { font-family: var(--serif); font-size: 1.8rem; font-weight: 300; letter-spacing: 0.1em; }
+
+    .p04 .acc-item { border-bottom: 1px solid #ddd; }
+    .p04 .acc-header { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; cursor: pointer; }
+    .p04 .acc-name { font-family: var(--serif); font-size: 1.3rem; font-weight: 300; }
+    .p04 .acc-price { font-family: var(--serif); font-size: 1.5rem; font-weight: 300; color: #888; }
+    .p04 .acc-badge { font-size: 0.5rem; letter-spacing: 0.12em; color: #888; border: 1px solid #ccc; padding: 0.15rem 0.5rem; margin-left: 0.8rem; }
+    .p04 .acc-body { padding: 0 0 1.5rem; }
+    .p04 .acc-opts { font-size: 0.7rem; color: #999; margin-bottom: 1rem; }
+    .p04 .acc-feats { font-family: var(--jp); font-size: 0.7rem; color: #777; line-height: 2; }
+
+    /* ==========================================
+       PATTERN 05: 大きな価格中央 + 下に詳細
+       ========================================== */
+    .p05 { background: #fff; }
+    .p05 .content { max-width: 1000px; margin: 0 auto; padding: 4rem 3rem; }
+    .p05 .plan-block { text-align: center; padding: 3rem 0; border-bottom: 1px solid #eee; }
+    .p05 .plan-block:last-child { border-bottom: none; }
+    .p05 .pb-badge { font-size: 0.5rem; letter-spacing: 0.2em; color: #fff; background: #1a1a1a; padding: 0.2rem 0.8rem; display: inline-block; margin-bottom: 1rem; }
+    .p05 .pb-name { font-family: var(--serif); font-size: 1.1rem; font-weight: 300; letter-spacing: 0.15em; color: #999; margin-bottom: 0.8rem; }
+    .p05 .pb-price { font-family: var(--serif); font-size: 3.5rem; font-weight: 300; letter-spacing: 0.02em; margin-bottom: 0.5rem; }
+    .p05 .pb-yen { font-size: 1.2rem; }
+    .p05 .pb-opts { font-size: 0.65rem; color: #bbb; margin-bottom: 1.5rem; }
+    .p05 .pb-sep { width: 30px; height: 1px; background: #ddd; margin: 0 auto 1.5rem; }
+    .p05 .pb-feats { font-family: var(--jp); font-size: 0.7rem; color: #888; line-height: 2; }
+
+    /* ==========================================
+       PATTERN 06: マガジンスタイル（写真大+テキスト重ね）
+       ========================================== */
+    .p06 { background: #1a1a1a; color: #fff; }
+    .p06 .hero-area { position: relative; }
+    .p06 .hero-bg { width: 100%; aspect-ratio: 16/9; background: #a99c88; }
+    .p06 .hero-text { position: absolute; bottom: 3rem; left: 3rem; }
+    .p06 .hero-text h2 { font-family: var(--serif); font-size: 3rem; font-weight: 300; letter-spacing: 0.06em; }
+    .p06 .hero-text p { font-size: 0.65rem; letter-spacing: 0.2em; color: rgba(255,255,255,0.6); margin-top: 0.3rem; }
+    .p06 .plans-dark { display: flex; gap: 1px; padding: 3rem; }
+    .p06 .plan-d { flex: 1; padding: 2rem; border: 1px solid rgba(255,255,255,0.1); text-align: center; }
+    .p06 .pd-name { font-family: var(--serif); font-size: 1rem; font-weight: 300; letter-spacing: 0.1em; color: rgba(255,255,255,0.5); margin-bottom: 1rem; }
+    .p06 .pd-price { font-family: var(--serif); font-size: 2rem; font-weight: 300; margin-bottom: 1rem; }
+    .p06 .pd-feat { font-size: 0.65rem; color: rgba(255,255,255,0.4); line-height: 2; }
+    .p06 .pd-badge { font-size: 0.5rem; letter-spacing: 0.12em; border: 1px solid rgba(255,255,255,0.3); padding: 0.15rem 0.5rem; display: inline-block; margin-bottom: 0.8rem; color: rgba(255,255,255,0.6); }
+
+    /* ==========================================
+       PATTERN 07: 横スクロールカード
+       ========================================== */
+    .p07 { background: #f5f3ef; }
+    .p07 .header { text-align: center; padding: 3rem 3rem 2rem; }
+    .p07 .header-title { font-family: var(--serif); font-size: 2rem; font-weight: 300; letter-spacing: 0.08em; }
+    .p07 .header-sub { font-family: var(--jp-serif); font-size: 0.7rem; color: #999; margin-top: 0.3rem; }
+    .p07 .scroll-cards { display: flex; gap: 1.5rem; overflow-x: auto; padding: 0 3rem 3rem; scrollbar-width: none; }
+    .p07 .scroll-cards::-webkit-scrollbar { display: none; }
+    .p07 .sc-card { flex: 0 0 320px; background: #fff; padding: 2.5rem 2rem; }
+    .p07 .sc-badge { font-size: 0.5rem; letter-spacing: 0.12em; background: #1a1a1a; color: #fff; padding: 0.2rem 0.6rem; display: inline-block; margin-bottom: 1rem; }
+    .p07 .sc-name { font-family: var(--serif); font-size: 1.2rem; font-weight: 300; margin-bottom: 1rem; }
+    .p07 .sc-price { font-family: var(--serif); font-size: 2.2rem; font-weight: 300; margin-bottom: 1.5rem; }
+    .p07 .sc-line { width: 100%; height: 1px; background: #eee; margin-bottom: 1rem; }
+    .p07 .sc-feat { font-family: var(--jp); font-size: 0.7rem; color: #888; line-height: 2; }
+
+    /* ==========================================
+       PATTERN 08: テーブル比較型
+       ========================================== */
+    .p08 { background: #fff; }
+    .p08 .content { max-width: 900px; margin: 0 auto; padding: 4rem 3rem; }
+    .p08 .header { text-align: center; margin-bottom: 3rem; }
+    .p08 .header-title { font-family: var(--serif); font-size: 1.8rem; font-weight: 300; letter-spacing: 0.08em; }
+
+    .p08 table { width: 100%; border-collapse: collapse; }
+    .p08 th { font-family: var(--serif); font-size: 1.1rem; font-weight: 300; padding: 1.5rem 1rem; text-align: center; border-bottom: 2px solid #1a1a1a; }
+    .p08 th .th-price { font-size: 1.6rem; display: block; margin-top: 0.3rem; }
+    .p08 th .th-badge { font-size: 0.5rem; letter-spacing: 0.1em; background: #1a1a1a; color: #fff; padding: 0.15rem 0.5rem; display: inline-block; margin-bottom: 0.3rem; }
+    .p08 td { padding: 1rem; border-bottom: 1px solid #eee; font-size: 0.75rem; color: #777; text-align: center; }
+    .p08 td:first-child { text-align: left; font-family: var(--jp); color: #555; }
+    .p08 .check { color: #1a1a1a; font-size: 1rem; }
+
+    /* ==========================================
+       PATTERN 09: タイムライン型レイアウト
+       ========================================== */
+    .p09 { background: #f5f3ef; }
+    .p09 .content { max-width: 700px; margin: 0 auto; padding: 4rem 3rem; }
+    .p09 .header { text-align: center; margin-bottom: 3rem; }
+    .p09 .header-title { font-family: var(--serif); font-size: 1.8rem; font-weight: 300; letter-spacing: 0.08em; }
+
+    .p09 .tl-item { position: relative; padding-left: 3rem; margin-bottom: 3rem; }
+    .p09 .tl-item::before { content: ''; position: absolute; left: 0; top: 0; bottom: -3rem; width: 1px; background: #ddd; }
+    .p09 .tl-item:last-child::before { bottom: 0; }
+    .p09 .tl-dot { position: absolute; left: -4px; top: 0.3rem; width: 9px; height: 9px; border-radius: 50%; background: #fff; border: 1.5px solid #1a1a1a; }
+    .p09 .tl-badge { font-size: 0.5rem; letter-spacing: 0.12em; background: #1a1a1a; color: #fff; padding: 0.15rem 0.5rem; display: inline-block; margin-bottom: 0.5rem; }
+    .p09 .tl-name { font-family: var(--serif); font-size: 1.3rem; font-weight: 300; margin-bottom: 0.3rem; }
+    .p09 .tl-price { font-family: var(--serif); font-size: 2rem; font-weight: 300; margin-bottom: 0.8rem; }
+    .p09 .tl-opts { font-size: 0.65rem; color: #999; margin-bottom: 0.8rem; }
+    .p09 .tl-feats { font-family: var(--jp); font-size: 0.7rem; color: #777; line-height: 2; }
+
+    /* ==========================================
+       PATTERN 10: タイトル大 + 余白重視 + 薄いボーダー
+       ========================================== */
+    .p10 { background: #fff; }
+    .p10 .content { max-width: 1000px; margin: 0 auto; padding: 4rem 3rem; }
+    .p10 .header { margin-bottom: 4rem; }
+    .p10 .header-label { font-family: var(--serif); font-size: 0.55rem; letter-spacing: 0.3em; color: #bbb; margin-bottom: 0.5rem; }
+    .p10 .header-title { font-family: var(--serif); font-size: 2.5rem; font-weight: 300; letter-spacing: 0.06em; }
+    .p10 .header-jp { font-family: var(--jp); font-size: 0.65rem; color: #999; letter-spacing: 0.15em; margin-top: 0.3rem; }
+
+    .p10 .plan-strip { display: grid; grid-template-columns: 180px 1fr; gap: 3rem; padding: 2.5rem 0; border-top: 1px solid #eee; }
+    .p10 .ps-left { }
+    .p10 .ps-badge { font-size: 0.5rem; letter-spacing: 0.12em; border: 1px solid #1a1a1a; padding: 0.15rem 0.5rem; display: inline-block; margin-bottom: 0.5rem; }
+    .p10 .ps-name { font-family: var(--serif); font-size: 1.3rem; font-weight: 300; margin-bottom: 0.3rem; }
+    .p10 .ps-price { font-family: var(--serif); font-size: 2rem; font-weight: 300; }
+    .p10 .ps-yen { font-size: 0.8rem; }
+    .p10 .ps-right { }
+    .p10 .ps-opts { font-size: 0.7rem; color: #999; margin-bottom: 1rem; line-height: 2; }
+    .p10 .ps-sep { width: 100%; height: 1px; background: #eee; margin-bottom: 1rem; }
+    .p10 .ps-feats { font-family: var(--jp); font-size: 0.7rem; color: #777; line-height: 2.2; }
+  </style>
+</head>
+<body>
+
+<h1 class="page-title">Plan Detail Design</h1>
+<p class="page-sub">Japan Plan 詳細ページ — 10パターン</p>
+
+<!-- ===== PATTERN 01 ===== -->
+<div class="section">
+  <p class="section-label">PATTERN 01</p>
+  <p class="section-name">ミニマル白背景 + 1pxグリッドセパレータ</p>
+  <div class="demo-box p01">
+    <div class="hero-ph"><div class="overlay"><span class="h-title">Japan Plan</span><span class="h-sub">国内撮影プラン</span></div></div>
+    <div class="content">
+      <div class="sep"></div>
+      <div class="cards">
+        <div class="card">
+          <div class="card-name">Basic Plan</div>
+          <div class="card-price"><span class="card-yen">¥</span>168,000</div>
+          <div class="card-opt">Photo + Movie ¥168,000 / Only ¥128,000</div>
+          <div class="card-line"></div>
+          <div class="card-feat">前撮り撮影<br>200カット以上<br>撮影データ全納品<br>3分ショートフィルム</div>
+        </div>
+        <div class="card">
+          <div class="card-badge">MOST POPULAR</div>
+          <div class="card-name">Hairmake Plan</div>
+          <div class="card-price"><span class="card-yen">¥</span>198,000</div>
+          <div class="card-opt">Photo + Movie ¥198,000 / Only ¥158,000</div>
+          <div class="card-line"></div>
+          <div class="card-feat">Basic内容 + ヘアメイク付き</div>
+        </div>
+        <div class="card">
+          <div class="card-badge">月3組限定</div>
+          <div class="card-name">All In Plan</div>
+          <div class="card-price"><span class="card-yen">¥</span>298,000</div>
+          <div class="card-opt">Photo + Movie ¥298,000 / Only ¥258,000</div>
+          <div class="card-line"></div>
+          <div class="card-feat">Hairmake + ドレス&タキシード + 小物一式</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PATTERN 02 ===== -->
+<div class="section">
+  <p class="section-label">PATTERN 02</p>
+  <p class="section-name">index風サイドバイサイド（写真+テキスト交互）</p>
+  <div class="demo-box p02">
+    <div class="hero-ph hero-ph--tall"><div class="overlay"><span class="h-title">Japan Plan</span><span class="h-sub">国内撮影プラン</span></div></div>
+    <div class="plan-row">
+      <div class="plan-img"><span class="plan-img-label">01</span></div>
+      <div class="plan-info">
+        <div class="plan-info-loc">Tokyo · Karuizawa · Fuji · Jogashima</div>
+        <div class="plan-info-name">Basic Plan</div>
+        <div class="plan-info-jp">ベーシックプラン</div>
+        <div class="plan-info-price"><span style="font-size:0.9rem">¥</span>168,000</div>
+        <div class="plan-info-feat">前撮り撮影<br>200カット以上<br>撮影データ全納品<br>3分ショートフィルム</div>
+      </div>
+    </div>
+    <div class="plan-row">
+      <div class="plan-img" style="background:#c8bea8;"></div>
+      <div class="plan-info">
+        <div class="plan-info-name">Hairmake Plan</div>
+        <div class="plan-info-jp">ヘアメイクプラン</div>
+        <div class="plan-info-price"><span style="font-size:0.9rem">¥</span>198,000</div>
+        <div class="plan-info-feat">Basic内容 + ヘアメイク付き</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PATTERN 03 ===== -->
+<div class="section">
+  <p class="section-label">PATTERN 03</p>
+  <p class="section-name">全幅ボーダーカード + 左右分割</p>
+  <div class="demo-box p03">
+    <div class="hero-ph hero-ph--half"><div class="overlay"><span class="h-title">Japan Plan</span><span class="h-sub">国内撮影プラン</span></div></div>
+    <div class="content">
+      <div class="card-full">
+        <div class="card-left">
+          <div class="cf-name">Basic Plan</div>
+          <div class="cf-price"><span class="cf-yen">¥</span>168,000</div>
+        </div>
+        <div class="card-right">
+          <div class="cf-opts">Photo + Movie ¥168,000 / Photo Only · Movie Only ¥128,000</div>
+          <div class="cf-line"></div>
+          <div class="cf-feats">前撮り撮影 / 200カット以上 / 撮影データ全納品 / 3分ショートフィルム</div>
+        </div>
+      </div>
+      <div class="card-full">
+        <div class="card-left">
+          <div class="cf-badge">MOST POPULAR</div>
+          <div class="cf-name">Hairmake Plan</div>
+          <div class="cf-price"><span class="cf-yen">¥</span>198,000</div>
+        </div>
+        <div class="card-right">
+          <div class="cf-opts">Photo + Movie ¥198,000 / Photo Only · Movie Only ¥158,000</div>
+          <div class="cf-line"></div>
+          <div class="cf-feats">Basic内容 + ヘアメイク付き</div>
+        </div>
+      </div>
+      <div class="card-full">
+        <div class="card-left">
+          <div class="cf-badge">月3組限定</div>
+          <div class="cf-name">All In Plan</div>
+          <div class="cf-price"><span class="cf-yen">¥</span>298,000</div>
+        </div>
+        <div class="card-right">
+          <div class="cf-opts">Photo + Movie ¥298,000 / Photo Only · Movie Only ¥258,000</div>
+          <div class="cf-line"></div>
+          <div class="cf-feats">Hairmake + ドレス&タキシード + 小物一式</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PATTERN 04 ===== -->
+<div class="section">
+  <p class="section-label">PATTERN 04</p>
+  <p class="section-name">アコーディオン展開型</p>
+  <div class="demo-box p04">
+    <div class="hero-ph hero-ph--half"><div class="overlay"><span class="h-title">Japan Plan</span><span class="h-sub">国内撮影プラン</span></div></div>
+    <div class="content">
+      <div class="acc-item">
+        <div class="acc-header">
+          <span class="acc-name">Basic Plan</span>
+          <span class="acc-price">¥168,000</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-opts">Photo + Movie ¥168,000 / Only ¥128,000</div>
+          <div class="acc-feats">前撮り撮影 / 200カット以上 / 撮影データ全納品 / 3分ショートフィルム</div>
+        </div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-header">
+          <span class="acc-name">Hairmake Plan <span class="acc-badge">POPULAR</span></span>
+          <span class="acc-price">¥198,000</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-feats">Basic内容 + ヘアメイク付き</div>
+        </div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-header">
+          <span class="acc-name">All In Plan <span class="acc-badge">月3組</span></span>
+          <span class="acc-price">¥298,000</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-feats">Hairmake + ドレス&タキシード + 小物一式</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PATTERN 05 ===== -->
+<div class="section">
+  <p class="section-label">PATTERN 05</p>
+  <p class="section-name">価格ドカン中央 + セクション分割</p>
+  <div class="demo-box p05">
+    <div class="hero-ph"><div class="overlay"><span class="h-title">Japan Plan</span><span class="h-sub">国内撮影プラン</span></div></div>
+    <div class="content">
+      <div class="plan-block">
+        <div class="pb-name">BASIC PLAN</div>
+        <div class="pb-price"><span class="pb-yen">¥</span>168,000</div>
+        <div class="pb-opts">Photo + Movie ¥168,000 / Only ¥128,000</div>
+        <div class="pb-sep"></div>
+        <div class="pb-feats">前撮り撮影 / 200カット以上 / 撮影データ全納品 / 3分ショートフィルム</div>
+      </div>
+      <div class="plan-block">
+        <div class="pb-badge">MOST POPULAR</div>
+        <div class="pb-name">HAIRMAKE PLAN</div>
+        <div class="pb-price"><span class="pb-yen">¥</span>198,000</div>
+        <div class="pb-opts">Photo + Movie ¥198,000 / Only ¥158,000</div>
+        <div class="pb-sep"></div>
+        <div class="pb-feats">Basic内容 + ヘアメイク付き</div>
+      </div>
+      <div class="plan-block">
+        <div class="pb-badge">月3組限定</div>
+        <div class="pb-name">ALL IN PLAN</div>
+        <div class="pb-price"><span class="pb-yen">¥</span>298,000</div>
+        <div class="pb-opts">Photo + Movie ¥298,000 / Only ¥258,000</div>
+        <div class="pb-sep"></div>
+        <div class="pb-feats">Hairmake + ドレス&タキシード + 小物一式</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PATTERN 06 ===== -->
+<div class="section">
+  <p class="section-label">PATTERN 06</p>
+  <p class="section-name">ダークマガジン風</p>
+  <div class="demo-box p06">
+    <div class="hero-area">
+      <div class="hero-bg"></div>
+      <div class="hero-text">
+        <h2>Japan Plan</h2>
+        <p>国内撮影プラン — TOKYO · KARUIZAWA · FUJI · JOGASHIMA</p>
+      </div>
+    </div>
+    <div class="plans-dark">
+      <div class="plan-d">
+        <div class="pd-name">Basic Plan</div>
+        <div class="pd-price">¥168,000</div>
+        <div class="pd-feat">前撮り撮影<br>200カット以上<br>撮影データ全納品<br>3分ショートフィルム</div>
+      </div>
+      <div class="plan-d">
+        <div class="pd-badge">POPULAR</div>
+        <div class="pd-name">Hairmake Plan</div>
+        <div class="pd-price">¥198,000</div>
+        <div class="pd-feat">Basic + ヘアメイク付き</div>
+      </div>
+      <div class="plan-d">
+        <div class="pd-badge">月3組限定</div>
+        <div class="pd-name">All In Plan</div>
+        <div class="pd-price">¥298,000</div>
+        <div class="pd-feat">Hairmake + ドレス&タキシード + 小物</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PATTERN 07 ===== -->
+<div class="section">
+  <p class="section-label">PATTERN 07</p>
+  <p class="section-name">横スクロールカード</p>
+  <div class="demo-box p07">
+    <div class="hero-ph hero-ph--half"><div class="overlay"><span class="h-title">Japan Plan</span><span class="h-sub">国内撮影プラン</span></div></div>
+    <div class="header">
+      <div class="header-title">Plans</div>
+      <div class="header-sub">← スクロールで他のプランを見る →</div>
+    </div>
+    <div class="scroll-cards">
+      <div class="sc-card">
+        <div class="sc-name">Basic Plan</div>
+        <div class="sc-price"><span style="font-size:0.9rem">¥</span>168,000</div>
+        <div class="sc-line"></div>
+        <div class="sc-feat">前撮り撮影<br>200カット以上<br>撮影データ全納品<br>3分ショートフィルム</div>
+      </div>
+      <div class="sc-card">
+        <div class="sc-badge">MOST POPULAR</div>
+        <div class="sc-name">Hairmake Plan</div>
+        <div class="sc-price"><span style="font-size:0.9rem">¥</span>198,000</div>
+        <div class="sc-line"></div>
+        <div class="sc-feat">Basic内容 + ヘアメイク付き</div>
+      </div>
+      <div class="sc-card">
+        <div class="sc-badge">月3組限定</div>
+        <div class="sc-name">All In Plan</div>
+        <div class="sc-price"><span style="font-size:0.9rem">¥</span>298,000</div>
+        <div class="sc-line"></div>
+        <div class="sc-feat">Hairmake + ドレス&タキシード + 小物一式</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PATTERN 08 ===== -->
+<div class="section">
+  <p class="section-label">PATTERN 08</p>
+  <p class="section-name">比較テーブル型</p>
+  <div class="demo-box p08">
+    <div class="hero-ph hero-ph--half"><div class="overlay"><span class="h-title">Japan Plan</span><span class="h-sub">国内撮影プラン</span></div></div>
+    <div class="content">
+      <table>
+        <thead><tr>
+          <th></th>
+          <th>Basic<span class="th-price">¥168,000</span></th>
+          <th><span class="th-badge">POPULAR</span>Hairmake<span class="th-price">¥198,000</span></th>
+          <th><span class="th-badge">月3組</span>All In<span class="th-price">¥298,000</span></th>
+        </tr></thead>
+        <tbody>
+          <tr><td>前撮り撮影</td><td class="check">●</td><td class="check">●</td><td class="check">●</td></tr>
+          <tr><td>200カット以上</td><td class="check">●</td><td class="check">●</td><td class="check">●</td></tr>
+          <tr><td>撮影データ全納品</td><td class="check">●</td><td class="check">●</td><td class="check">●</td></tr>
+          <tr><td>3分ショートフィルム</td><td class="check">●</td><td class="check">●</td><td class="check">●</td></tr>
+          <tr><td>ヘアメイク</td><td style="color:#ddd">—</td><td class="check">●</td><td class="check">●</td></tr>
+          <tr><td>ドレス&タキシード+小物</td><td style="color:#ddd">—</td><td style="color:#ddd">—</td><td class="check">●</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PATTERN 09 ===== -->
+<div class="section">
+  <p class="section-label">PATTERN 09</p>
+  <p class="section-name">タイムライン型</p>
+  <div class="demo-box p09">
+    <div class="hero-ph hero-ph--half"><div class="overlay"><span class="h-title">Japan Plan</span><span class="h-sub">国内撮影プラン</span></div></div>
+    <div class="content">
+      <div class="header"><div class="header-title">Plans</div></div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-name">Basic Plan</div>
+        <div class="tl-price">¥168,000</div>
+        <div class="tl-opts">Photo + Movie ¥168,000 / Only ¥128,000</div>
+        <div class="tl-feats">前撮り撮影 / 200カット以上 / 撮影データ全納品 / 3分ショートフィルム</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-badge">MOST POPULAR</div>
+        <div class="tl-name">Hairmake Plan</div>
+        <div class="tl-price">¥198,000</div>
+        <div class="tl-opts">Photo + Movie ¥198,000 / Only ¥158,000</div>
+        <div class="tl-feats">Basic内容 + ヘアメイク付き</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-badge">月3組限定</div>
+        <div class="tl-name">All In Plan</div>
+        <div class="tl-price">¥298,000</div>
+        <div class="tl-opts">Photo + Movie ¥298,000 / Only ¥258,000</div>
+        <div class="tl-feats">Hairmake + ドレス&タキシード + 小物一式</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PATTERN 10 ===== -->
+<div class="section">
+  <p class="section-label">PATTERN 10</p>
+  <p class="section-name">余白重視ストリップ + 薄ボーダー</p>
+  <div class="demo-box p10">
+    <div class="hero-ph"><div class="overlay"><span class="h-title">Japan Plan</span><span class="h-sub">国内撮影プラン</span></div></div>
+    <div class="content">
+      <div class="header">
+        <div class="header-label">PLAN / PRICE — JAPAN</div>
+        <div class="header-title">Japan Plan</div>
+        <div class="header-jp">国内撮影プラン</div>
+      </div>
+      <div class="plan-strip">
+        <div class="ps-left">
+          <div class="ps-name">Basic Plan</div>
+          <div class="ps-price"><span class="ps-yen">¥</span>168,000</div>
+        </div>
+        <div class="ps-right">
+          <div class="ps-opts">Photo + Movie … ¥168,000<br>Photo Only / Movie Only … ¥128,000 (¥40,000 OFF)</div>
+          <div class="ps-sep"></div>
+          <div class="ps-feats">前撮り撮影 / 200カット以上 / 撮影データ全納品 / 3分ショートフィルム</div>
+        </div>
+      </div>
+      <div class="plan-strip">
+        <div class="ps-left">
+          <div class="ps-badge">MOST POPULAR</div>
+          <div class="ps-name">Hairmake Plan</div>
+          <div class="ps-price"><span class="ps-yen">¥</span>198,000</div>
+        </div>
+        <div class="ps-right">
+          <div class="ps-opts">Photo + Movie … ¥198,000<br>Photo Only / Movie Only … ¥158,000</div>
+          <div class="ps-sep"></div>
+          <div class="ps-feats">Basic内容 + ヘアメイク付き</div>
+        </div>
+      </div>
+      <div class="plan-strip">
+        <div class="ps-left">
+          <div class="ps-badge">月3組限定</div>
+          <div class="ps-name">All In Plan</div>
+          <div class="ps-price"><span class="ps-yen">¥</span>298,000</div>
+        </div>
+        <div class="ps-right">
+          <div class="ps-opts">Photo + Movie … ¥298,000<br>Photo Only / Movie Only … ¥258,000</div>
+          <div class="ps-sep"></div>
+          <div class="ps-feats">Hairmake内容 + ドレス&タキシード + 小物一式</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

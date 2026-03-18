@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slide Transition Candidates</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Noto+Sans:wght@300;400&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#1a1a1a; color:#fff; font-family:'Noto Sans',sans-serif; }
+
+  .header {
+    text-align:center; padding:2rem 1rem 1rem;
+    font-family:'Cormorant Garamond',serif;
+  }
+  .header h1 { font-size:1.5rem; font-weight:300; letter-spacing:0.15em; margin-bottom:0.3rem; }
+  .header p { font-size:0.75rem; opacity:0.5; letter-spacing:0.1em; }
+
+  .tabs {
+    display:flex; flex-wrap:wrap; justify-content:center; gap:0.5rem;
+    padding:1rem 1rem 1.5rem; max-width:900px; margin:0 auto;
+  }
+  .tab {
+    padding:0.5rem 1.2rem; border:1px solid rgba(255,255,255,0.2);
+    background:transparent; color:#fff; font-size:0.8rem; cursor:pointer;
+    letter-spacing:0.05em; transition:all 0.3s;
+  }
+  .tab:hover { border-color:rgba(255,255,255,0.5); }
+  .tab.active { background:rgba(255,255,255,0.15); border-color:rgba(255,255,255,0.6); }
+
+  .stage {
+    width:100%; max-width:700px; aspect-ratio:16/9; margin:0 auto;
+    position:relative; overflow:hidden; background:#000;
+  }
+  .stage .slide {
+    position:absolute; top:0; left:0; width:100%; height:100%;
+    opacity:0; z-index:1;
+  }
+  .stage .slide img {
+    width:100%; height:100%; object-fit:cover;
+  }
+  .stage .slide.active { opacity:1; z-index:2; }
+  .stage .overlay {
+    position:absolute; top:0; left:0; width:100%; height:100%;
+    background:linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0.5) 100%);
+    z-index:10; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  }
+  .stage .city {
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(2rem,5vw,3.5rem); font-weight:300;
+    letter-spacing:0.15em; opacity:0;
+  }
+  .stage .latlng {
+    font-family:'Noto Sans',sans-serif;
+    font-size:0.6rem; letter-spacing:0.25em;
+    text-transform:uppercase; opacity:0; margin-top:0.5rem;
+  }
+
+  .desc {
+    text-align:center; padding:1.2rem 1rem; max-width:700px; margin:0 auto;
+  }
+  .desc h3 { font-size:0.95rem; font-weight:400; letter-spacing:0.08em; margin-bottom:0.4rem; }
+  .desc p { font-size:0.75rem; opacity:0.5; line-height:1.6; }
+
+  .footer {
+    text-align:center; padding:2rem; font-size:0.65rem; opacity:0.3;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Transition Candidates</h1>
+  <p>スライド切替パターン 10種</p>
+</div>
+
+<div class="tabs" id="tabs"></div>
+
+<div class="stage" id="stage">
+  <div class="slide active"><img src="images/japan/01.jpg" alt=""></div>
+  <div class="slide"><img src="images/paris/02.jpg" alt=""></div>
+  <div class="slide"><img src="images/london/01.jpg" alt=""></div>
+  <div class="overlay">
+    <div class="city" id="city"></div>
+    <div class="latlng" id="latlng"></div>
+  </div>
+</div>
+
+<div class="desc" id="desc">
+  <h3 id="descTitle"></h3>
+  <p id="descText"></p>
+</div>
+
+<div class="footer">ukigumo — transition preview</div>
+
+<script>
+const cities = [
+  { name:'Japan', lat:'35.6762° N', lng:'139.6503° E' },
+  { name:'Paris', lat:'48.8566° N', lng:'2.3522° E' },
+  { name:'London', lat:'51.5074° N', lng:'0.1278° W' },
+];
+
+const patterns = [
+  {
+    id: 1,
+    title: '#01 — クロスフェード同時',
+    desc: '写真と文字が同時にふわっと消えて、同時にふわっと出る。シンプル。',
+    imgTransition: 'opacity 1.5s ease',
+    textFadeOut: { opacity:'0', filter:'blur(4px)', transition:'opacity 0.8s ease, filter 0.6s ease' },
+    textFadeIn: { opacity:'1', filter:'blur(0)', transition:'opacity 1.5s ease, filter 1.2s ease' },
+    latlngFadeIn: { opacity:'0.7', filter:'blur(0)', transition:'opacity 1.5s ease, filter 1.2s ease' },
+    sequence: 'simultaneous', // text and image change at same time
+    textSwapDelay: 800,
+  },
+  {
+    id: 2,
+    title: '#02 — 文字先消え → 画像チェンジ',
+    desc: '文字がスッと先に消えて、少し間を置いてから画像がクロスフェード。',
+    imgTransition: 'opacity 1.5s ease',
+    textFadeOut: { opacity:'0', filter:'blur(4px)', transition:'opacity 0.6s ease, filter 0.5s ease' },
+    textFadeIn: { opacity:'1', filter:'blur(0)', transition:'opacity 1.5s cubic-bezier(0.19,1,0.22,1), filter 1.5s ease' },
+    latlngFadeIn: { opacity:'0.7', filter:'blur(0)', transition:'opacity 1.5s cubic-bezier(0.19,1,0.22,1), filter 1.5s ease' },
+    sequence: 'text-first',
+    textLeadMs: 400,
+    textSwapDelay: 1000,
+  },
+  {
+    id: 3,
+    title: '#03 — フェード to ブラック',
+    desc: '一度暗転してから次の写真と文字が浮かび上がる。映画的。',
+    imgTransition: 'opacity 0.8s ease',
+    textFadeOut: { opacity:'0', transition:'opacity 0.6s ease' },
+    textFadeIn: { opacity:'1', transition:'opacity 1.2s ease 0.3s' },
+    latlngFadeIn: { opacity:'0.7', transition:'opacity 1.2s ease 0.3s' },
+    sequence: 'blackout',
+    textSwapDelay: 900,
+  },
+  {
+    id: 4,
+    title: '#04 — スローブラー',
+    desc: '文字も写真もゆっくりボケていって、ボケた状態から次がじわーっと鮮明に。',
+    imgTransition: 'opacity 2s ease, filter 1.5s ease',
+    imgBlurOut: true,
+    textFadeOut: { opacity:'0', filter:'blur(8px)', transition:'opacity 1.2s ease, filter 1s ease' },
+    textFadeIn: { opacity:'1', filter:'blur(0)', transition:'opacity 2s cubic-bezier(0.19,1,0.22,1), filter 2s ease' },
+    latlngFadeIn: { opacity:'0.7', filter:'blur(0)', transition:'opacity 2s cubic-bezier(0.19,1,0.22,1), filter 2s ease' },
+    sequence: 'simultaneous',
+    textSwapDelay: 1200,
+  },
+  {
+    id: 5,
+    title: '#05 — パッと切替・文字じわっと',
+    desc: '写真は瞬時に切り替わり、文字だけゆっくりブラーから登場。',
+    imgTransition: 'opacity 0.15s ease',
+    textFadeOut: { opacity:'0', transition:'opacity 0.15s ease' },
+    textFadeIn: { opacity:'1', filter:'blur(0)', transition:'opacity 1.8s cubic-bezier(0.19,1,0.22,1), filter 1.5s ease' },
+    latlngFadeIn: { opacity:'0.7', filter:'blur(0)', transition:'opacity 1.8s cubic-bezier(0.19,1,0.22,1), filter 1.5s ease' },
+    sequence: 'simultaneous',
+    textSwapDelay: 200,
+  },
+  {
+    id: 6,
+    title: '#06 — 文字ステイ・写真だけチェンジ',
+    desc: '文字が消えずに残り、写真だけクロスフェード。写真が変わった後に文字が入れ替わる。',
+    imgTransition: 'opacity 1.5s ease',
+    textFadeOut: { opacity:'0', filter:'blur(4px)', transition:'opacity 0.5s ease, filter 0.4s ease' },
+    textFadeIn: { opacity:'1', filter:'blur(0)', transition:'opacity 1s ease, filter 0.8s ease' },
+    latlngFadeIn: { opacity:'0.7', filter:'blur(0)', transition:'opacity 1s ease, filter 0.8s ease' },
+    sequence: 'image-first',
+    imageLeadMs: 800,
+    textSwapDelay: 600,
+  },
+  {
+    id: 7,
+    title: '#07 — スケールイン',
+    desc: '次の画像が少し拡大した状態から縮まりながら登場。文字は同時にじわっと。',
+    imgTransition: 'opacity 1.5s ease, transform 2s cubic-bezier(0.19,1,0.22,1)',
+    imgScaleIn: true,
+    textFadeOut: { opacity:'0', filter:'blur(4px)', transition:'opacity 0.8s ease, filter 0.6s ease' },
+    textFadeIn: { opacity:'1', filter:'blur(0)', transition:'opacity 1.5s cubic-bezier(0.19,1,0.22,1), filter 1.5s ease' },
+    latlngFadeIn: { opacity:'0.7', filter:'blur(0)', transition:'opacity 1.5s cubic-bezier(0.19,1,0.22,1), filter 1.5s ease' },
+    sequence: 'simultaneous',
+    textSwapDelay: 800,
+  },
+  {
+    id: 8,
+    title: '#08 — ソフトディゾルブ',
+    desc: '写真も文字も全てが一体になって、ゆーっくり溶けるように切り替わる。',
+    imgTransition: 'opacity 2.5s cubic-bezier(0.19,1,0.22,1)',
+    textFadeOut: { opacity:'0', filter:'blur(6px)', transition:'opacity 2s cubic-bezier(0.19,1,0.22,1), filter 1.5s ease' },
+    textFadeIn: { opacity:'1', filter:'blur(0)', transition:'opacity 2.5s cubic-bezier(0.19,1,0.22,1), filter 2s ease' },
+    latlngFadeIn: { opacity:'0.7', filter:'blur(0)', transition:'opacity 2.5s cubic-bezier(0.19,1,0.22,1), filter 2s ease' },
+    sequence: 'simultaneous',
+    textSwapDelay: 1400,
+  },
+  {
+    id: 9,
+    title: '#09 — 文字先出し',
+    desc: '先に新しい文字がじわっと出て、追いかけるように写真がチェンジ。',
+    imgTransition: 'opacity 1.5s ease',
+    textFadeOut: { opacity:'0', transition:'opacity 0.4s ease' },
+    textFadeIn: { opacity:'1', filter:'blur(0)', transition:'opacity 1.2s cubic-bezier(0.19,1,0.22,1), filter 1s ease' },
+    latlngFadeIn: { opacity:'0.7', filter:'blur(0)', transition:'opacity 1.2s cubic-bezier(0.19,1,0.22,1), filter 1s ease' },
+    sequence: 'text-leads-image',
+    textSwapDelay: 500,
+    imageLagMs: 600,
+  },
+  {
+    id: 10,
+    title: '#10 — ホワイトフラッシュ',
+    desc: '一瞬ふわっと白くなってから次のシーンへ。写真の切替が柔らかく上品。',
+    imgTransition: 'opacity 1.2s ease',
+    whiteFlash: true,
+    textFadeOut: { opacity:'0', transition:'opacity 0.4s ease' },
+    textFadeIn: { opacity:'1', filter:'blur(0)', transition:'opacity 1.2s ease 0.2s, filter 1s ease 0.2s' },
+    latlngFadeIn: { opacity:'0.7', filter:'blur(0)', transition:'opacity 1.2s ease 0.2s, filter 1s ease 0.2s' },
+    sequence: 'simultaneous',
+    textSwapDelay: 800,
+  },
+];
+
+// Build tabs
+const tabsEl = document.getElementById('tabs');
+patterns.forEach((p, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'tab' + (i === 0 ? ' active' : '');
+  btn.textContent = '#' + String(p.id).padStart(2, '0');
+  btn.onclick = () => selectPattern(i);
+  tabsEl.appendChild(btn);
+});
+
+const stage = document.getElementById('stage');
+const slidesEl = stage.querySelectorAll('.slide');
+const cityEl = document.getElementById('city');
+const latlngEl = document.getElementById('latlng');
+const descTitle = document.getElementById('descTitle');
+const descText = document.getElementById('descText');
+
+// White flash overlay
+const flashEl = document.createElement('div');
+flashEl.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;background:#fff;opacity:0;z-index:5;pointer-events:none;transition:opacity 0.4s ease;';
+stage.appendChild(flashEl);
+
+let currentSlide = 0;
+let currentPattern = 0;
+let autoInterval = null;
+
+function applyStyles(el, styles) {
+  Object.keys(styles).forEach(k => el.style[k] = styles[k]);
+}
+
+function resetAll() {
+  slidesEl.forEach(s => {
+    s.style.transition = 'none';
+    s.style.transform = '';
+    s.style.filter = '';
+    s.classList.remove('active');
+  });
+  cityEl.style.transition = 'none';
+  latlngEl.style.transition = 'none';
+  cityEl.style.opacity = '0';
+  cityEl.style.filter = '';
+  latlngEl.style.opacity = '0';
+  latlngEl.style.filter = '';
+  flashEl.style.opacity = '0';
+  currentSlide = 0;
+  slidesEl[0].classList.add('active');
+  slidesEl[0].style.opacity = '1';
+  cityEl.textContent = cities[0].name;
+  latlngEl.textContent = cities[0].lat + '  ' + cities[0].lng;
+  // Show initial text
+  requestAnimationFrame(() => {
+    cityEl.style.transition = 'opacity 1s ease, filter 0.8s ease';
+    latlngEl.style.transition = 'opacity 1s ease, filter 0.8s ease';
+    cityEl.style.opacity = '1';
+    cityEl.style.filter = 'blur(0)';
+    latlngEl.style.opacity = '0.7';
+    latlngEl.style.filter = 'blur(0)';
+  });
+}
+
+function transition(p) {
+  const next = (currentSlide + 1) % cities.length;
+  const curSlide = slidesEl[currentSlide];
+  const nextSlide = slidesEl[next];
+
+  function fadeOutText() {
+    applyStyles(cityEl, p.textFadeOut);
+    applyStyles(latlngEl, { ...p.textFadeOut });
+  }
+
+  function swapAndFadeInText() {
+    cityEl.style.transition = 'none';
+    latlngEl.style.transition = 'none';
+    cityEl.style.opacity = '0';
+    cityEl.style.filter = p.textFadeIn.filter ? 'blur(6px)' : '';
+    latlngEl.style.opacity = '0';
+    latlngEl.style.filter = p.latlngFadeIn.filter ? 'blur(6px)' : '';
+    cityEl.textContent = cities[next].name;
+    latlngEl.textContent = cities[next].lat + '  ' + cities[next].lng;
+    requestAnimationFrame(() => {
+      applyStyles(cityEl, p.textFadeIn);
+      applyStyles(latlngEl, p.latlngFadeIn);
+    });
+  }
+
+  function swapImage() {
+    slidesEl.forEach(s => {
+      s.style.transition = p.imgTransition;
+      if (p.imgBlurOut && s === curSlide) {
+        s.style.filter = 'blur(6px)';
+      }
+    });
+    curSlide.style.opacity = '0';
+    curSlide.classList.remove('active');
+    if (p.imgScaleIn) {
+      nextSlide.style.transition = 'none';
+      nextSlide.style.transform = 'scale(1.08)';
+      nextSlide.style.opacity = '0';
+      nextSlide.classList.add('active');
+      requestAnimationFrame(() => {
+        nextSlide.style.transition = p.imgTransition;
+        nextSlide.style.opacity = '1';
+        nextSlide.style.transform = 'scale(1)';
+      });
+    } else {
+      nextSlide.style.transition = p.imgTransition;
+      nextSlide.style.opacity = '1';
+      nextSlide.classList.add('active');
+    }
+    nextSlide.style.filter = '';
+  }
+
+  // Sequence logic
+  if (p.sequence === 'simultaneous') {
+    if (p.whiteFlash) {
+      fadeOutText();
+      flashEl.style.transition = 'opacity 0.4s ease';
+      flashEl.style.opacity = '0.6';
+      setTimeout(() => {
+        swapImage();
+        flashEl.style.transition = 'opacity 0.8s ease';
+        flashEl.style.opacity = '0';
+      }, 400);
+      setTimeout(swapAndFadeInText, p.textSwapDelay);
+    } else {
+      fadeOutText();
+      swapImage();
+      setTimeout(swapAndFadeInText, p.textSwapDelay);
+    }
+  } else if (p.sequence === 'text-first') {
+    fadeOutText();
+    setTimeout(swapImage, p.textLeadMs);
+    setTimeout(swapAndFadeInText, p.textLeadMs + p.textSwapDelay);
+  } else if (p.sequence === 'image-first') {
+    swapImage();
+    setTimeout(fadeOutText, p.imageLeadMs);
+    setTimeout(swapAndFadeInText, p.imageLeadMs + p.textSwapDelay);
+  } else if (p.sequence === 'text-leads-image') {
+    fadeOutText();
+    setTimeout(swapAndFadeInText, p.textSwapDelay);
+    setTimeout(swapImage, p.imageLagMs);
+  } else if (p.sequence === 'blackout') {
+    fadeOutText();
+    curSlide.style.transition = 'opacity 0.8s ease';
+    curSlide.style.opacity = '0';
+    setTimeout(() => {
+      curSlide.classList.remove('active');
+      nextSlide.style.transition = 'none';
+      nextSlide.style.opacity = '0';
+      nextSlide.classList.add('active');
+      requestAnimationFrame(() => {
+        nextSlide.style.transition = p.imgTransition;
+        nextSlide.style.opacity = '1';
+      });
+      setTimeout(swapAndFadeInText, 200);
+    }, p.textSwapDelay);
+  }
+
+  currentSlide = next;
+}
+
+function selectPattern(idx) {
+  currentPattern = idx;
+  document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+  descTitle.textContent = patterns[idx].title;
+  descText.textContent = patterns[idx].desc;
+
+  clearInterval(autoInterval);
+  resetAll();
+
+  setTimeout(() => {
+    autoInterval = setInterval(() => transition(patterns[currentPattern]), 3500);
+  }, 2000);
+}
+
+// Init
+selectPattern(0);
+</script>
+</body>
+</html>

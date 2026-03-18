@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CTA Button — 20 Patterns</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#f5f3ef;font-family:'Noto Serif JP',serif;color:#2a2420;}
+.section{padding:50px 24px;border-bottom:1px solid rgba(42,36,32,0.08);text-align:center;}
+.section:nth-child(even){background:#fff;}
+.label{font-size:10px;letter-spacing:0.25em;color:rgba(42,36,32,0.35);margin-bottom:24px;font-family:sans-serif;}
+.dark{background:#1c1916;color:#fff;}
+.dark .label{color:rgba(255,255,255,0.3);}
+
+/* ═══ Pattern 01: ゴールドライン＋矢印スライド ═══ */
+.cta01{
+  display:inline-flex;align-items:center;gap:14px;
+  text-decoration:none;color:#2a2420;
+  font-family:'Cormorant Garamond',serif;font-size:0.85rem;letter-spacing:0.15em;
+  position:relative;padding:12px 0;
+}
+.cta01 .line{width:32px;height:1px;background:rgba(201,169,110,0.5);transition:width 0.5s cubic-bezier(0.25,0.46,0.45,0.94);}
+.cta01 .arrow{transition:transform 0.4s ease;font-size:0.75rem;color:rgba(201,169,110,0.7);}
+.cta01:hover .line{width:56px;}
+.cta01:hover .arrow{transform:translateX(6px);}
+
+/* ═══ Pattern 02: ボーダーピル＋フェードイン下線 ═══ */
+.cta02{
+  display:inline-block;text-decoration:none;color:#2a2420;
+  font-family:'Cormorant Garamond',serif;font-size:0.82rem;letter-spacing:0.18em;
+  padding:10px 28px;border:1px solid rgba(42,36,32,0.15);border-radius:40px;
+  position:relative;overflow:hidden;transition:all 0.4s ease;
+}
+.cta02::after{content:'';position:absolute;bottom:0;left:50%;width:0;height:1px;background:rgba(201,169,110,0.6);transition:all 0.4s ease;transform:translateX(-50%);}
+.cta02:hover{border-color:rgba(201,169,110,0.4);color:#2a2420;}
+.cta02:hover::after{width:60%;}
+
+/* ═══ Pattern 03: 丸アイコン＋テキスト ═══ */
+.cta03{
+  display:inline-flex;align-items:center;gap:12px;
+  text-decoration:none;color:#2a2420;
+  font-family:'Cormorant Garamond',serif;font-size:0.82rem;letter-spacing:0.12em;
+}
+.cta03 .circle{
+  width:36px;height:36px;border-radius:50%;border:1px solid rgba(42,36,32,0.15);
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+  font-size:0.65rem;color:rgba(201,169,110,0.7);
+}
+.cta03:hover .circle{background:rgba(201,169,110,0.1);border-color:rgba(201,169,110,0.4);transform:scale(1.1);}
+
+/* ═══ Pattern 04: フル幅ブロック＋スライドBG ═══ */
+.cta04{
+  display:block;text-decoration:none;color:#2a2420;
+  font-family:'Cormorant Garamond',serif;font-size:0.82rem;letter-spacing:0.2em;
+  padding:16px 24px;border-top:1px solid rgba(42,36,32,0.08);border-bottom:1px solid rgba(42,36,32,0.08);
+  position:relative;overflow:hidden;transition:color 0.4s ease;max-width:400px;margin:0 auto;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.cta04::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:rgba(201,169,110,0.08);transition:left 0.5s cubic-bezier(0.25,0.46,0.45,0.94);}
+.cta04:hover::before{left:0;}
+.cta04 span{position:relative;z-index:1;}
+.cta04 .arr{position:relative;z-index:1;font-size:0.7rem;color:rgba(201,169,110,0.6);transition:transform 0.4s ease;}
+.cta04:hover .arr{transform:translateX(8px);}
+
+/* ═══ Pattern 05: ゴールドアンダーライン展開 ═══ */
+.cta05{
+  display:inline-block;text-decoration:none;color:#2a2420;
+  font-family:'Cormorant Garamond',serif;font-size:0.85rem;letter-spacing:0.15em;
+  position:relative;padding-bottom:4px;
+}
+.cta05::after{content:'';position:absolute;bottom:0;left:0;width:20px;height:1px;background:rgba(201,169,110,0.5);transition:width 0.5s cubic-bezier(0.25,0.46,0.45,0.94);}
+.cta05:hover::after{width:100%;}
+
+/* ═══ Pattern 06: ミニマルドット＋テキスト ═══ */
+.cta06{
+  display:inline-flex;align-items:center;gap:10px;
+  text-decoration:none;color:#2a2420;
+  font-family:'Cormorant Garamond',serif;font-size:0.8rem;letter-spacing:0.12em;
+}
+.cta06 .dot{width:6px;height:6px;border-radius:50%;background:rgba(201,169,110,0.5);transition:all 0.4s ease;}
+.cta06:hover .dot{transform:scale(1.8);background:rgba(201,169,110,0.8);}
+
+/* ═══ Pattern 07: ダブルライン挟み ═══ */
+.cta07{
+  display:inline-flex;align-items:center;gap:16px;
+  text-decoration:none;color:#2a2420;
+  font-family:'Cormorant Garamond',serif;font-size:0.8rem;letter-spacing:0.18em;
+}
+.cta07 .ln{width:24px;height:1px;background:rgba(42,36,32,0.2);transition:width 0.4s ease;}
+.cta07:hover .ln{width:40px;}
+
+/* ═══ Pattern 08: ゴールドボーダーボックス ═══ */
+.cta08{
+  display:inline-block;text-decoration:none;color:#2a2420;
+  font-family:'Cormorant Garamond',serif;font-size:0.78rem;letter-spacing:0.2em;
+  padding:12px 32px;border:1px solid rgba(201,169,110,0.3);
+  transition:all 0.4s ease;position:relative;
+}
+.cta08:hover{background:rgba(201,169,110,0.06);border-color:rgba(201,169,110,0.5);}
+
+/* ═══ Pattern 09: 矢印回転ホバー ═══ */
+.cta09{
+  display:inline-flex;align-items:center;gap:10px;
+  text-decoration:none;color:#2a2420;
+  font-family:'Cormorant Garamond',serif;font-size:0.82rem;letter-spacing:0.12em;
+}
+.cta09 .arr{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:28px;height:28px;border-radius:50%;border:1px solid rgba(42,36,32,0.12);
+  font-size:0.6rem;color:rgba(201,169,110,0.6);
+  transition:all 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.cta09:hover .arr{transform:rotate(45deg);border-color:rgba(201,169,110,0.4);background:rgba(201,169,110,0.06);}
+
+/* ═══ Pattern 10: スプリットライン（左テキスト右矢印）═══ */
+.cta10{
+  display:flex;align-items:center;justify-content:space-between;
+  text-decoration:none;color:#2a2420;max-width:320px;margin:0 auto;
+  font-family:'Cormorant Garamond',serif;font-size:0.8rem;letter-spacing:0.15em;
+  padding:10px 0;border-bottom:1px solid rgba(42,36,32,0.1);
+  transition:border-color 0.3s ease;
+}
+.cta10 .arr{font-size:0.65rem;color:rgba(201,169,110,0.5);transition:transform 0.4s ease;}
+.cta10:hover{border-color:rgba(201,169,110,0.3);}
+.cta10:hover .arr{transform:translateX(6px);}
+
+/* ═══ Pattern 11: フローティングピル（影付き）═══ */
+.cta11{
+  display:inline-block;text-decoration:none;color:#2a2420;
+  font-family:'Cormorant Garamond',serif;font-size:0.78rem;letter-spacing:0.15em;
+  padding:10px 30px;border-radius:40px;background:#fff;
+  box-shadow:0 2px 12px rgba(42,36,32,0.06);
+  transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.cta11:hover{box-shadow:0 6px 24px rgba(42,36,32,0.1);transform:translateY(-2px);}
+
+/* ═══ Pattern 12: テキスト＋ゴールド下線スライドイン（左から）═══ */
+.cta12{
+  display:inline-block;text-decoration:none;color:#2a2420;
+  font-family:'Cormorant Garamond',serif;font-size:0.85rem;letter-spacing:0.12em;
+  position:relative;padding:8px 0;overflow:hidden;
+}
+.cta12::after{content:'';position:absolute;bottom:0;left:-100%;width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(201,169,110,0.6),transparent);transition:left 0.6s cubic-bezier(0.25,0.46,0.45,0.94);}
+.cta12:hover::after{left:0;}
+
+/* ═══ Pattern 13: ダイヤ＋テキスト ═══ */
+.cta13{
+  display:inline-flex;align-items:center;gap:12px;
+  text-decoration:none;color:#2a2420;
+  font-family:'Cormorant Garamond',serif;font-size:0.8rem;letter-spacing:0.15em;
+}
+.cta13 .diamond{
+  width:8px;height:8px;background:rgba(201,169,110,0.4);
+  transform:rotate(45deg);transition:all 0.4s ease;
+}
+.cta13:hover .diamond{transform:rotate(45deg) scale(1.4);background:rgba(201,169,110,0.7);}
+
+/* ═══ Pattern 14: ブラケット囲み ═══ */
+.cta14{
+  display:inline-flex;align-items:center;gap:8px;
+  text-decoration:none;color:#2a2420;
+  font-family:'Cormorant Garamond',serif;font-size:0.82rem;letter-spacing:0.15em;
+}
+.cta14 .br{color:rgba(201,169,110,0.4);font-weight:300;transition:color 0.3s ease;font-size:1rem;}
+.cta14:hover .br{color:rgba(201,169,110,0.8);}
+
+/* ═══ Pattern 15: ゴールドグラデーションBG ═══ */
+.cta15{
+  display:inline-block;text-decoration:none;
+  font-family:'Cormorant Garamond',serif;font-size:0.78rem;letter-spacing:0.18em;
+  padding:11px 32px;border-radius:4px;color:#fff;
+  background:linear-gradient(135deg,rgba(201,169,110,0.7),rgba(181,149,90,0.9));
+  transition:all 0.4s ease;box-shadow:0 2px 12px rgba(201,169,110,0.15);
+}
+.cta15:hover{box-shadow:0 6px 20px rgba(201,169,110,0.25);transform:translateY(-2px);}
+
+/* ═══ Pattern 16: 縦線＋テキスト ═══ */
+.cta16{
+  display:inline-flex;align-items:center;gap:14px;
+  text-decoration:none;color:#2a2420;
+  font-family:'Cormorant Garamond',serif;font-size:0.82rem;letter-spacing:0.12em;
+}
+.cta16 .vline{width:1px;height:20px;background:rgba(201,169,110,0.4);transition:height 0.4s ease;}
+.cta16:hover .vline{height:30px;}
+
+/* ═══ Pattern 17: テキスト＋丸矢印（ゴールドリング）═══ */
+.cta17{
+  display:inline-flex;align-items:center;gap:12px;
+  text-decoration:none;color:#2a2420;
+  font-family:'Cormorant Garamond',serif;font-size:0.82rem;letter-spacing:0.12em;
+}
+.cta17 .ring{
+  width:32px;height:32px;border-radius:50%;
+  border:1px solid rgba(201,169,110,0.35);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.6rem;color:rgba(201,169,110,0.6);
+  transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.cta17:hover .ring{background:rgba(201,169,110,0.08);border-color:rgba(201,169,110,0.6);transform:translateX(4px);}
+
+/* ═══ Pattern 18: ホバーで文字間隔が広がる ═══ */
+.cta18{
+  display:inline-block;text-decoration:none;color:#2a2420;
+  font-family:'Cormorant Garamond',serif;font-size:0.85rem;
+  letter-spacing:0.12em;padding:8px 0;
+  transition:letter-spacing 0.5s cubic-bezier(0.25,0.46,0.45,0.94),color 0.3s ease;
+  border-bottom:1px solid rgba(42,36,32,0.1);
+}
+.cta18:hover{letter-spacing:0.25em;color:rgba(201,169,110,0.8);}
+
+/* ═══ Pattern 19: 角丸ゴールドボーダー＋矢印 ═══ */
+.cta19{
+  display:inline-flex;align-items:center;gap:10px;
+  text-decoration:none;color:#2a2420;
+  font-family:'Cormorant Garamond',serif;font-size:0.78rem;letter-spacing:0.15em;
+  padding:10px 24px;border-radius:8px;
+  border:1px solid rgba(201,169,110,0.25);
+  transition:all 0.4s ease;
+}
+.cta19 .arr{font-size:0.65rem;color:rgba(201,169,110,0.5);transition:transform 0.4s ease;}
+.cta19:hover{border-color:rgba(201,169,110,0.5);background:rgba(201,169,110,0.04);}
+.cta19:hover .arr{transform:translateX(4px);}
+
+/* ═══ Pattern 20: ミニマルテキスト＋フェードインドット ═══ */
+.cta20{
+  display:inline-flex;align-items:center;gap:8px;
+  text-decoration:none;color:#2a2420;
+  font-family:'Cormorant Garamond',serif;font-size:0.82rem;letter-spacing:0.12em;
+  padding:8px 0;
+}
+.cta20 .dot{width:4px;height:4px;border-radius:50%;background:rgba(201,169,110,0);transition:all 0.4s ease;}
+.cta20:hover .dot{background:rgba(201,169,110,0.7);transform:scale(1.5);}
+.cta20::after{content:'→';font-size:0.65rem;color:rgba(201,169,110,0.4);margin-left:4px;transition:all 0.4s ease;}
+.cta20:hover::after{color:rgba(201,169,110,0.8);transform:translateX(4px);}
+</style>
+</head>
+<body>
+
+<div class="section"><div class="label">01 — GOLD LINE + ARROW SLIDE</div>
+<a href="#" class="cta01"><span class="line"></span><span>Dress Shop</span><span class="arrow">→</span></a>
+</div>
+
+<div class="section"><div class="label">02 — BORDER PILL + FADE UNDERLINE</div>
+<a href="#" class="cta02">view questions</a>
+</div>
+
+<div class="section"><div class="label">03 — CIRCLE ICON + TEXT</div>
+<a href="#" class="cta03"><span class="circle">→</span><span>Dress Shop</span></a>
+</div>
+
+<div class="section"><div class="label">04 — FULL WIDTH BLOCK + SLIDE BG</div>
+<a href="#" class="cta04"><span>view questions</span><span class="arr">→</span></a>
+</div>
+
+<div class="section"><div class="label">05 — GOLD UNDERLINE EXPAND</div>
+<a href="#" class="cta05">Dress Shop →</a>
+</div>
+
+<div class="section"><div class="label">06 — MINIMAL DOT + TEXT</div>
+<a href="#" class="cta06"><span class="dot"></span><span>view questions</span></a>
+</div>
+
+<div class="section"><div class="label">07 — DOUBLE LINE SANDWICH</div>
+<a href="#" class="cta07"><span class="ln"></span><span>Dress Shop</span><span class="ln"></span></a>
+</div>
+
+<div class="section"><div class="label">08 — GOLD BORDER BOX</div>
+<a href="#" class="cta08">view questions</a>
+</div>
+
+<div class="section"><div class="label">09 — ARROW ROTATION HOVER</div>
+<a href="#" class="cta09"><span>Dress Shop</span><span class="arr">→</span></a>
+</div>
+
+<div class="section"><div class="label">10 — SPLIT LINE (TEXT LEFT / ARROW RIGHT)</div>
+<a href="#" class="cta10"><span>view questions</span><span class="arr">→</span></a>
+</div>
+
+<div class="section"><div class="label">11 — FLOATING PILL WITH SHADOW</div>
+<a href="#" class="cta11">Dress Shop →</a>
+</div>
+
+<div class="section"><div class="label">12 — GOLD GRADIENT UNDERLINE SLIDE-IN</div>
+<a href="#" class="cta12">view questions →</a>
+</div>
+
+<div class="section"><div class="label">13 — DIAMOND + TEXT</div>
+<a href="#" class="cta13"><span class="diamond"></span><span>Dress Shop</span></a>
+</div>
+
+<div class="section"><div class="label">14 — BRACKET WRAP</div>
+<a href="#" class="cta14"><span class="br">[</span><span>view questions</span><span class="br">]</span></a>
+</div>
+
+<div class="section"><div class="label">15 — GOLD GRADIENT BUTTON</div>
+<a href="#" class="cta15">Dress Shop</a>
+</div>
+
+<div class="section"><div class="label">16 — VERTICAL LINE + TEXT</div>
+<a href="#" class="cta16"><span class="vline"></span><span>view questions</span></a>
+</div>
+
+<div class="section"><div class="label">17 — TEXT + GOLD RING ARROW</div>
+<a href="#" class="cta17"><span>Dress Shop</span><span class="ring">→</span></a>
+</div>
+
+<div class="section"><div class="label">18 — LETTER-SPACING EXPAND ON HOVER</div>
+<a href="#" class="cta18">view questions</a>
+</div>
+
+<div class="section"><div class="label">19 — ROUNDED GOLD BORDER + ARROW</div>
+<a href="#" class="cta19"><span>Dress Shop</span><span class="arr">→</span></a>
+</div>
+
+<div class="section"><div class="label">20 — MINIMAL TEXT + FADE-IN DOT</div>
+<a href="#" class="cta20"><span class="dot"></span><span>view questions</span></a>
+</div>
+
+</body>
+</html>

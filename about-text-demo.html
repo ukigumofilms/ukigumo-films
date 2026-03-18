@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Text — 10 Layout Patterns</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Sans+JP:wght@200;300;400&family=Noto+Sans:wght@300;400&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root {
+    --serif: 'Cormorant Garamond', serif;
+    --jp: 'Noto Sans JP', sans-serif;
+    --sans: 'Noto Sans', sans-serif;
+  }
+  body { background:#1a1a1a; color:#fff; font-family:var(--sans); }
+
+  .header { text-align:center; padding:2rem 1rem 1rem; }
+  .header h1 { font-family:var(--serif); font-size:1.3rem; font-weight:300; letter-spacing:0.15em; }
+  .header p { font-size:0.7rem; opacity:0.4; margin-top:0.3rem; }
+
+  .tabs { display:flex; flex-wrap:wrap; justify-content:center; gap:0.4rem; padding:0.8rem 1rem; max-width:900px; margin:0 auto; position:sticky; top:0; z-index:100; background:#1a1a1a; }
+  .tab { padding:0.45rem 1rem; border:1px solid rgba(255,255,255,0.2); background:transparent; color:#fff; font-size:0.75rem; cursor:pointer; letter-spacing:0.05em; transition:all 0.3s; }
+  .tab:hover { border-color:rgba(255,255,255,0.5); }
+  .tab.active { background:rgba(255,255,255,0.15); border-color:rgba(255,255,255,0.6); }
+
+  /* Mock About Section */
+  .stage {
+    max-width:800px; margin:1.5rem auto; overflow:hidden;
+    position:relative;
+  }
+  .mock-about {
+    position:relative; min-height:70vh; overflow:hidden;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .mock-about__bg {
+    position:absolute; top:0; left:0; width:100%; height:100%;
+  }
+  .mock-about__bg img {
+    width:100%; height:100%; object-fit:cover;
+  }
+  .mock-about__overlay {
+    position:absolute; top:0; left:0; width:100%; height:100%;
+    background:linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.75) 100%);
+  }
+  .mock-about__content {
+    position:relative; z-index:2; padding:4rem 2rem; width:100%;
+  }
+
+  /* Pattern-specific rendering will be injected via JS */
+  .desc-bar {
+    text-align:center; padding:1rem; max-width:700px; margin:0 auto;
+  }
+  .desc-bar h3 { font-size:0.85rem; font-weight:400; margin-bottom:0.3rem; }
+  .desc-bar p { font-size:0.7rem; opacity:0.4; line-height:1.6; }
+  .footer { text-align:center; padding:1.5rem; font-size:0.6rem; opacity:0.2; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>About Text — 10 Layout Patterns</h1>
+  <p>テキストバランス比較</p>
+</div>
+
+<div class="tabs" id="tabs"></div>
+
+<div class="stage">
+  <div class="mock-about">
+    <div class="mock-about__bg">
+      <img src="images/london/05.jpg" alt="">
+      <div class="mock-about__overlay"></div>
+    </div>
+    <div class="mock-about__content" id="content"></div>
+  </div>
+</div>
+
+<div class="desc-bar"><h3 id="descTitle"></h3><p id="descText"></p></div>
+<div class="footer">ukigumo — about text layout preview</div>
+
+<script>
+const content = document.getElementById('content');
+const line1 = 'あなたの人生を支える杖のような作品になりますように';
+const line2 = 'この瞬間を、未来へと紡ぐ一枚、一秒に';
+
+const patterns = [
+  {
+    title: '#01 — センター2行・セリフ大',
+    desc: '大きめセリフ体で2行センター配置。シンプルで王道。',
+    render() {
+      return `
+        <div style="text-align:center;">
+          <p style="font-family:var(--serif); font-size:0.65rem; letter-spacing:0.3em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:2rem;">About</p>
+          <h2 style="font-family:var(--jp); font-size:clamp(1.2rem,3vw,1.6rem); font-weight:200; line-height:2.4; letter-spacing:0.08em; color:#fff;">
+            ${line1}<br>${line2}
+          </h2>
+          <div style="margin-top:2.5rem;">
+            <a style="display:inline-block; padding:0.7rem 2.5rem; border:1px solid rgba(255,255,255,0.3); color:#fff; font-size:0.7rem; letter-spacing:0.2em; text-decoration:none;">View More</a>
+          </div>
+        </div>`;
+    }
+  },
+  {
+    title: '#02 — 上下分割・間にライン',
+    desc: '1行目と2行目の間に細いラインを入れて分離。呼吸感のあるレイアウト。',
+    render() {
+      return `
+        <div style="text-align:center;">
+          <p style="font-family:var(--serif); font-size:0.6rem; letter-spacing:0.35em; text-transform:uppercase; color:rgba(255,255,255,0.35); margin-bottom:2.5rem;">About</p>
+          <p style="font-family:var(--jp); font-size:clamp(1rem,2.5vw,1.35rem); font-weight:200; line-height:1.8; letter-spacing:0.1em; color:#fff;">
+            ${line1}
+          </p>
+          <div style="width:40px; height:1px; background:rgba(255,255,255,0.2); margin:2rem auto;"></div>
+          <p style="font-family:var(--jp); font-size:clamp(0.85rem,2vw,1.1rem); font-weight:300; line-height:1.8; letter-spacing:0.08em; color:rgba(255,255,255,0.7);">
+            ${line2}
+          </p>
+          <div style="margin-top:2.5rem;">
+            <a style="display:inline-block; padding:0.7rem 2.5rem; border:1px solid rgba(255,255,255,0.3); color:#fff; font-size:0.7rem; letter-spacing:0.2em; text-decoration:none;">View More</a>
+          </div>
+        </div>`;
+    }
+  },
+  {
+    title: '#03 — 左寄せ・縦書き風',
+    desc: '左揃えで余白を活かす。映画のエンドロール風。',
+    render() {
+      return `
+        <div style="text-align:left; max-width:550px; margin:0 auto; padding-left:2rem;">
+          <p style="font-family:var(--serif); font-size:0.6rem; letter-spacing:0.3em; text-transform:uppercase; color:rgba(255,255,255,0.35); margin-bottom:2rem;">About</p>
+          <p style="font-family:var(--jp); font-size:clamp(1.05rem,2.5vw,1.35rem); font-weight:200; line-height:2.2; letter-spacing:0.08em; color:#fff;">
+            ${line1}
+          </p>
+          <p style="font-family:var(--jp); font-size:clamp(0.9rem,2vw,1.1rem); font-weight:300; line-height:2.2; letter-spacing:0.06em; color:rgba(255,255,255,0.65); margin-top:1rem;">
+            ${line2}
+          </p>
+          <div style="margin-top:3rem;">
+            <a style="display:inline-block; padding:0.7rem 2.5rem; border:1px solid rgba(255,255,255,0.3); color:#fff; font-size:0.7rem; letter-spacing:0.2em; text-decoration:none;">View More</a>
+          </div>
+        </div>`;
+    }
+  },
+  {
+    title: '#04 — 大きい1行目＋小さい2行目',
+    desc: '1行目をヒーロー級に大きく、2行目をサブテキストとして小さく。メリハリ強め。',
+    render() {
+      return `
+        <div style="text-align:center;">
+          <p style="font-family:var(--serif); font-size:0.6rem; letter-spacing:0.35em; text-transform:uppercase; color:rgba(255,255,255,0.35); margin-bottom:2rem;">About</p>
+          <h2 style="font-family:var(--jp); font-size:clamp(1.3rem,3.5vw,1.8rem); font-weight:200; line-height:1.8; letter-spacing:0.1em; color:#fff;">
+            ${line1}
+          </h2>
+          <p style="font-family:var(--jp); font-size:clamp(0.75rem,1.8vw,0.9rem); font-weight:300; letter-spacing:0.12em; color:rgba(255,255,255,0.5); margin-top:1.5rem;">
+            ${line2}
+          </p>
+          <div style="margin-top:2.5rem;">
+            <a style="display:inline-block; padding:0.7rem 2.5rem; border:1px solid rgba(255,255,255,0.3); color:#fff; font-size:0.7rem; letter-spacing:0.2em; text-decoration:none;">View More</a>
+          </div>
+        </div>`;
+    }
+  },
+  {
+    title: '#05 — 英語About大＋日本語小さめ',
+    desc: '「About」を大きなセリフ体で目立たせ、日本語フレーズは控えめに。',
+    render() {
+      return `
+        <div style="text-align:center;">
+          <h2 style="font-family:var(--serif); font-size:clamp(3rem,8vw,5rem); font-weight:300; letter-spacing:0.12em; color:rgba(255,255,255,0.12); margin-bottom:2rem;">About</h2>
+          <p style="font-family:var(--jp); font-size:clamp(0.9rem,2.2vw,1.15rem); font-weight:200; line-height:2.4; letter-spacing:0.1em; color:#fff;">
+            ${line1}<br>${line2}
+          </p>
+          <div style="margin-top:2.5rem;">
+            <a style="display:inline-block; padding:0.7rem 2.5rem; border:1px solid rgba(255,255,255,0.3); color:#fff; font-size:0.7rem; letter-spacing:0.2em; text-decoration:none;">View More</a>
+          </div>
+        </div>`;
+    }
+  },
+  {
+    title: '#06 — 1行ずつフェード段差',
+    desc: '1行目100%白、2行目70%白で濃淡をつける。同サイズ・段差配色。',
+    render() {
+      return `
+        <div style="text-align:center;">
+          <p style="font-family:var(--serif); font-size:0.6rem; letter-spacing:0.3em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:2.5rem;">About</p>
+          <p style="font-family:var(--jp); font-size:clamp(1rem,2.5vw,1.3rem); font-weight:200; line-height:1.8; letter-spacing:0.08em; color:rgba(255,255,255,1);">
+            ${line1}
+          </p>
+          <p style="font-family:var(--jp); font-size:clamp(1rem,2.5vw,1.3rem); font-weight:200; line-height:1.8; letter-spacing:0.08em; color:rgba(255,255,255,0.55); margin-top:0.8rem;">
+            ${line2}
+          </p>
+          <div style="margin-top:2.5rem;">
+            <a style="display:inline-block; padding:0.7rem 2.5rem; border:1px solid rgba(255,255,255,0.3); color:#fff; font-size:0.7rem; letter-spacing:0.2em; text-decoration:none;">View More</a>
+          </div>
+        </div>`;
+    }
+  },
+  {
+    title: '#07 — コンパクト・ミニマル',
+    desc: '小さめフォントでタイトに収める。余白を最大限に活かす。',
+    render() {
+      return `
+        <div style="text-align:center;">
+          <p style="font-family:var(--serif); font-size:0.55rem; letter-spacing:0.4em; text-transform:uppercase; color:rgba(255,255,255,0.3); margin-bottom:3rem;">About</p>
+          <p style="font-family:var(--jp); font-size:clamp(0.8rem,1.8vw,0.95rem); font-weight:300; line-height:2.6; letter-spacing:0.12em; color:rgba(255,255,255,0.85);">
+            ${line1}<br>${line2}
+          </p>
+          <div style="margin-top:3rem;">
+            <a style="display:inline-block; padding:0.6rem 2rem; border:1px solid rgba(255,255,255,0.25); color:rgba(255,255,255,0.7); font-size:0.65rem; letter-spacing:0.2em; text-decoration:none;">View More</a>
+          </div>
+        </div>`;
+    }
+  },
+  {
+    title: '#08 — イタリック英語混在',
+    desc: '行間に英語イタリックの装飾フレーズを挿入。国際感。',
+    render() {
+      return `
+        <div style="text-align:center;">
+          <p style="font-family:var(--serif); font-size:0.6rem; letter-spacing:0.3em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:2rem;">About</p>
+          <p style="font-family:var(--jp); font-size:clamp(1.05rem,2.5vw,1.3rem); font-weight:200; line-height:1.8; letter-spacing:0.08em; color:#fff;">
+            ${line1}
+          </p>
+          <p style="font-family:var(--serif); font-style:italic; font-size:clamp(0.8rem,1.8vw,1rem); color:rgba(255,255,255,0.25); letter-spacing:0.15em; margin:1.2rem 0;">
+            — a film for your life —
+          </p>
+          <p style="font-family:var(--jp); font-size:clamp(0.9rem,2.2vw,1.1rem); font-weight:300; line-height:1.8; letter-spacing:0.08em; color:rgba(255,255,255,0.7);">
+            ${line2}
+          </p>
+          <div style="margin-top:2.5rem;">
+            <a style="display:inline-block; padding:0.7rem 2.5rem; border:1px solid rgba(255,255,255,0.3); color:#fff; font-size:0.7rem; letter-spacing:0.2em; text-decoration:none;">View More</a>
+          </div>
+        </div>`;
+    }
+  },
+  {
+    title: '#09 — 上下逆転（2行目を先に）',
+    desc: '「この瞬間を〜」を先に出し、「あなたの人生を〜」を下に。印象が変わる。',
+    render() {
+      return `
+        <div style="text-align:center;">
+          <p style="font-family:var(--serif); font-size:0.6rem; letter-spacing:0.3em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:2.5rem;">About</p>
+          <p style="font-family:var(--jp); font-size:clamp(1rem,2.5vw,1.3rem); font-weight:200; line-height:2; letter-spacing:0.08em; color:rgba(255,255,255,0.9);">
+            ${line2}
+          </p>
+          <div style="width:30px; height:1px; background:rgba(255,255,255,0.15); margin:1.8rem auto;"></div>
+          <p style="font-family:var(--jp); font-size:clamp(0.85rem,2vw,1.05rem); font-weight:300; line-height:2; letter-spacing:0.1em; color:rgba(255,255,255,0.55);">
+            ${line1}
+          </p>
+          <div style="margin-top:2.5rem;">
+            <a style="display:inline-block; padding:0.7rem 2.5rem; border:1px solid rgba(255,255,255,0.3); color:#fff; font-size:0.7rem; letter-spacing:0.2em; text-decoration:none;">View More</a>
+          </div>
+        </div>`;
+    }
+  },
+  {
+    title: '#10 — 2行均等＋広い行間',
+    desc: '同じサイズ・同じ白で均等配置。行間をたっぷり取って詩的に。',
+    render() {
+      return `
+        <div style="text-align:center;">
+          <p style="font-family:var(--serif); font-size:0.6rem; letter-spacing:0.3em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:3rem;">About</p>
+          <p style="font-family:var(--jp); font-size:clamp(1rem,2.5vw,1.25rem); font-weight:200; letter-spacing:0.1em; color:rgba(255,255,255,0.9);">
+            ${line1}
+          </p>
+          <div style="height:2rem;"></div>
+          <p style="font-family:var(--jp); font-size:clamp(1rem,2.5vw,1.25rem); font-weight:200; letter-spacing:0.1em; color:rgba(255,255,255,0.9);">
+            ${line2}
+          </p>
+          <div style="margin-top:3rem;">
+            <a style="display:inline-block; padding:0.7rem 2.5rem; border:1px solid rgba(255,255,255,0.3); color:#fff; font-size:0.7rem; letter-spacing:0.2em; text-decoration:none;">View More</a>
+          </div>
+        </div>`;
+    }
+  },
+];
+
+// Build tabs
+const tabsEl = document.getElementById('tabs');
+patterns.forEach((p, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'tab' + (i === 0 ? ' active' : '');
+  btn.textContent = '#' + String(i+1).padStart(2,'0');
+  btn.onclick = () => selectPattern(i);
+  tabsEl.appendChild(btn);
+});
+
+function selectPattern(idx) {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', i===idx));
+  document.getElementById('descTitle').textContent = patterns[idx].title;
+  document.getElementById('descText').textContent = patterns[idx].desc;
+  content.innerHTML = patterns[idx].render();
+}
+
+selectPattern(0);
+</script>
+</body>
+</html>

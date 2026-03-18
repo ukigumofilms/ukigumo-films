@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery Section — Position Patterns (Same Design)</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+JP:wght@300;400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1a1a1a; color: #fff; font-family: 'Inter', sans-serif; }
+
+  .pattern-label {
+    text-align: center;
+    padding: 3rem 2rem 0.5rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.15em;
+    color: #c9a96e;
+    border-top: 1px solid #333;
+  }
+  .pattern-desc {
+    text-align: center;
+    font-size: 0.7rem;
+    color: #888;
+    margin-bottom: 1rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* Base section */
+  .gp-section {
+    position: relative;
+    height: 220vh;
+    overflow: visible;
+    background: #f5f3ef;
+  }
+
+  /* Photos */
+  .gp-photo {
+    position: absolute;
+    z-index: 1;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .gp-photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.88);
+  }
+
+  /* Text */
+  .gp-text {
+    position: absolute;
+    z-index: 10;
+    max-width: 520px;
+  }
+  .gp-heading {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 300;
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    letter-spacing: 0.06em;
+    line-height: 1.6;
+    margin-bottom: 32px;
+    color: #2a2420;
+  }
+  .gp-desc-ja {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.9rem;
+    line-height: 2.2;
+    color: #666;
+    margin-bottom: 28px;
+    letter-spacing: 0.03em;
+  }
+  .gp-desc-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.78rem;
+    line-height: 2;
+    color: #aaa;
+    margin-bottom: 40px;
+    letter-spacing: 0.05em;
+  }
+  .gp-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #2a2420;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+  }
+  .gp-cta::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: #2a2420;
+  }
+
+  /* ===== P1: テキスト上、写真は下半分に集中 ===== */
+  .p1 .gp-text { top: 8%; left: 5%; }
+  .p1 .ph1 { width: 42vw; height: 56vw; top: 38%; left: 5%; z-index: 2; }
+  .p1 .ph2 { width: 38vw; height: 50vw; top: 42%; right: 5%; z-index: 1; }
+  .p1 .ph3 { width: 36vw; height: 48vw; top: 65%; left: 10%; z-index: 3; }
+  .p1 .ph4 { width: 40vw; height: 52vw; top: 68%; right: 8%; z-index: 2; }
+
+  /* ===== P2: テキスト上、写真はさらに下に配置 ===== */
+  .p2 .gp-text { top: 6%; left: 5%; }
+  .p2 .ph1 { width: 42vw; height: 56vw; top: 42%; left: 3%; z-index: 2; }
+  .p2 .ph2 { width: 38vw; height: 50vw; top: 35%; right: 3%; z-index: 1; }
+  .p2 .ph3 { width: 36vw; height: 48vw; top: 70%; left: 8%; z-index: 3; }
+  .p2 .ph4 { width: 40vw; height: 52vw; top: 72%; right: 5%; z-index: 2; }
+
+  /* ===== P3: テキスト右上、写真は左寄り＋下 ===== */
+  .p3 .gp-text { top: 8%; right: 5%; left: auto; text-align: right; }
+  .p3 .ph1 { width: 40vw; height: 54vw; top: 5%; left: 3%; z-index: 2; }
+  .p3 .ph2 { width: 35vw; height: 46vw; top: 40%; left: 8%; z-index: 1; }
+  .p3 .ph3 { width: 38vw; height: 50vw; top: 55%; right: 5%; z-index: 3; }
+  .p3 .ph4 { width: 34vw; height: 44vw; top: 75%; left: 15%; z-index: 2; }
+
+  /* ===== P4: テキスト中央上、写真が四隅に分散 ===== */
+  .p4 .gp-text { top: 10%; left: 50%; transform: translateX(-50%); text-align: center; }
+  .p4 .ph1 { width: 35vw; height: 46vw; top: 3%; left: 2%; z-index: 1; }
+  .p4 .ph2 { width: 32vw; height: 42vw; top: 5%; right: 2%; z-index: 1; }
+  .p4 .ph3 { width: 38vw; height: 50vw; top: 55%; left: 5%; z-index: 2; }
+  .p4 .ph4 { width: 36vw; height: 48vw; top: 58%; right: 3%; z-index: 2; }
+
+  /* ===== P5: テキスト左上、写真右側に縦積み ===== */
+  .p5 .gp-text { top: 10%; left: 5%; max-width: 42%; }
+  .p5 .ph1 { width: 40vw; height: 30vw; top: 5%; right: 3%; z-index: 2; }
+  .p5 .ph2 { width: 40vw; height: 30vw; top: 28%; right: 3%; z-index: 1; }
+  .p5 .ph3 { width: 44vw; height: 34vw; top: 52%; left: 3%; z-index: 3; }
+  .p5 .ph4 { width: 44vw; height: 34vw; top: 52%; right: 3%; z-index: 2; }
+
+  /* ===== P6: テキスト下、写真は上半分に集中 ===== */
+  .p6 .gp-text { top: 62%; left: 5%; }
+  .p6 .ph1 { width: 42vw; height: 56vw; top: 3%; left: 5%; z-index: 2; }
+  .p6 .ph2 { width: 38vw; height: 50vw; top: 8%; right: 5%; z-index: 1; }
+  .p6 .ph3 { width: 36vw; height: 48vw; top: 32%; left: 10%; z-index: 3; }
+  .p6 .ph4 { width: 40vw; height: 52vw; top: 35%; right: 8%; z-index: 2; }
+
+  /* ===== P7: テキスト左中央、写真は右に偏り＋上下に分散 ===== */
+  .p7 .gp-text { top: 30%; left: 4%; max-width: 40%; }
+  .p7 .ph1 { width: 38vw; height: 50vw; top: 3%; right: 3%; z-index: 2; }
+  .p7 .ph2 { width: 30vw; height: 40vw; top: 25%; right: 25%; z-index: 1; }
+  .p7 .ph3 { width: 42vw; height: 56vw; top: 50%; right: 5%; z-index: 3; }
+  .p7 .ph4 { width: 36vw; height: 48vw; top: 68%; left: 5%; z-index: 2; }
+
+  /* ===== P8: テキスト上中央寄り、写真は大きめで重なり少なく ===== */
+  .p8 .gp-text { top: 5%; left: 8%; }
+  .p8 .ph1 { width: 45vw; height: 60vw; top: 30%; left: 2%; z-index: 2; }
+  .p8 .ph2 { width: 42vw; height: 55vw; top: 28%; right: 2%; z-index: 1; }
+  .p8 .ph3 { width: 30vw; height: 40vw; top: 70%; left: 20%; z-index: 3; }
+  .p8 .ph4 { width: 30vw; height: 40vw; top: 72%; right: 18%; z-index: 2; }
+
+  /* ===== P9: テキスト上、写真は対角線配置 ===== */
+  .p9 .gp-text { top: 5%; left: 5%; }
+  .p9 .ph1 { width: 38vw; height: 50vw; top: 32%; left: 2%; z-index: 2; }
+  .p9 .ph2 { width: 34vw; height: 45vw; top: 22%; right: 8%; z-index: 1; }
+  .p9 .ph3 { width: 32vw; height: 42vw; top: 60%; right: 2%; z-index: 3; }
+  .p9 .ph4 { width: 40vw; height: 52vw; top: 68%; left: 10%; z-index: 2; }
+
+  /* ===== P10: テキスト上、写真小さめで余白たっぷり ===== */
+  .p10 .gp-text { top: 6%; left: 5%; }
+  .p10 .ph1 { width: 32vw; height: 42vw; top: 38%; left: 8%; z-index: 2; }
+  .p10 .ph2 { width: 30vw; height: 40vw; top: 35%; right: 10%; z-index: 1; }
+  .p10 .ph3 { width: 28vw; height: 37vw; top: 62%; left: 15%; z-index: 3; }
+  .p10 .ph4 { width: 30vw; height: 40vw; top: 65%; right: 12%; z-index: 2; }
+</style>
+</head>
+<body>
+
+<!-- P1 -->
+<div class="pattern-label">P1</div>
+<p class="pattern-desc">テキスト上部、写真は下半分に集中</p>
+<section class="gp-section p1">
+  <div class="gp-text">
+    <h2 class="gp-heading">飾らないふたりが、<br>いちばん美しい。</h2>
+    <p class="gp-desc-ja">完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。</p>
+    <p class="gp-desc-en">You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful.</p>
+    <a href="#" class="gp-cta">gallery →</a>
+  </div>
+  <div class="gp-photo ph1"><img src="images/paris/01.jpg" alt=""></div>
+  <div class="gp-photo ph2"><img src="images/london/03.jpg" alt=""></div>
+  <div class="gp-photo ph3"><img src="images/firenze/02.jpg" alt=""></div>
+  <div class="gp-photo ph4"><img src="images/malta/01.jpg" alt=""></div>
+</section>
+
+<!-- P2 -->
+<div class="pattern-label">P2</div>
+<p class="pattern-desc">テキスト上部、写真さらに下寄り</p>
+<section class="gp-section p2">
+  <div class="gp-text">
+    <h2 class="gp-heading">飾らないふたりが、<br>いちばん美しい。</h2>
+    <p class="gp-desc-ja">完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。</p>
+    <p class="gp-desc-en">You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful.</p>
+    <a href="#" class="gp-cta">gallery →</a>
+  </div>
+  <div class="gp-photo ph1"><img src="images/paris/01.jpg" alt=""></div>
+  <div class="gp-photo ph2"><img src="images/london/03.jpg" alt=""></div>
+  <div class="gp-photo ph3"><img src="images/firenze/02.jpg" alt=""></div>
+  <div class="gp-photo ph4"><img src="images/malta/01.jpg" alt=""></div>
+</section>
+
+<!-- P3 -->
+<div class="pattern-label">P3</div>
+<p class="pattern-desc">テキスト右上、写真は左寄り＋下</p>
+<section class="gp-section p3">
+  <div class="gp-text">
+    <h2 class="gp-heading">飾らないふたりが、<br>いちばん美しい。</h2>
+    <p class="gp-desc-ja">完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。</p>
+    <p class="gp-desc-en">You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful.</p>
+    <a href="#" class="gp-cta">gallery →</a>
+  </div>
+  <div class="gp-photo ph1"><img src="images/paris/01.jpg" alt=""></div>
+  <div class="gp-photo ph2"><img src="images/london/03.jpg" alt=""></div>
+  <div class="gp-photo ph3"><img src="images/firenze/02.jpg" alt=""></div>
+  <div class="gp-photo ph4"><img src="images/malta/01.jpg" alt=""></div>
+</section>
+
+<!-- P4 -->
+<div class="pattern-label">P4</div>
+<p class="pattern-desc">テキスト中央上、写真が四隅に分散</p>
+<section class="gp-section p4">
+  <div class="gp-text">
+    <h2 class="gp-heading">飾らないふたりが、<br>いちばん美しい。</h2>
+    <p class="gp-desc-ja">完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。</p>
+    <p class="gp-desc-en">You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful.</p>
+    <a href="#" class="gp-cta">gallery →</a>
+  </div>
+  <div class="gp-photo ph1"><img src="images/paris/01.jpg" alt=""></div>
+  <div class="gp-photo ph2"><img src="images/london/03.jpg" alt=""></div>
+  <div class="gp-photo ph3"><img src="images/firenze/02.jpg" alt=""></div>
+  <div class="gp-photo ph4"><img src="images/malta/01.jpg" alt=""></div>
+</section>
+
+<!-- P5 -->
+<div class="pattern-label">P5</div>
+<p class="pattern-desc">テキスト左上、写真は右側に縦積み＋下段横並び</p>
+<section class="gp-section p5">
+  <div class="gp-text">
+    <h2 class="gp-heading">飾らないふたりが、<br>いちばん美しい。</h2>
+    <p class="gp-desc-ja">完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。</p>
+    <p class="gp-desc-en">You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful.</p>
+    <a href="#" class="gp-cta">gallery →</a>
+  </div>
+  <div class="gp-photo ph1"><img src="images/paris/01.jpg" alt=""></div>
+  <div class="gp-photo ph2"><img src="images/london/03.jpg" alt=""></div>
+  <div class="gp-photo ph3"><img src="images/firenze/02.jpg" alt=""></div>
+  <div class="gp-photo ph4"><img src="images/malta/01.jpg" alt=""></div>
+</section>
+
+<!-- P6 -->
+<div class="pattern-label">P6</div>
+<p class="pattern-desc">テキスト下部、写真は上半分に集中</p>
+<section class="gp-section p6">
+  <div class="gp-text">
+    <h2 class="gp-heading">飾らないふたりが、<br>いちばん美しい。</h2>
+    <p class="gp-desc-ja">完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。</p>
+    <p class="gp-desc-en">You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful.</p>
+    <a href="#" class="gp-cta">gallery →</a>
+  </div>
+  <div class="gp-photo ph1"><img src="images/paris/01.jpg" alt=""></div>
+  <div class="gp-photo ph2"><img src="images/london/03.jpg" alt=""></div>
+  <div class="gp-photo ph3"><img src="images/firenze/02.jpg" alt=""></div>
+  <div class="gp-photo ph4"><img src="images/malta/01.jpg" alt=""></div>
+</section>
+
+<!-- P7 -->
+<div class="pattern-label">P7</div>
+<p class="pattern-desc">テキスト左中央、写真は右寄り＋上下分散</p>
+<section class="gp-section p7">
+  <div class="gp-text">
+    <h2 class="gp-heading">飾らないふたりが、<br>いちばん美しい。</h2>
+    <p class="gp-desc-ja">完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。</p>
+    <p class="gp-desc-en">You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful.</p>
+    <a href="#" class="gp-cta">gallery →</a>
+  </div>
+  <div class="gp-photo ph1"><img src="images/paris/01.jpg" alt=""></div>
+  <div class="gp-photo ph2"><img src="images/london/03.jpg" alt=""></div>
+  <div class="gp-photo ph3"><img src="images/firenze/02.jpg" alt=""></div>
+  <div class="gp-photo ph4"><img src="images/malta/01.jpg" alt=""></div>
+</section>
+
+<!-- P8 -->
+<div class="pattern-label">P8</div>
+<p class="pattern-desc">テキスト上、写真は大きめで左右に2列</p>
+<section class="gp-section p8">
+  <div class="gp-text">
+    <h2 class="gp-heading">飾らないふたりが、<br>いちばん美しい。</h2>
+    <p class="gp-desc-ja">完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。</p>
+    <p class="gp-desc-en">You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful.</p>
+    <a href="#" class="gp-cta">gallery →</a>
+  </div>
+  <div class="gp-photo ph1"><img src="images/paris/01.jpg" alt=""></div>
+  <div class="gp-photo ph2"><img src="images/london/03.jpg" alt=""></div>
+  <div class="gp-photo ph3"><img src="images/firenze/02.jpg" alt=""></div>
+  <div class="gp-photo ph4"><img src="images/malta/01.jpg" alt=""></div>
+</section>
+
+<!-- P9 -->
+<div class="pattern-label">P9</div>
+<p class="pattern-desc">テキスト上、写真は対角線配置</p>
+<section class="gp-section p9">
+  <div class="gp-text">
+    <h2 class="gp-heading">飾らないふたりが、<br>いちばん美しい。</h2>
+    <p class="gp-desc-ja">完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。</p>
+    <p class="gp-desc-en">You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful.</p>
+    <a href="#" class="gp-cta">gallery →</a>
+  </div>
+  <div class="gp-photo ph1"><img src="images/paris/01.jpg" alt=""></div>
+  <div class="gp-photo ph2"><img src="images/london/03.jpg" alt=""></div>
+  <div class="gp-photo ph3"><img src="images/firenze/02.jpg" alt=""></div>
+  <div class="gp-photo ph4"><img src="images/malta/01.jpg" alt=""></div>
+</section>
+
+<!-- P10 -->
+<div class="pattern-label">P10</div>
+<p class="pattern-desc">テキスト上、写真小さめで余白たっぷり</p>
+<section class="gp-section p10">
+  <div class="gp-text">
+    <h2 class="gp-heading">飾らないふたりが、<br>いちばん美しい。</h2>
+    <p class="gp-desc-ja">完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。</p>
+    <p class="gp-desc-en">You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful.</p>
+    <a href="#" class="gp-cta">gallery →</a>
+  </div>
+  <div class="gp-photo ph1"><img src="images/paris/01.jpg" alt=""></div>
+  <div class="gp-photo ph2"><img src="images/london/03.jpg" alt=""></div>
+  <div class="gp-photo ph3"><img src="images/firenze/02.jpg" alt=""></div>
+  <div class="gp-photo ph4"><img src="images/malta/01.jpg" alt=""></div>
+</section>
+
+<div style="height: 5rem;"></div>
+</body>
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery Animation Patterns</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #1a1a1a; color: #fff; font-family: 'Georgia', serif; }
+
+    h1 { text-align: center; padding: 2rem; font-size: 1.2rem; letter-spacing: 0.2em; font-weight: 300; color: #aaa; }
+
+    .pattern-section {
+      padding: 3rem 1.5rem;
+      border-bottom: 1px solid #333;
+    }
+    .pattern-label {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #888;
+    }
+    .pattern-label span {
+      font-size: 1.1rem;
+      color: #ddd;
+      display: block;
+      margin-bottom: 0.3rem;
+      letter-spacing: 0.15em;
+    }
+    .replay-btn {
+      display: block;
+      margin: 1rem auto 0;
+      padding: 0.4rem 1.2rem;
+      background: transparent;
+      border: 1px solid #555;
+      color: #888;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .replay-btn:hover { border-color: #aaa; color: #ddd; }
+
+    /* Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .grid div {
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      background: #2a2a2a;
+    }
+    .grid div img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ============================================
+       PATTERN 1: ランダムぽこぽこ（フェード＋スケール）
+       ============================================ */
+    .p1 .grid div { opacity: 0; transform: scale(0.85); transition: none; }
+    .p1.playing .grid div {
+      animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+    @keyframes popIn {
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* ============================================
+       PATTERN 2: 左から右へ波のようにスライド
+       ============================================ */
+    .p2 .grid div { opacity: 0; transform: translateX(-30px); transition: none; }
+    .p2.playing .grid div {
+      animation: slideRight 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+    @keyframes slideRight {
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* ============================================
+       PATTERN 3: 上から落ちてくる（行ごとに）
+       ============================================ */
+    .p3 .grid div { opacity: 0; transform: translateY(-40px); transition: none; }
+    .p3.playing .grid div {
+      animation: fallDown 0.7s cubic-bezier(0.34, 1.3, 0.64, 1) forwards;
+    }
+    @keyframes fallDown {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============================================
+       PATTERN 4: フリップ（カードをめくる）
+       ============================================ */
+    .p4 .grid div { opacity: 0; transform: rotateY(-90deg); transform-origin: left center; transition: none; }
+    .p4.playing .grid div {
+      animation: flipIn 0.6s ease forwards;
+    }
+    @keyframes flipIn {
+      to { opacity: 1; transform: rotateY(0); }
+    }
+
+    /* ============================================
+       PATTERN 5: ズームアウト（大→通常）
+       ============================================ */
+    .p5 .grid div { opacity: 0; transform: scale(1.4); transition: none; }
+    .p5.playing .grid div {
+      animation: zoomOut 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+    @keyframes zoomOut {
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* ============================================
+       PATTERN 6: 斜め下からスライド
+       ============================================ */
+    .p6 .grid div { opacity: 0; transform: translate(-20px, 20px); transition: none; }
+    .p6.playing .grid div {
+      animation: slideDiag 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+    @keyframes slideDiag {
+      to { opacity: 1; transform: translate(0, 0); }
+    }
+
+    /* ============================================
+       PATTERN 7: ブラーフェード
+       ============================================ */
+    .p7 .grid div { opacity: 0; filter: blur(12px); transition: none; }
+    .p7.playing .grid div {
+      animation: blurFade 0.8s ease forwards;
+    }
+    @keyframes blurFade {
+      to { opacity: 1; filter: blur(0); }
+    }
+
+    /* ============================================
+       PATTERN 8: 波紋（中央から外へ）
+       ============================================ */
+    .p8 .grid div { opacity: 0; transform: scale(0.7); transition: none; }
+    .p8.playing .grid div {
+      animation: ripple 0.5s ease forwards;
+    }
+    @keyframes ripple {
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* ============================================
+       PATTERN 9: モザイク（奇数列・偶数列互い違い）
+       ============================================ */
+    .p9 .grid div { opacity: 0; transition: none; }
+    .p9 .grid div:nth-child(3n+1) { transform: translateY(30px); }
+    .p9 .grid div:nth-child(3n+2) { transform: translateY(-30px); }
+    .p9 .grid div:nth-child(3n+3) { transform: translateY(30px); }
+    .p9.playing .grid div {
+      animation: altRow 0.7s ease forwards;
+    }
+    @keyframes altRow {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============================================
+       PATTERN 10: シネマティック（右→左 スロー）
+       ============================================ */
+    .p10 .grid div { opacity: 0; transform: translateX(40px); transition: none; }
+    .p10.playing .grid div {
+      animation: cinematic 0.9s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+    @keyframes cinematic {
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+  </style>
+</head>
+<body>
+  <h1>GALLERY ANIMATION — 10 PATTERNS</h1>
+
+  <!-- Pattern 1 -->
+  <div class="pattern-section p1" id="p1">
+    <div class="pattern-label">
+      <span>Pattern 01 — ランダムぽこぽこ</span>
+      各コマがランダムな順番でポコポコ飛び出して現れる
+    </div>
+    <div class="grid" id="g1"></div>
+    <button class="replay-btn" onclick="replay('p1','random')">↺ replay</button>
+  </div>
+
+  <!-- Pattern 2 -->
+  <div class="pattern-section p2" id="p2">
+    <div class="pattern-label">
+      <span>Pattern 02 — 左→右ウェーブ</span>
+      左列から右列へ波のように流れる
+    </div>
+    <div class="grid" id="g2"></div>
+    <button class="replay-btn" onclick="replay('p2','col')">↺ replay</button>
+  </div>
+
+  <!-- Pattern 3 -->
+  <div class="pattern-section p3" id="p3">
+    <div class="pattern-label">
+      <span>Pattern 03 — 上から落下</span>
+      行ごとに上から落ちてくる
+    </div>
+    <div class="grid" id="g3"></div>
+    <button class="replay-btn" onclick="replay('p3','row')">↺ replay</button>
+  </div>
+
+  <!-- Pattern 4 -->
+  <div class="pattern-section p4" id="p4">
+    <div class="pattern-label">
+      <span>Pattern 04 — カードフリップ</span>
+      左から右へカードをめくるように
+    </div>
+    <div class="grid" id="g4"></div>
+    <button class="replay-btn" onclick="replay('p4','seq')">↺ replay</button>
+  </div>
+
+  <!-- Pattern 5 -->
+  <div class="pattern-section p5" id="p5">
+    <div class="pattern-label">
+      <span>Pattern 05 — ズームアウト</span>
+      大きい状態からスッと縮んで定位置に
+    </div>
+    <div class="grid" id="g5"></div>
+    <button class="replay-btn" onclick="replay('p5','row')">↺ replay</button>
+  </div>
+
+  <!-- Pattern 6 -->
+  <div class="pattern-section p6" id="p6">
+    <div class="pattern-label">
+      <span>Pattern 06 — 斜めスライド</span>
+      左下から右上へ斜めに流れる
+    </div>
+    <div class="grid" id="g6"></div>
+    <button class="replay-btn" onclick="replay('p6','diag')">↺ replay</button>
+  </div>
+
+  <!-- Pattern 7 -->
+  <div class="pattern-section p7" id="p7">
+    <div class="pattern-label">
+      <span>Pattern 07 — ブラーフェード</span>
+      ぼんやりした状態からじわっと鮮明に
+    </div>
+    <div class="grid" id="g7"></div>
+    <button class="replay-btn" onclick="replay('p7','random')">↺ replay</button>
+  </div>
+
+  <!-- Pattern 8 -->
+  <div class="pattern-section p8" id="p8">
+    <div class="pattern-label">
+      <span>Pattern 08 — 中央から外へ波紋</span>
+      グリッド中央から外側へ広がる
+    </div>
+    <div class="grid" id="g8"></div>
+    <button class="replay-btn" onclick="replay('p8','ripple')">↺ replay</button>
+  </div>
+
+  <!-- Pattern 9 -->
+  <div class="pattern-section p9" id="p9">
+    <div class="pattern-label">
+      <span>Pattern 09 — 互い違いアコーディオン</span>
+      列ごとに上下から交互に現れる
+    </div>
+    <div class="grid" id="g9"></div>
+    <button class="replay-btn" onclick="replay('p9','col')">↺ replay</button>
+  </div>
+
+  <!-- Pattern 10 -->
+  <div class="pattern-section p10" id="p10">
+    <div class="pattern-label">
+      <span>Pattern 10 — シネマティックスロー</span>
+      右から左へゆっくりと流れるように
+    </div>
+    <div class="grid" id="g10"></div>
+    <button class="replay-btn" onclick="replay('p10','rev-col')">↺ replay</button>
+  </div>
+
+  <script>
+    // 18枚の画像リスト
+    const imgs = Array.from({length: 18}, (_, i) => `images/gallery-index/g${String(i+1).padStart(2,'0')}.jpg`);
+
+    // 各グリッドに画像を挿入
+    for (let g = 1; g <= 10; g++) {
+      const grid = document.getElementById('g' + g);
+      imgs.forEach(src => {
+        const div = document.createElement('div');
+        div.innerHTML = `<img src="${src}" alt="" loading="lazy">`;
+        grid.appendChild(div);
+      });
+    }
+
+    // ディレイ設定関数
+    function setDelays(section, mode) {
+      const items = section.querySelectorAll('.grid div');
+      const n = items.length;
+
+      if (mode === 'random') {
+        // ランダム順
+        const order = Array.from({length: n}, (_, i) => i);
+        order.sort(() => Math.random() - 0.5);
+        items.forEach((el, i) => {
+          el.style.animationDelay = (order.indexOf(i) * 0.06) + 's';
+        });
+      } else if (mode === 'seq') {
+        // 順番
+        items.forEach((el, i) => {
+          el.style.animationDelay = (i * 0.05) + 's';
+        });
+      } else if (mode === 'row') {
+        // 行ごと (3列)
+        items.forEach((el, i) => {
+          const row = Math.floor(i / 3);
+          const col = i % 3;
+          el.style.animationDelay = (row * 0.15 + col * 0.04) + 's';
+        });
+      } else if (mode === 'col') {
+        // 列ごと
+        items.forEach((el, i) => {
+          const col = i % 3;
+          const row = Math.floor(i / 3);
+          el.style.animationDelay = (col * 0.15 + row * 0.04) + 's';
+        });
+      } else if (mode === 'diag') {
+        // 斜め
+        items.forEach((el, i) => {
+          const row = Math.floor(i / 3);
+          const col = i % 3;
+          el.style.animationDelay = ((row + col) * 0.07) + 's';
+        });
+      } else if (mode === 'ripple') {
+        // 中央から外へ（3列6行グリッド、中心は行2-3/列1）
+        const cx = 1, cy = 2.5;
+        items.forEach((el, i) => {
+          const row = Math.floor(i / 3);
+          const col = i % 3;
+          const dist = Math.sqrt(Math.pow(col - cx, 2) + Math.pow(row - cy, 2));
+          el.style.animationDelay = (dist * 0.1) + 's';
+        });
+      } else if (mode === 'rev-col') {
+        // 右列から左列
+        items.forEach((el, i) => {
+          const col = 2 - (i % 3);
+          const row = Math.floor(i / 3);
+          el.style.animationDelay = (col * 0.15 + row * 0.04) + 's';
+        });
+      }
+    }
+
+    // 初期設定
+    const modes = ['random','col','row','seq','row','diag','random','ripple','col','rev-col'];
+    const sections = [];
+    for (let i = 1; i <= 10; i++) {
+      const sec = document.getElementById('p' + i);
+      sections.push(sec);
+      setDelays(sec, modes[i-1]);
+    }
+
+    // IntersectionObserver でスクロール時に発火
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !entry.target.classList.contains('played')) {
+          entry.target.classList.add('playing', 'played');
+        }
+      });
+    }, { threshold: 0.2 });
+
+    sections.forEach(s => io.observe(s));
+
+    // リプレイ
+    function replay(id, mode) {
+      const sec = document.getElementById(id);
+      sec.classList.remove('playing');
+      sec.querySelectorAll('.grid div').forEach(el => {
+        el.style.animationName = 'none';
+      });
+      setDelays(sec, mode);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          sec.querySelectorAll('.grid div').forEach(el => {
+            el.style.animationName = '';
+          });
+          sec.classList.add('playing');
+        });
+      });
+    }
+  </script>
+</body>
+</html>

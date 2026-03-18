@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About セクション デザイン案 20パターン</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #f5f3ef; color: #2a2420; font-family: "Noto Serif JP", serif; }
+
+  .toc { position: fixed; top: 0; left: 0; width: 100%; background: rgba(245,243,239,0.95); backdrop-filter: blur(10px); z-index: 100; padding: 12px 5%; border-bottom: 1px solid rgba(42,36,32,0.08); display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .toc span { font-family: "Cormorant Garamond", serif; font-size: 0.75rem; letter-spacing: 0.1em; color: #999; }
+  .toc a { font-family: "Cormorant Garamond", serif; font-size: 0.7rem; padding: 4px 10px; border: 1px solid rgba(42,36,32,0.15); border-radius: 20px; text-decoration: none; color: #2a2420; transition: all 0.3s; }
+  .toc a:hover { background: #2a2420; color: #f5f3ef; }
+
+  .pattern { min-height: 100vh; padding: 120px 0 80px; border-bottom: 1px solid rgba(42,36,32,0.06); overflow: hidden; position: relative; }
+  .pattern-label { font-family: "Cormorant Garamond", serif; font-size: 0.7rem; letter-spacing: 0.3em; color: #999; text-transform: uppercase; padding: 0 8%; margin-bottom: 40px; }
+
+  /* 仮テキスト共通 */
+  .demo-text-ja { font-family: "Noto Serif JP", serif; font-weight: 300; font-size: clamp(0.85rem, 1.2vw, 1rem); line-height: 2.4; color: #2a2420; letter-spacing: 0.04em; }
+  .demo-text-en { font-family: "Cormorant Garamond", serif; font-weight: 300; font-size: 0.8rem; line-height: 2; color: #aaa; letter-spacing: 0.06em; margin-top: 24px; }
+  .demo-heading { font-family: "Noto Serif JP", serif; font-weight: 200; font-size: clamp(1.4rem, 2.5vw, 2.2rem); line-height: 1.7; letter-spacing: 0.08em; }
+
+  /* ============ PATTERN 1 — 横ライン展開 ============ */
+  #p1 .p1-wrap { text-align: center; padding: 0 8%; }
+  #p1 .p1-line { width: 0; height: 1px; background: linear-gradient(to right, transparent, #c9a96e, transparent); margin: 0 auto 48px; transition: width 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+  #p1.visible .p1-line { width: 120px; }
+  #p1 .p1-row { opacity: 0; transform: translateY(16px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  #p1.visible .p1-row:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.4s; }
+  #p1.visible .p1-row:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.6s; }
+  #p1.visible .p1-row:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.8s; }
+  #p1.visible .p1-row:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 1.0s; }
+  #p1.visible .p1-row:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 1.2s; }
+  #p1.visible .p1-en { opacity: 1; transform: translateY(0); transition-delay: 1.6s; }
+
+  /* ============ PATTERN 2 — 縦書き ============ */
+  #p2 .p2-wrap { writing-mode: vertical-rl; text-orientation: mixed; padding: 40px 8%; height: 60vh; display: flex; gap: 2rem; justify-content: center; }
+  #p2 .p2-col { opacity: 0; transform: translateY(20px); transition: opacity 1s ease, transform 1s ease; }
+  #p2.visible .p2-col:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
+  #p2.visible .p2-col:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.5s; }
+  #p2.visible .p2-col:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.8s; }
+
+  /* ============ PATTERN 3 — 大英字背景 ============ */
+  #p3 { position: relative; }
+  #p3 .p3-bg { font-family: "Cormorant Garamond", serif; font-size: clamp(5rem, 12vw, 10rem); font-weight: 300; color: rgba(42,36,32,0.04); letter-spacing: 0.15em; text-align: center; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); white-space: nowrap; pointer-events: none; }
+  #p3 .p3-content { position: relative; z-index: 2; text-align: center; padding: 0 8%; }
+  #p3 .p3-content p { opacity: 0; transform: translateY(20px); transition: all 1s ease; }
+  #p3.visible .p3-content p { opacity: 1; transform: translateY(0); }
+  #p3.visible .p3-content p:nth-child(2) { transition-delay: 0.3s; }
+  #p3.visible .p3-content p:nth-child(3) { transition-delay: 0.6s; }
+
+  /* ============ PATTERN 4 — 左縦線＋スタガー ============ */
+  #p4 .p4-wrap { padding: 0 8% 0 12%; position: relative; }
+  #p4 .p4-line { position: absolute; left: 8%; top: 0; width: 1px; height: 0; background: linear-gradient(to bottom, #c9a96e, rgba(201,169,110,0.2)); transition: height 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+  #p4.visible .p4-line { height: 100%; }
+  #p4 .p4-row { opacity: 0; transform: translateX(-20px); transition: all 0.8s ease; }
+  #p4.visible .p4-row:nth-child(1) { opacity: 1; transform: translateX(0); transition-delay: 0.3s; }
+  #p4.visible .p4-row:nth-child(2) { opacity: 1; transform: translateX(0); transition-delay: 0.5s; }
+  #p4.visible .p4-row:nth-child(3) { opacity: 1; transform: translateX(0); transition-delay: 0.7s; }
+  #p4.visible .p4-row:nth-child(4) { opacity: 1; transform: translateX(0); transition-delay: 0.9s; }
+  #p4.visible .p4-row:nth-child(5) { opacity: 1; transform: translateX(0); transition-delay: 1.1s; }
+
+  /* ============ PATTERN 5 — フルスクリーン1文ずつ ============ */
+  #p5 .p5-slide { height: 60vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 10%; }
+  #p5 .p5-slide .demo-heading { opacity: 0; transform: scale(0.95); transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1); }
+  #p5 .p5-slide.visible .demo-heading { opacity: 1; transform: scale(1); }
+
+  /* ============ PATTERN 6 — カード ============ */
+  #p6 .p6-card { max-width: 650px; margin: 0 auto; background: #fff; border: 1px solid rgba(42,36,32,0.06); padding: 60px 50px; text-align: center; position: relative; opacity: 0; transform: translateY(30px) rotateX(2deg); transition: all 1s cubic-bezier(0.19, 1, 0.22, 1); }
+  #p6.visible .p6-card { opacity: 1; transform: translateY(0) rotateX(0); }
+  #p6 .p6-card::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 0; height: 2px; background: linear-gradient(to right, #c9a96e, #e0d5c0); transition: width 1s ease 0.5s; }
+  #p6.visible .p6-card::after { width: 80px; }
+
+  /* ============ PATTERN 7 — 左右交互 ============ */
+  #p7 .p7-wrap { padding: 0 8%; }
+  #p7 .p7-row { padding: 16px 0; opacity: 0; transition: all 0.8s ease; }
+  #p7 .p7-row:nth-child(odd) { text-align: left; transform: translateX(-30px); }
+  #p7 .p7-row:nth-child(even) { text-align: right; transform: translateX(30px); }
+  #p7.visible .p7-row { opacity: 1; transform: translateX(0); }
+  #p7.visible .p7-row:nth-child(1) { transition-delay: 0.1s; }
+  #p7.visible .p7-row:nth-child(2) { transition-delay: 0.25s; }
+  #p7.visible .p7-row:nth-child(3) { transition-delay: 0.4s; }
+  #p7.visible .p7-row:nth-child(4) { transition-delay: 0.55s; }
+  #p7.visible .p7-row:nth-child(5) { transition-delay: 0.7s; }
+  #p7 .p7-sep { width: 0; height: 1px; background: rgba(42,36,32,0.08); margin: 8px auto; transition: width 0.8s ease; }
+  #p7.visible .p7-sep { width: 60px; }
+
+  /* ============ PATTERN 8 — マーキー＋固定テキスト ============ */
+  #p8 { overflow: hidden; position: relative; min-height: 70vh; display: flex; align-items: center; }
+  #p8 .p8-marquee { position: absolute; top: 50%; white-space: nowrap; font-family: "Cormorant Garamond", serif; font-size: 4rem; font-weight: 300; color: rgba(42,36,32,0.04); letter-spacing: 0.1em; animation: marquee 30s linear infinite; }
+  @keyframes marquee { from { transform: translateX(0) translateY(-50%); } to { transform: translateX(-50%) translateY(-50%); } }
+  #p8 .p8-content { position: relative; z-index: 2; text-align: center; width: 100%; padding: 0 8%; }
+  #p8 .p8-content p { opacity: 0; transform: translateY(15px); transition: all 0.8s ease; }
+  #p8.visible .p8-content p { opacity: 1; transform: translateY(0); }
+
+  /* ============ PATTERN 9 — 数字カウント ============ */
+  #p9 .p9-stats { display: flex; justify-content: center; gap: 60px; margin-bottom: 60px; }
+  #p9 .p9-stat { text-align: center; }
+  #p9 .p9-num { font-family: "Cormorant Garamond", serif; font-size: 3rem; font-weight: 300; color: #c9a96e; }
+  #p9 .p9-label { font-size: 0.7rem; color: #999; letter-spacing: 0.15em; margin-top: 8px; }
+  #p9 .p9-text { text-align: center; padding: 0 8%; opacity: 0; transform: translateY(20px); transition: all 1s ease 0.5s; }
+  #p9.visible .p9-text { opacity: 1; transform: translateY(0); }
+
+  /* ============ PATTERN 10 — ブラーから鮮明 ============ */
+  #p10 .p10-wrap { text-align: center; padding: 0 8%; }
+  #p10 .p10-row { filter: blur(8px); opacity: 0.3; transition: all 1.2s ease; }
+  #p10.visible .p10-row { filter: blur(0); opacity: 1; }
+  #p10.visible .p10-row:nth-child(2) { transition-delay: 0.2s; }
+  #p10.visible .p10-row:nth-child(3) { transition-delay: 0.4s; }
+  #p10.visible .p10-row:nth-child(4) { transition-delay: 0.6s; }
+  #p10.visible .p10-row:nth-child(5) { transition-delay: 0.8s; }
+
+  /* ============ PATTERN 11 — 中央の円 ============ */
+  #p11 { display: flex; align-items: center; justify-content: center; text-align: center; }
+  #p11 .p11-wrap { position: relative; padding: 0 8%; }
+  #p11 .p11-circle { width: 8px; height: 8px; border-radius: 50%; background: #c9a96e; margin: 0 auto 40px; transition: all 1s ease; transform: scale(1); }
+  #p11.visible .p11-circle { transform: scale(8); opacity: 0; }
+  #p11 .p11-row { opacity: 0; transform: translateY(20px); transition: all 0.8s ease; }
+  #p11.visible .p11-row { opacity: 1; transform: translateY(0); }
+  #p11.visible .p11-row:nth-child(2) { transition-delay: 0.5s; }
+  #p11.visible .p11-row:nth-child(3) { transition-delay: 0.7s; }
+  #p11.visible .p11-row:nth-child(4) { transition-delay: 0.9s; }
+
+  /* ============ PATTERN 12 — タイプライター ============ */
+  #p12 .p12-wrap { padding: 0 8%; max-width: 700px; margin: 0 auto; }
+  #p12 .p12-line { border-right: 2px solid #2a2420; white-space: nowrap; overflow: hidden; width: 0; animation: none; font-family: "Cormorant Garamond", serif; font-size: 1.1rem; letter-spacing: 0.1em; padding: 4px 0; }
+  #p12.visible .p12-line:nth-child(1) { animation: typing 2s steps(30) 0.3s forwards, blink 0.8s step-end 3 forwards; }
+  #p12.visible .p12-line:nth-child(2) { animation: typing 2s steps(30) 2.5s forwards, blink 0.8s step-end 3 forwards; }
+  #p12.visible .p12-line:nth-child(3) { animation: typing 2s steps(30) 4.7s forwards, blink 0.8s step-end 3 forwards; }
+  @keyframes typing { from { width: 0; } to { width: 100%; } }
+  @keyframes blink { 50% { border-color: transparent; } }
+
+  /* ============ PATTERN 13 — 薄い背景写真 ============ */
+  #p13 { position: relative; }
+  #p13 .p13-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('images/paris/01.jpg') center/cover; opacity: 0.08; }
+  #p13 .p13-content { position: relative; z-index: 2; text-align: center; padding: 0 8%; }
+  #p13 .p13-content p { opacity: 0; transform: translateY(20px); transition: all 1s ease; }
+  #p13.visible .p13-content p { opacity: 1; transform: translateY(0); }
+  #p13.visible .p13-content p:nth-child(2) { transition-delay: 0.3s; }
+  #p13.visible .p13-content p:nth-child(3) { transition-delay: 0.6s; }
+
+  /* ============ PATTERN 14 — 2列グリッド ============ */
+  #p14 .p14-grid { display: grid; grid-template-columns: 1fr 1px 1fr; gap: 40px; padding: 0 8%; align-items: start; }
+  #p14 .p14-divider { background: rgba(42,36,32,0.1); height: 0; transition: height 1.2s ease; }
+  #p14.visible .p14-divider { height: 100%; }
+  #p14 .p14-ja, #p14 .p14-en { opacity: 0; transform: translateY(15px); transition: all 1s ease; }
+  #p14.visible .p14-ja { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
+  #p14.visible .p14-en { opacity: 1; transform: translateY(0); transition-delay: 0.6s; }
+
+  /* ============ PATTERN 15 — アンダーライン ============ */
+  #p15 .p15-wrap { text-align: center; padding: 0 8%; }
+  #p15 .p15-row { display: inline-block; position: relative; margin-bottom: 12px; }
+  #p15 .p15-row::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: #c9a96e; transition: width 1s ease; }
+  #p15.visible .p15-row:nth-child(1)::after { width: 100%; transition-delay: 0.2s; }
+  #p15.visible .p15-row:nth-child(3)::after { width: 100%; transition-delay: 0.5s; }
+  #p15.visible .p15-row:nth-child(5)::after { width: 100%; transition-delay: 0.8s; }
+  #p15.visible .p15-row:nth-child(7)::after { width: 100%; transition-delay: 1.1s; }
+  #p15.visible .p15-row:nth-child(9)::after { width: 100%; transition-delay: 1.4s; }
+
+  /* ============ PATTERN 16 — ナンバリング ============ */
+  #p16 .p16-wrap { padding: 0 8%; max-width: 650px; margin: 0 auto; }
+  #p16 .p16-item { display: flex; gap: 24px; align-items: baseline; padding: 24px 0; border-bottom: 1px solid rgba(42,36,32,0.05); opacity: 0; transform: translateY(15px); transition: all 0.8s ease; }
+  #p16 .p16-num { font-family: "Cormorant Garamond", serif; font-size: 0.75rem; color: #c9a96e; letter-spacing: 0.15em; min-width: 30px; }
+  #p16.visible .p16-item:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.1s; }
+  #p16.visible .p16-item:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
+  #p16.visible .p16-item:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.5s; }
+  #p16.visible .p16-item:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.7s; }
+  #p16.visible .p16-item:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 0.9s; }
+
+  /* ============ PATTERN 17 — 画面分割スライド ============ */
+  #p17 .p17-split { display: grid; grid-template-columns: 1fr 1fr; min-height: 60vh; }
+  #p17 .p17-img { background: url('images/firenze/02.jpg') center/cover; opacity: 0; transform: translateX(-30px); transition: all 1s ease; }
+  #p17 .p17-text { display: flex; align-items: center; padding: 40px 5%; opacity: 0; transform: translateX(30px); transition: all 1s ease 0.3s; }
+  #p17.visible .p17-img { opacity: 1; transform: translateX(0); }
+  #p17.visible .p17-text { opacity: 1; transform: translateX(0); }
+
+  /* ============ PATTERN 18 — サイズグラデーション ============ */
+  #p18 .p18-wrap { text-align: center; padding: 0 8%; }
+  #p18 .p18-row { opacity: 0; transform: translateY(15px); transition: all 0.8s ease; }
+  #p18 .p18-row:nth-child(1) { font-size: 2rem; }
+  #p18 .p18-row:nth-child(2) { font-size: 1.5rem; }
+  #p18 .p18-row:nth-child(3) { font-size: 1.15rem; }
+  #p18 .p18-row:nth-child(4) { font-size: 0.95rem; color: #666; }
+  #p18 .p18-row:nth-child(5) { font-size: 0.85rem; color: #999; }
+  #p18.visible .p18-row { opacity: 1; transform: translateY(0); }
+  #p18.visible .p18-row:nth-child(2) { transition-delay: 0.2s; }
+  #p18.visible .p18-row:nth-child(3) { transition-delay: 0.4s; }
+  #p18.visible .p18-row:nth-child(4) { transition-delay: 0.6s; }
+  #p18.visible .p18-row:nth-child(5) { transition-delay: 0.8s; }
+
+  /* ============ PATTERN 19 — マスクリビール ============ */
+  #p19 .p19-wrap { text-align: center; padding: 0 8%; clip-path: inset(100% 0 0 0); transition: clip-path 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+  #p19.visible .p19-wrap { clip-path: inset(0 0 0 0); }
+
+  /* ============ PATTERN 20 — フローティングワード ============ */
+  #p20 .p20-wrap { position: relative; height: 50vh; }
+  #p20 .p20-word { position: absolute; font-family: "Noto Serif JP", serif; font-weight: 200; opacity: 0; transition: all 1.5s cubic-bezier(0.19, 1, 0.22, 1); }
+  #p20 .p20-word:nth-child(1) { font-size: 2.5rem; top: 10%; left: 15%; }
+  #p20 .p20-word:nth-child(2) { font-size: 1.8rem; top: 25%; right: 20%; color: #c9a96e; }
+  #p20 .p20-word:nth-child(3) { font-size: 2rem; top: 45%; left: 25%; }
+  #p20 .p20-word:nth-child(4) { font-size: 1.5rem; top: 60%; right: 15%; color: #888; }
+  #p20 .p20-word:nth-child(5) { font-size: 2.2rem; top: 75%; left: 10%; }
+  #p20.visible .p20-word { opacity: 1; transform: translateY(0) scale(1); }
+  #p20 .p20-word { transform: translateY(30px) scale(0.9); }
+  #p20.visible .p20-word:nth-child(2) { transition-delay: 0.2s; }
+  #p20.visible .p20-word:nth-child(3) { transition-delay: 0.4s; }
+  #p20.visible .p20-word:nth-child(4) { transition-delay: 0.6s; }
+  #p20.visible .p20-word:nth-child(5) { transition-delay: 0.8s; }
+</style>
+</head>
+<body>
+
+<nav class="toc">
+  <span>PATTERNS</span>
+  <a href="#p1">01</a><a href="#p2">02</a><a href="#p3">03</a><a href="#p4">04</a><a href="#p5">05</a>
+  <a href="#p6">06</a><a href="#p7">07</a><a href="#p8">08</a><a href="#p9">09</a><a href="#p10">10</a>
+  <a href="#p11">11</a><a href="#p12">12</a><a href="#p13">13</a><a href="#p14">14</a><a href="#p15">15</a>
+  <a href="#p16">16</a><a href="#p17">17</a><a href="#p18">18</a><a href="#p19">19</a><a href="#p20">20</a>
+</nav>
+
+<!-- P1 横ライン展開 -->
+<section class="pattern" id="p1">
+  <div class="pattern-label">Pattern 01 — 横ラインが左右から伸びてテキスト登場</div>
+  <div class="p1-wrap">
+    <div class="p1-line"></div>
+    <p class="p1-row demo-text-ja">写真と映像、ドローンの全技術を駆使して</p>
+    <p class="p1-row demo-text-ja">ふたりの「今」を映画のように残します。</p>
+    <p class="p1-row demo-text-ja">世界中の美しいロケーションを舞台に</p>
+    <p class="p1-row demo-text-ja">国内もヨーロッパも、ひとつのチームで。</p>
+    <p class="p1-row demo-text-ja">すべてのプランに200カット以上の写真と3分のショートフィルム。</p>
+    <p class="p1-row p1-en demo-text-en">Photo, film, and drone — every tool at our command to turn your story into cinema. From Japan to Europe, one team, one vision.</p>
+  </div>
+</section>
+
+<!-- P2 縦書き -->
+<section class="pattern" id="p2">
+  <div class="pattern-label">Pattern 02 — 縦書き＋右から左</div>
+  <div class="p2-wrap">
+    <div class="p2-col demo-text-ja" style="font-size:1.1rem;">写真と映像の全技術で<br>ふたりの物語を描く</div>
+    <div class="p2-col demo-text-ja" style="font-size:0.9rem; color:#666;">世界中の美しいロケーションを舞台に<br>国内もヨーロッパもひとつのチームで<br>最高の一日を創り上げます</div>
+    <div class="p2-col demo-text-ja" style="font-size:0.8rem; color:#999;">すべてのプランに<br>200カット以上の写真と<br>3分のショートフィルム</div>
+  </div>
+</section>
+
+<!-- P3 大英字背景 -->
+<section class="pattern" id="p3">
+  <div class="pattern-label">Pattern 03 — 大きな英字の背景＋日本語</div>
+  <div class="p3-bg">PHILOSOPHY</div>
+  <div class="p3-content">
+    <p class="demo-heading" style="margin-bottom:40px;">写真と映像の全技術で<br>ふたりの物語を描く。</p>
+    <p class="demo-text-ja">世界中の美しいロケーションを舞台に、国内もヨーロッパも<br>ひとつのチームで最高の一日を創り上げます。</p>
+    <p class="demo-text-en">Every tool, every technique, every emotion — channeled into your story.</p>
+  </div>
+</section>
+
+<!-- P4 左縦線 -->
+<section class="pattern" id="p4">
+  <div class="pattern-label">Pattern 04 — 左に細い縦線＋段落ごとスタガー</div>
+  <div class="p4-wrap">
+    <div class="p4-line"></div>
+    <p class="p4-row demo-text-ja">写真と映像、ドローンの全技術を駆使して</p>
+    <p class="p4-row demo-text-ja">ふたりの「今」を映画のように残します。</p>
+    <p class="p4-row demo-text-ja">世界中の美しいロケーションを舞台に</p>
+    <p class="p4-row demo-text-ja">国内もヨーロッパも、ひとつのチームで。</p>
+    <p class="p4-row demo-text-en" style="margin-top:24px;">Photo, film, and drone — from Japan to Europe, one team, one vision.</p>
+  </div>
+</section>
+
+<!-- P5 フルスクリーン1文ずつ -->
+<section class="pattern" id="p5">
+  <div class="pattern-label">Pattern 05 — フルスクリーン1文ずつ</div>
+  <div class="p5-slide"><p class="demo-heading">写真と映像の全技術で<br>ふたりの物語を描く。</p></div>
+  <div class="p5-slide"><p class="demo-heading">世界中の美しいロケーションを<br>舞台に。</p></div>
+  <div class="p5-slide"><p class="demo-heading">200カット以上の写真と<br>3分のショートフィルム。</p></div>
+</section>
+
+<!-- P6 カード -->
+<section class="pattern" id="p6">
+  <div class="pattern-label">Pattern 06 — フローティングカード＋ゴールドライン</div>
+  <div class="p6-card">
+    <p class="demo-text-ja">写真と映像、ドローンの全技術を駆使して<br>ふたりの「今」を映画のように残します。</p>
+    <br>
+    <p class="demo-text-ja">世界中の美しいロケーションを舞台に<br>国内もヨーロッパも、ひとつのチームで。</p>
+    <br>
+    <p class="demo-text-ja">すべてのプランに200カット以上の写真と<br>3分のショートフィルム。</p>
+    <p class="demo-text-en">Photo, film, and drone — your story, told like cinema.</p>
+  </div>
+</section>
+
+<!-- P7 左右交互 -->
+<section class="pattern" id="p7">
+  <div class="pattern-label">Pattern 07 — 左右交互レイアウト</div>
+  <div class="p7-wrap">
+    <p class="p7-row demo-text-ja">写真と映像、ドローンの全技術を駆使して</p>
+    <div class="p7-sep"></div>
+    <p class="p7-row demo-text-ja">ふたりの「今」を映画のように残します。</p>
+    <div class="p7-sep"></div>
+    <p class="p7-row demo-text-ja">世界中の美しいロケーションを舞台に</p>
+    <div class="p7-sep"></div>
+    <p class="p7-row demo-text-ja">国内もヨーロッパも、ひとつのチームで。</p>
+    <div class="p7-sep"></div>
+    <p class="p7-row demo-text-ja">すべてのプランに200カット以上の写真と3分のショートフィルム。</p>
+  </div>
+</section>
+
+<!-- P8 マーキー -->
+<section class="pattern" id="p8">
+  <div class="pattern-label">Pattern 08 — マーキー＋固定テキスト</div>
+  <div class="p8-marquee">photo — film — drone — story — cinema — europe — japan — love — eternal — photo — film — drone — story — cinema — europe — japan — love — eternal —</div>
+  <div class="p8-content">
+    <p class="demo-heading" style="margin-bottom:30px;">写真と映像の全技術で<br>ふたりの物語を描く。</p>
+    <p class="demo-text-ja">世界中の美しいロケーションを舞台に<br>国内もヨーロッパもひとつのチームで。</p>
+    <p class="demo-text-en">Photo, film, and drone — from Japan to Europe.</p>
+  </div>
+</section>
+
+<!-- P9 数字カウント -->
+<section class="pattern" id="p9">
+  <div class="pattern-label">Pattern 09 — 数字カウントアップ付き</div>
+  <div class="p9-stats">
+    <div class="p9-stat"><div class="p9-num" data-target="200">0</div><div class="p9-label">CUTS +</div></div>
+    <div class="p9-stat"><div class="p9-num" data-target="6">0</div><div class="p9-label">COUNTRIES</div></div>
+    <div class="p9-stat"><div class="p9-num" data-target="3">0</div><div class="p9-label">MIN FILM</div></div>
+  </div>
+  <div class="p9-text">
+    <p class="demo-text-ja">写真と映像、ドローンの全技術を駆使して<br>ふたりの「今」を映画のように残します。</p>
+    <p class="demo-text-en">Every frame crafted with care, every second a treasure.</p>
+  </div>
+</section>
+
+<!-- P10 ブラー -->
+<section class="pattern" id="p10">
+  <div class="pattern-label">Pattern 10 — ブラーから鮮明に</div>
+  <div class="p10-wrap">
+    <p class="p10-row demo-text-ja">写真と映像、ドローンの全技術を駆使して</p>
+    <p class="p10-row demo-text-ja">ふたりの「今」を映画のように残します。</p>
+    <p class="p10-row demo-text-ja">世界中の美しいロケーションを舞台に</p>
+    <p class="p10-row demo-text-ja">国内もヨーロッパも、ひとつのチームで。</p>
+    <p class="p10-row demo-text-en">Photo, film, and drone — your story, told like cinema.</p>
+  </div>
+</section>
+
+<!-- P11 円 -->
+<section class="pattern" id="p11">
+  <div class="pattern-label" style="position:absolute; top: 120px;">Pattern 11 — 中央の円から放射状に</div>
+  <div class="p11-wrap">
+    <div class="p11-circle"></div>
+    <p class="p11-row demo-heading" style="margin-bottom:30px;">写真と映像の全技術で<br>ふたりの物語を描く。</p>
+    <p class="p11-row demo-text-ja">世界中の美しいロケーションを舞台に<br>国内もヨーロッパもひとつのチームで。</p>
+    <p class="p11-row demo-text-en">Photo, film, and drone — one team, one vision, from Japan to Europe.</p>
+  </div>
+</section>
+
+<!-- P12 タイプライター -->
+<section class="pattern" id="p12">
+  <div class="pattern-label">Pattern 12 — タイプライター演出</div>
+  <div class="p12-wrap">
+    <p class="p12-line">Photo, film, and drone — every tool at our command.</p>
+    <p class="p12-line">From Japan to Europe, one team, one vision.</p>
+    <p class="p12-line">200+ photographs and a 3-minute short film, in every plan.</p>
+  </div>
+</section>
+
+<!-- P13 薄い背景写真 -->
+<section class="pattern" id="p13">
+  <div class="pattern-label">Pattern 13 — パララックス背景写真＋テキスト</div>
+  <div class="p13-bg"></div>
+  <div class="p13-content">
+    <p class="demo-heading" style="margin-bottom:40px;">写真と映像の全技術で<br>ふたりの物語を描く。</p>
+    <p class="demo-text-ja">世界中の美しいロケーションを舞台に<br>国内もヨーロッパもひとつのチームで。</p>
+    <p class="demo-text-en">Photo, film, and drone — from Japan to Europe, one team, one vision.</p>
+  </div>
+</section>
+
+<!-- P14 2列グリッド -->
+<section class="pattern" id="p14">
+  <div class="pattern-label">Pattern 14 — グリッド分割（日本語 | 英語）</div>
+  <div class="p14-grid">
+    <div class="p14-ja">
+      <p class="demo-text-ja">写真と映像、ドローンの全技術を駆使して<br>ふたりの「今」を映画のように残します。</p>
+      <br>
+      <p class="demo-text-ja">世界中の美しいロケーションを舞台に<br>国内もヨーロッパも、ひとつのチームで。</p>
+    </div>
+    <div class="p14-divider"></div>
+    <div class="p14-en">
+      <p class="demo-text-en" style="margin-top:0;">Photo, film, and drone — every tool at our command to turn your story into cinema.</p>
+      <br>
+      <p class="demo-text-en">From Japan to Europe, one team captures the beauty of your love in every frame.</p>
+    </div>
+  </div>
+</section>
+
+<!-- P15 アンダーライン -->
+<section class="pattern" id="p15">
+  <div class="pattern-label">Pattern 15 — スクロール連動のアンダーライン</div>
+  <div class="p15-wrap">
+    <span class="p15-row demo-text-ja">写真と映像、ドローンの全技術を駆使して</span><br>
+    <br>
+    <span class="p15-row demo-text-ja">ふたりの「今」を映画のように残します。</span><br>
+    <br>
+    <span class="p15-row demo-text-ja">世界中の美しいロケーションを舞台に</span><br>
+    <br>
+    <span class="p15-row demo-text-ja">国内もヨーロッパも、ひとつのチームで。</span><br>
+    <br>
+    <span class="p15-row demo-text-ja">すべてのプランに200カット以上と3分のショートフィルム。</span>
+  </div>
+</section>
+
+<!-- P16 ナンバリング -->
+<section class="pattern" id="p16">
+  <div class="pattern-label">Pattern 16 — ステップ式ナンバリング（01 / 02 / 03）</div>
+  <div class="p16-wrap">
+    <div class="p16-item"><span class="p16-num">01</span><p class="demo-text-ja">写真と映像、ドローンの全技術を駆使してふたりの物語を描きます。</p></div>
+    <div class="p16-item"><span class="p16-num">02</span><p class="demo-text-ja">世界中の美しいロケーションを舞台に、国内もヨーロッパもひとつのチームで。</p></div>
+    <div class="p16-item"><span class="p16-num">03</span><p class="demo-text-ja">すべてのプランに200カット以上の写真と3分のショートフィルム。</p></div>
+    <div class="p16-item"><span class="p16-num">04</span><p class="demo-text-ja">紗栄子さん、Soda Marieさんなど著名人にも選ばれるクオリティ。</p></div>
+    <div class="p16-item"><span class="p16-num">05</span><p class="demo-text-ja">提携ドレスショップの持ち込み料無料。理想のスタイリングを。</p></div>
+  </div>
+</section>
+
+<!-- P17 画面分割 -->
+<section class="pattern" id="p17">
+  <div class="pattern-label">Pattern 17 — 画面分割スライド</div>
+  <div class="p17-split">
+    <div class="p17-img"></div>
+    <div class="p17-text">
+      <div>
+        <p class="demo-heading" style="margin-bottom:24px;">写真と映像の全技術で<br>ふたりの物語を描く。</p>
+        <p class="demo-text-ja">世界中の美しいロケーションを舞台に<br>国内もヨーロッパもひとつのチームで<br>最高の一日を創り上げます。</p>
+        <p class="demo-text-en">Photo, film, and drone — from Japan to Europe.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- P18 サイズグラデーション -->
+<section class="pattern" id="p18">
+  <div class="pattern-label">Pattern 18 — 文字サイズのグラデーション</div>
+  <div class="p18-wrap">
+    <p class="p18-row demo-text-ja">写真と映像の全技術で</p>
+    <p class="p18-row demo-text-ja">ふたりの物語を描く。</p>
+    <p class="p18-row demo-text-ja">世界中の美しいロケーションを舞台に</p>
+    <p class="p18-row demo-text-ja">国内もヨーロッパもひとつのチームで</p>
+    <p class="p18-row demo-text-ja">200カット以上の写真と3分のショートフィルム</p>
+  </div>
+</section>
+
+<!-- P19 マスクリビール -->
+<section class="pattern" id="p19">
+  <div class="pattern-label">Pattern 19 — マスクリビール（カーテン）</div>
+  <div class="p19-wrap">
+    <p class="demo-heading" style="margin-bottom:40px;">写真と映像の全技術で<br>ふたりの物語を描く。</p>
+    <p class="demo-text-ja">世界中の美しいロケーションを舞台に<br>国内もヨーロッパもひとつのチームで<br>最高の一日を創り上げます。</p>
+    <p class="demo-text-ja" style="margin-top:20px;">すべてのプランに200カット以上の写真と<br>3分のショートフィルム。</p>
+    <p class="demo-text-en">Photo, film, and drone — your story, from Japan to Europe.</p>
+  </div>
+</section>
+
+<!-- P20 フローティングワード -->
+<section class="pattern" id="p20">
+  <div class="pattern-label">Pattern 20 — フローティングワード</div>
+  <div class="p20-wrap">
+    <span class="p20-word">映画</span>
+    <span class="p20-word">永遠</span>
+    <span class="p20-word">物語</span>
+    <span class="p20-word">ヨーロッパ</span>
+    <span class="p20-word">ふたり</span>
+  </div>
+</section>
+
+<script>
+  // Scroll reveal observer
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('.pattern, .p5-slide').forEach(function(el) {
+    observer.observe(el);
+  });
+
+  // P9 count-up
+  var countObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.p9-num').forEach(function(num) {
+          var target = parseInt(num.dataset.target);
+          var duration = 2000;
+          var start = performance.now();
+          function tick(now) {
+            var progress = Math.min((now - start) / duration, 1);
+            num.textContent = Math.floor(progress * target);
+            if (progress < 1) requestAnimationFrame(tick);
+            else num.textContent = target;
+          }
+          requestAnimationFrame(tick);
+        });
+        countObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  var p9 = document.getElementById('p9');
+  if (p9) countObserver.observe(p9);
+</script>
+
+</body>
+</html>

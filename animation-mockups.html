@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan Image Animation — 10 Patterns</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Noto+Sans+JP:wght@200;300&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #f5f3ef;
+    font-family: 'Noto Sans JP', sans-serif;
+    color: #1a1a1a;
+    padding: 4rem 2rem;
+  }
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 2rem;
+    letter-spacing: 0.2em;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #999;
+    margin-bottom: 4rem;
+    letter-spacing: 0.1em;
+  }
+
+  .pattern {
+    margin-bottom: 5rem;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .pattern__header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+  .pattern__num {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 1.8rem;
+    color: #ccc;
+    letter-spacing: 0.1em;
+  }
+  .pattern__name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 1.1rem;
+    letter-spacing: 0.15em;
+  }
+  .pattern__desc {
+    font-size: 0.75rem;
+    color: #888;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Demo area */
+  .demo {
+    display: grid;
+    grid-template-columns: 48% 52%;
+    min-height: 50vh;
+    overflow: hidden;
+    background: #f5f3ef;
+  }
+  .demo__image {
+    position: relative;
+    overflow: hidden;
+    min-height: 100%;
+    cursor: pointer;
+  }
+  .demo__image img {
+    width: 100%;
+    height: 115%;
+    object-fit: cover;
+    display: block;
+    position: absolute;
+    top: -7%;
+    left: 0;
+  }
+  .demo__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem 3.5rem;
+  }
+  .demo__location {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 1.5rem;
+  }
+  .demo__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 2.8rem;
+    letter-spacing: 0.06em;
+    color: #1a1a1a;
+    margin-bottom: 0.4rem;
+  }
+  .demo__plan {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 300;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: #888;
+    margin-bottom: 2rem;
+  }
+
+  /* ===== PATTERN 1: Slow Zoom In (Ken Burns) ===== */
+  .p1 .demo__image img {
+    transition: transform 8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .p1 .demo__image.animate img {
+    transform: scale(1.12);
+  }
+
+  /* ===== PATTERN 2: Slow Zoom Out ===== */
+  .p2 .demo__image img {
+    transform: scale(1.15);
+    transition: transform 8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .p2 .demo__image.animate img {
+    transform: scale(1);
+  }
+
+  /* ===== PATTERN 3: Pan Left to Right ===== */
+  .p3 .demo__image img {
+    width: 120%;
+    transform: translateX(-15%);
+    transition: transform 10s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .p3 .demo__image.animate img {
+    transform: translateX(0%);
+  }
+
+  /* ===== PATTERN 4: Pan Right to Left ===== */
+  .p4 .demo__image img {
+    width: 120%;
+    transform: translateX(0%);
+    transition: transform 10s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .p4 .demo__image.animate img {
+    transform: translateX(-15%);
+  }
+
+  /* ===== PATTERN 5: Zoom + Pan diagonal ===== */
+  .p5 .demo__image img {
+    width: 120%;
+    transform: scale(1) translateX(-5%) translateY(-3%);
+    transition: transform 10s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+  .p5 .demo__image.animate img {
+    transform: scale(1.08) translateX(2%) translateY(1%);
+  }
+
+  /* ===== PATTERN 6: Soft Parallax Drift (vertical) ===== */
+  .p6 .demo__image img {
+    height: 130%;
+    top: -15%;
+    transform: translateY(0%);
+    transition: transform 8s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+  .p6 .demo__image.animate img {
+    transform: translateY(-8%);
+  }
+
+  /* ===== PATTERN 7: Reveal from Mask (clip-path) ===== */
+  .p7 .demo__image {
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 1.8s cubic-bezier(0.77, 0, 0.175, 1);
+  }
+  .p7 .demo__image.animate {
+    clip-path: inset(0 0 0 0);
+  }
+  .p7 .demo__image img {
+    transform: scale(1.05);
+    transition: transform 6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .p7 .demo__image.animate img {
+    transform: scale(1);
+  }
+
+  /* ===== PATTERN 8: Reveal from Bottom Mask ===== */
+  .p8 .demo__image {
+    clip-path: inset(100% 0 0 0);
+    transition: clip-path 1.6s cubic-bezier(0.77, 0, 0.175, 1);
+  }
+  .p8 .demo__image.animate {
+    clip-path: inset(0 0 0 0);
+  }
+  .p8 .demo__image img {
+    transition: transform 8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .p8 .demo__image.animate img {
+    transform: scale(1.08);
+  }
+
+  /* ===== PATTERN 9: Fade + Slight Scale ===== */
+  .p9 .demo__image {
+    opacity: 0;
+    transition: opacity 2s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+  .p9 .demo__image.animate {
+    opacity: 1;
+  }
+  .p9 .demo__image img {
+    transform: scale(1.06);
+    transition: transform 8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .p9 .demo__image.animate img {
+    transform: scale(1);
+  }
+
+  /* ===== PATTERN 10: Split Reveal (center out) + Zoom ===== */
+  .p10 .demo__image {
+    clip-path: inset(50% 0 50% 0);
+    transition: clip-path 1.4s cubic-bezier(0.77, 0, 0.175, 1);
+  }
+  .p10 .demo__image.animate {
+    clip-path: inset(0 0 0 0);
+  }
+  .p10 .demo__image img {
+    transform: scale(1.08);
+    transition: transform 10s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .p10 .demo__image.animate img {
+    transform: scale(1);
+  }
+
+  /* Replay button */
+  .replay-btn {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.5rem 1.5rem;
+    border: 1px solid rgba(0,0,0,0.15);
+    background: transparent;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    color: #1a1a1a;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .replay-btn:hover {
+    border-color: rgba(0,0,0,0.4);
+    background: rgba(0,0,0,0.03);
+  }
+
+  @media (max-width: 768px) {
+    .demo { grid-template-columns: 1fr; }
+    .demo__image { height: 50vw; }
+    .demo__content { padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<h1>IMAGE ANIMATION — 10 PATTERNS</h1>
+<p class="subtitle">プラン/プライスセクション 画像アニメーション提案</p>
+
+<!-- Pattern 1 -->
+<div class="pattern">
+  <div class="pattern__header">
+    <span class="pattern__num">01</span>
+    <span class="pattern__name">Slow Zoom In (Ken Burns)</span>
+  </div>
+  <p class="pattern__desc">
+    画像がゆっくりズームイン。映画的で上品な印象。スクロールで表示されると徐々に拡大していく。<br>
+    最もクラシックで安定感のあるアニメーション。
+  </p>
+  <div class="demo p1">
+    <div class="demo__image" data-pattern="p1">
+      <img src="images/hero/hero-01.jpg" alt="">
+    </div>
+    <div class="demo__content">
+      <span class="demo__location">Tokyo · Karuizawa · Fuji · Jogashima<br>— Japan</span>
+      <h3 class="demo__title">Japan</h3>
+      <p class="demo__plan">国内プラン</p>
+      <button class="replay-btn" onclick="replay(this, 'p1')">replay</button>
+    </div>
+  </div>
+</div>
+
+<!-- Pattern 2 -->
+<div class="pattern">
+  <div class="pattern__header">
+    <span class="pattern__num">02</span>
+    <span class="pattern__name">Slow Zoom Out</span>
+  </div>
+  <p class="pattern__desc">
+    最初に少し拡大された状態から、ゆっくりズームアウト。全体像が徐々に見えてくる演出。<br>
+    引きのショットで空間の広がりを感じさせる。
+  </p>
+  <div class="demo p2">
+    <div class="demo__image" data-pattern="p2">
+      <img src="images/paris/03.jpg" alt="">
+    </div>
+    <div class="demo__content">
+      <span class="demo__location">Paris, France</span>
+      <h3 class="demo__title">Paris</h3>
+      <p class="demo__plan">パリプラン</p>
+      <button class="replay-btn" onclick="replay(this, 'p2')">replay</button>
+    </div>
+  </div>
+</div>
+
+<!-- Pattern 3 -->
+<div class="pattern">
+  <div class="pattern__header">
+    <span class="pattern__num">03</span>
+    <span class="pattern__name">Pan Left → Right</span>
+  </div>
+  <p class="pattern__desc">
+    画像が左から右へゆっくりパン。横に広い風景写真に特に効果的。<br>
+    映画のオープニングシーケンスのような雰囲気。
+  </p>
+  <div class="demo p3">
+    <div class="demo__image" data-pattern="p3">
+      <img src="images/firenze/02.jpg" alt="">
+    </div>
+    <div class="demo__content">
+      <span class="demo__location">Switzerland · Firenze · London · Malta · Nice · Barcelona</span>
+      <h3 class="demo__title">Europa</h3>
+      <p class="demo__plan">ヨーロッパプラン</p>
+      <button class="replay-btn" onclick="replay(this, 'p3')">replay</button>
+    </div>
+  </div>
+</div>
+
+<!-- Pattern 4 -->
+<div class="pattern">
+  <div class="pattern__header">
+    <span class="pattern__num">04</span>
+    <span class="pattern__name">Pan Right → Left</span>
+  </div>
+  <p class="pattern__desc">
+    右から左へパン。Pattern 3の逆方向。交互に使うとリズムが生まれる。<br>
+    偶数番目のカード（画像が右側）との相性が良い。
+  </p>
+  <div class="demo p4">
+    <div class="demo__image" data-pattern="p4">
+      <img src="images/hero/hero-01.jpg" alt="">
+    </div>
+    <div class="demo__content">
+      <span class="demo__location">Tokyo · Karuizawa · Fuji · Jogashima<br>— Japan</span>
+      <h3 class="demo__title">Japan</h3>
+      <p class="demo__plan">国内プラン</p>
+      <button class="replay-btn" onclick="replay(this, 'p4')">replay</button>
+    </div>
+  </div>
+</div>
+
+<!-- Pattern 5 -->
+<div class="pattern">
+  <div class="pattern__header">
+    <span class="pattern__num">05</span>
+    <span class="pattern__name">Zoom + Diagonal Pan</span>
+  </div>
+  <p class="pattern__desc">
+    ズームとパンを組み合わせた対角線方向の動き。奥行き感が強く出る。<br>
+    左上から右下へ引き寄せられるような没入感。
+  </p>
+  <div class="demo p5">
+    <div class="demo__image" data-pattern="p5">
+      <img src="images/paris/03.jpg" alt="">
+    </div>
+    <div class="demo__content">
+      <span class="demo__location">Paris, France</span>
+      <h3 class="demo__title">Paris</h3>
+      <p class="demo__plan">パリプラン</p>
+      <button class="replay-btn" onclick="replay(this, 'p5')">replay</button>
+    </div>
+  </div>
+</div>
+
+<!-- Pattern 6 -->
+<div class="pattern">
+  <div class="pattern__header">
+    <span class="pattern__num">06</span>
+    <span class="pattern__name">Soft Parallax Drift</span>
+  </div>
+  <p class="pattern__desc">
+    縦方向にゆっくりドリフト。スクロールに合わせて画像が少しずつ上に流れる。<br>
+    現在のparallax効果を強化した版。自然で上品な印象。
+  </p>
+  <div class="demo p6">
+    <div class="demo__image" data-pattern="p6">
+      <img src="images/firenze/02.jpg" alt="">
+    </div>
+    <div class="demo__content">
+      <span class="demo__location">Switzerland · Firenze · London · Malta · Nice · Barcelona</span>
+      <h3 class="demo__title">Europa</h3>
+      <p class="demo__plan">ヨーロッパプラン</p>
+      <button class="replay-btn" onclick="replay(this, 'p6')">replay</button>
+    </div>
+  </div>
+</div>
+
+<!-- Pattern 7 -->
+<div class="pattern">
+  <div class="pattern__header">
+    <span class="pattern__num">07</span>
+    <span class="pattern__name">Reveal from Left (Mask Wipe)</span>
+  </div>
+  <p class="pattern__desc">
+    左から右へマスクが開いて画像が現れる。clip-pathアニメーション。<br>
+    画像が「幕を開ける」ように登場。高級ブランドサイトによく使われる手法。
+  </p>
+  <div class="demo p7">
+    <div class="demo__image" data-pattern="p7">
+      <img src="images/hero/hero-01.jpg" alt="">
+    </div>
+    <div class="demo__content">
+      <span class="demo__location">Tokyo · Karuizawa · Fuji · Jogashima<br>— Japan</span>
+      <h3 class="demo__title">Japan</h3>
+      <p class="demo__plan">国内プラン</p>
+      <button class="replay-btn" onclick="replay(this, 'p7')">replay</button>
+    </div>
+  </div>
+</div>
+
+<!-- Pattern 8 -->
+<div class="pattern">
+  <div class="pattern__header">
+    <span class="pattern__num">08</span>
+    <span class="pattern__name">Reveal from Bottom + Zoom</span>
+  </div>
+  <p class="pattern__desc">
+    下から上へマスクが開き、同時にゆっくりズームイン。<br>
+    スクロール方向と同じ方向に開くため、とても自然な流れ。
+  </p>
+  <div class="demo p8">
+    <div class="demo__image" data-pattern="p8">
+      <img src="images/paris/03.jpg" alt="">
+    </div>
+    <div class="demo__content">
+      <span class="demo__location">Paris, France</span>
+      <h3 class="demo__title">Paris</h3>
+      <p class="demo__plan">パリプラン</p>
+      <button class="replay-btn" onclick="replay(this, 'p8')">replay</button>
+    </div>
+  </div>
+</div>
+
+<!-- Pattern 9 -->
+<div class="pattern">
+  <div class="pattern__header">
+    <span class="pattern__num">09</span>
+    <span class="pattern__name">Fade In + Slight Scale Down</span>
+  </div>
+  <p class="pattern__desc">
+    ふわっとフェードインしながら、少しズームアウト。最もミニマルな演出。<br>
+    控えめだが上品で、写真自体の美しさを最大限に活かす。
+  </p>
+  <div class="demo p9">
+    <div class="demo__image" data-pattern="p9">
+      <img src="images/firenze/02.jpg" alt="">
+    </div>
+    <div class="demo__content">
+      <span class="demo__location">Switzerland · Firenze · London · Malta · Nice · Barcelona</span>
+      <h3 class="demo__title">Europa</h3>
+      <p class="demo__plan">ヨーロッパプラン</p>
+      <button class="replay-btn" onclick="replay(this, 'p9')">replay</button>
+    </div>
+  </div>
+</div>
+
+<!-- Pattern 10 -->
+<div class="pattern">
+  <div class="pattern__header">
+    <span class="pattern__num">10</span>
+    <span class="pattern__name">Split Reveal (Center Out) + Zoom Out</span>
+  </div>
+  <p class="pattern__desc">
+    画面中央から上下に割れるように画像が出現し、同時にゆっくりズームアウト。<br>
+    インパクトがありつつエレガント。映画のタイトルシーケンスのような演出。
+  </p>
+  <div class="demo p10">
+    <div class="demo__image" data-pattern="p10">
+      <img src="images/hero/hero-01.jpg" alt="">
+    </div>
+    <div class="demo__content">
+      <span class="demo__location">Tokyo · Karuizawa · Fuji · Jogashima<br>— Japan</span>
+      <h3 class="demo__title">Japan</h3>
+      <p class="demo__plan">国内プラン</p>
+      <button class="replay-btn" onclick="replay(this, 'p10')">replay</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Intersection Observer — trigger animation on scroll
+  const demoImages = document.querySelectorAll('.demo__image');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  demoImages.forEach(el => observer.observe(el));
+
+  // Replay function
+  function replay(btn, patternClass) {
+    const demo = btn.closest('.demo');
+    const imageEl = demo.querySelector('.demo__image');
+    const img = imageEl.querySelector('img');
+
+    // Remove animate
+    imageEl.classList.remove('animate');
+
+    // Force reflow to restart transition
+    void imageEl.offsetWidth;
+    void img.offsetWidth;
+
+    // Re-add after a brief delay
+    setTimeout(() => {
+      imageEl.classList.add('animate');
+    }, 100);
+  }
+</script>
+
+</body>
+</html>

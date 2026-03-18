@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery CTA — 位置 × デザイン 20パターン</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "Noto Sans JP", sans-serif; background: #f5f3ef; color: #333; }
+
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(8px);
+    padding: 12px 20px; display: flex; gap: 6px; flex-wrap: wrap;
+    align-items: center; border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+  .nav span { font-size: 0.65rem; color: #999; margin-right: 8px; }
+  .nav a { padding: 5px 10px; border: 1px solid rgba(0,0,0,0.12); border-radius: 14px;
+    text-decoration: none; color: #555; font-size: 0.6rem; letter-spacing: 0.03em;
+    transition: all 0.3s; white-space: nowrap; }
+  .nav a:hover { background: #3D3530; color: #fff; border-color: #3D3530; }
+
+  .pattern {
+    position: relative; width: 100%; height: 500px;
+    background: #f5f3ef; overflow: hidden;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+  }
+  .pattern-num {
+    position: absolute; top: 80px; left: 20px;
+    font-family: "Cormorant Garamond", serif; font-size: 0.7rem;
+    letter-spacing: 0.15em; color: #bbb; z-index: 20;
+  }
+
+  /* 写真ダミー */
+  .fake-photo {
+    position: absolute;
+    top: 200px; left: 3%;
+    width: 52%; height: 250px;
+    background: url('images/paris/01.jpg') center/cover;
+    border-radius: 2px;
+    filter: brightness(0.88);
+    z-index: 1;
+  }
+  .fake-photo2 {
+    position: absolute;
+    top: 240px; right: 2%;
+    width: 45%; height: 220px;
+    background: url('images/london/03.jpg') center/cover;
+    border-radius: 2px;
+    filter: brightness(0.88);
+    z-index: 1;
+  }
+
+  /* テキストブロック */
+  .text-block {
+    position: absolute; z-index: 10;
+    top: 85px; left: 5%;
+    max-width: 480px;
+  }
+  .tb-heading {
+    font-family: "Noto Serif JP", serif; font-weight: 300;
+    font-size: 1.3rem; line-height: 1.6; color: #2a2420;
+    margin-bottom: 14px;
+  }
+  .tb-desc {
+    font-family: "Noto Serif JP", serif; font-size: 0.65rem;
+    line-height: 2.2; color: #666; margin-bottom: 12px;
+  }
+  .tb-en {
+    font-family: "Cormorant Garamond", serif; font-size: 0.6rem;
+    line-height: 2; color: #aaa; letter-spacing: 0.05em;
+  }
+
+  :root {
+    --font: "Cormorant Garamond", serif;
+    --dark: #2a2420;
+    --mid: rgba(61,53,48,0.5);
+    --light: rgba(61,53,48,0.15);
+    --faint: rgba(61,53,48,0.06);
+    --bg: #f5f3ef;
+  }
+  a.cta { text-decoration: none; position: relative; z-index: 15; display: inline-flex; align-items: center; }
+  a.cta .arrow { transition: transform 0.3s ease; display: inline-block; }
+  a.cta:hover .arrow { transform: translateX(5px); }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <span>位置×デザイン:</span>
+  <a href="#p1">01</a><a href="#p2">02</a><a href="#p3">03</a><a href="#p4">04</a><a href="#p5">05</a>
+  <a href="#p6">06</a><a href="#p7">07</a><a href="#p8">08</a><a href="#p9">09</a><a href="#p10">10</a>
+  <a href="#p11">11</a><a href="#p12">12</a><a href="#p13">13</a><a href="#p14">14</a><a href="#p15">15</a>
+  <a href="#p16">16</a><a href="#p17">17</a><a href="#p18">18</a><a href="#p19">19</a><a href="#p20">20</a>
+</div>
+
+<!-- ====== 01: 英文直下・左寄せ・角丸ボーダー（現状ベース） ====== -->
+<div class="pattern" id="p1">
+  <span class="pattern-num">01 — 英文直下・左寄せ・角丸ボーダー</span>
+  <div class="text-block">
+    <p class="tb-heading">ここまで来たんだ、<br>ふたりで。</p>
+    <p class="tb-desc">振り返ればいろんなことがあった。<br>でも気づけば、いつも隣にいてくれた。<br>だから次の一歩も、一緒に踏み出せる。</p>
+    <p class="tb-en">Looking back, we've been through so much.<br>But somehow, you were always there.<br>That's why we can take the next step — together.</p>
+    <a href="#" class="cta" style="margin-top:6px; gap:14px; padding:12px 34px; border:1px solid var(--dark); border-radius:8px; color:var(--dark); font-family:var(--font); font-size:0.9rem; letter-spacing:0.25em; transition:all 0.4s ease;">Gallery <span class="arrow">→</span></a>
+  </div>
+  <div class="fake-photo"></div><div class="fake-photo2"></div>
+</div>
+
+<!-- ====== 02: 英文直下・左寄せ・下線のみ ====== -->
+<div class="pattern" id="p2">
+  <span class="pattern-num">02 — 英文直下・左寄せ・下線のみ</span>
+  <div class="text-block">
+    <p class="tb-heading">ここまで来たんだ、<br>ふたりで。</p>
+    <p class="tb-desc">振り返ればいろんなことがあった。<br>でも気づけば、いつも隣にいてくれた。<br>だから次の一歩も、一緒に踏み出せる。</p>
+    <p class="tb-en">Looking back, we've been through so much.<br>But somehow, you were always there.<br>That's why we can take the next step — together.</p>
+    <a href="#" class="cta" style="margin-top:6px; gap:12px; padding-bottom:4px; border-bottom:1px solid var(--dark); color:var(--dark); font-family:var(--font); font-size:0.9rem; letter-spacing:0.25em;">Gallery <span class="arrow">→</span></a>
+  </div>
+  <div class="fake-photo"></div><div class="fake-photo2"></div>
+</div>
+
+<!-- ====== 03: 英文直下・左寄せ・ソリッド背景 ====== -->
+<div class="pattern" id="p3">
+  <span class="pattern-num">03 — 英文直下・左寄せ・ソリッド背景</span>
+  <div class="text-block">
+    <p class="tb-heading">ここまで来たんだ、<br>ふたりで。</p>
+    <p class="tb-desc">振り返ればいろんなことがあった。<br>でも気づけば、いつも隣にいてくれた。<br>だから次の一歩も、一緒に踏み出せる。</p>
+    <p class="tb-en">Looking back, we've been through so much.<br>But somehow, you were always there.<br>That's why we can take the next step — together.</p>
+    <a href="#" class="cta" style="margin-top:6px; gap:14px; padding:12px 34px; background:var(--dark); border-radius:40px; color:#f5f3ef; font-family:var(--font); font-size:0.9rem; letter-spacing:0.25em;">Gallery <span class="arrow">→</span></a>
+  </div>
+  <div class="fake-photo"></div><div class="fake-photo2"></div>
+</div>
+
+<!-- ====== 04: 英文直下・左寄せ・小さめテキストのみ ====== -->
+<div class="pattern" id="p4">
+  <span class="pattern-num">04 — 英文直下・左寄せ・小さめテキストのみ</span>
+  <div class="text-block">
+    <p class="tb-heading">ここまで来たんだ、<br>ふたりで。</p>
+    <p class="tb-desc">振り返ればいろんなことがあった。<br>でも気づけば、いつも隣にいてくれた。<br>だから次の一歩も、一緒に踏み出せる。</p>
+    <p class="tb-en">Looking back, we've been through so much.<br>But somehow, you were always there.<br>That's why we can take the next step — together.</p>
+    <a href="#" class="cta" style="margin-top:4px; gap:10px; color:var(--dark); font-family:var(--font); font-size:0.8rem; letter-spacing:0.2em;">Gallery <span class="arrow" style="font-size:0.75rem;">→</span></a>
+  </div>
+  <div class="fake-photo"></div><div class="fake-photo2"></div>
+</div>
+
+<!-- ====== 05: 英文すぐ下・左寄せ・ピル薄ボーダー ====== -->
+<div class="pattern" id="p5">
+  <span class="pattern-num">05 — 英文すぐ下・左寄せ・ピル薄ボーダー</span>
+  <div class="text-block">
+    <p class="tb-heading">ここまで来たんだ、<br>ふたりで。</p>
+    <p class="tb-desc">振り返ればいろんなことがあった。<br>でも気づけば、いつも隣にいてくれた。<br>だから次の一歩も、一緒に踏み出せる。</p>
+    <p class="tb-en">Looking back, we've been through so much.<br>But somehow, you were always there.<br>That's why we can take the next step — together.</p>
+    <a href="#" class="cta" style="margin-top:4px; gap:14px; padding:10px 30px; border:1px solid var(--light); border-radius:40px; color:var(--dark); font-family:var(--font); font-size:0.85rem; letter-spacing:0.2em;">Gallery <span class="arrow">→</span></a>
+  </div>
+  <div class="fake-photo"></div><div class="fake-photo2"></div>
+</div>
+
+<!-- ====== 06: 少し余白あけ・左寄せ・角丸+背景ぼかし ====== -->
+<div class="pattern" id="p6">
+  <span class="pattern-num">06 — 少し余白・左寄せ・背景ぼかし付き</span>
+  <div class="text-block">
+    <p class="tb-heading">ここまで来たんだ、<br>ふたりで。</p>
+    <p class="tb-desc">振り返ればいろんなことがあった。<br>でも気づけば、いつも隣にいてくれた。<br>だから次の一歩も、一緒に踏み出せる。</p>
+    <p class="tb-en">Looking back, we've been through so much.<br>But somehow, you were always there.<br>That's why we can take the next step — together.</p>
+    <a href="#" class="cta" style="margin-top:14px; gap:14px; padding:12px 34px; background:rgba(245,243,239,0.85); backdrop-filter:blur(8px); border:1px solid var(--light); border-radius:8px; color:var(--dark); font-family:var(--font); font-size:0.9rem; letter-spacing:0.25em;">Gallery <span class="arrow">→</span></a>
+  </div>
+  <div class="fake-photo"></div><div class="fake-photo2"></div>
+</div>
+
+<!-- ====== 07: 英文すぐ下・右寄せ・角丸ボーダー ====== -->
+<div class="pattern" id="p7">
+  <span class="pattern-num">07 — 英文すぐ下・右寄せ・角丸ボーダー</span>
+  <div class="text-block">
+    <p class="tb-heading">ここまで来たんだ、<br>ふたりで。</p>
+    <p class="tb-desc">振り返ればいろんなことがあった。<br>でも気づけば、いつも隣にいてくれた。<br>だから次の一歩も、一緒に踏み出せる。</p>
+    <p class="tb-en">Looking back, we've been through so much.<br>But somehow, you were always there.<br>That's why we can take the next step — together.</p>
+    <div style="text-align:right; margin-top:6px;">
+      <a href="#" class="cta" style="gap:14px; padding:12px 34px; border:1px solid var(--dark); border-radius:8px; color:var(--dark); font-family:var(--font); font-size:0.9rem; letter-spacing:0.25em;">Gallery <span class="arrow">→</span></a>
+    </div>
+  </div>
+  <div class="fake-photo"></div><div class="fake-photo2"></div>
+</div>
+
+<!-- ====== 08: 英文すぐ下・右寄せ・下線のみ ====== -->
+<div class="pattern" id="p8">
+  <span class="pattern-num">08 — 英文すぐ下・右寄せ・下線のみ</span>
+  <div class="text-block">
+    <p class="tb-heading">ここまで来たんだ、<br>ふたりで。</p>
+    <p class="tb-desc">振り返ればいろんなことがあった。<br>でも気づけば、いつも隣にいてくれた。<br>だから次の一歩も、一緒に踏み出せる。</p>
+    <p class="tb-en">Looking back, we've been through so much.<br>But somehow, you were always there.<br>That's why we can take the next step — together.</p>
+    <div style="text-align:right; margin-top:4px;">
+      <a href="#" class="cta" style="gap:12px; padding-bottom:4px; border-bottom:1px solid var(--dark); color:var(--dark); font-family:var(--font); font-size:0.85rem; letter-spacing:0.2em;">Gallery <span class="arrow">→</span></a>
+    </div>
+  </div>
+  <div class="fake-photo"></div><div class="fake-photo2"></div>
+</div>
+
+<!-- ====== 09: 英文の余白なし・左寄せ・大きめイタリック ====== -->
+<div class="pattern" id="p9">
+  <span class="pattern-num">09 — 余白なし・左寄せ・イタリック大きめ</span>
+  <div class="text-block">
+    <p class="tb-heading">ここまで来たんだ、<br>ふたりで。</p>
+    <p class="tb-desc">振り返ればいろんなことがあった。<br>でも気づけば、いつも隣にいてくれた。<br>だから次の一歩も、一緒に踏み出せる。</p>
+    <p class="tb-en" style="margin-bottom:10px;">Looking back, we've been through so much.<br>But somehow, you were always there.<br>That's why we can take the next step — together.</p>
+    <a href="#" class="cta" style="gap:12px; color:var(--dark); font-family:var(--font); font-size:1.15rem; font-style:italic; letter-spacing:0.15em;">Gallery <span class="arrow" style="font-style:normal;">→</span></a>
+  </div>
+  <div class="fake-photo"></div><div class="fake-photo2"></div>
+</div>
+
+<!-- ====== 10: margin多め・左寄せ・丸ピル+ソリッド ====== -->
+<div class="pattern" id="p10">
+  <span class="pattern-num">10 — margin多め・左寄せ・丸ピルソリッド</span>
+  <div class="text-block">
+    <p class="tb-heading">ここまで来たんだ、<br>ふたりで。</p>
+    <p class="tb-desc">振り返ればいろんなことがあった。<br>でも気づけば、いつも隣にいてくれた。<br>だから次の一歩も、一緒に踏み出せる。</p>
+    <p class="tb-en">Looking back, we've been through so much.<br>But somehow, you were always there.<br>That's why we can take the next step — together.</p>
+    <a href="#" class="cta" style="margin-top:18px; gap:14px; padding:12px 36px; background:var(--dark); border-radius:40px; color:#f5f3ef; font-family:var(--font); font-size:0.88rem; letter-spacing:0.2em;">Gallery <span class="arrow">→</span></a>
+  </div>
+  <div class="fake-photo"></div><div class="fake-photo2"></div>
+</div>
+
+<!-- ====== 11: 英文直下・中央寄せ・角丸ボーダー ====== -->
+<div class="pattern" id="p11">
+  <span class="pattern-num">11 — 英文直下・中央寄せ・角丸ボーダー</span>
+  <div class="text-block">
+    <p class="tb-heading">ここまで来たんだ、<br>ふたりで。</p>
+    <p class="tb-desc">振り返ればいろんなことがあった。<br>でも気づけば、いつも隣にいてくれた。<br>だから次の一歩も、一緒に踏み出せる。</p>
+    <p class="tb-en">Looking back, we've been through so much.<br>But somehow, you were always there.<br>That's why we can take the next step — together.</p>
+    <div style="text-align:center; margin-top:6px;">
+      <a href="#" class="cta" style="gap:14px; padding:12px 34px; border:1px solid var(--dark); border-radius:8px; color:var(--dark); font-family:var(--font); font-size:0.9rem; letter-spacing:0.25em;">Gallery <span class="arrow">→</span></a>
+    </div>
+  </div>
+  <div class="fake-photo"></div><div class="fake-photo2"></div>
+</div>
+
+<!-- ====== 12: 英文直下・左寄せ・ドット＋テキスト ====== -->
+<div class="pattern" id="p12">
+  <span class="pattern-num">12 — 英文直下・左寄せ・ドット+テキスト</span>
+  <div class="text-block">
+    <p class="tb-heading">ここまで来たんだ、<br>ふたりで。</p>
+    <p class="tb-desc">振り返ればいろんなことがあった。<br>でも気づけば、いつも隣にいてくれた。<br>だから次の一歩も、一緒に踏み出せる。</p>
+    <p class="tb-en">Looking back, we've been through so much.<br>But somehow, you were always there.<br>That's why we can take the next step — together.</p>
+    <a href="#" class="cta" style="margin-top:6px; gap:10px; color:var(--dark); font-family:var(--font); font-size:0.88rem; letter-spacing:0.2em;">
+      <span style="width:6px;height:6px;border-radius:50%;background:var(--dark);display:inline-block;"></span>Gallery <span class="arrow">→</span>
+    </a>
+  </div>
+  <div class="fake-photo"></div><div class="fake-photo2"></div>
+</div>
+
+<!-- ====== 13: 英文直下・左寄せ・ライン左+テキスト ====== -->
+<div class="pattern" id="p13">
+  <span class="pattern-num">13 — 英文直下・左寄せ・左ライン+テキスト</span>
+  <div class="text-block">
+    <p class="tb-heading">ここまで来たんだ、<br>ふたりで。</p>
+    <p class="tb-desc">振り返ればいろんなことがあった。<br>でも気づけば、いつも隣にいてくれた。<br>だから次の一歩も、一緒に踏み出せる。</p>
+    <p class="tb-en">Looking back, we've been through so much.<br>But somehow, you were always there.<br>That's why we can take the next step — together.</p>
+    <a href="#" class="cta" style="margin-top:6px; gap:16px; color:var(--dark); font-family:var(--font); font-size:0.95rem; letter-spacing:0.2em;">
+      <span style="width:35px;height:1px;background:var(--dark);display:inline-block;vertical-align:middle;"></span>Gallery
+    </a>
+  </div>
+  <div class="fake-photo"></div><div class="fake-photo2"></div>
+</div>
+
+<!-- ====== 14: margin少し・右寄せ・背景ぼかし ====== -->
+<div class="pattern" id="p14">
+  <span class="pattern-num">14 — margin少し・右寄せ・背景ぼかし</span>
+  <div class="text-block">
+    <p class="tb-heading">ここまで来たんだ、<br>ふたりで。</p>
+    <p class="tb-desc">振り返ればいろんなことがあった。<br>でも気づけば、いつも隣にいてくれた。<br>だから次の一歩も、一緒に踏み出せる。</p>
+    <p class="tb-en">Looking back, we've been through so much.<br>But somehow, you were always there.<br>That's why we can take the next step — together.</p>
+    <div style="text-align:right; margin-top:10px;">
+      <a href="#" class="cta" style="gap:14px; padding:11px 32px; background:rgba(245,243,239,0.8); backdrop-filter:blur(8px); border:1px solid var(--light); border-radius:40px; color:var(--dark); font-family:var(--font); font-size:0.85rem; letter-spacing:0.2em;">Gallery <span class="arrow">→</span></a>
+    </div>
+  </div>
+  <div class="fake-photo"></div><div class="fake-photo2"></div>
+</div>
+
+<!-- ====== 15: 余白なし・左寄せ・細ボーダー四角 ====== -->
+<div class="pattern" id="p15">
+  <span class="pattern-num">15 — 余白なし・左寄せ・細ボーダー四角</span>
+  <div class="text-block">
+    <p class="tb-heading">ここまで来たんだ、<br>ふたりで。</p>
+    <p class="tb-desc">振り返ればいろんなことがあった。<br>でも気づけば、いつも隣にいてくれた。<br>だから次の一歩も、一緒に踏み出せる。</p>
+    <p class="tb-en" style="margin-bottom:10px;">Looking back, we've been through so much.<br>But somehow, you were always there.<br>That's why we can take the next step — together.</p>
+    <a href="#" class="cta" style="gap:14px; padding:10px 30px; border:1px solid var(--light); border-radius:0; color:var(--dark); font-family:var(--font); font-size:0.85rem; letter-spacing:0.25em;">Gallery <span class="arrow">→</span></a>
+  </div>
+  <div class="fake-photo"></div><div class="fake-photo2"></div>
+</div>
+
+<!-- ====== 16: 英文直下・左寄せ・白背景+影 ====== -->
+<div class="pattern" id="p16">
+  <span class="pattern-num">16 — 英文直下・左寄せ・白背景+影</span>
+  <div class="text-block">
+    <p class="tb-heading">ここまで来たんだ、<br>ふたりで。</p>
+    <p class="tb-desc">振り返ればいろんなことがあった。<br>でも気づけば、いつも隣にいてくれた。<br>だから次の一歩も、一緒に踏み出せる。</p>
+    <p class="tb-en">Looking back, we've been through so much.<br>But somehow, you were always there.<br>That's why we can take the next step — together.</p>
+    <a href="#" class="cta" style="margin-top:6px; gap:14px; padding:12px 34px; background:#fff; box-shadow:0 2px 12px rgba(0,0,0,0.06); border-radius:8px; color:var(--dark); font-family:var(--font); font-size:0.9rem; letter-spacing:0.25em;">Gallery <span class="arrow">→</span></a>
+  </div>
+  <div class="fake-photo"></div><div class="fake-photo2"></div>
+</div>
+
+<!-- ====== 17: 英文直下・左寄せ・大きめ文字+矢印 ====== -->
+<div class="pattern" id="p17">
+  <span class="pattern-num">17 — 英文直下・左寄せ・大きめ文字+矢印</span>
+  <div class="text-block">
+    <p class="tb-heading">ここまで来たんだ、<br>ふたりで。</p>
+    <p class="tb-desc">振り返ればいろんなことがあった。<br>でも気づけば、いつも隣にいてくれた。<br>だから次の一歩も、一緒に踏み出せる。</p>
+    <p class="tb-en">Looking back, we've been through so much.<br>But somehow, you were always there.<br>That's why we can take the next step — together.</p>
+    <a href="#" class="cta" style="margin-top:4px; gap:14px; color:var(--dark); font-family:var(--font); font-size:1.2rem; letter-spacing:0.15em; font-weight:400;">Gallery <span class="arrow" style="font-size:1.1rem;">→</span></a>
+  </div>
+  <div class="fake-photo"></div><div class="fake-photo2"></div>
+</div>
+
+<!-- ====== 18: 少し余白・左寄せ・上下線で挟む ====== -->
+<div class="pattern" id="p18">
+  <span class="pattern-num">18 — 少し余白・左寄せ・上下線で挟む</span>
+  <div class="text-block">
+    <p class="tb-heading">ここまで来たんだ、<br>ふたりで。</p>
+    <p class="tb-desc">振り返ればいろんなことがあった。<br>でも気づけば、いつも隣にいてくれた。<br>だから次の一歩も、一緒に踏み出せる。</p>
+    <p class="tb-en">Looking back, we've been through so much.<br>But somehow, you were always there.<br>That's why we can take the next step — together.</p>
+    <a href="#" class="cta" style="margin-top:10px; gap:14px; padding:10px 0; border-top:1px solid var(--light); border-bottom:1px solid var(--light); color:var(--dark); font-family:var(--font); font-size:0.88rem; letter-spacing:0.25em; width:200px; justify-content:space-between;">Gallery <span class="arrow">→</span></a>
+  </div>
+  <div class="fake-photo"></div><div class="fake-photo2"></div>
+</div>
+
+<!-- ====== 19: 英文直下・右寄せ・ピルソリッド ====== -->
+<div class="pattern" id="p19">
+  <span class="pattern-num">19 — 英文直下・右寄せ・ピルソリッド</span>
+  <div class="text-block">
+    <p class="tb-heading">ここまで来たんだ、<br>ふたりで。</p>
+    <p class="tb-desc">振り返ればいろんなことがあった。<br>でも気づけば、いつも隣にいてくれた。<br>だから次の一歩も、一緒に踏み出せる。</p>
+    <p class="tb-en">Looking back, we've been through so much.<br>But somehow, you were always there.<br>That's why we can take the next step — together.</p>
+    <div style="text-align:right; margin-top:6px;">
+      <a href="#" class="cta" style="gap:14px; padding:11px 32px; background:var(--dark); border-radius:40px; color:#f5f3ef; font-family:var(--font); font-size:0.85rem; letter-spacing:0.2em;">Gallery <span class="arrow">→</span></a>
+    </div>
+  </div>
+  <div class="fake-photo"></div><div class="fake-photo2"></div>
+</div>
+
+<!-- ====== 20: 英文直下・左寄せ・角丸+ホバーでピル(16) ====== -->
+<div class="pattern" id="p20">
+  <span class="pattern-num">20 — 英文直下・左寄せ・角丸→ホバーでピル</span>
+  <style>
+    .cta20-special { gap:14px; padding:12px 34px; border:1px solid var(--dark); border-radius:8px; color:var(--dark); font-family:var(--font); font-size:0.9rem; letter-spacing:0.25em; transition:all 0.4s ease; margin-top:6px; }
+    .cta20-special:hover { border-radius:40px; background:var(--faint); }
+  </style>
+  <div class="text-block">
+    <p class="tb-heading">ここまで来たんだ、<br>ふたりで。</p>
+    <p class="tb-desc">振り返ればいろんなことがあった。<br>でも気づけば、いつも隣にいてくれた。<br>だから次の一歩も、一緒に踏み出せる。</p>
+    <p class="tb-en">Looking back, we've been through so much.<br>But somehow, you were always there.<br>That's why we can take the next step — together.</p>
+    <a href="#" class="cta cta20-special">Gallery <span class="arrow">→</span></a>
+  </div>
+  <div class="fake-photo"></div><div class="fake-photo2"></div>
+</div>
+
+</body>
+</html>

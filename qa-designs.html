@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Q&A Page — Color Design Patterns</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Noto Serif JP", serif;
+      background: #f5f3f0;
+      color: #2a2420;
+      padding: 2rem 1rem;
+    }
+    h1 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.6rem;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      text-align: center;
+      color: #2a2420;
+      margin-bottom: 0.4rem;
+    }
+    .page-sub {
+      text-align: center;
+      font-size: 0.65rem;
+      color: rgba(61,53,48,0.4);
+      letter-spacing: 0.15em;
+      margin-bottom: 2.5rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(61,53,48,0.06);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+    }
+    .card__header {
+      padding: 0.8rem 1.2rem;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      color: #c9a96e;
+      border-bottom: 1px solid rgba(61,53,48,0.04);
+      background: rgba(61,53,48,0.02);
+    }
+    .card__body {
+      padding: 1.5rem 1.5rem 2rem;
+    }
+
+    /* Shared structure */
+    .demo-tabs {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.8rem;
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.7rem;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+    }
+    .demo-tab { opacity: 0.35; }
+    .demo-tab.active { opacity: 1; }
+    .demo-category {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.6rem;
+    }
+    .demo-item {
+      padding: 0.8rem 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+    }
+    .demo-item + .demo-item {
+      border-top-style: solid;
+      border-top-width: 1px;
+    }
+    .demo-q-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 50%;
+      font-size: 0.6rem;
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 400;
+      flex-shrink: 0;
+    }
+    .demo-q-text {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.75rem;
+      font-weight: 300;
+      letter-spacing: 0.03em;
+      line-height: 1.7;
+      padding-top: 0.1rem;
+    }
+    .demo-toggle {
+      font-size: 0.45rem;
+      flex-shrink: 0;
+      margin-top: 0.2rem;
+      margin-left: auto;
+    }
+
+    /* ===== PATTERN 1 — 現状（黒ベース） ===== */
+    .p1 .demo-tabs { border-bottom: 1px solid rgba(61,53,48,0.12); }
+    .p1 .demo-tab.active { color: #2a2420; font-weight: 400; border-bottom: 2px solid #2a2420; margin-bottom: -1px; padding-bottom: 0.8rem; }
+    .p1 .demo-category { color: #2a2420; border-bottom: 1px solid rgba(61,53,48,0.12); }
+    .p1 .demo-item + .demo-item { border-top-color: rgba(61,53,48,0.08); }
+    .p1 .demo-q-icon { background: #2a2420; color: #fff; }
+    .p1 .demo-q-text { color: #2a2420; }
+    .p1 .demo-toggle { color: rgba(61,53,48,0.25); }
+
+    /* ===== PATTERN 2 — ゴールドアクセント ===== */
+    .p2 .demo-tabs { border-bottom: 1px solid rgba(201,169,110,0.2); }
+    .p2 .demo-tab.active { color: #c9a96e; font-weight: 400; border-bottom: 2px solid #c9a96e; margin-bottom: -1px; padding-bottom: 0.8rem; }
+    .p2 .demo-category { color: #2a2420; border-bottom: 1px solid rgba(201,169,110,0.2); }
+    .p2 .demo-item + .demo-item { border-top-color: rgba(201,169,110,0.1); }
+    .p2 .demo-q-icon { background: #c9a96e; color: #fff; }
+    .p2 .demo-q-text { color: #2a2420; }
+    .p2 .demo-toggle { color: rgba(201,169,110,0.4); }
+
+    /* ===== PATTERN 3 — ソフトトープ ===== */
+    .p3 .demo-tabs { border-bottom: 1px solid rgba(155,145,135,0.2); }
+    .p3 .demo-tab.active { color: #8a7e74; font-weight: 400; border-bottom: 2px solid #8a7e74; margin-bottom: -1px; padding-bottom: 0.8rem; }
+    .p3 .demo-category { color: #5a4f47; border-bottom: 1px solid rgba(155,145,135,0.2); }
+    .p3 .demo-item + .demo-item { border-top-color: rgba(155,145,135,0.12); }
+    .p3 .demo-q-icon { background: #9b918b; color: #fff; }
+    .p3 .demo-q-text { color: #5a4f47; }
+    .p3 .demo-toggle { color: rgba(155,145,135,0.35); }
+
+    /* ===== PATTERN 4 — アウトラインQ + ゴールド ===== */
+    .p4 .demo-tabs { border-bottom: 1px solid rgba(61,53,48,0.08); }
+    .p4 .demo-tab.active { color: #2a2420; font-weight: 400; border-bottom: 2px solid #c9a96e; margin-bottom: -1px; padding-bottom: 0.8rem; }
+    .p4 .demo-category { color: #2a2420; border-bottom: 1px solid rgba(61,53,48,0.08); }
+    .p4 .demo-item + .demo-item { border-top-color: rgba(61,53,48,0.06); }
+    .p4 .demo-q-icon { background: transparent; color: #c9a96e; border: 1px solid rgba(201,169,110,0.4); }
+    .p4 .demo-q-text { color: rgba(61,53,48,0.85); }
+    .p4 .demo-toggle { color: rgba(201,169,110,0.35); }
+
+    /* ===== PATTERN 5 — ミニマルライン（Qアイコンなし） ===== */
+    .p5 .demo-tabs { border-bottom: 1px solid rgba(61,53,48,0.08); }
+    .p5 .demo-tab.active { color: #2a2420; font-weight: 400; border-bottom: 1px solid #2a2420; margin-bottom: -1px; padding-bottom: 0.8rem; }
+    .p5 .demo-category { color: #2a2420; border-bottom: 1px solid rgba(61,53,48,0.08); }
+    .p5 .demo-item + .demo-item { border-top-color: rgba(61,53,48,0.05); }
+    .p5 .demo-q-icon { display: none; }
+    .p5 .demo-q-text { color: rgba(61,53,48,0.8); font-size: 0.78rem; }
+    .p5 .demo-toggle { color: rgba(61,53,48,0.2); }
+
+    /* ===== PATTERN 6 — 淡いゴールド背景Q ===== */
+    .p6 .demo-tabs { border-bottom: 1px solid rgba(201,169,110,0.15); }
+    .p6 .demo-tab.active { color: #2a2420; font-weight: 400; border-bottom: 2px solid rgba(201,169,110,0.5); margin-bottom: -1px; padding-bottom: 0.8rem; }
+    .p6 .demo-category { color: #3d3530; border-bottom: 1px solid rgba(201,169,110,0.12); }
+    .p6 .demo-item + .demo-item { border-top-color: rgba(201,169,110,0.08); }
+    .p6 .demo-q-icon { background: rgba(201,169,110,0.12); color: #c9a96e; border: none; }
+    .p6 .demo-q-text { color: rgba(61,53,48,0.8); }
+    .p6 .demo-toggle { color: rgba(201,169,110,0.3); }
+
+    /* ===== PATTERN 7 — ダークトープQ + 細ライン ===== */
+    .p7 .demo-tabs { border-bottom: 1px solid rgba(61,53,48,0.06); }
+    .p7 .demo-tab.active { color: #5a4f47; font-weight: 400; border-bottom: 1px solid #5a4f47; margin-bottom: -1px; padding-bottom: 0.8rem; }
+    .p7 .demo-category { color: #5a4f47; border-bottom: 1px solid rgba(61,53,48,0.06); }
+    .p7 .demo-item + .demo-item { border-top-color: rgba(61,53,48,0.04); }
+    .p7 .demo-q-icon { background: #6b5f55; color: #fff; }
+    .p7 .demo-q-text { color: rgba(61,53,48,0.75); }
+    .p7 .demo-toggle { color: rgba(61,53,48,0.18); }
+
+    /* ===== PATTERN 8 — グレーQ + ゴールドアクティブライン ===== */
+    .p8 .demo-tabs { border-bottom: 1px solid rgba(61,53,48,0.06); }
+    .p8 .demo-tab.active { color: #2a2420; font-weight: 400; border-bottom: 2px solid #c9a96e; margin-bottom: -1px; padding-bottom: 0.8rem; }
+    .p8 .demo-category { color: #2a2420; border-bottom: 1px solid rgba(61,53,48,0.06); }
+    .p8 .demo-item + .demo-item { border-top-color: rgba(61,53,48,0.05); }
+    .p8 .demo-q-icon { background: rgba(155,145,135,0.2); color: rgba(61,53,48,0.5); border: none; }
+    .p8 .demo-q-text { color: rgba(61,53,48,0.8); }
+    .p8 .demo-toggle { color: rgba(61,53,48,0.2); }
+
+    /* ===== PATTERN 9 — フルゴールドテーマ ===== */
+    .p9 .demo-tabs { border-bottom: 1px solid rgba(201,169,110,0.2); }
+    .p9 .demo-tab.active { color: #c9a96e; font-weight: 400; border-bottom: 2px solid #c9a96e; margin-bottom: -1px; padding-bottom: 0.8rem; }
+    .p9 .demo-category { color: #c9a96e; border-bottom: 1px solid rgba(201,169,110,0.15); }
+    .p9 .demo-item + .demo-item { border-top-color: rgba(201,169,110,0.08); }
+    .p9 .demo-q-icon { background: transparent; color: #c9a96e; border: 1.5px solid #c9a96e; }
+    .p9 .demo-q-text { color: rgba(61,53,48,0.75); }
+    .p9 .demo-toggle { color: #c9a96e; opacity: 0.35; }
+
+    /* ===== PATTERN 10 — ナチュラルベージュ ===== */
+    .p10 .card__body { background: #faf8f5; }
+    .p10 .demo-tabs { border-bottom: 1px solid rgba(180,165,148,0.2); }
+    .p10 .demo-tab.active { color: #7a6e62; font-weight: 400; border-bottom: 2px solid rgba(180,165,148,0.5); margin-bottom: -1px; padding-bottom: 0.8rem; }
+    .p10 .demo-category { color: #7a6e62; border-bottom: 1px solid rgba(180,165,148,0.18); }
+    .p10 .demo-item + .demo-item { border-top-color: rgba(180,165,148,0.1); }
+    .p10 .demo-q-icon { background: rgba(180,165,148,0.15); color: #9a8d80; border: none; }
+    .p10 .demo-q-text { color: rgba(61,53,48,0.7); }
+    .p10 .demo-toggle { color: rgba(180,165,148,0.35); }
+  </style>
+</head>
+<body>
+
+  <h1>Q&A Page — Color Patterns</h1>
+  <p class="page-sub">QAページの配色バリエーション 10案</p>
+
+  <div class="grid">
+
+    <!-- PATTERN 1 -->
+    <div class="card p1">
+      <div class="card__header">Pattern 1 — 現状デザイン（黒ベース）</div>
+      <div class="card__body">
+        <div class="demo-tabs">
+          <span class="demo-tab active">国内 &amp; 海外</span>
+          <span class="demo-tab">海外撮影 Q &amp; A</span>
+        </div>
+        <div class="demo-category">Schedule</div>
+        <div class="demo-item">
+          <span class="demo-q-icon">Q</span>
+          <span class="demo-q-text">仮押さえはできますか？</span>
+          <span class="demo-toggle">▼</span>
+        </div>
+        <div class="demo-item">
+          <span class="demo-q-icon">Q</span>
+          <span class="demo-q-text">まだ日程が決まっていないのですが相談できますか？</span>
+          <span class="demo-toggle">▼</span>
+        </div>
+        <div class="demo-item">
+          <span class="demo-q-icon">Q</span>
+          <span class="demo-q-text">日程変更は可能ですか？</span>
+          <span class="demo-toggle">▼</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PATTERN 2 -->
+    <div class="card p2">
+      <div class="card__header">Pattern 2 — ゴールドアクセント</div>
+      <div class="card__body">
+        <div class="demo-tabs">
+          <span class="demo-tab active">国内 &amp; 海外</span>
+          <span class="demo-tab">海外撮影 Q &amp; A</span>
+        </div>
+        <div class="demo-category">Schedule</div>
+        <div class="demo-item">
+          <span class="demo-q-icon">Q</span>
+          <span class="demo-q-text">仮押さえはできますか？</span>
+          <span class="demo-toggle">▼</span>
+        </div>
+        <div class="demo-item">
+          <span class="demo-q-icon">Q</span>
+          <span class="demo-q-text">まだ日程が決まっていないのですが相談できますか？</span>
+          <span class="demo-toggle">▼</span>
+        </div>
+        <div class="demo-item">
+          <span class="demo-q-icon">Q</span>
+          <span class="demo-q-text">日程変更は可能ですか？</span>
+          <span class="demo-toggle">▼</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PATTERN 3 -->
+    <div class="card p3">
+      <div class="card__header">Pattern 3 — ソフトトープ</div>
+      <div class="card__body">
+        <div class="demo-tabs">
+          <span class="demo-tab active">国内 &amp; 海外</span>
+          <span class="demo-tab">海外撮影 Q &amp; A</span>
+        </div>
+        <div class="demo-category">Schedule</div>
+        <div class="demo-item">
+          <span class="demo-q-icon">Q</span>
+          <span class="demo-q-text">仮押さえはできますか？</span>
+          <span class="demo-toggle">▼</span>
+        </div>
+        <div class="demo-item">
+          <span class="demo-q-icon">Q</span>
+          <span class="demo-q-text">まだ日程が決まっていないのですが相談できますか？</span>
+          <span class="demo-toggle">▼</span>
+        </div>
+        <div class="demo-item">
+          <span class="demo-q-icon">Q</span>
+          <span class="demo-q-text">日程変更は可能ですか？</span>
+          <span class="demo-toggle">▼</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PATTERN 4 -->
+    <div class="card p4">
+      <div class="card__header">Pattern 4 — アウトラインQ + ゴールド</div>
+      <div class="card__body">
+        <div class="demo-tabs">
+          <span class="demo-tab active">国内 &amp; 海外</span>
+          <span class="demo-tab">海外撮影 Q &amp; A</span>
+        </div>
+        <div class="demo-category">Schedule</div>
+        <div class="demo-item">
+          <span class="demo-q-icon">Q</span>
+          <span class="demo-q-text">仮押さえはできますか？</span>
+          <span class="demo-toggle">▼</span>
+        </div>
+        <div class="demo-item">
+          <span class="demo-q-icon">Q</span>
+          <span class="demo-q-text">まだ日程が決まっていないのですが相談できますか？</span>
+          <span class="demo-toggle">▼</span>
+        </div>
+        <div class="demo-item">
+          <span class="demo-q-icon">Q</span>
+          <span class="demo-q-text">日程変更は可能ですか？</span>
+          <span class="demo-toggle">▼</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PATTERN 5 -->
+    <div class="card p5">
+      <div class="card__header">Pattern 5 — ミニマル（Qアイコンなし）</div>
+      <div class="card__body">
+        <div class="demo-tabs">
+          <span class="demo-tab active">国内 &amp; 海外</span>
+          <span class="demo-tab">海外撮影 Q &amp; A</span>
+        </div>
+        <div class="demo-category">Schedule</div>
+        <div class="demo-item">
+          <span class="demo-q-icon">Q</span>
+          <span class="demo-q-text">仮押さえはできますか？</span>
+          <span class="demo-toggle">▼</span>
+        </div>
+        <div class="demo-item">
+          <span class="demo-q-icon">Q</span>
+          <span class="demo-q-text">まだ日程が決まっていないのですが相談できますか？</span>
+          <span class="demo-toggle">▼</span>
+        </div>
+        <div class="demo-item">
+          <span class="demo-q-icon">Q</span>
+          <span class="demo-q-text">日程変更は可能ですか？</span>
+          <span class="demo-toggle">▼</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PATTERN 6 -->
+    <div class="card p6">
+      <div class="card__header">Pattern 6 — 淡いゴールド背景Q</div>
+      <div class="card__body">
+        <div class="demo-tabs">
+          <span class="demo-tab active">国内 &amp; 海外</span>
+          <span class="demo-tab">海外撮影 Q &amp; A</span>
+        </div>
+        <div class="demo-category">Schedule</div>
+        <div class="demo-item">
+          <span class="demo-q-icon">Q</span>
+          <span class="demo-q-text">仮押さえはできますか？</span>
+          <span class="demo-toggle">▼</span>
+        </div>
+        <div class="demo-item">
+          <span class="demo-q-icon">Q</span>
+          <span class="demo-q-text">まだ日程が決まっていないのですが相談できますか？</span>
+          <span class="demo-toggle">▼</span>
+        </div>
+        <div class="demo-item">
+          <span class="demo-q-icon">Q</span>
+          <span class="demo-q-text">日程変更は可能ですか？</span>
+          <span class="demo-toggle">▼</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PATTERN 7 -->
+    <div class="card p7">
+      <div class="card__header">Pattern 7 — ダークトープQ</div>
+      <div class="card__body">
+        <div class="demo-tabs">
+          <span class="demo-tab active">国内 &amp; 海外</span>
+          <span class="demo-tab">海外撮影 Q &amp; A</span>
+        </div>
+        <div class="demo-category">Schedule</div>
+        <div class="demo-item">
+          <span class="demo-q-icon">Q</span>
+          <span class="demo-q-text">仮押さえはできますか？</span>
+          <span class="demo-toggle">▼</span>
+        </div>
+        <div class="demo-item">
+          <span class="demo-q-icon">Q</span>
+          <span class="demo-q-text">まだ日程が決まっていないのですが相談できますか？</span>
+          <span class="demo-toggle">▼</span>
+        </div>
+        <div class="demo-item">
+          <span class="demo-q-icon">Q</span>
+          <span class="demo-q-text">日程変更は可能ですか？</span>
+          <span class="demo-toggle">▼</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PATTERN 8 -->
+    <div class="card p8">
+      <div class="card__header">Pattern 8 — グレーQ + ゴールドライン</div>
+      <div class="card__body">
+        <div class="demo-tabs">
+          <span class="demo-tab active">国内 &amp; 海外</span>
+          <span class="demo-tab">海外撮影 Q &amp; A</span>
+        </div>
+        <div class="demo-category">Schedule</div>
+        <div class="demo-item">
+          <span class="demo-q-icon">Q</span>
+          <span class="demo-q-text">仮押さえはできますか？</span>
+          <span class="demo-toggle">▼</span>
+        </div>
+        <div class="demo-item">
+          <span class="demo-q-icon">Q</span>
+          <span class="demo-q-text">まだ日程が決まっていないのですが相談できますか？</span>
+          <span class="demo-toggle">▼</span>
+        </div>
+        <div class="demo-item">
+          <span class="demo-q-icon">Q</span>
+          <span class="demo-q-text">日程変更は可能ですか？</span>
+          <span class="demo-toggle">▼</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PATTERN 9 -->
+    <div class="card p9">
+      <div class="card__header">Pattern 9 — フルゴールドテーマ</div>
+      <div class="card__body">
+        <div class="demo-tabs">
+          <span class="demo-tab active">国内 &amp; 海外</span>
+          <span class="demo-tab">海外撮影 Q &amp; A</span>
+        </div>
+        <div class="demo-category">Schedule</div>
+        <div class="demo-item">
+          <span class="demo-q-icon">Q</span>
+          <span class="demo-q-text">仮押さえはできますか？</span>
+          <span class="demo-toggle">▼</span>
+        </div>
+        <div class="demo-item">
+          <span class="demo-q-icon">Q</span>
+          <span class="demo-q-text">まだ日程が決まっていないのですが相談できますか？</span>
+          <span class="demo-toggle">▼</span>
+        </div>
+        <div class="demo-item">
+          <span class="demo-q-icon">Q</span>
+          <span class="demo-q-text">日程変更は可能ですか？</span>
+          <span class="demo-toggle">▼</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PATTERN 10 -->
+    <div class="card p10">
+      <div class="card__header">Pattern 10 — ナチュラルベージュ</div>
+      <div class="card__body">
+        <div class="demo-tabs">
+          <span class="demo-tab active">国内 &amp; 海外</span>
+          <span class="demo-tab">海外撮影 Q &amp; A</span>
+        </div>
+        <div class="demo-category">Schedule</div>
+        <div class="demo-item">
+          <span class="demo-q-icon">Q</span>
+          <span class="demo-q-text">仮押さえはできますか？</span>
+          <span class="demo-toggle">▼</span>
+        </div>
+        <div class="demo-item">
+          <span class="demo-q-icon">Q</span>
+          <span class="demo-q-text">まだ日程が決まっていないのですが相談できますか？</span>
+          <span class="demo-toggle">▼</span>
+        </div>
+        <div class="demo-item">
+          <span class="demo-q-icon">Q</span>
+          <span class="demo-q-text">日程変更は可能ですか？</span>
+          <span class="demo-toggle">▼</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

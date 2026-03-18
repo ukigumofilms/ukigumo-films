@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Text Split + Marquee — 10 Patterns</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Lavishly+Yours&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#0a0a0a;color:#fff;font-family:'Cormorant Garamond',serif;-webkit-font-smoothing:antialiased;}
+.header{text-align:center;padding:1.5rem 1rem 0.5rem;}
+.header h1{font-size:1rem;font-weight:300;letter-spacing:0.15em;}
+.header p{font-size:0.5rem;opacity:0.25;margin-top:0.2rem;}
+.patterns{max-width:1000px;margin:0 auto;padding:0 1rem 3rem;}
+
+.card{
+  position:relative;overflow:hidden;
+  height:clamp(26rem,65vh,40rem);
+  margin-bottom:1.5rem;border-radius:2px;
+}
+.card__bg{position:absolute;top:0;left:0;width:100%;height:100%;}
+.card__bg img{width:100%;height:100%;object-fit:cover;}
+.card__overlay{position:absolute;top:0;left:0;width:100%;height:100%;}
+.card__num{position:absolute;top:0.5rem;left:0.6rem;font-size:0.5rem;letter-spacing:0.1em;opacity:0.25;z-index:10;}
+.card__info{position:absolute;bottom:0.4rem;right:0.6rem;font-size:0.4rem;opacity:0.18;z-index:10;}
+
+/* Layout: stacked vertically — top text, marquee, bottom text */
+.card__layout{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  height:100%;padding:2rem 1.5rem;
+}
+
+/* Text blocks */
+.card__top,.card__bottom{
+  text-align:center;position:relative;z-index:3;
+}
+
+/* Marquee strip between texts */
+.card__mid{
+  width:100vw;position:relative;left:50%;transform:translateX(-50%);
+  overflow:hidden;z-index:1;
+}
+.card__mid-track{
+  display:flex;align-items:center;width:max-content;
+  white-space:nowrap;
+}
+.mloc{display:flex;flex-direction:column;align-items:center;flex-shrink:0;}
+.mloc__name{
+  font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;
+  letter-spacing:0.06em;line-height:1.1;
+}
+.mloc__coords{
+  font-family:'Cormorant Garamond',serif;font-weight:300;
+  letter-spacing:0.1em;white-space:nowrap;
+}
+
+@keyframes scrollL{
+  0%{transform:translateX(5%);}
+  100%{transform:translateX(-50%);}
+}
+@media(max-width:480px){
+  .card{height:clamp(24rem,75vh,36rem);}
+}
+.footer{text-align:center;padding:1.5rem;font-size:0.42rem;opacity:0.12;}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Text Split + Marquee — 10 Patterns</h1>
+  <p>2行＋マーキー＋2行 レイアウト 10パターン</p>
+</div>
+<div class="patterns" id="patterns"></div>
+<div class="footer">ukigumo — text split marquee preview</div>
+<script>
+const locs=[
+  {n:'Switzerland',c:'46.8182° N, 8.2275° E'},{n:'Paris',c:'48.8566° N, 2.3522° E'},
+  {n:'Firenze',c:'43.7696° N, 11.2558° E'},{n:'London',c:'51.5074° N, 0.1278° W'},
+  {n:'Nice',c:'43.7102° N, 7.2620° E'},{n:'Malta',c:'35.9375° N, 14.3754° E'},
+  {n:'Tokyo',c:'35.6762° N, 139.6503° E'},{n:'Karuizawa',c:'36.3486° N, 138.5970° E'},
+  {n:'Jogashima',c:'35.1292° N, 139.6108° E'},{n:'Night Garden',c:'35.6595° N, 139.7006° E'},
+];
+
+const m1='Weaving each moment into the future';
+const m2='one frame, one second at a time';
+const s1='A brand delivering works that become';
+const s2='a gentle staff for your life';
+
+const P=[
+  {
+    label:'ナチュラル — バランス型',
+    overlay:'rgba(0,0,0,0.73)',
+    topFs:'clamp(1.7rem,4.2vw,2.6rem)', topC:'rgba(255,255,255,0.72)', topLh:'1.8', topLs:'0.04em',
+    botFs:'clamp(1.2rem,3vw,1.7rem)', botC:'rgba(255,255,255,0.4)', botLh:'1.8',
+    midH:'clamp(4rem,10vw,6rem)', midGap:'clamp(6rem,15vw,12rem)',
+    locFs:'clamp(2.5rem,6vw,4rem)', locC:'rgba(255,255,255,0.08)',
+    coordFs:'clamp(0.6rem,1.4vw,0.85rem)', coordC:'rgba(255,255,255,0.14)',
+    speed:120, topMg:'0', botMg:'0',
+  },
+  {
+    label:'大きめテキスト — 間のマーキー小さめ',
+    overlay:'rgba(0,0,0,0.73)',
+    topFs:'clamp(2rem,5vw,3rem)', topC:'rgba(255,255,255,0.75)', topLh:'1.7', topLs:'0.04em',
+    botFs:'clamp(1.4rem,3.5vw,2rem)', botC:'rgba(255,255,255,0.42)', botLh:'1.8',
+    midH:'clamp(3rem,7vw,4.5rem)', midGap:'clamp(5rem,12vw,10rem)',
+    locFs:'clamp(1.8rem,4.5vw,3rem)', locC:'rgba(255,255,255,0.07)',
+    coordFs:'clamp(0.5rem,1.2vw,0.75rem)', coordC:'rgba(255,255,255,0.12)',
+    speed:110, topMg:'0', botMg:'0',
+  },
+  {
+    label:'ワイドギャップ — 大きなマーキー',
+    overlay:'rgba(0,0,0,0.72)',
+    topFs:'clamp(1.6rem,4vw,2.4rem)', topC:'rgba(255,255,255,0.7)', topLh:'1.8', topLs:'0.04em',
+    botFs:'clamp(1.1rem,2.8vw,1.6rem)', botC:'rgba(255,255,255,0.38)', botLh:'1.8',
+    midH:'clamp(6rem,15vw,10rem)', midGap:'clamp(8rem,18vw,14rem)',
+    locFs:'clamp(4rem,10vw,7rem)', locC:'rgba(255,255,255,0.06)',
+    coordFs:'clamp(0.7rem,1.6vw,1rem)', coordC:'rgba(255,255,255,0.12)',
+    speed:140, topMg:'0', botMg:'0',
+  },
+  {
+    label:'テキストシャドウ — 浮き上がり',
+    overlay:'rgba(0,0,0,0.7)',
+    topFs:'clamp(1.8rem,4.5vw,2.8rem)', topC:'rgba(255,255,255,0.75)', topLh:'1.8', topLs:'0.04em',
+    topTs:'0 0 30px rgba(0,0,0,0.9), 0 0 60px rgba(0,0,0,0.5)',
+    botFs:'clamp(1.3rem,3.2vw,1.8rem)', botC:'rgba(255,255,255,0.42)', botLh:'1.8',
+    botTs:'0 0 25px rgba(0,0,0,0.8)',
+    midH:'clamp(4.5rem,11vw,7rem)', midGap:'clamp(7rem,16vw,12rem)',
+    locFs:'clamp(3rem,7.5vw,5rem)', locC:'rgba(255,255,255,0.08)',
+    coordFs:'clamp(0.6rem,1.4vw,0.9rem)', coordC:'rgba(255,255,255,0.15)',
+    speed:130, topMg:'0', botMg:'0',
+  },
+  {
+    label:'白に近い — 高コントラスト',
+    overlay:'rgba(0,0,0,0.78)',
+    topFs:'clamp(1.7rem,4.2vw,2.6rem)', topC:'rgba(255,255,255,0.85)', topLh:'1.8', topLs:'0.04em',
+    botFs:'clamp(1.2rem,3vw,1.7rem)', botC:'rgba(255,255,255,0.5)', botLh:'1.8',
+    midH:'clamp(4.5rem,11vw,7rem)', midGap:'clamp(7rem,16vw,12rem)',
+    locFs:'clamp(3rem,7.5vw,5rem)', locC:'rgba(255,255,255,0.06)',
+    coordFs:'clamp(0.6rem,1.4vw,0.9rem)', coordC:'rgba(255,255,255,0.12)',
+    speed:130, topMg:'0', botMg:'0',
+  },
+  {
+    label:'特大メイン — 圧倒的',
+    overlay:'rgba(0,0,0,0.73)',
+    topFs:'clamp(2.3rem,5.5vw,3.5rem)', topC:'rgba(255,255,255,0.72)', topLh:'1.6', topLs:'0.03em',
+    botFs:'clamp(1rem,2.5vw,1.4rem)', botC:'rgba(255,255,255,0.32)', botLh:'1.8',
+    midH:'clamp(4rem,10vw,6.5rem)', midGap:'clamp(6rem,14vw,11rem)',
+    locFs:'clamp(2.5rem,6vw,4.5rem)', locC:'rgba(255,255,255,0.065)',
+    coordFs:'clamp(0.55rem,1.3vw,0.8rem)', coordC:'rgba(255,255,255,0.13)',
+    speed:120, topMg:'0', botMg:'0',
+  },
+  {
+    label:'全行同サイズ — 統一+マーキー強め',
+    overlay:'rgba(0,0,0,0.72)',
+    topFs:'clamp(1.6rem,4vw,2.4rem)', topC:'rgba(255,255,255,0.68)', topLh:'1.9', topLs:'0.04em',
+    botFs:'clamp(1.6rem,4vw,2.4rem)', botC:'rgba(255,255,255,0.4)', botLh:'1.9',
+    midH:'clamp(5rem,12vw,8rem)', midGap:'clamp(7rem,16vw,12rem)',
+    locFs:'clamp(3.5rem,8.5vw,6rem)', locC:'rgba(255,255,255,0.08)',
+    coordFs:'clamp(0.7rem,1.6vw,1rem)', coordC:'rgba(255,255,255,0.16)',
+    speed:130, topMg:'0', botMg:'0',
+  },
+  {
+    label:'ゴールドトーン — 高級感',
+    overlay:'rgba(0,0,0,0.74)',
+    topFs:'clamp(1.8rem,4.5vw,2.8rem)', topC:'rgba(235,220,190,0.72)', topLh:'1.8', topLs:'0.05em',
+    botFs:'clamp(1.2rem,3vw,1.7rem)', botC:'rgba(235,220,190,0.35)', botLh:'1.8',
+    midH:'clamp(4.5rem,11vw,7rem)', midGap:'clamp(7rem,16vw,12rem)',
+    locFs:'clamp(3rem,7.5vw,5rem)', locC:'rgba(235,220,190,0.06)',
+    coordFs:'clamp(0.6rem,1.4vw,0.9rem)', coordC:'rgba(235,220,190,0.12)',
+    speed:130, topMg:'0', botMg:'0',
+  },
+  {
+    label:'ゆったり — 超スロー+大間隔',
+    overlay:'rgba(0,0,0,0.73)',
+    topFs:'clamp(1.7rem,4.2vw,2.6rem)', topC:'rgba(255,255,255,0.7)', topLh:'1.8', topLs:'0.05em',
+    botFs:'clamp(1.2rem,3vw,1.7rem)', botC:'rgba(255,255,255,0.38)', botLh:'1.8',
+    midH:'clamp(5.5rem,13vw,9rem)', midGap:'clamp(10rem,22vw,16rem)',
+    locFs:'clamp(3.5rem,8.5vw,6rem)', locC:'rgba(255,255,255,0.06)',
+    coordFs:'clamp(0.7rem,1.6vw,1rem)', coordC:'rgba(255,255,255,0.13)',
+    speed:180, topMg:'0', botMg:'0',
+  },
+  {
+    label:'密集マーキー — テキスト引き立て',
+    overlay:'rgba(0,0,0,0.75)',
+    topFs:'clamp(1.8rem,4.5vw,2.8rem)', topC:'rgba(255,255,255,0.78)', topLh:'1.8', topLs:'0.04em',
+    botFs:'clamp(1.3rem,3.2vw,1.8rem)', botC:'rgba(255,255,255,0.42)', botLh:'1.8',
+    midH:'clamp(3.5rem,8vw,5rem)', midGap:'clamp(3.5rem,8vw,6rem)',
+    locFs:'clamp(2rem,5vw,3.5rem)', locC:'rgba(255,255,255,0.055)',
+    coordFs:'clamp(0.5rem,1.2vw,0.75rem)', coordC:'rgba(255,255,255,0.1)',
+    speed:90, topMg:'0', botMg:'0',
+  },
+];
+
+const marqueeHTML=(gap,locFs,locC,coordFs,coordC)=>{
+  const all=[...locs,...locs];
+  return all.map(l=>`<div class="mloc" style="margin:0 ${gap};">
+    <span class="mloc__name" style="font-size:${locFs};color:${locC};">${l.n}</span>
+    <span class="mloc__coords" style="font-size:${coordFs};color:${coordC};margin-top:0.25em;">${l.c}</span>
+  </div>`).join('');
+};
+
+const container=document.getElementById('patterns');
+P.forEach((p,i)=>{
+  const d=document.createElement('div');
+  d.className='card';
+  const halfGap=`calc(${p.midGap} / 2)`;
+  const topTs=p.topTs?`text-shadow:${p.topTs};`:'';
+  const botTs=p.botTs?`text-shadow:${p.botTs};`:'';
+
+  d.innerHTML=`
+    <div class="card__bg">
+      <img src="images/london/05.jpg" alt="">
+      <div class="card__overlay" style="background:${p.overlay};"></div>
+    </div>
+    <div class="card__num">#${String(i+1).padStart(2,'0')}</div>
+    <div class="card__info">${p.label}</div>
+    <div class="card__layout">
+      <div class="card__top">
+        <p style="font-family:'Lavishly Yours',cursive;font-size:${p.topFs};color:${p.topC};line-height:${p.topLh};letter-spacing:${p.topLs};margin:0;${topTs}">${m1}<br>${m2}</p>
+      </div>
+      <div class="card__mid" style="height:${p.midH};margin:clamp(1rem,3vw,2rem) 0;">
+        <div class="card__mid-track" style="height:100%;display:flex;align-items:center;animation:scrollL ${p.speed}s linear infinite;">
+          ${marqueeHTML(halfGap,p.locFs,p.locC,p.coordFs,p.coordC)}
+        </div>
+      </div>
+      <div class="card__bottom">
+        <p style="font-family:'Lavishly Yours',cursive;font-size:${p.botFs};color:${p.botC};line-height:${p.botLh};margin:0;${botTs}">${s1}<br>${s2}</p>
+      </div>
+    </div>
+  `;
+  container.appendChild(d);
+});
+</script>
+</body>
+</html>

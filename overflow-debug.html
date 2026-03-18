@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Overflow Debug</title>
+<style>
+body { font-family: sans-serif; padding: 1rem; background: #fff; }
+h1 { font-size: 1.2rem; margin-bottom: 1rem; }
+.result { padding: 0.5rem; margin: 0.3rem 0; border-left: 3px solid red; background: #fff0f0; font-size: 0.75rem; word-break: break-all; }
+.result.ok { border-color: green; background: #f0fff0; }
+#status { font-weight: bold; margin-bottom: 1rem; }
+button { padding: 0.8rem 1.5rem; font-size: 1rem; margin: 0.5rem; }
+</style>
+</head>
+<body>
+<h1>Overflow Element Detector</h1>
+<p>各ページのURLを入力して、はみ出している要素を検出します。</p>
+<p id="status"></p>
+<div>
+<button onclick="checkPage('index.html')">Index</button>
+<button onclick="checkPage('about.html')">About</button>
+<button onclick="checkPage('gallery.html')">Gallery</button>
+<button onclick="checkPage('plan.html')">Plan</button>
+<button onclick="checkPage('contact.html')">Contact</button>
+<button onclick="checkPage('dress.html')">Dress</button>
+<button onclick="checkPage('qa.html')">Q&A</button>
+</div>
+<div id="results"></div>
+
+<script>
+// Self-check on this page
+function selfCheck() {
+  const vw = document.documentElement.clientWidth;
+  const results = document.getElementById('results');
+  results.innerHTML = '';
+
+  const allElements = document.querySelectorAll('*');
+  let overflowing = [];
+
+  allElements.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.right > vw + 1) {
+      overflowing.push({
+        tag: el.tagName,
+        class: el.className,
+        id: el.id,
+        right: rect.right,
+        width: rect.width,
+        overflow: rect.right - vw
+      });
+    }
+    if (rect.left < -1) {
+      // Element extends to the left (usually ok but note it)
+    }
+  });
+
+  return { vw, overflowing };
+}
+
+function checkPage(url) {
+  document.getElementById('status').textContent = `Loading ${url}...`;
+
+  // Open in iframe to check
+  const iframe = document.createElement('iframe');
+  iframe.style.width = '375px'; // iPhone width
+  iframe.style.height = '667px';
+  iframe.style.border = '2px solid #333';
+  iframe.style.display = 'block';
+  iframe.style.margin = '1rem 0';
+  iframe.src = url;
+
+  const results = document.getElementById('results');
+  results.innerHTML = '';
+  results.appendChild(iframe);
+
+  iframe.onload = function() {
+    try {
+      const doc = iframe.contentDocument;
+      const vw = iframe.contentDocument.documentElement.clientWidth;
+      const allElements = doc.querySelectorAll('*');
+      let overflowing = [];
+
+      allElements.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.right > vw + 1) {
+          const tag = el.tagName.toLowerCase();
+          const cls = el.className ? `.${String(el.className).split(' ').join('.')}` : '';
+          const id = el.id ? `#${el.id}` : '';
+          overflowing.push({
+            selector: `${tag}${id}${cls}`,
+            right: Math.round(rect.right),
+            width: Math.round(rect.width),
+            overflow: Math.round(rect.right - vw),
+            text: el.textContent?.substring(0, 50) || ''
+          });
+        }
+      });
+
+      document.getElementById('status').textContent =
+        `${url}: Viewport=${vw}px, Overflowing elements: ${overflowing.length}`;
+
+      overflowing.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'result';
+        div.innerHTML = `<strong>${item.selector}</strong><br>
+          Right: ${item.right}px | Width: ${item.width}px | Overflow: +${item.overflow}px<br>
+          Content: "${item.text.substring(0, 80)}"`;
+        results.appendChild(div);
+      });
+
+      if (overflowing.length === 0) {
+        const div = document.createElement('div');
+        div.className = 'result ok';
+        div.textContent = 'No overflowing elements found at 375px viewport!';
+        results.appendChild(div);
+      }
+    } catch(e) {
+      document.getElementById('status').textContent = `Error: ${e.message}`;
+    }
+  };
+}
+</script>
+</body>
+</html>

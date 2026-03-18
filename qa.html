@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Q & A | ukigumo</title>
+  <meta name="description" content="ukigumo — よくあるご質問とポリシー。撮影スケジュール、プラン、ドレス、支払い、キャンセルポリシーについて。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .page-hero {
+      position: relative;
+      height: 65vh;
+      min-height: 450px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .page-hero__image {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transform: scale(1);
+      transition: transform 12s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      will-change: transform;
+    }
+
+    .page-hero.active .page-hero__image {
+      transform: scale(1.1);
+    }
+
+    .page-hero__overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.35) 100%);
+      z-index: 1;
+    }
+
+    .page-hero__content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      color: white;
+    }
+
+    .page-hero__title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(2.5rem, 8vw, 4rem);
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      color: #fff;
+      opacity: 0;
+      filter: blur(3px);
+      transition: opacity 0.8s ease, filter 0.6s ease;
+    }
+
+    .page-hero__title.show {
+      opacity: 1;
+      filter: blur(0);
+      transition: opacity 1.5s cubic-bezier(0.19, 1, 0.22, 1), filter 1.2s ease;
+    }
+
+    .page-hero__subtitle {
+      font-family: "Noto Serif JP", serif;
+      font-size: clamp(0.75rem, 2vw, 0.9rem);
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      margin-top: 1rem;
+      color: rgba(255,255,255,0.55);
+      opacity: 0;
+      filter: blur(3px);
+      transition: opacity 0.8s ease, filter 0.6s ease;
+    }
+
+    .page-hero__subtitle.show {
+      opacity: 0.55;
+      filter: blur(0);
+      transition: opacity 1.5s cubic-bezier(0.19, 1, 0.22, 1), filter 1.2s ease;
+    }
+
+    .qa-section {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .qa-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin: 4rem 0;
+      border-bottom: 1px solid rgba(61,53,48,0.08);
+    }
+
+    .qa-tab-btn {
+      padding: 1.2rem 2rem;
+      background: none;
+      border: none;
+      font-size: 0.9rem;
+      font-family: "Noto Serif JP", serif;
+      font-weight: 300;
+      color: rgba(61,53,48,0.4);
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+      position: relative;
+      letter-spacing: 0.08em;
+    }
+
+    .qa-tab-btn:hover {
+      color: rgba(61,53,48,0.6);
+    }
+
+    .qa-tab-btn.active {
+      color: #2a2420;
+      font-weight: 400;
+    }
+
+    .qa-tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #c9a96e;
+      animation: slideIn 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    @keyframes slideIn {
+      from {
+        width: 0;
+        left: 50%;
+      }
+      to {
+        width: 100%;
+        left: 0;
+      }
+    }
+
+    .qa-tab-content {
+      display: none;
+    }
+
+    .qa-tab-content.active {
+      display: block;
+    }
+
+    .qa-category {
+      margin-bottom: 5rem;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .qa-category.reveal {
+      animation: revealFadeUp 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+
+    .qa-category-title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.3rem;
+      color: #2a2420;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(61,53,48,0.08);
+      font-weight: 300;
+      letter-spacing: 0.1em;
+    }
+
+    @keyframes revealFadeUp {
+      from {
+        opacity: 0;
+        filter: blur(3px);
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(0);
+      }
+    }
+
+    .qa-item {
+      margin-bottom: 0;
+      border-bottom: 1px solid rgba(61,53,48,0.06);
+      padding: 1.5rem 0;
+      opacity: 0;
+      animation: fadeInItem 1.2s ease forwards;
+    }
+
+    .qa-category.stagger-children .qa-item:nth-child(1) { animation-delay: 0.2s; }
+    .qa-category.stagger-children .qa-item:nth-child(2) { animation-delay: 0.5s; }
+    .qa-category.stagger-children .qa-item:nth-child(3) { animation-delay: 0.7s; }
+    .qa-category.stagger-children .qa-item:nth-child(4) { animation-delay: 0.95s; }
+    .qa-category.stagger-children .qa-item:nth-child(5) { animation-delay: 1.2s; }
+
+    .qa-item:last-child {
+      border-bottom: none;
+    }
+
+    @keyframes fadeInItem {
+      from {
+        opacity: 0;
+        filter: blur(3px);
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(0);
+      }
+    }
+
+    .qa-question {
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: rgba(61,53,48,0.85);
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      transition: color 0.3s ease;
+      user-select: none;
+      background: none;
+      border: none;
+      width: 100%;
+      text-align: left;
+      font-family: "Noto Serif JP", serif;
+      letter-spacing: 0.03em;
+    }
+
+    .qa-question:hover {
+      color: rgba(61,53,48,0.7);
+    }
+
+    .qa-question::before {
+      content: 'Q';
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.6rem;
+      height: 1.6rem;
+      background: transparent;
+      color: #c9a96e;
+      border: 1px solid rgba(201,169,110,0.4);
+      border-radius: 50%;
+      font-size: 0.65rem;
+      font-weight: 400;
+      font-family: "Cormorant Garamond", serif;
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+    }
+
+    .qa-item.active .qa-question::before {
+      transform: scale(1.1);
+    }
+
+    .qa-question-text {
+      flex: 1;
+      padding-top: 0.15rem;
+    }
+
+    .qa-toggle {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+      font-size: 0.55rem;
+      color: rgba(201,169,110,0.35);
+      margin-top: 0.15rem;
+    }
+
+    .qa-item.active .qa-toggle {
+      transform: rotate(180deg);
+    }
+
+    .qa-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    .qa-item.active .qa-answer {
+      max-height: 600px;
+    }
+
+    .qa-answer__inner {
+      padding: 1.2rem 0 0 2.6rem;
+      color: rgba(61,53,48,0.7);
+      line-height: 2;
+      font-size: 0.8rem;
+      font-family: "Noto Serif JP", serif;
+      font-weight: 300;
+      letter-spacing: 0.03em;
+    }
+
+    .qa-answer__inner strong {
+      color: #2a2420;
+    }
+
+    .policy-section {
+      margin-top: 4rem;
+      padding-top: 3rem;
+      border-top: 1px solid rgba(61,53,48,0.08);
+    }
+
+    .policy-section h2 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.8rem;
+      color: #2a2420;
+      margin-bottom: 3rem;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      text-align: center;
+    }
+
+    .policy-subsection {
+      margin-bottom: 1.2rem;
+      padding: 1.5rem 1.8rem;
+      border: 1px solid rgba(61,53,48,0.08);
+      position: relative;
+      opacity: 0;
+      filter: blur(3px);
+      transform: translateY(20px);
+    }
+
+    .policy-subsection.reveal {
+      animation: revealFadeUp 1.2s ease forwards;
+    }
+
+    .policy-icon {
+      display: none;
+    }
+
+    .policy-subsection h3 {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.82rem;
+      color: #2a2420;
+      margin-bottom: 1rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+    }
+
+    .policy-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.2rem;
+    }
+
+    .policy-table th,
+    .policy-table td {
+      padding: 0.8rem 1rem;
+      text-align: left;
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.75rem;
+      font-weight: 300;
+      line-height: 1.6;
+      letter-spacing: 0.02em;
+      word-break: break-word;
+    }
+
+    .policy-table th:first-child,
+    .policy-table td:first-child {
+      width: 50%;
+    }
+
+    .policy-table th:last-child,
+    .policy-table td:last-child {
+      width: 50%;
+    }
+
+    .policy-table th {
+      font-weight: 400;
+      color: #2a2420;
+      background: rgba(245,243,239,0.5);
+      border-bottom: 1px solid rgba(61,53,48,0.08);
+      letter-spacing: 0.05em;
+    }
+
+    .policy-table td {
+      color: rgba(61,53,48,0.75);
+      border-bottom: 1px solid rgba(61,53,48,0.05);
+    }
+
+    .policy-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .policy-text {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 300;
+      color: rgba(61,53,48,0.7);
+      line-height: 2;
+      margin-bottom: 0.75rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.03em;
+    }
+
+    .cta-section {
+      margin-top: 6rem;
+      padding: 5rem 2rem;
+      background: #fff;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .cta-section.reveal {
+      animation: revealFadeUp 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+
+    .cta-section h2 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.5rem;
+      color: #2a2420;
+      margin-bottom: 1rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+    }
+
+    .cta-section p {
+      color: rgba(61,53,48,0.55);
+      margin-bottom: 2rem;
+      font-size: 0.8rem;
+      font-family: "Noto Serif JP", serif;
+      font-weight: 300;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 1rem 2.5rem;
+      background: #2a2420;
+      color: white;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    .cta-button:hover {
+      background: #1a1410;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(42,36,32,0.15);
+    }
+
+    @media (max-width: 768px) {
+      .page-hero {
+        height: 65vh;
+        min-height: 450px;
+      }
+
+      .page-hero__title {
+        font-size: 2.5rem;
+      }
+
+      /* タブ */
+      .qa-tabs {
+        gap: 0.3rem;
+        margin: 1.2rem 0;
+        flex-wrap: wrap;
+      }
+      .qa-tab-btn {
+        padding: 0.6rem 0.4rem;
+        font-size: 0.65rem;
+      }
+
+      /* カテゴリ */
+      .qa-category {
+        margin-bottom: 2rem;
+      }
+      .qa-category-title {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.6rem;
+      }
+
+      /* Q&Aアイテム */
+      .qa-item {
+        padding: 0.8rem 0;
+      }
+      .qa-question {
+        font-size: 0.62rem;
+        gap: 0.6rem;
+      }
+      .qa-question::before {
+        width: 1.2rem;
+        height: 1.2rem;
+        font-size: 0.5rem;
+      }
+      .qa-question-text {
+        padding-top: 0.1rem;
+      }
+      .qa-toggle {
+        font-size: 0.4rem;
+        width: 16px;
+        height: 16px;
+      }
+
+      /* 回答 */
+      .qa-answer__inner {
+        padding: 0.6rem 0 0 1.8rem;
+        font-size: 0.55rem;
+        line-height: 1.8;
+      }
+
+      /* ポリシーセクション */
+      .policy-section {
+        margin-top: 3rem !important;
+        padding-top: 2rem;
+      }
+      .policy-section h2 {
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+      }
+      .policy-subsection {
+        padding: 1rem;
+        margin-bottom: 1rem;
+      }
+      .policy-icon {
+        display: none;
+      }
+      .policy-subsection h3 {
+        font-size: 0.68rem;
+        margin-bottom: 0.6rem;
+      }
+      .policy-text {
+        font-size: 0.55rem;
+        line-height: 1.8;
+        margin-bottom: 0.5rem;
+      }
+      .policy-table th,
+      .policy-table td {
+        padding: 0.5rem 0.6rem;
+        font-size: 0.55rem;
+      }
+
+      /* セクション全体のパディング */
+      .qa-section {
+        padding: 1.5rem 1.2rem !important;
+      }
+
+      /* CTA */
+      .cta-section {
+        margin-top: 2rem;
+        padding: 2rem 1.5rem;
+      }
+      .cta-section h2 {
+        font-size: 1rem;
+      }
+      .cta-section p {
+        font-size: 0.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Side Labels -->
+  <span class="side-text side-text--left side-text--dark">Q&amp;A</span>
+  <span class="side-text side-text--right side-text--dark">ukigumo films &mdash; all rights reserved.</span>
+
+  <!-- Navigation -->
+  <nav class="nav nav--light">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">
+        <img src="images/logo/logo-white.png" alt="ukigumo" class="nav__logo-light">
+        <img src="images/logo/logo-black.png" alt="ukigumo" class="nav__logo-dark">
+      </a>
+      <div class="nav__links">
+        <a href="plan.html">Plan / Price</a>
+        <a href="dress.html">Dress</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="qa.html">Q&A</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <button class="nav__hamburger" aria-label="メニュー">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="nav__menu">
+    <a href="index.html">Home</a>
+    <a href="plan.html">Plan / Price</a>
+    <div class="nav__menu-subs">
+      <a href="plan-japan.html">Japan</a>
+      <a href="plan-paris.html">Paris</a>
+      <a href="plan-europa.html">Europa</a>
+    </div>
+    <a href="gallery.html">Gallery</a>
+    <a href="dress.html">Dress</a>
+    <a href="qa.html">Q&A</a>
+    <a href="contact.html">Contact</a>
+    <a href="https://www.instagram.com/ukigumo_films/" target="_blank" rel="noopener" class="nav-instagram"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+    <span class="nav__menu-brand">ukigumo films — Tokyo</span>
+  </div>
+
+  <!-- Page Hero -->
+  <section class="page-hero" data-nav-dark>
+    <img src="images/hero-qa.jpg" alt="Q & A" class="page-hero__image">
+    <div class="page-hero__overlay"></div>
+    <div class="page-hero__content">
+      <h1 class="page-hero__title">Q & A</h1>
+      <p class="page-hero__subtitle">よ く あ る ご 質 問</p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container">
+    <section class="qa-section" style="padding: 4rem 2rem;">
+      <!-- Tab Navigation -->
+      <div class="qa-tabs">
+        <button class="qa-tab-btn active" data-tab="domestic">国内 & 海外</button>
+        <button class="qa-tab-btn" data-tab="overseas">海外撮影 Q & A</button>
+      </div>
+
+      <!-- TAB 1: 国内 & 海外 -->
+      <div class="qa-tab-content active" id="domestic">
+        <!-- Schedule Category -->
+        <div class="qa-category reveal stagger-children">
+          <h2 class="qa-category-title">Schedule</h2>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">仮押さえはできますか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                可能です。基本的にはお見積り送付後から1週間の仮押さえとなり、その間に前金のお振込みをもって正式契約となります。
+              </div>
+            </div>
+          </div>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">まだ日程が決まっていないのですが相談できますか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                可能です。ざっくりした時期でもご相談いただけますが、人気シーズンは埋まりやすいため、候補日が見えているほどご案内がしやすくなります。
+              </div>
+            </div>
+          </div>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">日程変更は可能ですか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                空き状況や契約状況、天候都合かどうかによって対応が変わるため、都度ご確認ください。
+              </div>
+            </div>
+          </div>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">直前の問い合わせでも対応できますか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                空きがあれば可能ですが、直前はかなり限られることが多いです。特に春・GW・秋の人気シーズンはお早めにご相談ください。
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Plan Category -->
+        <div class="qa-category reveal stagger-children">
+          <h2 class="qa-category-title">Plan</h2>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">どんなプランがありますか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                大きく分けると「撮影のみ」と「撮影＋ヘアメイク」があります。衣装は提携先のドレスショップをご紹介することも可能です。日本全国・海外も対応可能（要相談）で、装飾を使った撮影などもご案内可能です。
+              </div>
+            </div>
+          </div>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">フォトのみのプランはありますか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                あります。ムービー無しでのご案内も可能で、その分減額してご案内しております。
+              </div>
+            </div>
+          </div>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">プランは契約後に変更できますか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                可能です。内容によっては後から変更や追加、削減に柔軟に対応しております。
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dress & Tuxedo Category -->
+        <div class="qa-category reveal stagger-children">
+          <h2 class="qa-category-title">Dress & Tuxedo</h2>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">プランにドレスは含まれますか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                含まれません。衣装はお持ち込み前提のプランとなります。提携している4ブランドのドレスショップをご紹介可能です。ドレスは ¥40,000〜（ブランドにより異なります）。海外撮影の場合は少し上がります。お持ち込みの場合、持込料は無料です。
+              </div>
+            </div>
+          </div>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">契約前にドレス試着は可能ですか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                可能です。試着開始時期はブランドにより異なりますので、お気軽にお問い合わせください。
+              </div>
+            </div>
+          </div>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">ドレスチェンジは可能ですか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                有料オプションにて対応しております。詳しくはお問い合わせください。
+              </div>
+            </div>
+          </div>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">和装での撮影は可能ですか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                誠に恐れ入りますが、現在は洋装のみの対応となっております。
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hair & Make Category -->
+        <div class="qa-category reveal stagger-children">
+          <h2 class="qa-category-title">Hair & Make</h2>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">ヘアメイクプランには何が含まれますか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                基本的に新婦ヘア・新婦メイク・撮影同行アテンドが含まれます。ヘアチェンジ・新郎のヘアメイクは別途オプションにてご案内可能です。
+              </div>
+            </div>
+          </div>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">撮影アテンドとは何ですか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                ヘアメイクスタッフが撮影にも同行し、ヘアやドレスの乱れを整えたり、メイク直しをしながら進行をサポートすることです。iPhoneでオフショットを撮影し、撮影後すぐに共有可能です。
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Shooting Category -->
+        <div class="qa-category reveal stagger-children">
+          <h2 class="qa-category-title">Shooting</h2>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">撮影日が雨の場合はどうなりますか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                前日または前々日に催行判断をさせていただきます。雨天の場合は無料で日程変更が可能です。※ 海外撮影の場合は原則雨天決行となります。詳しくは海外撮影Q&Aをご確認ください。
+              </div>
+            </div>
+          </div>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">ペットやお子様と一緒に撮影できますか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                可能です。ただし新郎新婦様以外に、付き添いの方をご同行いただくようお願いしております。難しい場合は事前にご相談ください。
+              </div>
+            </div>
+          </div>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">撮影のイメージはどのように共有できますか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                LINEグループにてイメージやご希望をお伺いしております。
+              </div>
+            </div>
+          </div>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">関東以外でも撮影は可能ですか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                全国対応しております。関東圏外への出張費はお見積りに記載いたします。前泊・後泊が必要な場合は宿泊費として ¥11,000 / 人 を申し受けます。
+              </div>
+            </div>
+          </div>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">軽井沢での撮影はいつが人気ですか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                新緑（6〜7月頃）・紅葉（11月前半）シーズンが特に人気です。5月もお花があり、おすすめです。春も人気ですが寒さや施設営業状況の影響がある場合があります。
+              </div>
+            </div>
+          </div>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">お支度はどこでしますか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                撮影場所近くのレンタルルームをお客様にて手配いただいております。場所の候補はスタッフからご案内いたします。費用はお客様負担で、2,000〜4,000円ほど（場所により異なります）。
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Category -->
+        <div class="qa-category reveal stagger-children">
+          <h2 class="qa-category-title">Payment</h2>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">支払い方法は何がありますか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                銀行振込のみとなります。クレジットカード払いには対応しておりません。
+              </div>
+            </div>
+          </div>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">お支払いの時期を教えてください</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                仮押さえ後1週間以内に内金をお振込みいただきます。残金は撮影完了後にご請求いたします。※ 内金は国内撮影 ¥80,000 ／ 海外撮影 ¥150,000 となります。
+              </div>
+            </div>
+          </div>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">契約までの流れを教えてください</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                お見積り送付 → ポリシーご確認 → 前金お振込み → 正式契約 → LINEグループ作成 → LINEにてお打ち合わせ、の流れとなります。
+              </div>
+            </div>
+          </div>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">日程変更に費用はかかりますか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                はい。日程変更の場合、下記の通り費用が発生いたします。30日前まで10% / 30〜3日前20% / 3日前〜当日50% ※ 交通機関・宿泊施設の変更料は各所規定に基づき別途発生いたします。
+              </div>
+            </div>
+          </div>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">キャンセル料はかかりますか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                お客様のご都合によるキャンセルの場合、下記の通りキャンセル料が発生いたします。ご成約〜3ヶ月前まで 料金の30% / 3ヶ月前〜1ヶ月前まで 料金の50% / 1ヶ月前〜1週間前まで 料金の80% / 1週間前〜当日 料金の100% ※ 交通機関・宿泊施設のキャンセル料は各所規定に基づき別途発生いたします。
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Delivery Category -->
+        <div class="qa-category reveal stagger-children">
+          <h2 class="qa-category-title">Delivery</h2>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">納品までの期間はどのくらいですか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                写真・映像ともに約8週間を目安にデータ納品いたします。お急ぎの場合はご相談ください。特急納品のオプションもございます。
+              </div>
+            </div>
+          </div>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">写真データはすべていただけますか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                レタッチ済みのデータを納品いたします。撮影前の元データ（未編集データ）については、オプションにてご相談ください。
+              </div>
+            </div>
+          </div>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">肌補正は入りますか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                自然な範囲でやわらかく整えることはありますが、体型補正など過度な加工はしておりません。
+              </div>
+            </div>
+          </div>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">映像の修正はできますか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                可能です。基本は ¥11,000 にて対応しております。誤字など軽微な修正は無償対応する場合もございます。
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Movie Category -->
+        <div class="qa-category reveal stagger-children">
+          <h2 class="qa-category-title">Movie</h2>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">好きな曲でムービーを作成できますか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                基本的にはこちらで著作権を所有している楽曲15曲ほどの中からお選びいただいております。著作権のある楽曲をご希望の場合は ¥5,500 のオプションにて対応可能です。下記をご確認ください。<br><br>
+                <strong>・お客様ご自身で式場への申請が必要となります</strong><br>
+                <strong>・式場ルールに合わせた制作が必須（編曲ルールに制約があります）</strong><br>
+                <strong>・効果音（フィルム音／波の音／環境音など）の追加は不可</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: 海外撮影 Q & A -->
+      <div class="qa-tab-content" id="overseas">
+        <!-- Plan Category -->
+        <div class="qa-category reveal stagger-children">
+          <h2 class="qa-category-title">Plan</h2>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">Half DayとAll Dayの違いは何ですか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                撮影時間・回れるロケーション数・衣装チェンジの可否などが異なります。All Dayはより多くのロケーションを回ることができ、プラン内でヘアチェンジ・衣装チェンジが無料で可能です。衣装はお持ち込みとなります。
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dress & Tuxedo Category -->
+        <div class="qa-category reveal stagger-children">
+          <h2 class="qa-category-title">Dress & Tuxedo</h2>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">ドレスやタキシードは自分たちで現地へ持っていく形ですか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                はい。レンタル衣装でもお客様ご自身で現地へ持参・返却いただく形です。各ドレスショップで持ち運び用バッグなどをご用意いただけることが多いです。
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hair & Make Category -->
+        <div class="qa-category reveal stagger-children">
+          <h2 class="qa-category-title">Hair & Make</h2>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">ヘアチェンジはできますか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                Half Dayプランは ¥11,000 のオプションにて対応可能です。All Dayプランはプラン内に含まれております。
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Paris Shooting Category -->
+        <div class="qa-category reveal">
+          <h2 class="qa-category-title">Paris Shooting</h2>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">パリでの移動はどうなりますか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                基本的にUberを都度手配して移動します。費用はお客様負担となります。1回あたり約3,000〜5,000円、3〜5回程度になることが多いです。
+              </div>
+            </div>
+          </div>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">カフェでの撮影はできますか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                可能です。通常は特別な申請は不要で、おふたりの飲み物代のみ実費となることが多いです。
+              </div>
+            </div>
+          </div>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">ホテルでの撮影はできますか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                客室内であれば比較的可能なケースが多いです。ロビーなど共用部はホテル側の許可確認が必要になる場合があります。
+              </div>
+            </div>
+          </div>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">パリで希望のロケーションで急に撮影できなくなることはありますか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                イベントや警備の都合で、希望のロケーションが急遽使用不可となる場合がございます。その際は臨機応変に別ロケーションをご提案して対応いたしますが、現地事情によるものですのでご了承いただけますと幸いです。
+              </div>
+            </div>
+          </div>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">パリでは雨でも撮影できますか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                基本的に雨天決行となります。時間変更やルート変更で対応することが多く、パリは一日中ずっと雨というより、調整で対応できることが多いです。日程変更は原則承っておりません。
+              </div>
+            </div>
+          </div>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">ブーケはどうすればよいですか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                基本はお客様ご自身でのご手配となります。日本から造花を持参するか、現地で生花を購入する形が多いです。白い薔薇のブーケであればレンタルも可能です。事前にホテル近くの花屋さんを2〜3箇所Googleマップで調べておくと安心です。
+              </div>
+            </div>
+          </div>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">AM撮影は何時スタートですか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                基本は8:00頃スタートです。2〜2.5時間前からお客様のホテルにてヘアメイクのお支度に伺います。オプションでさらに早めることが可能な場合もありますが、日の出時間やスケジュールによります。
+              </div>
+            </div>
+          </div>
+
+          <div class="qa-item">
+            <button class="qa-question">
+              <span class="qa-question-text">PM撮影は何時からですか？</span>
+              <span class="qa-toggle">▼</span>
+            </button>
+            <div class="qa-answer">
+              <div class="qa-answer__inner">
+                夕方の明るい時間帯からスタートし、日の入り後の暗くなったロマンチックな時間帯まで撮影いたします。シャンパンフラッシュでの撮影は天候や条件により確約できかねますので、あらかじめご了承ください。
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Policy Section -->
+    <section class="policy-section" style="padding: 0 2rem; margin-top: 6rem;">
+      <h2>Policy</h2>
+
+      <!-- Cancel Policy -->
+      <div class="policy-subsection reveal">
+        <div class="policy-icon">01</div>
+        <h3>キャンセルポリシー</h3>
+        <table class="policy-table">
+          <thead>
+            <tr>
+              <th>キャンセル時期</th>
+              <th>キャンセル料</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ご成約〜3ヶ月前</td>
+              <td>料金の30%</td>
+            </tr>
+            <tr>
+              <td>3ヶ月前〜1ヶ月前</td>
+              <td>料金の50%</td>
+            </tr>
+            <tr>
+              <td>1ヶ月前〜1週間前</td>
+              <td>料金の80%</td>
+            </tr>
+            <tr>
+              <td>1週間前〜当日</td>
+              <td>料金の100%</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="policy-text">※ 交通機関・宿泊施設のキャンセル料は各所規定に基づき別途発生いたします。</p>
+      </div>
+
+      <!-- Schedule Change -->
+      <div class="policy-subsection reveal">
+        <div class="policy-icon">02</div>
+        <h3>日程変更について</h3>
+        <p class="policy-text">
+          日程変更の場合、変更時期に応じて以下の通り費用が発生いたします。
+        </p>
+        <table class="policy-table">
+          <thead>
+            <tr>
+              <th>変更時期</th>
+              <th>変更料</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>30日前まで</td>
+              <td>10%</td>
+            </tr>
+            <tr>
+              <td>30〜3日前</td>
+              <td>20%</td>
+            </tr>
+            <tr>
+              <td>3日前〜当日</td>
+              <td>50%</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="policy-text">※ 交通機関・宿泊施設の変更料は各所規定に基づき別途発生いたします。<br>※ 雨天による日程変更は無料です。</p>
+      </div>
+
+      <!-- Weather Policy -->
+      <div class="policy-subsection reveal">
+        <div class="policy-icon">03</div>
+        <h3>天候について</h3>
+        <p class="policy-text">
+          <strong>国内撮影：</strong>前日または前々日に催行判断をさせていただきます。雨天の場合は無料で日程変更が可能です。
+        </p>
+        <p class="policy-text">
+          <strong>海外撮影：</strong>原則雨天決行となります。時間変更やルート変更で対応することが多く、日程変更は原則承っておりません。
+        </p>
+      </div>
+
+      <!-- Delivery Policy -->
+      <div class="policy-subsection reveal">
+        <div class="policy-icon">04</div>
+        <h3>納品について</h3>
+        <p class="policy-text">
+          写真・映像ともに約8週間を目安にデータ納品いたします。お急ぎの場合はご相談ください。特急納品のオプションもございます。納品されるデータはレタッチ済みのデータとなります。撮影前の元データ（未編集データ）については、オプションにてご相談ください。
+        </p>
+      </div>
+
+      <!-- Liability -->
+      <div class="policy-subsection reveal">
+        <div class="policy-icon">05</div>
+        <h3>免責事項</h3>
+        <p class="policy-text">
+          当社は、お客様による利用から生ずる、いかなる損害・損失についても、一切責任を負いません。天災地変、交通機関の乱れ、現地事情による撮影場所の急遽変更など、当社の責任に帰さない事由による撮影内容の変更・キャンセルについても、当社は責任を負いません。
+        </p>
+      </div>
+
+      <!-- Copyright & Usage -->
+      <div class="policy-subsection reveal">
+        <div class="policy-icon">06</div>
+        <h3>著作権と使用許可について</h3>
+        <p class="policy-text">
+          納品されたデータについて、お客様は個人的な使用、SNS投稿、印刷物の作成など自由にご利用いただけます。商用利用（広告、販売商品の使用など）をご希望の場合はお問い合わせください。当社による作品のポートフォリオ使用、SNS投稿、メディア掲載などについては、お客様にお断りなく行う場合がございます。これを不可とされたい場合は、契約時にお知らせください。
+        </p>
+      </div>
+    </section>
+  </main>
+
+
+  <!-- Footer -->
+  <footer class="footer" style="background:#fff;">
+    <div class="footer__logo">
+      <a href="index.html"><img src="images/logo/logo-black.png" alt="ukigumo"></a>
+    </div>
+    <div class="footer__links">
+      <a href="plan.html">Plan & Price</a>
+      <a href="dress.html">Dress</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="qa.html">Q&A / Policy</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <p class="footer__copy">&copy; 2026 ukigumo films. All rights reserved.</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    // Tab Navigation
+    const tabBtns = document.querySelectorAll('.qa-tab-btn');
+    const tabContents = document.querySelectorAll('.qa-tab-content');
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tabName = btn.dataset.tab;
+
+        // Remove active class from all buttons and contents
+        tabBtns.forEach(b => b.classList.remove('active'));
+        tabContents.forEach(content => content.classList.remove('active'));
+
+        // Add active class to clicked button and corresponding content
+        btn.classList.add('active');
+        document.getElementById(tabName).classList.add('active');
+      });
+    });
+
+    // Accordion is handled by main.js
+
+    // Reveal Animation on Scroll
+    const reveals = document.querySelectorAll('.reveal');
+
+    const observe = (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observe, { threshold: 0.1 });
+    reveals.forEach(reveal => {
+      reveal.style.opacity = '0';
+      reveal.style.transform = 'translateY(20px)';
+      reveal.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(reveal);
+    });
+  </script>
+  <script>
+    window.addEventListener('load', function() {
+      var hero = document.querySelector('.page-hero');
+      if (hero) {
+        setTimeout(function() { hero.classList.add('active'); }, 100);
+      }
+      var heroTitle = document.querySelector('.page-hero__title');
+      var heroSub = document.querySelector('.page-hero__subtitle');
+      setTimeout(function() { if (heroTitle) heroTitle.classList.add('show'); }, 300);
+      setTimeout(function() { if (heroSub) heroSub.classList.add('show'); }, 300);
+    });
+  </script>
+</body>
+</html>

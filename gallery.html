@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery | ukigumo wedding</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400&family=Source+Code+Pro:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Force unified bg on gallery page */
+        html, body { background-color: #fff !important; }
+
+        /* ========================================
+           GALLERY PAGE
+           Desktop: Scattered masonry
+           Mobile: Staggered duo
+           ======================================== */
+
+        .gallery-page {
+            background: #fff;
+            min-height: 100vh;
+        }
+
+        /* Page Hero */
+        .page-hero {
+            position: relative;
+            height: 65vh;
+            min-height: 450px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .page-hero__image {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transform: scale(1);
+            transition: transform 12s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: transform;
+        }
+        .page-hero.active .page-hero__image {
+            transform: scale(1.1);
+        }
+        .page-hero__overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.55) 100%);
+            z-index: 1;
+        }
+        .page-hero__content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+        }
+        .page-hero__title {
+            font-family: "Cormorant Garamond", serif;
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            color: #fff;
+            opacity: 0;
+            filter: blur(3px);
+            transition: opacity 0.8s ease, filter 0.6s ease;
+        }
+        .page-hero__title.show {
+            opacity: 1;
+            filter: blur(0);
+            transition: opacity 1.5s cubic-bezier(0.19, 1, 0.22, 1), filter 1.2s ease;
+        }
+        .page-hero__subtitle {
+            font-family: "Noto Serif JP", serif;
+            font-size: clamp(0.75rem, 2vw, 0.9rem);
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            margin-top: 1rem;
+            color: rgba(255,255,255,0.55);
+            opacity: 0;
+            filter: blur(3px);
+            transition: opacity 0.8s ease, filter 0.6s ease;
+        }
+        .page-hero__subtitle.show {
+            opacity: 0.55;
+            filter: blur(0);
+            transition: opacity 1.5s cubic-bezier(0.19, 1, 0.22, 1), filter 1.2s ease;
+        }
+
+        /* Header */
+        .gallery-header {
+            text-align: center;
+            padding: 8rem 3rem 0;
+        }
+
+        .gallery-header__title {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            color: #1a1a1a;
+            margin-bottom: 0.3rem;
+        }
+
+        .gallery-header__subtitle {
+            font-family: var(--font-sans);
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            color: #bbb;
+            margin-bottom: 2rem;
+        }
+
+        /* Card-style toggle */
+        .gallery-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .gallery-toggle__card {
+            width: 100px;
+            padding: 1rem 0.5rem;
+            border: 1px solid #eee;
+            background: none;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .gallery-toggle__card svg {
+            width: 20px;
+            height: 20px;
+            stroke: #ccc;
+            fill: none;
+            stroke-width: 1.2;
+            margin-bottom: 0.4rem;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            transition: stroke 0.4s;
+        }
+
+        .gallery-toggle__card span {
+            font-family: var(--font-sans);
+            font-size: 0.55rem;
+            letter-spacing: 0.15em;
+            color: #bbb;
+            transition: color 0.4s;
+        }
+
+        .gallery-toggle__card.active {
+            border-color: #1a1a1a;
+        }
+
+        .gallery-toggle__card.active svg {
+            stroke: #1a1a1a;
+        }
+
+        .gallery-toggle__card.active span {
+            color: #1a1a1a;
+        }
+
+        .gallery-toggle__card:hover {
+            border-color: #999;
+        }
+
+        /* Separator line */
+        .gallery-sep {
+            width: 100%;
+            max-width: 1600px;
+            height: 1px;
+            background: #eee;
+            margin: 0 auto 2.5rem;
+        }
+
+        /* ========================================
+           DESKTOP: Scattered Masonry Layout
+           ======================================== */
+
+        .gallery-masonry {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 2vw 6rem;
+        }
+
+        .gallery-row {
+            display: flex;
+            align-items: flex-start;
+            gap: clamp(10px, 1.5vw, 20px);
+            margin-bottom: clamp(10px, 1.5vw, 20px);
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            flex-shrink: 0;
+            opacity: 0;
+            filter: blur(3px);
+            transform: translateY(40px);
+            transition: opacity 1.8s cubic-bezier(0.19, 1, 0.22, 1),
+                        filter 1.4s ease,
+                        transform 1.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .gallery-item.visible {
+            opacity: 1;
+            filter: blur(0);
+            transform: translateY(0);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: saturate(0) brightness(0.25);
+            transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1),
+                        filter 3.8s cubic-bezier(0.19, 1, 0.22, 1) 0.8s;
+        }
+
+        .gallery-item.visible img {
+            filter: saturate(1) brightness(1);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.04);
+        }
+
+        /* Size variations */
+        .gi-lg-h { width: 48%; aspect-ratio: 16/10; }
+        .gi-lg-v { width: 30%; aspect-ratio: 3/4.2; }
+        .gi-md-h { width: 35%; aspect-ratio: 4/3; }
+        .gi-md-sq { width: 28%; aspect-ratio: 1/1; }
+        .gi-sm-h { width: 25%; aspect-ratio: 16/10; }
+        .gi-sm-v { width: 22%; aspect-ratio: 3/4; }
+        .gi-xl-w { width: 55%; aspect-ratio: 16/9; }
+        .gi-narrow { width: 20%; aspect-ratio: 2/3.5; }
+
+        /* Row offsets */
+        .gallery-row--offset-r { justify-content: flex-end; }
+        .gallery-row--offset-c { justify-content: center; }
+        .gallery-row--offset-sb { justify-content: space-between; }
+        .gallery-row--gap-top { margin-top: 2vw; }
+
+        /* Vertical nudge */
+        .gi-push-down { margin-top: 6vw; }
+        .gi-push-down-sm { margin-top: 3vw; }
+        .gi-push-up { margin-top: -4vw; }
+
+        /* Hover overlay */
+        .gallery-item__overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0);
+            transition: background 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .gallery-item:hover .gallery-item__overlay {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .gallery-item__name {
+            font-family: var(--font-serif);
+            font-size: clamp(0.9rem, 2vw, 1.4rem);
+            font-weight: 300;
+            letter-spacing: 0.12em;
+            color: white;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1) 0.05s;
+        }
+
+        .gallery-item:hover .gallery-item__name {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .gallery-item__coords {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 0.14em;
+            color: rgba(255, 255, 255, 0);
+            margin-top: 0.3rem;
+            transition: color 0.5s ease 0.1s;
+        }
+
+        .gallery-item:hover .gallery-item__coords {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Vertical side text */
+        .gallery-side-text {
+            position: fixed;
+            font-family: var(--font-sans);
+            font-size: 0.55rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(0, 0, 0, 0.15);
+            writing-mode: vertical-rl;
+            z-index: 5;
+        }
+
+        .gallery-side-text--left {
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .gallery-side-text--right {
+            right: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        /* ========================================
+           MOBILE: P5 Staggered Duo (bird-and-insect style)
+           ======================================== */
+
+        .gallery-mobile {
+            display: none; /* Hidden on desktop, shown as flex on mobile */
+            padding: 18px 22px 1.5rem;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .gallery-mobile .gm-row {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .gallery-mobile .gm-item {
+            overflow: hidden;
+            flex-shrink: 0;
+            position: relative;
+            cursor: pointer;
+            opacity: 0;
+            filter: blur(3px);
+            transform: translateY(30px);
+            transition: opacity 1.8s cubic-bezier(0.19, 1, 0.22, 1),
+                        filter 1.4s ease,
+                        transform 1.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .gallery-mobile .gm-item.visible {
+            opacity: 1;
+            filter: blur(0);
+            transform: translateY(0);
+        }
+
+        .gallery-mobile .gm-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: saturate(0) brightness(0.25);
+            transition: filter 3.8s cubic-bezier(0.19, 1, 0.22, 1) 0.8s;
+        }
+
+        .gallery-mobile .gm-item.visible img {
+            filter: saturate(1) brightness(1);
+        }
+
+        /* Hover overlay */
+        .gallery-mobile .gm-item .gm-ov {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0);
+            transition: background 0.35s ease;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .gallery-mobile .gm-item:hover .gm-ov { background: rgba(0,0,0,0.5); }
+        .gallery-mobile .gm-item .gm-ov .gm-loc {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.7rem; font-weight: 300; letter-spacing: 0.1em; color: #fff;
+            opacity: 0; transform: translateY(5px);
+            transition: all 0.35s ease 0.03s;
+        }
+        .gallery-mobile .gm-item:hover .gm-ov .gm-loc { opacity: 1; transform: translateY(0); }
+        .gallery-mobile .gm-item .gm-ov .gm-coord {
+            font-family: 'Source Code Pro', monospace; font-size: 0.38rem; letter-spacing: 0.1em; color: rgba(255,255,255,0);
+            margin-top: 0.15rem; transition: color 0.35s ease 0.08s;
+        }
+        .gallery-mobile .gm-item:hover .gm-ov .gm-coord { color: rgba(255,255,255,0.55); }
+
+        /* Row A: left portrait 3/4 + right portrait 4/5 offset down */
+        .gallery-mobile .gm-row-a .gm-item:nth-child(1) {
+            width: 45%;
+            aspect-ratio: 3/4;
+        }
+        .gallery-mobile .gm-row-a .gm-item:nth-child(2) {
+            width: 45%;
+            aspect-ratio: 4/5;
+            margin-top: 30px;
+        }
+
+        /* Row B: left landscape 4/3 offset down + right portrait 3/4 */
+        .gallery-mobile .gm-row-b .gm-item:nth-child(1) {
+            width: 50%;
+            aspect-ratio: 4/3;
+            margin-top: 20px;
+        }
+        .gallery-mobile .gm-row-b .gm-item:nth-child(2) {
+            width: 42%;
+            aspect-ratio: 3/4;
+        }
+
+        /* Row W: wide centered */
+        .gallery-mobile .gm-row-w {
+            justify-content: center;
+        }
+        .gallery-mobile .gm-row-w .gm-item {
+            width: 88%;
+            aspect-ratio: 3/4;
+        }
+
+        /* ========================================
+           FILM SECTION
+           ======================================== */
+
+        .film-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 4vw 6rem;
+        }
+
+        .film-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+        }
+
+        @media (min-width: 768px) {
+            .film-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .film-card__youtube {
+            display: none;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #000;
+        }
+        .film-card__youtube iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .film-card.is-playing .film-card__thumbnail { display: none; }
+        .film-card.is-playing .film-card__youtube { display: block; }
+
+        .film-card {
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+            display: block;
+            opacity: 0;
+            filter: blur(3px);
+            transform: translateY(30px);
+            transition: opacity 1.8s cubic-bezier(0.19, 1, 0.22, 1),
+                        filter 1.4s ease,
+                        transform 1.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .film-card.visible {
+            opacity: 1;
+            filter: blur(0);
+            transform: translateY(0);
+        }
+
+        .film-card__thumbnail {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .film-card__image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .film-card__overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(40, 25, 10, 0.5);
+            transition: background 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .film-card:hover .film-card__overlay {
+            background: rgba(40, 25, 10, 0.3);
+        }
+
+        .film-card:hover .film-card__image {
+            transform: scale(1.04);
+        }
+
+        .film-card__play {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .film-card__play::before {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 14px solid rgba(255,255,255,0.9);
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+        }
+
+        .film-card__play::after {
+            content: 'PLAY FILM';
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 10px;
+            letter-spacing: 0.35em;
+            color: rgba(255,255,255,0.75);
+            text-transform: uppercase;
+        }
+
+        .film-card__info {
+            padding: 1rem 0;
+        }
+
+        .film-card__title {
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            color: var(--color-text, #4A4A3A);
+        }
+
+        .film-card__location {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 9.5px;
+            font-weight: 300;
+            letter-spacing: 0.14em;
+            color: rgba(0, 0, 0, 0.3);
+            margin-top: 0.25rem;
+        }
+
+        /* Tab content toggle */
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        /* ========================================
+           RESPONSIVE — Mobile switch
+           ======================================== */
+
+        @media (max-width: 768px) {
+            .gallery-header {
+                padding: 4rem 3vw 0;
+            }
+
+            .gallery-header__subtitle {
+                font-size: 0.5rem;
+            }
+
+            .gallery-side-text {
+                display: none;
+            }
+
+            .gallery-toggle__card {
+                width: 80px;
+                padding: 0.8rem 0.4rem;
+            }
+
+            /* Hide desktop masonry, show mobile staggered duo */
+            .gallery-masonry {
+                display: none !important;
+            }
+
+            .gallery-mobile {
+                display: flex !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Side Labels -->
+    <span class="side-text side-text--left side-text--dark">gallery</span>
+    <span class="side-text side-text--right side-text--dark">ukigumo wedding &mdash; all rights reserved.</span>
+
+    <!-- Navigation -->
+    <nav class="nav">
+      <div class="nav__inner">
+        <a href="index.html" class="nav__logo">
+          <img src="images/logo/logo-white.png" alt="ukigumo" class="nav__logo-light">
+          <img src="images/logo/logo-black.png" alt="ukigumo" class="nav__logo-dark">
+        </a>
+        <div class="nav__links">
+          <a href="plan.html">Plan / Price</a>
+          <a href="dress.html">Dress</a>
+          <a href="gallery.html">Gallery</a>
+          <a href="qa.html">Q&A</a>
+          <a href="contact.html">Contact</a>
+        </div>
+        <button class="nav__hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="nav__menu">
+      <a href="index.html">Home</a>
+      <a href="plan.html">Plan / Price</a>
+      <div class="nav__menu-subs">
+        <a href="plan-japan.html">Japan</a>
+        <a href="plan-paris.html">Paris</a>
+        <a href="plan-europa.html">Europa</a>
+      </div>
+      <a href="gallery.html">Gallery</a>
+      <a href="dress.html">Dress</a>
+      <a href="qa.html">Q&A</a>
+      <a href="contact.html">Contact</a>
+      <a href="https://www.instagram.com/ukigumo_films/" target="_blank" rel="noopener" class="nav-instagram"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+      <span class="nav__menu-brand">ukigumo films — Tokyo</span>
+    </div>
+
+    <div class="gallery-page">
+
+        <!-- Vertical side text -->
+        <span class="gallery-side-text gallery-side-text--left">gallery</span>
+        <span class="gallery-side-text gallery-side-text--right">ukigumo wedding &mdash; all rights reserved.</span>
+
+        <!-- Page Hero -->
+        <section class="page-hero" data-nav-dark>
+            <img src="images/hero-gallery.jpg" alt="Gallery" class="page-hero__image">
+            <div class="page-hero__overlay"></div>
+            <div class="page-hero__content">
+                <h1 class="page-hero__title">Gallery</h1>
+                <p class="page-hero__subtitle">ギャラリー</p>
+            </div>
+        </section>
+
+        <!-- PHOTO / FILM toggle cards (below hero) -->
+        <div style="text-align: center; padding: 2.5rem 0; background: #fff;">
+            <div class="gallery-toggle">
+                <button class="gallery-toggle__card active" data-tab="photo">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="15" rx="2"/><circle cx="8.5" cy="10" r="2"/><path d="M21 18l-5-5-3 3-2-2-8 6"/></svg>
+                    <span>PHOTO</span>
+                </button>
+                <button class="gallery-toggle__card" data-tab="film">
+                    <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+                    <span>FILM</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Separator -->
+        <div class="gallery-sep"></div>
+
+        <!-- ======================== -->
+        <!-- PHOTO TAB                -->
+        <!-- ======================== -->
+        <div class="tab-panel active" data-panel="photo">
+
+          <!-- ===== DESKTOP: Scattered Masonry ===== -->
+          <div class="gallery-masonry" id="galleryMasonry">
+
+            <!-- ROW 1 -->
+            <div class="gallery-row">
+                <div class="gallery-item gi-lg-h" data-location="nightgarden">
+                    <img src="images/gallery/g01.jpg" alt="Night Garden" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Night Garden</span>
+                        <span class="gallery-item__coords">35.6895°N  139.6917°E</span>
+                    </div>
+                </div>
+                <div class="gallery-item gi-md-sq gi-push-down" data-location="paris">
+                    <img src="images/gallery/g02.jpg" alt="Paris" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Paris</span>
+                        <span class="gallery-item__coords">48.8566°N  2.3522°E</span>
+                    </div>
+                </div>
+                <div class="gallery-item gi-sm-v" data-location="korea">
+                    <img src="images/gallery/g03.jpg" alt="Korea" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Korea</span>
+                        <span class="gallery-item__coords">37.5665°N  126.9780°E</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROW 2 -->
+            <div class="gallery-row gallery-row--offset-sb">
+                <div class="gallery-item gi-narrow gi-push-up" data-location="benoit">
+                    <img src="images/gallery/g04.jpg" alt="Benoit" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Benoit</span>
+                        <span class="gallery-item__coords">35.6895°N  139.6917°E</span>
+                    </div>
+                </div>
+                <div class="gallery-item gi-md-h" data-location="firenze">
+                    <img src="images/gallery/g05.jpg" alt="Firenze" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Firenze</span>
+                        <span class="gallery-item__coords">43.7696°N  11.2558°E</span>
+                    </div>
+                </div>
+                <div class="gallery-item gi-lg-v gi-push-down-sm" data-location="nightgarden">
+                    <img src="images/gallery/g06.jpg" alt="Night Garden" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Night Garden</span>
+                        <span class="gallery-item__coords">35.6895°N  139.6917°E</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROW 3 -->
+            <div class="gallery-row gallery-row--offset-c">
+                <div class="gallery-item gi-xl-w gi-push-up" data-location="paris">
+                    <img src="images/gallery/g07.jpg" alt="Paris" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Paris</span>
+                        <span class="gallery-item__coords">48.8566°N  2.3522°E</span>
+                    </div>
+                </div>
+                <div class="gallery-item gi-sm-v" data-location="karuizawa">
+                    <img src="images/gallery/g08.jpg" alt="Karuizawa" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Karuizawa</span>
+                        <span class="gallery-item__coords">36.3480°N  138.5965°E</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROW 4 -->
+            <div class="gallery-row gallery-row--offset-sb">
+                <div class="gallery-item gi-md-h gi-push-up" data-location="tokyo">
+                    <img src="images/gallery/g09.jpg" alt="Tokyo" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Tokyo</span>
+                        <span class="gallery-item__coords">35.6762°N  139.6503°E</span>
+                    </div>
+                </div>
+                <div class="gallery-item gi-lg-v" data-location="yokohama">
+                    <img src="images/gallery/g10.jpg" alt="Yokohama" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Yokohama</span>
+                        <span class="gallery-item__coords">35.4437°N  139.6380°E</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROW 5 -->
+            <div class="gallery-row gallery-row--offset-r">
+                <div class="gallery-item gi-sm-h gi-push-up" data-location="korea">
+                    <img src="images/gallery/g11.jpg" alt="Korea" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Korea</span>
+                        <span class="gallery-item__coords">37.5665°N  126.9780°E</span>
+                    </div>
+                </div>
+                <div class="gallery-item gi-lg-h" data-location="switzerland">
+                    <img src="images/gallery/g12.jpg" alt="Switzerland" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Switzerland</span>
+                        <span class="gallery-item__coords">46.8182°N  8.2275°E</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROW 6 -->
+            <div class="gallery-row">
+                <div class="gallery-item gi-lg-v" data-location="london">
+                    <img src="images/gallery/g13.jpg" alt="London" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">London</span>
+                        <span class="gallery-item__coords">51.5074°N  0.1278°W</span>
+                    </div>
+                </div>
+                <div class="gallery-item gi-md-h gi-push-down" data-location="yamanashi">
+                    <img src="images/gallery/g14.jpg" alt="Yamanashi" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Yamanashi</span>
+                        <span class="gallery-item__coords">35.6635°N  138.5685°E</span>
+                    </div>
+                </div>
+                <div class="gallery-item gi-narrow" data-location="nice">
+                    <img src="images/gallery/g15.jpg" alt="Nice" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Nice</span>
+                        <span class="gallery-item__coords">43.7102°N  7.2620°E</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROW 7 -->
+            <div class="gallery-row gallery-row--offset-c gallery-row--gap-top">
+                <div class="gallery-item gi-md-sq gi-push-up" data-location="firenze">
+                    <img src="images/gallery/g16.jpg" alt="Firenze" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Firenze</span>
+                        <span class="gallery-item__coords">43.7696°N  11.2558°E</span>
+                    </div>
+                </div>
+                <div class="gallery-item gi-xl-w" data-location="benoit">
+                    <img src="images/gallery/g17.jpg" alt="Benoit" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Benoit</span>
+                        <span class="gallery-item__coords">35.6895°N  139.6917°E</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROW 8 -->
+            <div class="gallery-row gallery-row--offset-sb">
+                <div class="gallery-item gi-lg-h" data-location="karuizawa">
+                    <img src="images/gallery/g18.jpg" alt="Karuizawa" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Karuizawa</span>
+                        <span class="gallery-item__coords">36.3480°N  138.5965°E</span>
+                    </div>
+                </div>
+                <div class="gallery-item gi-sm-v gi-push-down-sm" data-location="yamanashi">
+                    <img src="images/gallery/g19.jpg" alt="Yamanashi" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Yamanashi</span>
+                        <span class="gallery-item__coords">35.6635°N  138.5685°E</span>
+                    </div>
+                </div>
+                <div class="gallery-item gi-sm-h" data-location="others">
+                    <img src="images/gallery/g20.jpg" alt="Others" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Others</span>
+                        <span class="gallery-item__coords">35.6762°N  139.6503°E</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROW 9 -->
+            <div class="gallery-row">
+                <div class="gallery-item gi-md-h gi-push-up" data-location="malta">
+                    <img src="images/gallery/g21.jpg" alt="Malta" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Malta</span>
+                        <span class="gallery-item__coords">35.8997°N  14.5146°E</span>
+                    </div>
+                </div>
+                <div class="gallery-item gi-lg-v" data-location="switzerland">
+                    <img src="images/gallery/g22.jpg" alt="Switzerland" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Switzerland</span>
+                        <span class="gallery-item__coords">46.8182°N  8.2275°E</span>
+                    </div>
+                </div>
+                <div class="gallery-item gi-md-sq gi-push-down" data-location="tokyo">
+                    <img src="images/gallery/g23.jpg" alt="Tokyo" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Tokyo</span>
+                        <span class="gallery-item__coords">35.6762°N  139.6503°E</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROW 10 -->
+            <div class="gallery-row gallery-row--offset-r">
+                <div class="gallery-item gi-narrow gi-push-up" data-location="malta">
+                    <img src="images/gallery/g24.jpg" alt="Malta" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Malta</span>
+                        <span class="gallery-item__coords">35.8997°N  14.5146°E</span>
+                    </div>
+                </div>
+                <div class="gallery-item gi-lg-h" data-location="nightgarden">
+                    <img src="images/gallery/g25.jpg" alt="Night Garden" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Night Garden</span>
+                        <span class="gallery-item__coords">35.6895°N  139.6917°E</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROW 11 -->
+            <div class="gallery-row gallery-row--offset-sb gallery-row--gap-top">
+                <div class="gallery-item gi-md-h" data-location="paris">
+                    <img src="images/gallery/g26.jpg" alt="Paris" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Paris</span>
+                        <span class="gallery-item__coords">48.8566°N  2.3522°E</span>
+                    </div>
+                </div>
+                <div class="gallery-item gi-sm-v gi-push-down" data-location="okinawa">
+                    <img src="images/gallery/g27.jpg" alt="Okinawa" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Okinawa</span>
+                        <span class="gallery-item__coords">26.2124°N  127.6809°E</span>
+                    </div>
+                </div>
+                <div class="gallery-item gi-md-sq" data-location="others">
+                    <img src="images/gallery/g28.jpg" alt="Others" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Others</span>
+                        <span class="gallery-item__coords">35.6762°N  139.6503°E</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROW 12 -->
+            <div class="gallery-row gallery-row--offset-c">
+                <div class="gallery-item gi-xl-w gi-push-up" data-location="others">
+                    <img src="images/gallery/g29.jpg" alt="Others" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Others</span>
+                        <span class="gallery-item__coords">35.6762°N  139.6503°E</span>
+                    </div>
+                </div>
+                <div class="gallery-item gi-narrow" data-location="jogashima">
+                    <img src="images/gallery/g30.jpg" alt="Jogashima" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Jogashima</span>
+                        <span class="gallery-item__coords">35.1408°N  139.6153°E</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROW 13 -->
+            <div class="gallery-row gallery-row--offset-sb">
+                <div class="gallery-item gi-sm-h" data-location="malta">
+                    <img src="images/gallery/g31.jpg" alt="Malta" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Malta</span>
+                        <span class="gallery-item__coords">35.8997°N  14.5146°E</span>
+                    </div>
+                </div>
+                <div class="gallery-item gi-lg-h gi-push-down-sm" data-location="nightgarden">
+                    <img src="images/gallery/g32.jpg" alt="Night Garden" loading="lazy">
+                    <div class="gallery-item__overlay">
+                        <span class="gallery-item__name">Night Garden</span>
+                        <span class="gallery-item__coords">35.6895°N  139.6917°E</span>
+                    </div>
+                </div>
+            </div>
+
+          </div>
+
+          <!-- ===== MOBILE: P5 Staggered Duo (80 photos) ===== -->
+          <div class="gallery-mobile">
+
+            <!-- 1-2 -->
+            <div class="gm-row gm-row-a">
+              <div class="gm-item"><img src="images/gallery-m/gm01.jpg" alt="Paris" loading="lazy"><div class="gm-ov"><span class="gm-loc">Paris</span><span class="gm-coord">48.8566°N  2.3522°E</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm02.jpg" alt="Korea" loading="lazy"><div class="gm-ov"><span class="gm-loc">Korea</span><span class="gm-coord">37.5665°N  126.9780°E</span></div></div>
+            </div>
+            <!-- 3 -->
+            <div class="gm-row gm-row-w">
+              <div class="gm-item"><img src="images/gallery-m/gm03.jpg" alt="Benoit" loading="lazy"><div class="gm-ov"><span class="gm-loc">Benoit</span><span class="gm-coord">35.6895°N  139.6917°E</span></div></div>
+            </div>
+            <!-- 4-5 -->
+            <div class="gm-row gm-row-b">
+              <div class="gm-item"><img src="images/gallery-m/gm04.jpg" alt="Paris" loading="lazy"><div class="gm-ov"><span class="gm-loc">Paris</span><span class="gm-coord">48.8566°N  2.3522°E</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm05.jpg" alt="Night Garden" loading="lazy"><div class="gm-ov"><span class="gm-loc">Night Garden</span><span class="gm-coord">35.6895°N  139.6917°E</span></div></div>
+            </div>
+            <!-- 6-7 -->
+            <div class="gm-row gm-row-a">
+              <div class="gm-item"><img src="images/gallery-m/gm06.jpg" alt="Karuizawa" loading="lazy"><div class="gm-ov"><span class="gm-loc">Karuizawa</span><span class="gm-coord">36.3480°N  138.5965°E</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm07.jpg" alt="London" loading="lazy"><div class="gm-ov"><span class="gm-loc">London</span><span class="gm-coord">51.5074°N  0.1278°W</span></div></div>
+            </div>
+            <!-- 8 -->
+            <div class="gm-row gm-row-w">
+              <div class="gm-item"><img src="images/gallery-m/gm08.jpg" alt="Nice" loading="lazy"><div class="gm-ov"><span class="gm-loc">Nice</span><span class="gm-coord">43.7102°N  7.2620°E</span></div></div>
+            </div>
+            <!-- 9-10 -->
+            <div class="gm-row gm-row-b">
+              <div class="gm-item"><img src="images/gallery-m/gm09.jpg" alt="Malta" loading="lazy"><div class="gm-ov"><span class="gm-loc">Malta</span><span class="gm-coord">35.8997°N  14.5146°E</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm10.jpg" alt="Firenze" loading="lazy"><div class="gm-ov"><span class="gm-loc">Firenze</span><span class="gm-coord">43.7696°N  11.2558°E</span></div></div>
+            </div>
+            <!-- 11-12 -->
+            <div class="gm-row gm-row-a">
+              <div class="gm-item"><img src="images/gallery-m/gm11.jpg" alt="Yamanashi" loading="lazy"><div class="gm-ov"><span class="gm-loc">Yamanashi</span><span class="gm-coord">35.6635°N  138.5685°E</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm12.jpg" alt="Switzerland" loading="lazy"><div class="gm-ov"><span class="gm-loc">Switzerland</span><span class="gm-coord">46.8182°N  8.2275°E</span></div></div>
+            </div>
+            <!-- 13 -->
+            <div class="gm-row gm-row-w">
+              <div class="gm-item"><img src="images/gallery-m/gm13.jpg" alt="Tokyo" loading="lazy"><div class="gm-ov"><span class="gm-loc">Tokyo</span><span class="gm-coord">35.6762°N  139.6503°E</span></div></div>
+            </div>
+            <!-- 14-15 -->
+            <div class="gm-row gm-row-b">
+              <div class="gm-item"><img src="images/gallery-m/gm14.jpg" alt="Paris" loading="lazy"><div class="gm-ov"><span class="gm-loc">Paris</span><span class="gm-coord">48.8566°N  2.3522°E</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm15.jpg" alt="Malta" loading="lazy"><div class="gm-ov"><span class="gm-loc">Malta</span><span class="gm-coord">35.8997°N  14.5146°E</span></div></div>
+            </div>
+            <!-- 16-17 -->
+            <div class="gm-row gm-row-a">
+              <div class="gm-item"><img src="images/gallery-m/gm16.jpg" alt="Okinawa" loading="lazy"><div class="gm-ov"><span class="gm-loc">Okinawa</span><span class="gm-coord">26.2124°N  127.6809°E</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm17.jpg" alt="Others" loading="lazy"><div class="gm-ov"><span class="gm-loc">Others</span><span class="gm-coord">35.6762°N  139.6503°E</span></div></div>
+            </div>
+            <!-- 18 -->
+            <div class="gm-row gm-row-w">
+              <div class="gm-item"><img src="images/gallery-m/gm18.jpg" alt="Jogashima" loading="lazy"><div class="gm-ov"><span class="gm-loc">Jogashima</span><span class="gm-coord">35.1408°N  139.6153°E</span></div></div>
+            </div>
+            <!-- 19-20 -->
+            <div class="gm-row gm-row-b">
+              <div class="gm-item"><img src="images/gallery-m/gm19.jpg" alt="Malta" loading="lazy"><div class="gm-ov"><span class="gm-loc">Malta</span><span class="gm-coord">35.8997°N  14.5146°E</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm20.jpg" alt="Paris" loading="lazy"><div class="gm-ov"><span class="gm-loc">Paris</span><span class="gm-coord">48.8566°N  2.3522°E</span></div></div>
+            </div>
+            <!-- 21-22 -->
+            <div class="gm-row gm-row-a">
+              <div class="gm-item"><img src="images/gallery-m/gm21.jpg" alt="Korea" loading="lazy"><div class="gm-ov"><span class="gm-loc">Korea</span><span class="gm-coord">37.5665°N  126.9780°E</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm22.jpg" alt="Benoit" loading="lazy"><div class="gm-ov"><span class="gm-loc">Benoit</span><span class="gm-coord">35.6895°N  139.6917°E</span></div></div>
+            </div>
+            <!-- 23 -->
+            <div class="gm-row gm-row-w">
+              <div class="gm-item"><img src="images/gallery-m/gm23.jpg" alt="Night Garden" loading="lazy"><div class="gm-ov"><span class="gm-loc">Night Garden</span><span class="gm-coord">35.6895°N  139.6917°E</span></div></div>
+            </div>
+            <!-- 24-25 -->
+            <div class="gm-row gm-row-b">
+              <div class="gm-item"><img src="images/gallery-m/gm24.jpg" alt="Paris" loading="lazy"><div class="gm-ov"><span class="gm-loc">Paris</span><span class="gm-coord">48.8566°N  2.3522°E</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm25.jpg" alt="Karuizawa" loading="lazy"><div class="gm-ov"><span class="gm-loc">Karuizawa</span><span class="gm-coord">36.3480°N  138.5965°E</span></div></div>
+            </div>
+            <!-- 26-27 -->
+            <div class="gm-row gm-row-a">
+              <div class="gm-item"><img src="images/gallery-m/gm26.jpg" alt="London" loading="lazy"><div class="gm-ov"><span class="gm-loc">London</span><span class="gm-coord">51.5074°N  0.1278°W</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm27.jpg" alt="Nice" loading="lazy"><div class="gm-ov"><span class="gm-loc">Nice</span><span class="gm-coord">43.7102°N  7.2620°E</span></div></div>
+            </div>
+            <!-- 28 -->
+            <div class="gm-row gm-row-w">
+              <div class="gm-item"><img src="images/gallery-m/gm28.jpg" alt="Firenze" loading="lazy"><div class="gm-ov"><span class="gm-loc">Firenze</span><span class="gm-coord">43.7696°N  11.2558°E</span></div></div>
+            </div>
+            <!-- 29-30 -->
+            <div class="gm-row gm-row-b">
+              <div class="gm-item"><img src="images/gallery-m/gm29.jpg" alt="Malta" loading="lazy"><div class="gm-ov"><span class="gm-loc">Malta</span><span class="gm-coord">35.8997°N  14.5146°E</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm30.jpg" alt="Yamanashi" loading="lazy"><div class="gm-ov"><span class="gm-loc">Yamanashi</span><span class="gm-coord">35.6635°N  138.5685°E</span></div></div>
+            </div>
+            <!-- 31-32 -->
+            <div class="gm-row gm-row-a">
+              <div class="gm-item"><img src="images/gallery-m/gm31.jpg" alt="Switzerland" loading="lazy"><div class="gm-ov"><span class="gm-loc">Switzerland</span><span class="gm-coord">46.8182°N  8.2275°E</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm32.jpg" alt="Tokyo" loading="lazy"><div class="gm-ov"><span class="gm-loc">Tokyo</span><span class="gm-coord">35.6762°N  139.6503°E</span></div></div>
+            </div>
+            <!-- 33 -->
+            <div class="gm-row gm-row-w">
+              <div class="gm-item"><img src="images/gallery-m/gm33.jpg" alt="Malta" loading="lazy"><div class="gm-ov"><span class="gm-loc">Malta</span><span class="gm-coord">35.8997°N  14.5146°E</span></div></div>
+            </div>
+            <!-- 34-35 -->
+            <div class="gm-row gm-row-b">
+              <div class="gm-item"><img src="images/gallery-m/gm34.jpg" alt="Paris" loading="lazy"><div class="gm-ov"><span class="gm-loc">Paris</span><span class="gm-coord">48.8566°N  2.3522°E</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm35.jpg" alt="Others" loading="lazy"><div class="gm-ov"><span class="gm-loc">Others</span><span class="gm-coord">35.6762°N  139.6503°E</span></div></div>
+            </div>
+            <!-- 36-37 -->
+            <div class="gm-row gm-row-a">
+              <div class="gm-item"><img src="images/gallery-m/gm36.jpg" alt="Jogashima" loading="lazy"><div class="gm-ov"><span class="gm-loc">Jogashima</span><span class="gm-coord">35.1408°N  139.6153°E</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm37.jpg" alt="Paris" loading="lazy"><div class="gm-ov"><span class="gm-loc">Paris</span><span class="gm-coord">48.8566°N  2.3522°E</span></div></div>
+            </div>
+            <!-- 38 -->
+            <div class="gm-row gm-row-w">
+              <div class="gm-item"><img src="images/gallery-m/gm38.jpg" alt="Korea" loading="lazy"><div class="gm-ov"><span class="gm-loc">Korea</span><span class="gm-coord">37.5665°N  126.9780°E</span></div></div>
+            </div>
+            <!-- 39-40 -->
+            <div class="gm-row gm-row-b">
+              <div class="gm-item"><img src="images/gallery-m/gm39.jpg" alt="Malta" loading="lazy"><div class="gm-ov"><span class="gm-loc">Malta</span><span class="gm-coord">35.8997°N  14.5146°E</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm40.jpg" alt="Benoit" loading="lazy"><div class="gm-ov"><span class="gm-loc">Benoit</span><span class="gm-coord">35.6895°N  139.6917°E</span></div></div>
+            </div>
+            <!-- 41-42 -->
+            <div class="gm-row gm-row-a">
+              <div class="gm-item"><img src="images/gallery-m/gm41.jpg" alt="Night Garden" loading="lazy"><div class="gm-ov"><span class="gm-loc">Night Garden</span><span class="gm-coord">35.6895°N  139.6917°E</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm42.jpg" alt="Karuizawa" loading="lazy"><div class="gm-ov"><span class="gm-loc">Karuizawa</span><span class="gm-coord">36.3480°N  138.5965°E</span></div></div>
+            </div>
+            <!-- 43 -->
+            <div class="gm-row gm-row-w">
+              <div class="gm-item"><img src="images/gallery-m/gm43.jpg" alt="London" loading="lazy"><div class="gm-ov"><span class="gm-loc">London</span><span class="gm-coord">51.5074°N  0.1278°W</span></div></div>
+            </div>
+            <!-- 44-45 -->
+            <div class="gm-row gm-row-b">
+              <div class="gm-item"><img src="images/gallery-m/gm44.jpg" alt="Paris" loading="lazy"><div class="gm-ov"><span class="gm-loc">Paris</span><span class="gm-coord">48.8566°N  2.3522°E</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm45.jpg" alt="Nice" loading="lazy"><div class="gm-ov"><span class="gm-loc">Nice</span><span class="gm-coord">43.7102°N  7.2620°E</span></div></div>
+            </div>
+            <!-- 46-47 -->
+            <div class="gm-row gm-row-a">
+              <div class="gm-item"><img src="images/gallery-m/gm46.jpg" alt="Yamanashi" loading="lazy"><div class="gm-ov"><span class="gm-loc">Yamanashi</span><span class="gm-coord">35.6635°N  138.5685°E</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm47.jpg" alt="Switzerland" loading="lazy"><div class="gm-ov"><span class="gm-loc">Switzerland</span><span class="gm-coord">46.8182°N  8.2275°E</span></div></div>
+            </div>
+            <!-- 48 -->
+            <div class="gm-row gm-row-w">
+              <div class="gm-item"><img src="images/gallery-m/gm48.jpg" alt="Tokyo" loading="lazy"><div class="gm-ov"><span class="gm-loc">Tokyo</span><span class="gm-coord">35.6762°N  139.6503°E</span></div></div>
+            </div>
+            <!-- 49-50 -->
+            <div class="gm-row gm-row-b">
+              <div class="gm-item"><img src="images/gallery-m/gm49.jpg" alt="Malta" loading="lazy"><div class="gm-ov"><span class="gm-loc">Malta</span><span class="gm-coord">35.8997°N  14.5146°E</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm50.jpg" alt="Malta" loading="lazy"><div class="gm-ov"><span class="gm-loc">Malta</span><span class="gm-coord">35.8997°N  14.5146°E</span></div></div>
+            </div>
+            <!-- 51-52 -->
+            <div class="gm-row gm-row-a">
+              <div class="gm-item"><img src="images/gallery-m/gm51.jpg" alt="Others" loading="lazy"><div class="gm-ov"><span class="gm-loc">Others</span><span class="gm-coord">35.6762°N  139.6503°E</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm52.jpg" alt="Jogashima" loading="lazy"><div class="gm-ov"><span class="gm-loc">Jogashima</span><span class="gm-coord">35.1408°N  139.6153°E</span></div></div>
+            </div>
+            <!-- 53 -->
+            <div class="gm-row gm-row-w">
+              <div class="gm-item"><img src="images/gallery-m/gm53.jpg" alt="Paris" loading="lazy"><div class="gm-ov"><span class="gm-loc">Paris</span><span class="gm-coord">48.8566°N  2.3522°E</span></div></div>
+            </div>
+            <!-- 54-55 -->
+            <div class="gm-row gm-row-b">
+              <div class="gm-item"><img src="images/gallery-m/gm54.jpg" alt="Paris" loading="lazy"><div class="gm-ov"><span class="gm-loc">Paris</span><span class="gm-coord">48.8566°N  2.3522°E</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm55.jpg" alt="Korea" loading="lazy"><div class="gm-ov"><span class="gm-loc">Korea</span><span class="gm-coord">37.5665°N  126.9780°E</span></div></div>
+            </div>
+            <!-- 56-57 -->
+            <div class="gm-row gm-row-a">
+              <div class="gm-item"><img src="images/gallery-m/gm56.jpg" alt="Benoit" loading="lazy"><div class="gm-ov"><span class="gm-loc">Benoit</span><span class="gm-coord">35.6895°N  139.6917°E</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm57.jpg" alt="Karuizawa" loading="lazy"><div class="gm-ov"><span class="gm-loc">Karuizawa</span><span class="gm-coord">36.3480°N  138.5965°E</span></div></div>
+            </div>
+            <!-- 58 -->
+            <div class="gm-row gm-row-w">
+              <div class="gm-item"><img src="images/gallery-m/gm58.jpg" alt="London" loading="lazy"><div class="gm-ov"><span class="gm-loc">London</span><span class="gm-coord">51.5074°N  0.1278°W</span></div></div>
+            </div>
+            <!-- 59-60 -->
+            <div class="gm-row gm-row-b">
+              <div class="gm-item"><img src="images/gallery-m/gm59.jpg" alt="Paris" loading="lazy"><div class="gm-ov"><span class="gm-loc">Paris</span><span class="gm-coord">48.8566°N  2.3522°E</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm60.jpg" alt="Nice" loading="lazy"><div class="gm-ov"><span class="gm-loc">Nice</span><span class="gm-coord">43.7102°N  7.2620°E</span></div></div>
+            </div>
+            <!-- 61-62 -->
+            <div class="gm-row gm-row-a">
+              <div class="gm-item"><img src="images/gallery-m/gm61.jpg" alt="Yamanashi" loading="lazy"><div class="gm-ov"><span class="gm-loc">Yamanashi</span><span class="gm-coord">35.6635°N  138.5685°E</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm62.jpg" alt="Tokyo" loading="lazy"><div class="gm-ov"><span class="gm-loc">Tokyo</span><span class="gm-coord">35.6762°N  139.6503°E</span></div></div>
+            </div>
+            <!-- 63 -->
+            <div class="gm-row gm-row-w">
+              <div class="gm-item"><img src="images/gallery-m/gm63.jpg" alt="Malta" loading="lazy"><div class="gm-ov"><span class="gm-loc">Malta</span><span class="gm-coord">35.8997°N  14.5146°E</span></div></div>
+            </div>
+            <!-- 64-65 -->
+            <div class="gm-row gm-row-b">
+              <div class="gm-item"><img src="images/gallery-m/gm64.jpg" alt="Paris" loading="lazy"><div class="gm-ov"><span class="gm-loc">Paris</span><span class="gm-coord">48.8566°N  2.3522°E</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm65.jpg" alt="Others" loading="lazy"><div class="gm-ov"><span class="gm-loc">Others</span><span class="gm-coord">35.6762°N  139.6503°E</span></div></div>
+            </div>
+            <!-- 66-67 -->
+            <div class="gm-row gm-row-a">
+              <div class="gm-item"><img src="images/gallery-m/gm66.jpg" alt="Jogashima" loading="lazy"><div class="gm-ov"><span class="gm-loc">Jogashima</span><span class="gm-coord">35.1408°N  139.6153°E</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm67.jpg" alt="Paris" loading="lazy"><div class="gm-ov"><span class="gm-loc">Paris</span><span class="gm-coord">48.8566°N  2.3522°E</span></div></div>
+            </div>
+            <!-- 68 -->
+            <div class="gm-row gm-row-w">
+              <div class="gm-item"><img src="images/gallery-m/gm68.jpg" alt="Korea" loading="lazy"><div class="gm-ov"><span class="gm-loc">Korea</span><span class="gm-coord">37.5665°N  126.9780°E</span></div></div>
+            </div>
+            <!-- 69-70 -->
+            <div class="gm-row gm-row-b">
+              <div class="gm-item"><img src="images/gallery-m/gm69.jpg" alt="Paris" loading="lazy"><div class="gm-ov"><span class="gm-loc">Paris</span><span class="gm-coord">48.8566°N  2.3522°E</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm70.jpg" alt="Benoit" loading="lazy"><div class="gm-ov"><span class="gm-loc">Benoit</span><span class="gm-coord">35.6895°N  139.6917°E</span></div></div>
+            </div>
+            <!-- 71-72 -->
+            <div class="gm-row gm-row-a">
+              <div class="gm-item"><img src="images/gallery-m/gm71.jpg" alt="London" loading="lazy"><div class="gm-ov"><span class="gm-loc">London</span><span class="gm-coord">51.5074°N  0.1278°W</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm72.jpg" alt="Yamanashi" loading="lazy"><div class="gm-ov"><span class="gm-loc">Yamanashi</span><span class="gm-coord">35.6635°N  138.5685°E</span></div></div>
+            </div>
+            <!-- 73 -->
+            <div class="gm-row gm-row-w">
+              <div class="gm-item"><img src="images/gallery-m/gm73.jpg" alt="Tokyo" loading="lazy"><div class="gm-ov"><span class="gm-loc">Tokyo</span><span class="gm-coord">35.6762°N  139.6503°E</span></div></div>
+            </div>
+            <!-- 74-75 -->
+            <div class="gm-row gm-row-b">
+              <div class="gm-item"><img src="images/gallery-m/gm74.jpg" alt="Paris" loading="lazy"><div class="gm-ov"><span class="gm-loc">Paris</span><span class="gm-coord">48.8566°N  2.3522°E</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm75.jpg" alt="Malta" loading="lazy"><div class="gm-ov"><span class="gm-loc">Malta</span><span class="gm-coord">35.8997°N  14.5146°E</span></div></div>
+            </div>
+            <!-- 76-77 -->
+            <div class="gm-row gm-row-a">
+              <div class="gm-item"><img src="images/gallery-m/gm76.jpg" alt="Others" loading="lazy"><div class="gm-ov"><span class="gm-loc">Others</span><span class="gm-coord">35.6762°N  139.6503°E</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm77.jpg" alt="Jogashima" loading="lazy"><div class="gm-ov"><span class="gm-loc">Jogashima</span><span class="gm-coord">35.1408°N  139.6153°E</span></div></div>
+            </div>
+            <!-- 78 -->
+            <div class="gm-row gm-row-w">
+              <div class="gm-item"><img src="images/gallery-m/gm78.jpg" alt="Paris" loading="lazy"><div class="gm-ov"><span class="gm-loc">Paris</span><span class="gm-coord">48.8566°N  2.3522°E</span></div></div>
+            </div>
+            <!-- 79-80 -->
+            <div class="gm-row gm-row-b">
+              <div class="gm-item"><img src="images/gallery-m/gm79.jpg" alt="Paris" loading="lazy"><div class="gm-ov"><span class="gm-loc">Paris</span><span class="gm-coord">48.8566°N  2.3522°E</span></div></div>
+              <div class="gm-item"><img src="images/gallery-m/gm80.jpg" alt="London" loading="lazy"><div class="gm-ov"><span class="gm-loc">London</span><span class="gm-coord">51.5074°N  0.1278°W</span></div></div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- ======================== -->
+        <!-- FILM TAB                 -->
+        <!-- ======================== -->
+        <div class="tab-panel" data-panel="film">
+          <div class="film-section">
+            <div class="film-grid">
+                <div class="film-card" data-youtube="f6Uw8tYsZac">
+                    <div class="film-card__thumbnail">
+                        <img src="images/film-thumb-malta.jpg" alt="2025 Malta" class="film-card__image">
+                        <div class="film-card__overlay">
+                            <div class="film-card__play"></div>
+                        </div>
+                    </div>
+                    <div class="film-card__youtube"><iframe frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe></div>
+                    <div class="film-card__info">
+                        <h3 class="film-card__title">2025 Malta</h3>
+                        <p class="film-card__location">35.8997°N  14.5146°E</p>
+                    </div>
+                </div>
+
+                <div class="film-card" data-youtube="nQTy9gAliz4">
+                    <div class="film-card__thumbnail">
+                        <img src="images/film-thumb-switzerland.jpg" alt="2025 Switzerland" class="film-card__image" style="object-position: center 30%;">
+                        <div class="film-card__overlay">
+                            <div class="film-card__play"></div>
+                        </div>
+                    </div>
+                    <div class="film-card__youtube"><iframe frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe></div>
+                    <div class="film-card__info">
+                        <h3 class="film-card__title">2025 Switzerland</h3>
+                        <p class="film-card__location">46.8182°N  8.2275°E</p>
+                    </div>
+                </div>
+
+                <div class="film-card" data-youtube="WZBYbyqGqsQ">
+                    <div class="film-card__thumbnail">
+                        <img src="images/film-thumb-nice.jpg" alt="2025 Nice" class="film-card__image">
+                        <div class="film-card__overlay">
+                            <div class="film-card__play"></div>
+                        </div>
+                    </div>
+                    <div class="film-card__youtube"><iframe frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe></div>
+                    <div class="film-card__info">
+                        <h3 class="film-card__title">2025 Nice</h3>
+                        <p class="film-card__location">43.7102°N  7.2620°E</p>
+                    </div>
+                </div>
+
+                <div class="film-card" data-youtube="rHVqMPEljl8">
+                    <div class="film-card__thumbnail">
+                        <img src="images/film-thumb-paris-am.jpg" alt="2025 Paris AM" class="film-card__image" style="object-position: center 30%;">
+                        <div class="film-card__overlay">
+                            <div class="film-card__play"></div>
+                        </div>
+                    </div>
+                    <div class="film-card__youtube"><iframe frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe></div>
+                    <div class="film-card__info">
+                        <h3 class="film-card__title">2025 Paris AM</h3>
+                        <p class="film-card__location">48.8566°N  2.3522°E</p>
+                    </div>
+                </div>
+
+                <div class="film-card" data-youtube="oA-SG0y9OVY">
+                    <div class="film-card__thumbnail">
+                        <img src="images/film-thumb-paris-allday.jpg" alt="2024 Paris All Day" class="film-card__image" style="object-position: center 30%;">
+                        <div class="film-card__overlay">
+                            <div class="film-card__play"></div>
+                        </div>
+                    </div>
+                    <div class="film-card__youtube"><iframe frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe></div>
+                    <div class="film-card__info">
+                        <h3 class="film-card__title">2024 Paris All Day</h3>
+                        <p class="film-card__location">48.8566°N  2.3522°E</p>
+                    </div>
+                </div>
+
+                <div class="film-card" data-youtube="_YMHgtOHmps">
+                    <div class="film-card__thumbnail">
+                        <img src="images/film-thumb-korea.jpg" alt="2025 Jeju" class="film-card__image" style="object-position: center 70%;">
+                        <div class="film-card__overlay">
+                            <div class="film-card__play"></div>
+                        </div>
+                    </div>
+                    <div class="film-card__youtube"><iframe frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe></div>
+                    <div class="film-card__info">
+                        <h3 class="film-card__title">2025 Jeju</h3>
+                        <p class="film-card__location">33.4890°N  126.4983°E</p>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" style="background: #fff;">
+      <div class="footer__logo">
+        <a href="index.html"><img src="images/logo/logo-black.png" alt="ukigumo"></a>
+      </div>
+      <div class="footer__links">
+        <a href="plan.html">Plan & Price</a>
+        <a href="dress.html">Dress</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="qa.html">Q&A / Policy</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    <p class="footer__copy">&copy; 2026 ukigumo wedding. All rights reserved.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // ========================
+        // TAB SWITCHING
+        // ========================
+        const tabBtns = document.querySelectorAll('.gallery-toggle__card');
+        const tabPanels = document.querySelectorAll('.tab-panel');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabName = btn.dataset.tab;
+
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                tabPanels.forEach(panel => {
+                    if (panel.dataset.panel === tabName) {
+                        panel.classList.add('active');
+                    } else {
+                        panel.classList.remove('active');
+                    }
+                });
+
+                // Re-observe after tab switch
+                observeGallery();
+            });
+        });
+
+        // ========================
+        // SCROLL REVEAL — IntersectionObserver
+        // ========================
+        function observeGallery() {
+            const items = document.querySelectorAll('.gallery-item:not(.visible), .gm-item:not(.visible), .film-card:not(.visible)');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const row = entry.target.closest('.gallery-row, .gm-row, .film-grid');
+                        if (row) {
+                            const siblings = Array.from(row.querySelectorAll('.gallery-item, .gm-item, .film-card'));
+                            const i = siblings.indexOf(entry.target);
+                            setTimeout(() => {
+                                entry.target.classList.add('visible');
+                            }, i * 150);
+                        } else {
+                            entry.target.classList.add('visible');
+                        }
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.06,
+                rootMargin: '0px 0px -30px 0px'
+            });
+
+            items.forEach(el => observer.observe(el));
+        }
+
+        // Init
+        observeGallery();
+    </script>
+    <script>
+        window.addEventListener('load', function() {
+            var hero = document.querySelector('.page-hero');
+            if (hero) {
+                setTimeout(function() { hero.classList.add('active'); }, 100);
+            }
+            var heroTitle = document.querySelector('.page-hero__title');
+            var heroSub = document.querySelector('.page-hero__subtitle');
+            setTimeout(function() { if (heroTitle) heroTitle.classList.add('show'); }, 300);
+            setTimeout(function() { if (heroSub) heroSub.classList.add('show'); }, 300);
+        });
+
+        // ========================
+        // FILM CARD — YouTube LINK
+        // ========================
+        document.querySelectorAll('.film-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const youtubeId = card.dataset.youtube;
+                if (!youtubeId) return;
+                window.open('https://www.youtube.com/watch?v=' + youtubeId, '_blank');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Card Color — 10 Patterns</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #fff; color: #2a2420; padding: 3rem 1.5rem; }
+    h1 { font-family: "Cormorant Garamond", serif; font-weight: 300; font-size: 1.6rem; text-align: center; letter-spacing: 0.15em; margin-bottom: 0.3rem; }
+    .sub { text-align: center; font-family: "Noto Serif JP", serif; font-size: 0.68rem; color: rgba(61,53,48,0.4); letter-spacing: 0.08em; margin-bottom: 3rem; }
+
+    .pattern-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem 2rem;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .card {
+      border-radius: 16px;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.03);
+      overflow: hidden;
+      padding: 2rem 1.8rem 1.6rem;
+    }
+    .card__label {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.55rem; color: rgba(61,53,48,0.3);
+      letter-spacing: 0.2em; margin-bottom: 0.1rem;
+    }
+    .card__name {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 300; font-size: 0.72rem;
+      color: rgba(61,53,48,0.55); margin-bottom: 1.2rem;
+    }
+
+    /* Shop header inside card */
+    .shop-header {
+      margin-bottom: 1rem;
+    }
+    .shop-num {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.72rem; font-weight: 400;
+      color: rgba(61,53,48,0.4);
+      margin-bottom: 0.2rem;
+    }
+    .shop-name {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.1rem; font-weight: 300;
+      letter-spacing: 0.08em; color: #2a2420;
+    }
+    .shop-location {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.65rem; font-weight: 300;
+      color: rgba(61,53,48,0.6);
+      margin-top: 0.2rem;
+    }
+
+    /* Pricing block inside card */
+    .pricing-block {
+      border-radius: 12px;
+      padding: 1.2rem 1.4rem 1rem;
+      margin-bottom: 0.6rem;
+    }
+    .pricing-block__header {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.65rem; font-weight: 400;
+      letter-spacing: 0.06em; color: #2a2420;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(61,53,48,0.08);
+      margin-bottom: 0.5rem;
+    }
+    .row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 0.25rem 0;
+    }
+    .row + .row { border-top: 1px solid rgba(61,53,48,0.04); }
+    .row-label {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.65rem; font-weight: 300;
+      color: rgba(61,53,48,0.75);
+    }
+    .row-val {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.75rem; font-weight: 400;
+      color: #2a2420; letter-spacing: 0.02em;
+    }
+
+    .tags {
+      display: flex; gap: 0.4rem; margin-top: 0.8rem; flex-wrap: wrap;
+    }
+    .tag {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.6rem; font-weight: 300;
+      padding: 0.25rem 0.7rem;
+      border-radius: 20px;
+    }
+
+    /* ===== Honey Beige (#f0e8dc) 近似 10 Patterns ===== */
+
+    /* 01 — Honey Beige（前回の08・基準色） */
+    .p01 .card { background: #f0e8dc; }
+    .p01 .pricing-block { background: rgba(255,255,255,0.7); }
+    .p01 .tag { background: rgba(255,255,255,0.5); color: rgba(61,53,48,0.7); }
+
+    /* 02 — Warm Wheat（少し明るめ） */
+    .p02 .card { background: #f4ede2; }
+    .p02 .pricing-block { background: rgba(255,255,255,0.7); }
+    .p02 .tag { background: rgba(255,255,255,0.5); color: rgba(61,53,48,0.7); }
+
+    /* 03 — Toasted Cream（少し濃いめ） */
+    .p03 .card { background: #ece3d5; }
+    .p03 .pricing-block { background: rgba(255,255,255,0.7); }
+    .p03 .tag { background: rgba(255,255,255,0.5); color: rgba(61,53,48,0.7); }
+
+    /* 04 — Cashew（黄みが強め） */
+    .p04 .card { background: #f2eadb; }
+    .p04 .pricing-block { background: rgba(255,255,255,0.7); }
+    .p04 .tag { background: rgba(255,255,255,0.5); color: rgba(61,53,48,0.7); }
+
+    /* 05 — Pale Camel（落ち着いたキャメル） */
+    .p05 .card { background: #ede4d6; }
+    .p05 .pricing-block { background: rgba(255,255,255,0.7); }
+    .p05 .tag { background: rgba(255,255,255,0.5); color: rgba(61,53,48,0.7); }
+
+    /* 06 — Soft Biscuit（ビスケット風） */
+    .p06 .card { background: #f1e7d8; }
+    .p06 .pricing-block { background: rgba(255,255,255,0.7); }
+    .p06 .tag { background: rgba(255,255,255,0.5); color: rgba(61,53,48,0.7); }
+
+    /* 07 — Peach Sand（ほんのりピーチ寄り） */
+    .p07 .card { background: #f2e8da; }
+    .p07 .pricing-block { background: rgba(255,255,255,0.7); }
+    .p07 .tag { background: rgba(255,255,255,0.5); color: rgba(61,53,48,0.7); }
+
+    /* 08 — Oat Milk（ミルキーで柔らかい） */
+    .p08 .card { background: #f5ece0; }
+    .p08 .pricing-block { background: rgba(255,255,255,0.65); }
+    .p08 .tag { background: rgba(255,255,255,0.5); color: rgba(61,53,48,0.7); }
+
+    /* 09 — Deep Honey（しっかりめのハニー） */
+    .p09 .card { background: #ebe0d1; }
+    .p09 .pricing-block { background: rgba(255,255,255,0.7); }
+    .p09 .tag { background: rgba(255,255,255,0.5); color: rgba(61,53,48,0.7); }
+
+    /* 10 — Almond Latte（アーモンドラテ） */
+    .p10 .card { background: #eee5d7; }
+    .p10 .pricing-block { background: rgba(255,255,255,0.7); }
+    .p10 .tag { background: rgba(255,255,255,0.5); color: rgba(61,53,48,0.7); }
+
+    @media (max-width: 600px) {
+      .pattern-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<h1>Card Color</h1>
+<p class="sub">Honey Beige (#f0e8dc) 近似色 — 10パターン</p>
+
+<div class="pattern-grid">
+
+  <!-- Pattern 01 -->
+  <div class="p01">
+    <p class="card__label">PATTERN 01</p>
+    <p class="card__name">Honey Beige — 基準色</p>
+    <div class="card">
+      <div class="shop-header">
+        <p class="shop-num">01</p>
+        <p class="shop-name">DRESS SHOP NAME</p>
+        <p class="shop-location">東京都渋谷区</p>
+      </div>
+      <div class="pricing-block">
+        <div class="pricing-block__header">Base Price（ドレス＋タキシード込み）</div>
+        <div class="row">
+          <span class="row-label">国内・海外共通</span>
+          <span class="row-val">¥110,000（税込）</span>
+        </div>
+        <div class="row">
+          <span class="row-label">セレクト可能数</span>
+          <span class="row-val">13型（全てプラン内）</span>
+        </div>
+      </div>
+      <div class="tags">
+        <span class="tag">国内OK</span>
+        <span class="tag">持ち込みOK</span>
+        <span class="tag">小物込み</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pattern 02 -->
+  <div class="p02">
+    <p class="card__label">PATTERN 02</p>
+    <p class="card__name">Warm Wheat — 少し明るめ</p>
+    <div class="card">
+      <div class="shop-header">
+        <p class="shop-num">01</p>
+        <p class="shop-name">DRESS SHOP NAME</p>
+        <p class="shop-location">東京都渋谷区</p>
+      </div>
+      <div class="pricing-block">
+        <div class="pricing-block__header">Base Price（ドレス＋タキシード込み）</div>
+        <div class="row">
+          <span class="row-label">国内・海外共通</span>
+          <span class="row-val">¥110,000（税込）</span>
+        </div>
+        <div class="row">
+          <span class="row-label">セレクト可能数</span>
+          <span class="row-val">13型（全てプラン内）</span>
+        </div>
+      </div>
+      <div class="tags">
+        <span class="tag">国内OK</span>
+        <span class="tag">持ち込みOK</span>
+        <span class="tag">小物込み</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pattern 03 -->
+  <div class="p03">
+    <p class="card__label">PATTERN 03</p>
+    <p class="card__name">Toasted Cream — 少し濃いめ</p>
+    <div class="card">
+      <div class="shop-header">
+        <p class="shop-num">01</p>
+        <p class="shop-name">DRESS SHOP NAME</p>
+        <p class="shop-location">東京都渋谷区</p>
+      </div>
+      <div class="pricing-block">
+        <div class="pricing-block__header">Base Price（ドレス＋タキシード込み）</div>
+        <div class="row">
+          <span class="row-label">国内・海外共通</span>
+          <span class="row-val">¥110,000（税込）</span>
+        </div>
+        <div class="row">
+          <span class="row-label">セレクト可能数</span>
+          <span class="row-val">13型（全てプラン内）</span>
+        </div>
+      </div>
+      <div class="tags">
+        <span class="tag">国内OK</span>
+        <span class="tag">持ち込みOK</span>
+        <span class="tag">小物込み</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pattern 04 -->
+  <div class="p04">
+    <p class="card__label">PATTERN 04</p>
+    <p class="card__name">Cashew — 黄みが強め</p>
+    <div class="card">
+      <div class="shop-header">
+        <p class="shop-num">01</p>
+        <p class="shop-name">DRESS SHOP NAME</p>
+        <p class="shop-location">東京都渋谷区</p>
+      </div>
+      <div class="pricing-block">
+        <div class="pricing-block__header">Base Price（ドレス＋タキシード込み）</div>
+        <div class="row">
+          <span class="row-label">国内・海外共通</span>
+          <span class="row-val">¥110,000（税込）</span>
+        </div>
+        <div class="row">
+          <span class="row-label">セレクト可能数</span>
+          <span class="row-val">13型（全てプラン内）</span>
+        </div>
+      </div>
+      <div class="tags">
+        <span class="tag">国内OK</span>
+        <span class="tag">持ち込みOK</span>
+        <span class="tag">小物込み</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pattern 05 -->
+  <div class="p05">
+    <p class="card__label">PATTERN 05</p>
+    <p class="card__name">Pale Camel — 落ち着いたキャメル</p>
+    <div class="card">
+      <div class="shop-header">
+        <p class="shop-num">01</p>
+        <p class="shop-name">DRESS SHOP NAME</p>
+        <p class="shop-location">東京都渋谷区</p>
+      </div>
+      <div class="pricing-block">
+        <div class="pricing-block__header">Base Price（ドレス＋タキシード込み）</div>
+        <div class="row">
+          <span class="row-label">国内・海外共通</span>
+          <span class="row-val">¥110,000（税込）</span>
+        </div>
+        <div class="row">
+          <span class="row-label">セレクト可能数</span>
+          <span class="row-val">13型（全てプラン内）</span>
+        </div>
+      </div>
+      <div class="tags">
+        <span class="tag">国内OK</span>
+        <span class="tag">持ち込みOK</span>
+        <span class="tag">小物込み</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pattern 06 -->
+  <div class="p06">
+    <p class="card__label">PATTERN 06</p>
+    <p class="card__name">Soft Biscuit — ビスケット風</p>
+    <div class="card">
+      <div class="shop-header">
+        <p class="shop-num">01</p>
+        <p class="shop-name">DRESS SHOP NAME</p>
+        <p class="shop-location">東京都渋谷区</p>
+      </div>
+      <div class="pricing-block">
+        <div class="pricing-block__header">Base Price（ドレス＋タキシード込み）</div>
+        <div class="row">
+          <span class="row-label">国内・海外共通</span>
+          <span class="row-val">¥110,000（税込）</span>
+        </div>
+        <div class="row">
+          <span class="row-label">セレクト可能数</span>
+          <span class="row-val">13型（全てプラン内）</span>
+        </div>
+      </div>
+      <div class="tags">
+        <span class="tag">国内OK</span>
+        <span class="tag">持ち込みOK</span>
+        <span class="tag">小物込み</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pattern 07 -->
+  <div class="p07">
+    <p class="card__label">PATTERN 07</p>
+    <p class="card__name">Peach Sand — ほんのりピーチ寄り</p>
+    <div class="card">
+      <div class="shop-header">
+        <p class="shop-num">01</p>
+        <p class="shop-name">DRESS SHOP NAME</p>
+        <p class="shop-location">東京都渋谷区</p>
+      </div>
+      <div class="pricing-block">
+        <div class="pricing-block__header">Base Price（ドレス＋タキシード込み）</div>
+        <div class="row">
+          <span class="row-label">国内・海外共通</span>
+          <span class="row-val">¥110,000（税込）</span>
+        </div>
+        <div class="row">
+          <span class="row-label">セレクト可能数</span>
+          <span class="row-val">13型（全てプラン内）</span>
+        </div>
+      </div>
+      <div class="tags">
+        <span class="tag">国内OK</span>
+        <span class="tag">持ち込みOK</span>
+        <span class="tag">小物込み</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pattern 08 -->
+  <div class="p08">
+    <p class="card__label">PATTERN 08</p>
+    <p class="card__name">Oat Milk — ミルキーで柔らかい</p>
+    <div class="card">
+      <div class="shop-header">
+        <p class="shop-num">01</p>
+        <p class="shop-name">DRESS SHOP NAME</p>
+        <p class="shop-location">東京都渋谷区</p>
+      </div>
+      <div class="pricing-block">
+        <div class="pricing-block__header">Base Price（ドレス＋タキシード込み）</div>
+        <div class="row">
+          <span class="row-label">国内・海外共通</span>
+          <span class="row-val">¥110,000（税込）</span>
+        </div>
+        <div class="row">
+          <span class="row-label">セレクト可能数</span>
+          <span class="row-val">13型（全てプラン内）</span>
+        </div>
+      </div>
+      <div class="tags">
+        <span class="tag">国内OK</span>
+        <span class="tag">持ち込みOK</span>
+        <span class="tag">小物込み</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pattern 09 -->
+  <div class="p09">
+    <p class="card__label">PATTERN 09</p>
+    <p class="card__name">Deep Honey — しっかりめのハニー</p>
+    <div class="card">
+      <div class="shop-header">
+        <p class="shop-num">01</p>
+        <p class="shop-name">DRESS SHOP NAME</p>
+        <p class="shop-location">東京都渋谷区</p>
+      </div>
+      <div class="pricing-block">
+        <div class="pricing-block__header">Base Price（ドレス＋タキシード込み）</div>
+        <div class="row">
+          <span class="row-label">国内・海外共通</span>
+          <span class="row-val">¥110,000（税込）</span>
+        </div>
+        <div class="row">
+          <span class="row-label">セレクト可能数</span>
+          <span class="row-val">13型（全てプラン内）</span>
+        </div>
+      </div>
+      <div class="tags">
+        <span class="tag">国内OK</span>
+        <span class="tag">持ち込みOK</span>
+        <span class="tag">小物込み</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pattern 10 -->
+  <div class="p10">
+    <p class="card__label">PATTERN 10</p>
+    <p class="card__name">Almond Latte — アーモンドラテ</p>
+    <div class="card">
+      <div class="shop-header">
+        <p class="shop-num">01</p>
+        <p class="shop-name">DRESS SHOP NAME</p>
+        <p class="shop-location">東京都渋谷区</p>
+      </div>
+      <div class="pricing-block">
+        <div class="pricing-block__header">Base Price（ドレス＋タキシード込み）</div>
+        <div class="row">
+          <span class="row-label">国内・海外共通</span>
+          <span class="row-val">¥110,000（税込）</span>
+        </div>
+        <div class="row">
+          <span class="row-label">セレクト可能数</span>
+          <span class="row-val">13型（全てプラン内）</span>
+        </div>
+      </div>
+      <div class="tags">
+        <span class="tag">国内OK</span>
+        <span class="tag">持ち込みOK</span>
+        <span class="tag">小物込み</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

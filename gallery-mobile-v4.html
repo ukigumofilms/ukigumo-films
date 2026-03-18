@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery Mobile V4 — Small Images × 10 Patterns</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #f5f4f2;
+    max-width: 430px;
+    margin: 0 auto;
+  }
+  .hd {
+    text-align: center;
+    padding: 2rem 1rem 0.6rem;
+    background: #fff;
+    border-bottom: 1px solid #e5e5e5;
+  }
+  .hd h1 { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 300; letter-spacing: 0.12em; }
+  .hd p { font-size: 0.5rem; color: #aaa; margin-top: 0.2rem; }
+
+  .sec {
+    margin-bottom: 1.2rem;
+    background: #fff;
+    border-top: 1px solid #eee;
+  }
+  .sec-t {
+    padding: 0.7rem 0.8rem 0.2rem;
+    font-size: 0.55rem;
+    letter-spacing: 0.08em;
+    color: #999;
+    display: flex;
+    justify-content: space-between;
+  }
+  .sec-t b { color: #c9a96e; font-weight: 400; }
+  .sec-d { padding: 0 0.8rem 0.5rem; font-size: 0.45rem; color: #bbb; }
+
+  /* Shared item */
+  .g { width: 100%; overflow: hidden; background: #fff; }
+  .g img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .i { overflow: hidden; position: relative; cursor: pointer; }
+  .i .ov {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0);
+    transition: background 0.35s ease;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .i:hover .ov { background: rgba(0,0,0,0.5); }
+  .i .ov .n {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem; font-weight: 300; letter-spacing: 0.1em; color: #fff;
+    opacity: 0; transform: translateY(5px);
+    transition: all 0.35s ease 0.03s;
+  }
+  .i:hover .ov .n { opacity: 1; transform: translateY(0); }
+  .i .ov .c {
+    font-size: 0.38rem; letter-spacing: 0.12em; color: rgba(255,255,255,0);
+    margin-top: 0.15rem; transition: color 0.35s ease 0.08s;
+  }
+  .i:hover .ov .c { color: rgba(255,255,255,0.55); }
+
+  /* ===== P1: bird-and-insect忠実再現 — 縦写真メイン ===== */
+  .p1 .g { padding: 20px 24px; display: flex; flex-direction: column; gap: 20px; }
+  .p1 .row { display: flex; gap: 10px; }
+  .p1 .row-2 { justify-content: space-between; }
+  .p1 .row-2 .i { width: calc(50% - 5px); }
+  .p1 .row-2 .i.v1 { aspect-ratio: 3/4; }
+  .p1 .row-2 .i.v2 { aspect-ratio: 2/3; }
+  .p1 .row-2 .i.v3 { aspect-ratio: 4/5; }
+  .p1 .row-1 { justify-content: center; }
+  .p1 .row-1 .i { width: 75%; aspect-ratio: 3/4; }
+  .p1 .row-offset { align-items: flex-end; }
+
+  /* ===== P2: 小さめ2列、大きめ余白、高さバラバラ ===== */
+  .p2 .g { padding: 24px 28px; display: flex; flex-direction: column; gap: 24px; }
+  .p2 .row { display: flex; gap: 12px; }
+  .p2 .row-2 .i { width: calc(50% - 6px); }
+  .p2 .row-2 .i:nth-child(1) { aspect-ratio: 3/4; }
+  .p2 .row-2 .i:nth-child(2) { aspect-ratio: 4/5; }
+  .p2 .row-wide .i { width: 100%; aspect-ratio: 16/9; }
+  .p2 .row-sm .i { width: 70%; aspect-ratio: 1/1; margin: 0 auto; }
+
+  /* ===== P3: 左寄せ右寄せ交互 — オフセットスタイル ===== */
+  .p3 .g { padding: 16px 20px; display: flex; flex-direction: column; gap: 18px; }
+  .p3 .row { display: flex; }
+  .p3 .row-l { justify-content: flex-start; }
+  .p3 .row-l .i { width: 65%; aspect-ratio: 4/5; }
+  .p3 .row-r { justify-content: flex-end; }
+  .p3 .row-r .i { width: 60%; aspect-ratio: 3/4; }
+  .p3 .row-c { justify-content: center; }
+  .p3 .row-c .i { width: 80%; aspect-ratio: 16/10; }
+  .p3 .row-2 { justify-content: space-between; gap: 10px; }
+  .p3 .row-2 .i { width: calc(50% - 5px); aspect-ratio: 1/1; }
+
+  /* ===== P4: ミニギャラリー — 小さめカード余白広め ===== */
+  .p4 .g { padding: 20px 30px; display: flex; flex-direction: column; gap: 22px; }
+  .p4 .row { display: flex; gap: 10px; justify-content: center; }
+  .p4 .row-2 .i { width: 44%; }
+  .p4 .row-2 .i.p { aspect-ratio: 3/4; }
+  .p4 .row-2 .i.l { aspect-ratio: 4/3; }
+  .p4 .row-1 .i { width: 75%; aspect-ratio: 3/2; }
+  .p4 .row-3 { gap: 6px; }
+  .p4 .row-3 .i { width: 30%; aspect-ratio: 1/1; }
+
+  /* ===== P5: 段違い2列 — 上下オフセット ===== */
+  .p5 .g { padding: 18px 22px; display: flex; flex-direction: column; gap: 16px; }
+  .p5 .row { display: flex; gap: 10px; align-items: flex-start; }
+  .p5 .row-a .i:nth-child(1) { width: 45%; aspect-ratio: 3/4; }
+  .p5 .row-a .i:nth-child(2) { width: 45%; aspect-ratio: 4/5; margin-top: 30px; }
+  .p5 .row-b .i:nth-child(1) { width: 50%; aspect-ratio: 4/3; margin-top: 20px; }
+  .p5 .row-b .i:nth-child(2) { width: 42%; aspect-ratio: 3/4; }
+  .p5 .row-w { justify-content: center; }
+  .p5 .row-w .i { width: 88%; aspect-ratio: 16/10; }
+
+  /* ===== P6: 縦長スクロール — 1列中央 小さめ ===== */
+  .p6 .g { padding: 20px 40px; display: flex; flex-direction: column; gap: 20px; align-items: center; }
+  .p6 .i.v { width: 80%; aspect-ratio: 3/4; }
+  .p6 .i.h { width: 90%; aspect-ratio: 16/10; }
+  .p6 .i.s { width: 65%; aspect-ratio: 1/1; }
+  .p6 .pair { display: flex; gap: 8px; width: 100%; }
+  .p6 .pair .i { width: calc(50% - 4px); aspect-ratio: 4/5; }
+
+  /* ===== P7: ランダムサイズ散らし — フリーフロー ===== */
+  .p7 .g { padding: 14px 18px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+  .p7 .i.a { width: 42%; aspect-ratio: 3/4; }
+  .p7 .i.b { width: 52%; aspect-ratio: 4/3; }
+  .p7 .i.c { width: 36%; aspect-ratio: 1/1; }
+  .p7 .i.d { width: 58%; aspect-ratio: 16/10; }
+  .p7 .i.e { width: 100%; aspect-ratio: 21/9; }
+  .p7 .i.f { width: 46%; aspect-ratio: 4/5; }
+  .p7 .i.g2 { width: 30%; aspect-ratio: 3/4; }
+  .p7 .i.h2 { width: 64%; aspect-ratio: 3/2; }
+
+  /* ===== P8: 雑誌風レイアウト — 大小メリハリ ===== */
+  .p8 .g { padding: 16px 20px; display: flex; flex-direction: column; gap: 14px; }
+  .p8 .row { display: flex; gap: 8px; }
+  .p8 .big { justify-content: center; }
+  .p8 .big .i { width: 90%; aspect-ratio: 3/4; }
+  .p8 .trio { justify-content: center; }
+  .p8 .trio .i { width: 28%; aspect-ratio: 1/1; }
+  .p8 .duo .i { width: calc(50% - 4px); }
+  .p8 .duo .i:first-child { aspect-ratio: 4/5; }
+  .p8 .duo .i:last-child { aspect-ratio: 3/4; }
+  .p8 .wide .i { width: 100%; aspect-ratio: 2.2/1; }
+
+  /* ===== P9: グリッド＋余白 — 整然としつつ小さめ ===== */
+  .p9 .g { padding: 20px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .p9 .i { aspect-ratio: 3/4; }
+  .p9 .i.span { grid-column: 1 / -1; aspect-ratio: 16/9; }
+
+  /* ===== P10: 非対称コラージュ — 左右で大小差 ===== */
+  .p10 .g { padding: 16px 20px; display: flex; flex-direction: column; gap: 14px; }
+  .p10 .row { display: flex; gap: 8px; }
+  .p10 .row-lr .i:first-child { width: 62%; aspect-ratio: 3/4; }
+  .p10 .row-lr .i:last-child { width: 34%; aspect-ratio: 4/5; }
+  .p10 .row-rl .i:first-child { width: 38%; aspect-ratio: 1/1; }
+  .p10 .row-rl .i:last-child { width: 58%; aspect-ratio: 3/4; }
+  .p10 .row-w .i { width: 100%; aspect-ratio: 16/9; }
+  .p10 .row-s { justify-content: center; }
+  .p10 .row-s .i { width: 55%; aspect-ratio: 4/5; }
+</style>
+</head>
+<body>
+
+<div class="hd">
+  <h1>GALLERY MOBILE V4</h1>
+  <p>Small images · bird-and-insect style · 10 patterns × 20 photos</p>
+</div>
+
+<!-- ===== P1: bird-and-insect忠実再現 ===== -->
+<div class="sec p1">
+  <div class="sec-t"><span>P1 — bird-and-insect Style</span><b>2列+1列交互</b></div>
+  <div class="sec-d">余白たっぷり、縦写真メインで2列と1列の交互配置。本家に最も近いレイアウト</div>
+  <div class="g">
+    <div class="row row-2"><div class="i v1"><img src="https://picsum.photos/400/530?r=101"><div class="ov"><span class="n">Trocadéro</span><span class="c">48.8616°N 2.2889°E</span></div></div><div class="i v3"><img src="https://picsum.photos/400/500?r=102"><div class="ov"><span class="n">Pont Alexandre III</span><span class="c">48.8631°N 2.3136°E</span></div></div></div>
+    <div class="row row-1"><div class="i"><img src="https://picsum.photos/400/530?r=103"><div class="ov"><span class="n">Palais Royal</span><span class="c">48.8638°N 2.3375°E</span></div></div></div>
+    <div class="row row-2 row-offset"><div class="i v2"><img src="https://picsum.photos/400/600?r=104"><div class="ov"><span class="n">Le Marais</span><span class="c">48.8566°N 2.3622°E</span></div></div><div class="i v1"><img src="https://picsum.photos/400/530?r=105"><div class="ov"><span class="n">Montmartre</span><span class="c">48.8867°N 2.3431°E</span></div></div></div>
+    <div class="row row-1"><div class="i"><img src="https://picsum.photos/400/530?r=106"><div class="ov"><span class="n">Jardin du Luxembourg</span><span class="c">48.8462°N 2.3372°E</span></div></div></div>
+    <div class="row row-2"><div class="i v3"><img src="https://picsum.photos/400/500?r=107"><div class="ov"><span class="n">Louvre</span><span class="c">48.8606°N 2.3376°E</span></div></div><div class="i v2"><img src="https://picsum.photos/400/600?r=108"><div class="ov"><span class="n">Tuileries</span><span class="c">48.8634°N 2.3275°E</span></div></div></div>
+    <div class="row row-1"><div class="i"><img src="https://picsum.photos/400/530?r=109"><div class="ov"><span class="n">Seine River</span><span class="c">48.8575°N 2.3514°E</span></div></div></div>
+    <div class="row row-2 row-offset"><div class="i v1"><img src="https://picsum.photos/400/530?r=110"><div class="ov"><span class="n">Place Vendôme</span><span class="c">48.8676°N 2.3292°E</span></div></div><div class="i v3"><img src="https://picsum.photos/400/500?r=111"><div class="ov"><span class="n">Opéra Garnier</span><span class="c">48.8720°N 2.3316°E</span></div></div></div>
+    <div class="row row-1"><div class="i"><img src="https://picsum.photos/400/530?r=112"><div class="ov"><span class="n">Champs-Élysées</span><span class="c">48.8698°N 2.3078°E</span></div></div></div>
+    <div class="row row-2"><div class="i v2"><img src="https://picsum.photos/400/600?r=113"><div class="ov"><span class="n">Sacré-Cœur</span><span class="c">48.8867°N 2.3431°E</span></div></div><div class="i v1"><img src="https://picsum.photos/400/530?r=114"><div class="ov"><span class="n">Île Saint-Louis</span><span class="c">48.8514°N 2.3566°E</span></div></div></div>
+    <div class="row row-1"><div class="i"><img src="https://picsum.photos/400/530?r=115"><div class="ov"><span class="n">Bir-Hakeim</span><span class="c">48.8539°N 2.2913°E</span></div></div></div>
+    <div class="row row-2"><div class="i v1"><img src="https://picsum.photos/400/530?r=116"><div class="ov"><span class="n">Saint-Germain</span><span class="c">48.8534°N 2.3328°E</span></div></div><div class="i v3"><img src="https://picsum.photos/400/500?r=117"><div class="ov"><span class="n">Canal Saint-Martin</span><span class="c">48.8710°N 2.3653°E</span></div></div></div>
+    <div class="row row-1"><div class="i"><img src="https://picsum.photos/400/530?r=118"><div class="ov"><span class="n">Invalides</span><span class="c">48.8567°N 2.3126°E</span></div></div></div>
+    <div class="row row-2 row-offset"><div class="i v2"><img src="https://picsum.photos/400/600?r=119"><div class="ov"><span class="n">Bastille</span><span class="c">48.8533°N 2.3692°E</span></div></div><div class="i v1"><img src="https://picsum.photos/400/530?r=120"><div class="ov"><span class="n">Galerie Vivienne</span><span class="c">48.8670°N 2.3393°E</span></div></div></div>
+  </div>
+</div>
+
+<!-- ===== P2: 余白重視ダブル ===== -->
+<div class="sec p2">
+  <div class="sec-t"><span>P2 — Airy Duo</span><b>余白重視ダブル</b></div>
+  <div class="sec-d">左右の余白を広めに取り、2枚ペア+ワイド1枚を繰り返す</div>
+  <div class="g">
+    <div class="row row-2"><div class="i"><img src="https://picsum.photos/380/500?r=201"><div class="ov"><span class="n">Trocadéro</span><span class="c">48.8616°N 2.2889°E</span></div></div><div class="i"><img src="https://picsum.photos/380/480?r=202"><div class="ov"><span class="n">Pont Alexandre III</span><span class="c">48.8631°N 2.3136°E</span></div></div></div>
+    <div class="row row-wide"><div class="i"><img src="https://picsum.photos/600/340?r=203"><div class="ov"><span class="n">Palais Royal</span><span class="c">48.8638°N 2.3375°E</span></div></div></div>
+    <div class="row row-2"><div class="i"><img src="https://picsum.photos/380/500?r=204"><div class="ov"><span class="n">Le Marais</span><span class="c">48.8566°N 2.3622°E</span></div></div><div class="i"><img src="https://picsum.photos/380/480?r=205"><div class="ov"><span class="n">Montmartre</span><span class="c">48.8867°N 2.3431°E</span></div></div></div>
+    <div class="row row-sm"><div class="i"><img src="https://picsum.photos/400/400?r=206"><div class="ov"><span class="n">Louvre</span><span class="c">48.8606°N 2.3376°E</span></div></div></div>
+    <div class="row row-2"><div class="i"><img src="https://picsum.photos/380/500?r=207"><div class="ov"><span class="n">Tuileries</span><span class="c">48.8634°N 2.3275°E</span></div></div><div class="i"><img src="https://picsum.photos/380/480?r=208"><div class="ov"><span class="n">Seine River</span><span class="c">48.8575°N 2.3514°E</span></div></div></div>
+    <div class="row row-wide"><div class="i"><img src="https://picsum.photos/600/340?r=209"><div class="ov"><span class="n">Place Vendôme</span><span class="c">48.8676°N 2.3292°E</span></div></div></div>
+    <div class="row row-2"><div class="i"><img src="https://picsum.photos/380/500?r=210"><div class="ov"><span class="n">Opéra Garnier</span><span class="c">48.8720°N 2.3316°E</span></div></div><div class="i"><img src="https://picsum.photos/380/480?r=211"><div class="ov"><span class="n">Champs-Élysées</span><span class="c">48.8698°N 2.3078°E</span></div></div></div>
+    <div class="row row-sm"><div class="i"><img src="https://picsum.photos/400/400?r=212"><div class="ov"><span class="n">Sacré-Cœur</span><span class="c">48.8867°N 2.3431°E</span></div></div></div>
+    <div class="row row-2"><div class="i"><img src="https://picsum.photos/380/500?r=213"><div class="ov"><span class="n">Île Saint-Louis</span><span class="c">48.8514°N 2.3566°E</span></div></div><div class="i"><img src="https://picsum.photos/380/480?r=214"><div class="ov"><span class="n">Bir-Hakeim</span><span class="c">48.8539°N 2.2913°E</span></div></div></div>
+    <div class="row row-wide"><div class="i"><img src="https://picsum.photos/600/340?r=215"><div class="ov"><span class="n">Saint-Germain</span><span class="c">48.8534°N 2.3328°E</span></div></div></div>
+    <div class="row row-2"><div class="i"><img src="https://picsum.photos/380/500?r=216"><div class="ov"><span class="n">Canal Saint-Martin</span><span class="c">48.8710°N 2.3653°E</span></div></div><div class="i"><img src="https://picsum.photos/380/480?r=217"><div class="ov"><span class="n">Invalides</span><span class="c">48.8567°N 2.3126°E</span></div></div></div>
+    <div class="row row-2"><div class="i"><img src="https://picsum.photos/380/500?r=218"><div class="ov"><span class="n">Bastille</span><span class="c">48.8533°N 2.3692°E</span></div></div><div class="i"><img src="https://picsum.photos/380/480?r=219"><div class="ov"><span class="n">Galerie Vivienne</span><span class="c">48.8670°N 2.3393°E</span></div></div></div>
+    <div class="row row-sm"><div class="i"><img src="https://picsum.photos/400/400?r=220"><div class="ov"><span class="n">Panthéon</span><span class="c">48.8462°N 2.3461°E</span></div></div></div>
+  </div>
+</div>
+
+<!-- ===== P3: 左右交互オフセット ===== -->
+<div class="sec p3">
+  <div class="sec-t"><span>P3 — Offset Alternate</span><b>左右交互</b></div>
+  <div class="sec-d">左寄せ→右寄せ→センターを繰り返す。リズム感のあるスクロール</div>
+  <div class="g">
+    <div class="row row-l"><div class="i"><img src="https://picsum.photos/400/500?r=301"><div class="ov"><span class="n">Trocadéro</span><span class="c">48.8616°N 2.2889°E</span></div></div></div>
+    <div class="row row-r"><div class="i"><img src="https://picsum.photos/380/500?r=302"><div class="ov"><span class="n">Pont Alexandre III</span><span class="c">48.8631°N 2.3136°E</span></div></div></div>
+    <div class="row row-c"><div class="i"><img src="https://picsum.photos/600/375?r=303"><div class="ov"><span class="n">Palais Royal</span><span class="c">48.8638°N 2.3375°E</span></div></div></div>
+    <div class="row row-2"><div class="i"><img src="https://picsum.photos/300/300?r=304"><div class="ov"><span class="n">Le Marais</span><span class="c">48.8566°N 2.3622°E</span></div></div><div class="i"><img src="https://picsum.photos/300/300?r=305"><div class="ov"><span class="n">Montmartre</span><span class="c">48.8867°N 2.3431°E</span></div></div></div>
+    <div class="row row-r"><div class="i"><img src="https://picsum.photos/380/500?r=306"><div class="ov"><span class="n">Louvre</span><span class="c">48.8606°N 2.3376°E</span></div></div></div>
+    <div class="row row-l"><div class="i"><img src="https://picsum.photos/400/500?r=307"><div class="ov"><span class="n">Tuileries</span><span class="c">48.8634°N 2.3275°E</span></div></div></div>
+    <div class="row row-c"><div class="i"><img src="https://picsum.photos/600/375?r=308"><div class="ov"><span class="n">Seine River</span><span class="c">48.8575°N 2.3514°E</span></div></div></div>
+    <div class="row row-l"><div class="i"><img src="https://picsum.photos/400/500?r=309"><div class="ov"><span class="n">Place Vendôme</span><span class="c">48.8676°N 2.3292°E</span></div></div></div>
+    <div class="row row-r"><div class="i"><img src="https://picsum.photos/380/500?r=310"><div class="ov"><span class="n">Opéra Garnier</span><span class="c">48.8720°N 2.3316°E</span></div></div></div>
+    <div class="row row-2"><div class="i"><img src="https://picsum.photos/300/300?r=311"><div class="ov"><span class="n">Champs-Élysées</span><span class="c">48.8698°N 2.3078°E</span></div></div><div class="i"><img src="https://picsum.photos/300/300?r=312"><div class="ov"><span class="n">Sacré-Cœur</span><span class="c">48.8867°N 2.3431°E</span></div></div></div>
+    <div class="row row-c"><div class="i"><img src="https://picsum.photos/600/375?r=313"><div class="ov"><span class="n">Île Saint-Louis</span><span class="c">48.8514°N 2.3566°E</span></div></div></div>
+    <div class="row row-l"><div class="i"><img src="https://picsum.photos/400/500?r=314"><div class="ov"><span class="n">Bir-Hakeim</span><span class="c">48.8539°N 2.2913°E</span></div></div></div>
+    <div class="row row-r"><div class="i"><img src="https://picsum.photos/380/500?r=315"><div class="ov"><span class="n">Saint-Germain</span><span class="c">48.8534°N 2.3328°E</span></div></div></div>
+    <div class="row row-c"><div class="i"><img src="https://picsum.photos/600/375?r=316"><div class="ov"><span class="n">Canal Saint-Martin</span><span class="c">48.8710°N 2.3653°E</span></div></div></div>
+    <div class="row row-2"><div class="i"><img src="https://picsum.photos/300/300?r=317"><div class="ov"><span class="n">Invalides</span><span class="c">48.8567°N 2.3126°E</span></div></div><div class="i"><img src="https://picsum.photos/300/300?r=318"><div class="ov"><span class="n">Bastille</span><span class="c">48.8533°N 2.3692°E</span></div></div></div>
+    <div class="row row-l"><div class="i"><img src="https://picsum.photos/400/500?r=319"><div class="ov"><span class="n">Galerie Vivienne</span><span class="c">48.8670°N 2.3393°E</span></div></div></div>
+    <div class="row row-r"><div class="i"><img src="https://picsum.photos/380/500?r=320"><div class="ov"><span class="n">Panthéon</span><span class="c">48.8462°N 2.3461°E</span></div></div></div>
+  </div>
+</div>
+
+<!-- ===== P4: ミニカード中央寄せ ===== -->
+<div class="sec p4">
+  <div class="sec-t"><span>P4 — Mini Cards</span><b>小カード中央寄せ</b></div>
+  <div class="sec-d">画像をさらに小さく、中央寄せで余白を最大限に活かす</div>
+  <div class="g">
+    <div class="row row-2"><div class="i p"><img src="https://picsum.photos/340/450?r=401"><div class="ov"><span class="n">Trocadéro</span><span class="c">48.8616°N 2.2889°E</span></div></div><div class="i l"><img src="https://picsum.photos/340/255?r=402"><div class="ov"><span class="n">Pont Alexandre III</span><span class="c">48.8631°N 2.3136°E</span></div></div></div>
+    <div class="row row-1"><div class="i"><img src="https://picsum.photos/500/333?r=403"><div class="ov"><span class="n">Palais Royal</span><span class="c">48.8638°N 2.3375°E</span></div></div></div>
+    <div class="row row-3"><div class="i"><img src="https://picsum.photos/250/250?r=404"><div class="ov"><span class="n">Le Marais</span><span class="c">48.8566°N 2.3622°E</span></div></div><div class="i"><img src="https://picsum.photos/250/250?r=405"><div class="ov"><span class="n">Montmartre</span><span class="c">48.8867°N 2.3431°E</span></div></div><div class="i"><img src="https://picsum.photos/250/250?r=406"><div class="ov"><span class="n">Louvre</span><span class="c">48.8606°N 2.3376°E</span></div></div></div>
+    <div class="row row-2"><div class="i p"><img src="https://picsum.photos/340/450?r=407"><div class="ov"><span class="n">Tuileries</span><span class="c">48.8634°N 2.3275°E</span></div></div><div class="i p"><img src="https://picsum.photos/340/450?r=408"><div class="ov"><span class="n">Seine River</span><span class="c">48.8575°N 2.3514°E</span></div></div></div>
+    <div class="row row-1"><div class="i"><img src="https://picsum.photos/500/333?r=409"><div class="ov"><span class="n">Place Vendôme</span><span class="c">48.8676°N 2.3292°E</span></div></div></div>
+    <div class="row row-2"><div class="i l"><img src="https://picsum.photos/340/255?r=410"><div class="ov"><span class="n">Opéra Garnier</span><span class="c">48.8720°N 2.3316°E</span></div></div><div class="i p"><img src="https://picsum.photos/340/450?r=411"><div class="ov"><span class="n">Champs-Élysées</span><span class="c">48.8698°N 2.3078°E</span></div></div></div>
+    <div class="row row-3"><div class="i"><img src="https://picsum.photos/250/250?r=412"><div class="ov"><span class="n">Sacré-Cœur</span><span class="c">48.8867°N 2.3431°E</span></div></div><div class="i"><img src="https://picsum.photos/250/250?r=413"><div class="ov"><span class="n">Île Saint-Louis</span><span class="c">48.8514°N 2.3566°E</span></div></div><div class="i"><img src="https://picsum.photos/250/250?r=414"><div class="ov"><span class="n">Bir-Hakeim</span><span class="c">48.8539°N 2.2913°E</span></div></div></div>
+    <div class="row row-1"><div class="i"><img src="https://picsum.photos/500/333?r=415"><div class="ov"><span class="n">Saint-Germain</span><span class="c">48.8534°N 2.3328°E</span></div></div></div>
+    <div class="row row-2"><div class="i p"><img src="https://picsum.photos/340/450?r=416"><div class="ov"><span class="n">Canal Saint-Martin</span><span class="c">48.8710°N 2.3653°E</span></div></div><div class="i l"><img src="https://picsum.photos/340/255?r=417"><div class="ov"><span class="n">Invalides</span><span class="c">48.8567°N 2.3126°E</span></div></div></div>
+    <div class="row row-2"><div class="i p"><img src="https://picsum.photos/340/450?r=418"><div class="ov"><span class="n">Bastille</span><span class="c">48.8533°N 2.3692°E</span></div></div><div class="i p"><img src="https://picsum.photos/340/450?r=419"><div class="ov"><span class="n">Galerie Vivienne</span><span class="c">48.8670°N 2.3393°E</span></div></div></div>
+    <div class="row row-1"><div class="i"><img src="https://picsum.photos/500/333?r=420"><div class="ov"><span class="n">Panthéon</span><span class="c">48.8462°N 2.3461°E</span></div></div></div>
+  </div>
+</div>
+
+<!-- ===== P5: 段違い2列 ===== -->
+<div class="sec p5">
+  <div class="sec-t"><span>P5 — Staggered Duo</span><b>段違い2列</b></div>
+  <div class="sec-d">2枚ペアで高さをずらし、間にワイドを挟む。bird-and-insectのオフセット感</div>
+  <div class="g">
+    <div class="row row-a"><div class="i"><img src="https://picsum.photos/360/480?r=501"><div class="ov"><span class="n">Trocadéro</span><span class="c">48.8616°N 2.2889°E</span></div></div><div class="i"><img src="https://picsum.photos/360/450?r=502"><div class="ov"><span class="n">Pont Alexandre III</span><span class="c">48.8631°N 2.3136°E</span></div></div></div>
+    <div class="row row-w"><div class="i"><img src="https://picsum.photos/600/375?r=503"><div class="ov"><span class="n">Palais Royal</span><span class="c">48.8638°N 2.3375°E</span></div></div></div>
+    <div class="row row-b"><div class="i"><img src="https://picsum.photos/400/300?r=504"><div class="ov"><span class="n">Le Marais</span><span class="c">48.8566°N 2.3622°E</span></div></div><div class="i"><img src="https://picsum.photos/340/450?r=505"><div class="ov"><span class="n">Montmartre</span><span class="c">48.8867°N 2.3431°E</span></div></div></div>
+    <div class="row row-a"><div class="i"><img src="https://picsum.photos/360/480?r=506"><div class="ov"><span class="n">Louvre</span><span class="c">48.8606°N 2.3376°E</span></div></div><div class="i"><img src="https://picsum.photos/360/450?r=507"><div class="ov"><span class="n">Tuileries</span><span class="c">48.8634°N 2.3275°E</span></div></div></div>
+    <div class="row row-w"><div class="i"><img src="https://picsum.photos/600/375?r=508"><div class="ov"><span class="n">Seine River</span><span class="c">48.8575°N 2.3514°E</span></div></div></div>
+    <div class="row row-b"><div class="i"><img src="https://picsum.photos/400/300?r=509"><div class="ov"><span class="n">Place Vendôme</span><span class="c">48.8676°N 2.3292°E</span></div></div><div class="i"><img src="https://picsum.photos/340/450?r=510"><div class="ov"><span class="n">Opéra Garnier</span><span class="c">48.8720°N 2.3316°E</span></div></div></div>
+    <div class="row row-a"><div class="i"><img src="https://picsum.photos/360/480?r=511"><div class="ov"><span class="n">Champs-Élysées</span><span class="c">48.8698°N 2.3078°E</span></div></div><div class="i"><img src="https://picsum.photos/360/450?r=512"><div class="ov"><span class="n">Sacré-Cœur</span><span class="c">48.8867°N 2.3431°E</span></div></div></div>
+    <div class="row row-w"><div class="i"><img src="https://picsum.photos/600/375?r=513"><div class="ov"><span class="n">Île Saint-Louis</span><span class="c">48.8514°N 2.3566°E</span></div></div></div>
+    <div class="row row-b"><div class="i"><img src="https://picsum.photos/400/300?r=514"><div class="ov"><span class="n">Bir-Hakeim</span><span class="c">48.8539°N 2.2913°E</span></div></div><div class="i"><img src="https://picsum.photos/340/450?r=515"><div class="ov"><span class="n">Saint-Germain</span><span class="c">48.8534°N 2.3328°E</span></div></div></div>
+    <div class="row row-a"><div class="i"><img src="https://picsum.photos/360/480?r=516"><div class="ov"><span class="n">Canal Saint-Martin</span><span class="c">48.8710°N 2.3653°E</span></div></div><div class="i"><img src="https://picsum.photos/360/450?r=517"><div class="ov"><span class="n">Invalides</span><span class="c">48.8567°N 2.3126°E</span></div></div></div>
+    <div class="row row-w"><div class="i"><img src="https://picsum.photos/600/375?r=518"><div class="ov"><span class="n">Bastille</span><span class="c">48.8533°N 2.3692°E</span></div></div></div>
+    <div class="row row-b"><div class="i"><img src="https://picsum.photos/400/300?r=519"><div class="ov"><span class="n">Galerie Vivienne</span><span class="c">48.8670°N 2.3393°E</span></div></div><div class="i"><img src="https://picsum.photos/340/450?r=520"><div class="ov"><span class="n">Panthéon</span><span class="c">48.8462°N 2.3461°E</span></div></div></div>
+  </div>
+</div>
+
+<!-- ===== P6: 1列ストリーム ===== -->
+<div class="sec p6">
+  <div class="sec-t"><span>P6 — Center Stream</span><b>1列中央ストリーム</b></div>
+  <div class="sec-d">1枚ずつ中央配置、サイズを変えてリズムをつける。余白が一番広い</div>
+  <div class="g">
+    <div class="i v"><img src="https://picsum.photos/400/530?r=601"><div class="ov"><span class="n">Trocadéro</span><span class="c">48.8616°N 2.2889°E</span></div></div>
+    <div class="i h"><img src="https://picsum.photos/600/375?r=602"><div class="ov"><span class="n">Pont Alexandre III</span><span class="c">48.8631°N 2.3136°E</span></div></div>
+    <div class="pair"><div class="i"><img src="https://picsum.photos/300/375?r=603"><div class="ov"><span class="n">Palais Royal</span><span class="c">48.8638°N 2.3375°E</span></div></div><div class="i"><img src="https://picsum.photos/300/375?r=604"><div class="ov"><span class="n">Le Marais</span><span class="c">48.8566°N 2.3622°E</span></div></div></div>
+    <div class="i s"><img src="https://picsum.photos/350/350?r=605"><div class="ov"><span class="n">Montmartre</span><span class="c">48.8867°N 2.3431°E</span></div></div>
+    <div class="i h"><img src="https://picsum.photos/600/375?r=606"><div class="ov"><span class="n">Louvre</span><span class="c">48.8606°N 2.3376°E</span></div></div>
+    <div class="i v"><img src="https://picsum.photos/400/530?r=607"><div class="ov"><span class="n">Tuileries</span><span class="c">48.8634°N 2.3275°E</span></div></div>
+    <div class="pair"><div class="i"><img src="https://picsum.photos/300/375?r=608"><div class="ov"><span class="n">Seine River</span><span class="c">48.8575°N 2.3514°E</span></div></div><div class="i"><img src="https://picsum.photos/300/375?r=609"><div class="ov"><span class="n">Place Vendôme</span><span class="c">48.8676°N 2.3292°E</span></div></div></div>
+    <div class="i h"><img src="https://picsum.photos/600/375?r=610"><div class="ov"><span class="n">Opéra Garnier</span><span class="c">48.8720°N 2.3316°E</span></div></div>
+    <div class="i s"><img src="https://picsum.photos/350/350?r=611"><div class="ov"><span class="n">Champs-Élysées</span><span class="c">48.8698°N 2.3078°E</span></div></div>
+    <div class="i v"><img src="https://picsum.photos/400/530?r=612"><div class="ov"><span class="n">Sacré-Cœur</span><span class="c">48.8867°N 2.3431°E</span></div></div>
+    <div class="pair"><div class="i"><img src="https://picsum.photos/300/375?r=613"><div class="ov"><span class="n">Île Saint-Louis</span><span class="c">48.8514°N 2.3566°E</span></div></div><div class="i"><img src="https://picsum.photos/300/375?r=614"><div class="ov"><span class="n">Bir-Hakeim</span><span class="c">48.8539°N 2.2913°E</span></div></div></div>
+    <div class="i h"><img src="https://picsum.photos/600/375?r=615"><div class="ov"><span class="n">Saint-Germain</span><span class="c">48.8534°N 2.3328°E</span></div></div>
+    <div class="i v"><img src="https://picsum.photos/400/530?r=616"><div class="ov"><span class="n">Canal Saint-Martin</span><span class="c">48.8710°N 2.3653°E</span></div></div>
+    <div class="pair"><div class="i"><img src="https://picsum.photos/300/375?r=617"><div class="ov"><span class="n">Invalides</span><span class="c">48.8567°N 2.3126°E</span></div></div><div class="i"><img src="https://picsum.photos/300/375?r=618"><div class="ov"><span class="n">Bastille</span><span class="c">48.8533°N 2.3692°E</span></div></div></div>
+    <div class="i s"><img src="https://picsum.photos/350/350?r=619"><div class="ov"><span class="n">Galerie Vivienne</span><span class="c">48.8670°N 2.3393°E</span></div></div>
+    <div class="i h"><img src="https://picsum.photos/600/375?r=620"><div class="ov"><span class="n">Panthéon</span><span class="c">48.8462°N 2.3461°E</span></div></div>
+  </div>
+</div>
+
+<!-- ===== P7: ランダムフロー ===== -->
+<div class="sec p7">
+  <div class="sec-t"><span>P7 — Random Flow</span><b>ランダムフロー</b></div>
+  <div class="sec-d">サイズがバラバラのアイテムをフレックスで流し込む。コラージュ感</div>
+  <div class="g">
+    <div class="i a"><img src="https://picsum.photos/340/450?r=701"><div class="ov"><span class="n">Trocadéro</span><span class="c">48.8616°N 2.2889°E</span></div></div>
+    <div class="i b"><img src="https://picsum.photos/420/315?r=702"><div class="ov"><span class="n">Pont Alexandre III</span><span class="c">48.8631°N 2.3136°E</span></div></div>
+    <div class="i c"><img src="https://picsum.photos/290/290?r=703"><div class="ov"><span class="n">Palais Royal</span><span class="c">48.8638°N 2.3375°E</span></div></div>
+    <div class="i d"><img src="https://picsum.photos/470/290?r=704"><div class="ov"><span class="n">Le Marais</span><span class="c">48.8566°N 2.3622°E</span></div></div>
+    <div class="i e"><img src="https://picsum.photos/700/300?r=705"><div class="ov"><span class="n">Montmartre</span><span class="c">48.8867°N 2.3431°E</span></div></div>
+    <div class="i f"><img src="https://picsum.photos/370/460?r=706"><div class="ov"><span class="n">Louvre</span><span class="c">48.8606°N 2.3376°E</span></div></div>
+    <div class="i g2"><img src="https://picsum.photos/240/320?r=707"><div class="ov"><span class="n">Tuileries</span><span class="c">48.8634°N 2.3275°E</span></div></div>
+    <div class="i h2"><img src="https://picsum.photos/510/340?r=708"><div class="ov"><span class="n">Seine River</span><span class="c">48.8575°N 2.3514°E</span></div></div>
+    <div class="i a"><img src="https://picsum.photos/340/450?r=709"><div class="ov"><span class="n">Place Vendôme</span><span class="c">48.8676°N 2.3292°E</span></div></div>
+    <div class="i d"><img src="https://picsum.photos/470/290?r=710"><div class="ov"><span class="n">Opéra Garnier</span><span class="c">48.8720°N 2.3316°E</span></div></div>
+    <div class="i c"><img src="https://picsum.photos/290/290?r=711"><div class="ov"><span class="n">Champs-Élysées</span><span class="c">48.8698°N 2.3078°E</span></div></div>
+    <div class="i b"><img src="https://picsum.photos/420/315?r=712"><div class="ov"><span class="n">Sacré-Cœur</span><span class="c">48.8867°N 2.3431°E</span></div></div>
+    <div class="i f"><img src="https://picsum.photos/370/460?r=713"><div class="ov"><span class="n">Île Saint-Louis</span><span class="c">48.8514°N 2.3566°E</span></div></div>
+    <div class="i h2"><img src="https://picsum.photos/510/340?r=714"><div class="ov"><span class="n">Bir-Hakeim</span><span class="c">48.8539°N 2.2913°E</span></div></div>
+    <div class="i g2"><img src="https://picsum.photos/240/320?r=715"><div class="ov"><span class="n">Saint-Germain</span><span class="c">48.8534°N 2.3328°E</span></div></div>
+    <div class="i e"><img src="https://picsum.photos/700/300?r=716"><div class="ov"><span class="n">Canal Saint-Martin</span><span class="c">48.8710°N 2.3653°E</span></div></div>
+    <div class="i a"><img src="https://picsum.photos/340/450?r=717"><div class="ov"><span class="n">Invalides</span><span class="c">48.8567°N 2.3126°E</span></div></div>
+    <div class="i b"><img src="https://picsum.photos/420/315?r=718"><div class="ov"><span class="n">Bastille</span><span class="c">48.8533°N 2.3692°E</span></div></div>
+    <div class="i c"><img src="https://picsum.photos/290/290?r=719"><div class="ov"><span class="n">Galerie Vivienne</span><span class="c">48.8670°N 2.3393°E</span></div></div>
+    <div class="i d"><img src="https://picsum.photos/470/290?r=720"><div class="ov"><span class="n">Panthéon</span><span class="c">48.8462°N 2.3461°E</span></div></div>
+  </div>
+</div>
+
+<!-- ===== P8: 雑誌風メリハリ ===== -->
+<div class="sec p8">
+  <div class="sec-t"><span>P8 — Editorial</span><b>雑誌風メリハリ</b></div>
+  <div class="sec-d">大きい1枚→小さい3枚→2枚ペア→ワイドの繰り返し。メリハリあるレイアウト</div>
+  <div class="g">
+    <div class="row big"><div class="i"><img src="https://picsum.photos/500/660?r=801"><div class="ov"><span class="n">Trocadéro</span><span class="c">48.8616°N 2.2889°E</span></div></div></div>
+    <div class="row trio"><div class="i"><img src="https://picsum.photos/220/220?r=802"><div class="ov"><span class="n">Pont Alexandre III</span><span class="c">48.8631°N 2.3136°E</span></div></div><div class="i"><img src="https://picsum.photos/220/220?r=803"><div class="ov"><span class="n">Palais Royal</span><span class="c">48.8638°N 2.3375°E</span></div></div><div class="i"><img src="https://picsum.photos/220/220?r=804"><div class="ov"><span class="n">Le Marais</span><span class="c">48.8566°N 2.3622°E</span></div></div></div>
+    <div class="row duo"><div class="i"><img src="https://picsum.photos/350/440?r=805"><div class="ov"><span class="n">Montmartre</span><span class="c">48.8867°N 2.3431°E</span></div></div><div class="i"><img src="https://picsum.photos/350/460?r=806"><div class="ov"><span class="n">Louvre</span><span class="c">48.8606°N 2.3376°E</span></div></div></div>
+    <div class="row wide"><div class="i"><img src="https://picsum.photos/700/320?r=807"><div class="ov"><span class="n">Tuileries</span><span class="c">48.8634°N 2.3275°E</span></div></div></div>
+    <div class="row big"><div class="i"><img src="https://picsum.photos/500/660?r=808"><div class="ov"><span class="n">Seine River</span><span class="c">48.8575°N 2.3514°E</span></div></div></div>
+    <div class="row trio"><div class="i"><img src="https://picsum.photos/220/220?r=809"><div class="ov"><span class="n">Place Vendôme</span><span class="c">48.8676°N 2.3292°E</span></div></div><div class="i"><img src="https://picsum.photos/220/220?r=810"><div class="ov"><span class="n">Opéra Garnier</span><span class="c">48.8720°N 2.3316°E</span></div></div><div class="i"><img src="https://picsum.photos/220/220?r=811"><div class="ov"><span class="n">Champs-Élysées</span><span class="c">48.8698°N 2.3078°E</span></div></div></div>
+    <div class="row duo"><div class="i"><img src="https://picsum.photos/350/440?r=812"><div class="ov"><span class="n">Sacré-Cœur</span><span class="c">48.8867°N 2.3431°E</span></div></div><div class="i"><img src="https://picsum.photos/350/460?r=813"><div class="ov"><span class="n">Île Saint-Louis</span><span class="c">48.8514°N 2.3566°E</span></div></div></div>
+    <div class="row wide"><div class="i"><img src="https://picsum.photos/700/320?r=814"><div class="ov"><span class="n">Bir-Hakeim</span><span class="c">48.8539°N 2.2913°E</span></div></div></div>
+    <div class="row big"><div class="i"><img src="https://picsum.photos/500/660?r=815"><div class="ov"><span class="n">Saint-Germain</span><span class="c">48.8534°N 2.3328°E</span></div></div></div>
+    <div class="row trio"><div class="i"><img src="https://picsum.photos/220/220?r=816"><div class="ov"><span class="n">Canal Saint-Martin</span><span class="c">48.8710°N 2.3653°E</span></div></div><div class="i"><img src="https://picsum.photos/220/220?r=817"><div class="ov"><span class="n">Invalides</span><span class="c">48.8567°N 2.3126°E</span></div></div><div class="i"><img src="https://picsum.photos/220/220?r=818"><div class="ov"><span class="n">Bastille</span><span class="c">48.8533°N 2.3692°E</span></div></div></div>
+    <div class="row duo"><div class="i"><img src="https://picsum.photos/350/440?r=819"><div class="ov"><span class="n">Galerie Vivienne</span><span class="c">48.8670°N 2.3393°E</span></div></div><div class="i"><img src="https://picsum.photos/350/460?r=820"><div class="ov"><span class="n">Panthéon</span><span class="c">48.8462°N 2.3461°E</span></div></div></div>
+  </div>
+</div>
+
+<!-- ===== P9: 2列グリッド＋ワイドアクセント ===== -->
+<div class="sec p9">
+  <div class="sec-t"><span>P9 — Grid + Wide</span><b>2列グリッド＋ワイド</b></div>
+  <div class="sec-d">基本2列グリッドに時々ワイド1枚を挟む。整然としつつ変化あり</div>
+  <div class="g">
+    <div class="i"><img src="https://picsum.photos/350/460?r=901"><div class="ov"><span class="n">Trocadéro</span><span class="c">48.8616°N 2.2889°E</span></div></div>
+    <div class="i"><img src="https://picsum.photos/350/460?r=902"><div class="ov"><span class="n">Pont Alexandre III</span><span class="c">48.8631°N 2.3136°E</span></div></div>
+    <div class="i"><img src="https://picsum.photos/350/460?r=903"><div class="ov"><span class="n">Palais Royal</span><span class="c">48.8638°N 2.3375°E</span></div></div>
+    <div class="i"><img src="https://picsum.photos/350/460?r=904"><div class="ov"><span class="n">Le Marais</span><span class="c">48.8566°N 2.3622°E</span></div></div>
+    <div class="i span"><img src="https://picsum.photos/700/390?r=905"><div class="ov"><span class="n">Montmartre</span><span class="c">48.8867°N 2.3431°E</span></div></div>
+    <div class="i"><img src="https://picsum.photos/350/460?r=906"><div class="ov"><span class="n">Louvre</span><span class="c">48.8606°N 2.3376°E</span></div></div>
+    <div class="i"><img src="https://picsum.photos/350/460?r=907"><div class="ov"><span class="n">Tuileries</span><span class="c">48.8634°N 2.3275°E</span></div></div>
+    <div class="i"><img src="https://picsum.photos/350/460?r=908"><div class="ov"><span class="n">Seine River</span><span class="c">48.8575°N 2.3514°E</span></div></div>
+    <div class="i"><img src="https://picsum.photos/350/460?r=909"><div class="ov"><span class="n">Place Vendôme</span><span class="c">48.8676°N 2.3292°E</span></div></div>
+    <div class="i span"><img src="https://picsum.photos/700/390?r=910"><div class="ov"><span class="n">Opéra Garnier</span><span class="c">48.8720°N 2.3316°E</span></div></div>
+    <div class="i"><img src="https://picsum.photos/350/460?r=911"><div class="ov"><span class="n">Champs-Élysées</span><span class="c">48.8698°N 2.3078°E</span></div></div>
+    <div class="i"><img src="https://picsum.photos/350/460?r=912"><div class="ov"><span class="n">Sacré-Cœur</span><span class="c">48.8867°N 2.3431°E</span></div></div>
+    <div class="i"><img src="https://picsum.photos/350/460?r=913"><div class="ov"><span class="n">Île Saint-Louis</span><span class="c">48.8514°N 2.3566°E</span></div></div>
+    <div class="i"><img src="https://picsum.photos/350/460?r=914"><div class="ov"><span class="n">Bir-Hakeim</span><span class="c">48.8539°N 2.2913°E</span></div></div>
+    <div class="i span"><img src="https://picsum.photos/700/390?r=915"><div class="ov"><span class="n">Saint-Germain</span><span class="c">48.8534°N 2.3328°E</span></div></div>
+    <div class="i"><img src="https://picsum.photos/350/460?r=916"><div class="ov"><span class="n">Canal Saint-Martin</span><span class="c">48.8710°N 2.3653°E</span></div></div>
+    <div class="i"><img src="https://picsum.photos/350/460?r=917"><div class="ov"><span class="n">Invalides</span><span class="c">48.8567°N 2.3126°E</span></div></div>
+    <div class="i"><img src="https://picsum.photos/350/460?r=918"><div class="ov"><span class="n">Bastille</span><span class="c">48.8533°N 2.3692°E</span></div></div>
+    <div class="i"><img src="https://picsum.photos/350/460?r=919"><div class="ov"><span class="n">Galerie Vivienne</span><span class="c">48.8670°N 2.3393°E</span></div></div>
+    <div class="i span"><img src="https://picsum.photos/700/390?r=920"><div class="ov"><span class="n">Panthéon</span><span class="c">48.8462°N 2.3461°E</span></div></div>
+  </div>
+</div>
+
+<!-- ===== P10: 非対称コラージュ ===== -->
+<div class="sec p10">
+  <div class="sec-t"><span>P10 — Asymmetric Collage</span><b>非対称コラージュ</b></div>
+  <div class="sec-d">左右の画像サイズが違う2列レイアウト。大小の対比がリズミカル</div>
+  <div class="g">
+    <div class="row row-lr"><div class="i"><img src="https://picsum.photos/450/600?r=1001"><div class="ov"><span class="n">Trocadéro</span><span class="c">48.8616°N 2.2889°E</span></div></div><div class="i"><img src="https://picsum.photos/280/350?r=1002"><div class="ov"><span class="n">Pont Alexandre III</span><span class="c">48.8631°N 2.3136°E</span></div></div></div>
+    <div class="row row-w"><div class="i"><img src="https://picsum.photos/700/390?r=1003"><div class="ov"><span class="n">Palais Royal</span><span class="c">48.8638°N 2.3375°E</span></div></div></div>
+    <div class="row row-rl"><div class="i"><img src="https://picsum.photos/300/300?r=1004"><div class="ov"><span class="n">Le Marais</span><span class="c">48.8566°N 2.3622°E</span></div></div><div class="i"><img src="https://picsum.photos/420/560?r=1005"><div class="ov"><span class="n">Montmartre</span><span class="c">48.8867°N 2.3431°E</span></div></div></div>
+    <div class="row row-s"><div class="i"><img src="https://picsum.photos/360/450?r=1006"><div class="ov"><span class="n">Louvre</span><span class="c">48.8606°N 2.3376°E</span></div></div></div>
+    <div class="row row-lr"><div class="i"><img src="https://picsum.photos/450/600?r=1007"><div class="ov"><span class="n">Tuileries</span><span class="c">48.8634°N 2.3275°E</span></div></div><div class="i"><img src="https://picsum.photos/280/350?r=1008"><div class="ov"><span class="n">Seine River</span><span class="c">48.8575°N 2.3514°E</span></div></div></div>
+    <div class="row row-rl"><div class="i"><img src="https://picsum.photos/300/300?r=1009"><div class="ov"><span class="n">Place Vendôme</span><span class="c">48.8676°N 2.3292°E</span></div></div><div class="i"><img src="https://picsum.photos/420/560?r=1010"><div class="ov"><span class="n">Opéra Garnier</span><span class="c">48.8720°N 2.3316°E</span></div></div></div>
+    <div class="row row-w"><div class="i"><img src="https://picsum.photos/700/390?r=1011"><div class="ov"><span class="n">Champs-Élysées</span><span class="c">48.8698°N 2.3078°E</span></div></div></div>
+    <div class="row row-lr"><div class="i"><img src="https://picsum.photos/450/600?r=1012"><div class="ov"><span class="n">Sacré-Cœur</span><span class="c">48.8867°N 2.3431°E</span></div></div><div class="i"><img src="https://picsum.photos/280/350?r=1013"><div class="ov"><span class="n">Île Saint-Louis</span><span class="c">48.8514°N 2.3566°E</span></div></div></div>
+    <div class="row row-s"><div class="i"><img src="https://picsum.photos/360/450?r=1014"><div class="ov"><span class="n">Bir-Hakeim</span><span class="c">48.8539°N 2.2913°E</span></div></div></div>
+    <div class="row row-rl"><div class="i"><img src="https://picsum.photos/300/300?r=1015"><div class="ov"><span class="n">Saint-Germain</span><span class="c">48.8534°N 2.3328°E</span></div></div><div class="i"><img src="https://picsum.photos/420/560?r=1016"><div class="ov"><span class="n">Canal Saint-Martin</span><span class="c">48.8710°N 2.3653°E</span></div></div></div>
+    <div class="row row-w"><div class="i"><img src="https://picsum.photos/700/390?r=1017"><div class="ov"><span class="n">Invalides</span><span class="c">48.8567°N 2.3126°E</span></div></div></div>
+    <div class="row row-lr"><div class="i"><img src="https://picsum.photos/450/600?r=1018"><div class="ov"><span class="n">Bastille</span><span class="c">48.8533°N 2.3692°E</span></div></div><div class="i"><img src="https://picsum.photos/280/350?r=1019"><div class="ov"><span class="n">Galerie Vivienne</span><span class="c">48.8670°N 2.3393°E</span></div></div></div>
+    <div class="row row-s"><div class="i"><img src="https://picsum.photos/360/450?r=1020"><div class="ov"><span class="n">Panthéon</span><span class="c">48.8462°N 2.3461°E</span></div></div></div>
+  </div>
+</div>
+
+<div style="height:80px;"></div>
+</body>
+</html>

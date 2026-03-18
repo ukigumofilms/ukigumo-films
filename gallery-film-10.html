@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Film Thumbnail Design — 10 Patterns</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Noto Sans JP',sans-serif; background:#f5f5f5; color:#333; }
+h1 { text-align:center; font-family:'Cormorant Garamond',serif; font-weight:300; font-size:26px; letter-spacing:0.15em; padding:40px 0 6px; color:#2a2420; }
+.subtitle { text-align:center; font-size:10px; color:#999; margin-bottom:40px; letter-spacing:0.1em; }
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:28px; max-width:880px; margin:0 auto; padding:0 20px 60px; }
+@media(max-width:600px){ .grid{grid-template-columns:1fr; max-width:420px;} }
+
+.pattern { border-radius:12px; overflow:hidden; box-shadow:0 2px 16px rgba(0,0,0,0.06); background:#fff; }
+.pattern-label { font-family:'Cormorant Garamond',serif; font-size:13px; letter-spacing:0.2em; padding:10px 16px; font-weight:400; background:#fff; color:#2a2420; border-bottom:1px solid #f0f0f0; }
+
+.thumb-wrap { position:relative; width:100%; aspect-ratio:16/9; overflow:hidden; cursor:pointer; }
+.thumb-wrap img { width:100%; height:100%; object-fit:cover; display:block; }
+
+.card-info { padding:12px 16px 14px; }
+.card-title { font-family:'Cormorant Garamond',serif; font-size:13px; font-weight:300; letter-spacing:0.05em; color:#4A4A3A; }
+.card-loc { font-family:'Noto Sans JP',sans-serif; font-size:8px; font-weight:300; letter-spacing:0.12em; color:rgba(0,0,0,0.35); margin-top:3px; }
+
+/* ====== PATTERN A: Dark Overlay + Play Circle ====== */
+.pa .thumb-wrap::after {
+  content:''; position:absolute; top:0; left:0; width:100%; height:100%;
+  background:rgba(0,0,0,0.35);
+  transition:background 0.4s ease;
+}
+.pa .thumb-wrap:hover::after { background:rgba(0,0,0,0.2); }
+.pa .play-icon {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:2;
+  width:48px; height:48px; border:1.5px solid rgba(255,255,255,0.85); border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+}
+.pa .play-icon::after {
+  content:''; width:0; height:0;
+  border-left:10px solid rgba(255,255,255,0.9); border-top:6px solid transparent; border-bottom:6px solid transparent;
+  margin-left:3px;
+}
+
+/* ====== PATTERN B: Gradient Bottom + Play Triangle ====== */
+.pb .thumb-wrap::after {
+  content:''; position:absolute; bottom:0; left:0; width:100%; height:60%;
+  background:linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%);
+}
+.pb .play-icon {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:2;
+  width:0; height:0;
+  border-left:16px solid rgba(255,255,255,0.9); border-top:10px solid transparent; border-bottom:10px solid transparent;
+  filter:drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+}
+
+/* ====== PATTERN C: Soft Blur Overlay + Rounded Play ====== */
+.pc .thumb-wrap img { filter:brightness(0.75); transition:filter 0.4s ease; }
+.pc .thumb-wrap:hover img { filter:brightness(0.85); }
+.pc .play-icon {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:2;
+  width:44px; height:44px; background:rgba(255,255,255,0.2); backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border-radius:50%; display:flex; align-items:center; justify-content:center;
+  border:1px solid rgba(255,255,255,0.3);
+}
+.pc .play-icon::after {
+  content:''; width:0; height:0;
+  border-left:9px solid rgba(255,255,255,0.95); border-top:5px solid transparent; border-bottom:5px solid transparent;
+  margin-left:2px;
+}
+
+/* ====== PATTERN D: Vignette + Minimal Play ====== */
+.pd .thumb-wrap::after {
+  content:''; position:absolute; top:0; left:0; width:100%; height:100%;
+  box-shadow:inset 0 0 80px rgba(0,0,0,0.5);
+}
+.pd .play-icon {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:2;
+  font-family:'Cormorant Garamond',serif; font-size:10px; letter-spacing:0.3em;
+  color:rgba(255,255,255,0.9); text-transform:uppercase;
+  border:1px solid rgba(255,255,255,0.5); padding:6px 16px; border-radius:3px;
+}
+
+/* ====== PATTERN E: Desaturate + Color Play Button ====== */
+.pe .thumb-wrap img { filter:brightness(0.7) saturate(0.6); transition:all 0.5s ease; }
+.pe .thumb-wrap:hover img { filter:brightness(0.8) saturate(0.8); }
+.pe .play-icon {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:2;
+  width:42px; height:42px; background:rgba(201,169,110,0.85); border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 4px 16px rgba(0,0,0,0.2);
+}
+.pe .play-icon::after {
+  content:''; width:0; height:0;
+  border-left:10px solid #fff; border-top:6px solid transparent; border-bottom:6px solid transparent;
+  margin-left:2px;
+}
+
+/* ====== PATTERN F: Letterbox + Thin Border Play ====== */
+.pf .thumb-wrap { background:#000; }
+.pf .thumb-wrap img { opacity:0.65; transition:opacity 0.4s ease; }
+.pf .thumb-wrap:hover img { opacity:0.8; }
+.pf .thumb-wrap::before {
+  content:''; position:absolute; top:0; left:0; width:100%; height:8%;
+  background:#000; z-index:1;
+}
+.pf .thumb-wrap::after {
+  content:''; position:absolute; bottom:0; left:0; width:100%; height:8%;
+  background:#000; z-index:1;
+}
+.pf .play-icon {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:2;
+  width:50px; height:50px; border:1px solid rgba(255,255,255,0.6); border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+}
+.pf .play-icon::after {
+  content:''; width:0; height:0;
+  border-left:10px solid rgba(255,255,255,0.8); border-top:6px solid transparent; border-bottom:6px solid transparent;
+  margin-left:3px;
+}
+
+/* ====== PATTERN G: Warm Tint + Text Label ====== */
+.pg .thumb-wrap::after {
+  content:''; position:absolute; top:0; left:0; width:100%; height:100%;
+  background:rgba(60,40,20,0.35);
+  transition:background 0.4s ease;
+}
+.pg .thumb-wrap:hover::after { background:rgba(60,40,20,0.2); }
+.pg .play-icon {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:2;
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+}
+.pg .play-icon::before {
+  content:''; width:0; height:0;
+  border-left:12px solid rgba(255,255,255,0.9); border-top:7px solid transparent; border-bottom:7px solid transparent;
+}
+.pg .play-icon::after {
+  content:'PLAY FILM'; font-family:'Cormorant Garamond',serif; font-size:8px;
+  letter-spacing:0.35em; color:rgba(255,255,255,0.75); text-transform:uppercase;
+}
+
+/* ====== PATTERN H: Corner Badge + Subtle Dark ====== */
+.ph .thumb-wrap::after {
+  content:''; position:absolute; top:0; left:0; width:100%; height:100%;
+  background:rgba(0,0,0,0.25);
+}
+.ph .play-icon {
+  position:absolute; bottom:12px; right:12px; z-index:2;
+  display:flex; align-items:center; gap:5px;
+  background:rgba(0,0,0,0.5); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
+  padding:5px 12px; border-radius:4px;
+}
+.ph .play-icon::before {
+  content:''; width:0; height:0;
+  border-left:7px solid rgba(255,255,255,0.9); border-top:4px solid transparent; border-bottom:4px solid transparent;
+}
+.ph .play-icon::after {
+  content:'FILM'; font-family:'Cormorant Garamond',serif; font-size:9px;
+  letter-spacing:0.2em; color:rgba(255,255,255,0.85);
+}
+
+/* ====== PATTERN I: Sepia + Elegant Circle ====== */
+.pi .thumb-wrap img { filter:brightness(0.7) sepia(0.3); transition:filter 0.5s ease; }
+.pi .thumb-wrap:hover img { filter:brightness(0.8) sepia(0.15); }
+.pi .play-icon {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:2;
+  width:54px; height:54px; border:2px solid rgba(255,255,255,0.5); border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(255,255,255,0.08);
+}
+.pi .play-icon::after {
+  content:''; width:0; height:0;
+  border-left:11px solid rgba(255,255,255,0.85); border-top:7px solid transparent; border-bottom:7px solid transparent;
+  margin-left:3px;
+}
+
+/* ====== PATTERN J: Minimal Line + Bottom Play ====== */
+.pj .thumb-wrap::after {
+  content:''; position:absolute; top:0; left:0; width:100%; height:100%;
+  background:linear-gradient(to top, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.05) 100%);
+}
+.pj .play-icon {
+  position:absolute; bottom:14px; left:50%; transform:translateX(-50%); z-index:2;
+  display:flex; align-items:center; gap:8px;
+}
+.pj .play-icon::before {
+  content:''; width:24px; height:1px; background:rgba(255,255,255,0.5);
+}
+.pj .play-icon::after {
+  content:'▶ PLAY'; font-family:'Cormorant Garamond',serif; font-size:9px;
+  letter-spacing:0.25em; color:rgba(255,255,255,0.8);
+}
+</style>
+</head>
+<body>
+<h1>Film Thumbnail Design</h1>
+<p class="subtitle">10 Patterns — サムネイルを暗くし、再生可能であることを示すデザイン</p>
+
+<div class="grid">
+
+<!-- Pattern A: Dark Overlay + Play Circle -->
+<div class="pattern pa">
+  <div class="pattern-label">A — Dark Overlay + Play Circle</div>
+  <div class="thumb-wrap">
+    <img src="images/paris/06.jpg" alt="film">
+    <div class="play-icon"></div>
+  </div>
+  <div class="card-info">
+    <p class="card-title">Film in Paris</p>
+    <p class="card-loc">48.8566°N 2.3522°E</p>
+  </div>
+</div>
+
+<!-- Pattern B: Gradient Bottom + Play Triangle -->
+<div class="pattern pb">
+  <div class="pattern-label">B — Gradient Bottom + Triangle</div>
+  <div class="thumb-wrap">
+    <img src="images/paris/06.jpg" alt="film">
+    <div class="play-icon"></div>
+  </div>
+  <div class="card-info">
+    <p class="card-title">Film in Paris</p>
+    <p class="card-loc">48.8566°N 2.3522°E</p>
+  </div>
+</div>
+
+<!-- Pattern C: Soft Blur Overlay + Rounded Play -->
+<div class="pattern pc">
+  <div class="pattern-label">C — Blur Glass + Rounded Play</div>
+  <div class="thumb-wrap">
+    <img src="images/paris/06.jpg" alt="film">
+    <div class="play-icon"></div>
+  </div>
+  <div class="card-info">
+    <p class="card-title">Film in Paris</p>
+    <p class="card-loc">48.8566°N 2.3522°E</p>
+  </div>
+</div>
+
+<!-- Pattern D: Vignette + Minimal Play Text -->
+<div class="pattern pd">
+  <div class="pattern-label">D — Vignette + "PLAY" Text</div>
+  <div class="thumb-wrap">
+    <img src="images/paris/06.jpg" alt="film">
+    <div class="play-icon">PLAY</div>
+  </div>
+  <div class="card-info">
+    <p class="card-title">Film in Paris</p>
+    <p class="card-loc">48.8566°N 2.3522°E</p>
+  </div>
+</div>
+
+<!-- Pattern E: Desaturate + Gold Play Button -->
+<div class="pattern pe">
+  <div class="pattern-label">E — Desaturate + Gold Play</div>
+  <div class="thumb-wrap">
+    <img src="images/paris/06.jpg" alt="film">
+    <div class="play-icon"></div>
+  </div>
+  <div class="card-info">
+    <p class="card-title">Film in Paris</p>
+    <p class="card-loc">48.8566°N 2.3522°E</p>
+  </div>
+</div>
+
+<!-- Pattern F: Letterbox Cinema + Circle Play -->
+<div class="pattern pf">
+  <div class="pattern-label">F — Letterbox Cinema + Circle</div>
+  <div class="thumb-wrap">
+    <img src="images/paris/06.jpg" alt="film">
+    <div class="play-icon"></div>
+  </div>
+  <div class="card-info">
+    <p class="card-title">Film in Paris</p>
+    <p class="card-loc">48.8566°N 2.3522°E</p>
+  </div>
+</div>
+
+<!-- Pattern G: Warm Tint + Text Label -->
+<div class="pattern pg">
+  <div class="pattern-label">G — Warm Tint + "PLAY FILM"</div>
+  <div class="thumb-wrap">
+    <img src="images/paris/06.jpg" alt="film">
+    <div class="play-icon"></div>
+  </div>
+  <div class="card-info">
+    <p class="card-title">Film in Paris</p>
+    <p class="card-loc">48.8566°N 2.3522°E</p>
+  </div>
+</div>
+
+<!-- Pattern H: Corner Badge + Subtle Dark -->
+<div class="pattern ph">
+  <div class="pattern-label">H — Corner Badge "FILM"</div>
+  <div class="thumb-wrap">
+    <img src="images/paris/06.jpg" alt="film">
+    <div class="play-icon"></div>
+  </div>
+  <div class="card-info">
+    <p class="card-title">Film in Paris</p>
+    <p class="card-loc">48.8566°N 2.3522°E</p>
+  </div>
+</div>
+
+<!-- Pattern I: Sepia + Elegant Circle -->
+<div class="pattern pi">
+  <div class="pattern-label">I — Sepia + Elegant Circle</div>
+  <div class="thumb-wrap">
+    <img src="images/paris/06.jpg" alt="film">
+    <div class="play-icon"></div>
+  </div>
+  <div class="card-info">
+    <p class="card-title">Film in Paris</p>
+    <p class="card-loc">48.8566°N 2.3522°E</p>
+  </div>
+</div>
+
+<!-- Pattern J: Gradient + Bottom Play Text -->
+<div class="pattern pj">
+  <div class="pattern-label">J — Gradient + Bottom "▶ PLAY"</div>
+  <div class="thumb-wrap">
+    <img src="images/paris/06.jpg" alt="film">
+    <div class="play-icon"></div>
+  </div>
+  <div class="card-info">
+    <p class="card-title">Film in Paris</p>
+    <p class="card-loc">48.8566°N 2.3522°E</p>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

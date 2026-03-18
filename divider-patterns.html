@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Section Divider Patterns — 区切りデザイン10パターン</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #d5d0ca; font-family: "Noto Serif JP", serif; }
+
+    .pattern-header {
+      text-align: center;
+      padding: 50px 20px 30px;
+      background: #b8b3ac;
+    }
+    .pattern-header h2 {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 300; font-size: 1.1rem;
+      letter-spacing: 0.3em; color: rgba(61,53,48,0.7);
+    }
+    .pattern-header p {
+      font-size: 0.7rem; color: rgba(61,53,48,0.45);
+      margin-top: 8px; letter-spacing: 0.1em;
+    }
+
+    /* ---- Shared section styles ---- */
+    .bg-main { background: #f5f3ef; }
+    .bg-alt  { background: #efece6; }
+    .bg-warm { background: #f0ebe4; }
+    .bg-cool { background: #eef0ee; }
+
+    .sec {
+      padding: 60px 30px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Timeline last step (7. 納品) */
+    .fake-step {
+      display: flex; gap: 1rem; align-items: flex-start;
+      padding-left: 2.5rem; position: relative;
+    }
+    .fake-step::before {
+      content: '7';
+      position: absolute; left: 0; top: 2px;
+      width: 1.2rem; height: 1.2rem;
+      border: 1px solid rgba(61,53,48,0.2);
+      border-radius: 50%; background: #f5f3ef;
+      display: flex; align-items: center; justify-content: center;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.65rem; color: rgba(61,53,48,0.9);
+    }
+    .fake-step h3 {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.95rem; font-weight: 300;
+      color: #2a2420; letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+    .fake-step p {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.8rem; font-weight: 300;
+      color: rgba(61,53,48,0.55); line-height: 2;
+    }
+
+    /* Estimate heading */
+    .est-heading { text-align: center; margin-bottom: 2.5rem; }
+    .est-heading h2 {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 300; font-size: clamp(1.4rem,4vw,2rem);
+      letter-spacing: 0.2em; color: #2a2420; margin-bottom: 6px;
+    }
+    .est-heading .sub {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.7rem; font-weight: 400;
+      color: rgba(61,53,48,0.35); letter-spacing: 0.25em;
+      text-transform: uppercase;
+    }
+
+    /* Estimate list */
+    .est-list { max-width: 440px; margin: 0 auto; }
+    .est-item {
+      display: flex; align-items: center;
+      gap: 1rem; padding: 1rem 0;
+    }
+    .est-num {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.8rem; font-weight: 400;
+      color: rgba(61,53,48,0.4); width: 1rem;
+      text-align: center; flex-shrink: 0;
+    }
+    .est-label {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.82rem; font-weight: 300;
+      color: #2a2420; letter-spacing: 0.05em; flex-shrink: 0;
+    }
+    .est-line { flex: 1; height: 1px; background: rgba(61,53,48,0.1); }
+
+    /* IG area */
+    .ig-area { text-align: center; margin-top: 2.5rem; }
+    .ig-area .dm-note {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.72rem; font-weight: 300;
+      color: rgba(61,53,48,0.42); line-height: 2.2;
+      letter-spacing: 0.05em; margin-bottom: 20px;
+    }
+    .ig-link {
+      display: inline-flex; align-items: center; gap: 12px;
+      color: #2a2420; font-size: 0.85rem; letter-spacing: 0.18em;
+      text-decoration: none; font-family: "Cormorant Garamond", serif;
+    }
+    .ig-link .li { display: inline-block; width: 30px; height: 1px; background: #2a2420; }
+    .ig-link .ar { font-size: 0.8rem; }
+
+    /* FAQ area */
+    .faq-area { text-align: center; }
+    .faq-area p {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.8rem; font-weight: 300;
+      color: rgba(61,53,48,0.55); letter-spacing: 0.05em;
+      margin-bottom: 1.5rem;
+    }
+    .faq-link {
+      display: inline-flex; align-items: center; gap: 10px;
+      color: #2a2420; text-decoration: none;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.9rem; letter-spacing: 0.15em;
+    }
+    .faq-link .li { display: inline-block; width: 30px; height: 1px; background: #2a2420; }
+
+    /* IG + DM block (shared) */
+    .ig-dm-block {
+      text-align: center; margin-top: 2.5rem;
+    }
+
+    /* ============================================
+       DIVIDER PATTERNS
+       ============================================ */
+
+    /* Pattern 1: 中央グラデーションライン */
+    .dv-gradient {
+      max-width: 400px; margin: 0 auto;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(61,53,48,0.12), transparent);
+    }
+
+    /* Pattern 2: 縦ライン */
+    .dv-vertical {
+      display: flex; justify-content: center;
+    }
+    .dv-vertical span {
+      display: block; width: 1px; height: 36px;
+      background: rgba(61,53,48,0.1);
+    }
+
+    /* Pattern 3: 3ドット */
+    .dv-dots {
+      display: flex; justify-content: center; gap: 14px;
+    }
+    .dv-dots span {
+      width: 3px; height: 3px; border-radius: 50%;
+      background: rgba(61,53,48,0.15);
+    }
+
+    /* Pattern 4: 余白のみ（大きめスペース） */
+    /* no visual element, just padding */
+
+    /* Pattern 5: ショートライン中央 */
+    .dv-short { display: flex; justify-content: center; }
+    .dv-short span {
+      display: block; width: 50px; height: 1px;
+      background: rgba(61,53,48,0.12);
+    }
+
+    /* Pattern 6: 背景色切り替え */
+    /* handled by different bg classes */
+
+    /* Pattern 7: ドット + 左右ライン */
+    .dv-dot-lines {
+      display: flex; align-items: center;
+      justify-content: center; gap: 16px;
+    }
+    .dv-dot-lines .ln {
+      width: 35px; height: 1px;
+      background: rgba(61,53,48,0.08);
+    }
+    .dv-dot-lines .dt {
+      width: 4px; height: 4px; border-radius: 50%;
+      background: rgba(61,53,48,0.15);
+    }
+
+    /* Pattern 8: ダブルライン */
+    .dv-double {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 4px;
+    }
+    .dv-double span {
+      display: block; height: 1px;
+      background: rgba(61,53,48,0.08);
+    }
+    .dv-double span:first-child { width: 60px; }
+    .dv-double span:last-child { width: 35px; }
+
+    /* Pattern 9: 菱形（ダイヤモンド） */
+    .dv-diamond {
+      display: flex; justify-content: center;
+    }
+    .dv-diamond span {
+      display: block; width: 6px; height: 6px;
+      background: rgba(61,53,48,0.12);
+      transform: rotate(45deg);
+    }
+
+    /* Pattern 10: フル幅の極薄ライン */
+    .dv-fullwidth {
+      max-width: 600px; margin: 0 auto;
+      height: 1px;
+      background: rgba(61,53,48,0.05);
+    }
+
+    /* Divider wrapper */
+    .dv-wrap { padding: 50px 0; }
+    .dv-wrap-lg { padding: 70px 0; }
+
+  </style>
+</head>
+<body>
+
+<!-- ============ PATTERN 1 ============ -->
+<div class="pattern-header">
+  <h2>Pattern 1</h2>
+  <p>中央グラデーションライン</p>
+</div>
+<div class="bg-main">
+  <div class="sec">
+    <div class="fake-step">
+      <div><h3>納品</h3><p>レタッチ済みのお写真はGoogle Photo、映像はギガファイル便にて納品いたします。</p></div>
+    </div>
+  </div>
+  <div class="dv-wrap"><div class="dv-gradient"></div></div>
+  <div class="sec">
+    <div class="est-heading"><h2>見積り依頼</h2><p class="sub">Estimate Request</p></div>
+    <div class="est-list">
+      <div class="est-item"><span class="est-num">1</span><span class="est-label">お名前</span><span class="est-line"></span></div>
+      <div class="est-item"><span class="est-num">2</span><span class="est-label">ご希望撮影地</span><span class="est-line"></span></div>
+      <div class="est-item"><span class="est-num">3</span><span class="est-label">日程（第3希望日まで）</span><span class="est-line"></span></div>
+      <div class="est-item"><span class="est-num">4</span><span class="est-label">オプション（後から追加可能）</span><span class="est-line"></span></div>
+    </div>
+    <div class="ig-area">
+      <p class="dm-note">上記の内容をInstagram DMにてお送りいただけますと<br>スムーズにお見積りを作成いたします。</p>
+      <a href="#" class="ig-link"><span class="li"></span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg> ukigumo_films <span class="ar">→</span></a>
+    </div>
+  </div>
+  <div class="dv-wrap"><div class="dv-gradient"></div></div>
+  <div class="sec">
+    <div class="faq-area">
+      <p>よくあるご質問はこちらをご覧ください</p>
+      <a href="#" class="faq-link"><span class="li"></span>Q & A</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PATTERN 2 ============ -->
+<div class="pattern-header">
+  <h2>Pattern 2</h2>
+  <p>縦ライン</p>
+</div>
+<div class="bg-main">
+  <div class="sec">
+    <div class="fake-step">
+      <div><h3>納品</h3><p>レタッチ済みのお写真はGoogle Photo、映像はギガファイル便にて納品いたします。</p></div>
+    </div>
+  </div>
+  <div class="dv-wrap"><div class="dv-vertical"><span></span></div></div>
+  <div class="sec">
+    <div class="est-heading"><h2>見積り依頼</h2><p class="sub">Estimate Request</p></div>
+    <div class="est-list">
+      <div class="est-item"><span class="est-num">1</span><span class="est-label">お名前</span><span class="est-line"></span></div>
+      <div class="est-item"><span class="est-num">2</span><span class="est-label">ご希望撮影地</span><span class="est-line"></span></div>
+      <div class="est-item"><span class="est-num">3</span><span class="est-label">日程（第3希望日まで）</span><span class="est-line"></span></div>
+      <div class="est-item"><span class="est-num">4</span><span class="est-label">オプション（後から追加可能）</span><span class="est-line"></span></div>
+    </div>
+    <div class="ig-area">
+      <p class="dm-note">上記の内容をInstagram DMにてお送りいただけますと<br>スムーズにお見積りを作成いたします。</p>
+      <a href="#" class="ig-link"><span class="li"></span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg> ukigumo_films <span class="ar">→</span></a>
+    </div>
+  </div>
+  <div class="dv-wrap"><div class="dv-vertical"><span></span></div></div>
+  <div class="sec">
+    <div class="faq-area">
+      <p>よくあるご質問はこちらをご覧ください</p>
+      <a href="#" class="faq-link"><span class="li"></span>Q & A</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PATTERN 3 ============ -->
+<div class="pattern-header">
+  <h2>Pattern 3</h2>
+  <p>3つのドット</p>
+</div>
+<div class="bg-main">
+  <div class="sec">
+    <div class="fake-step">
+      <div><h3>納品</h3><p>レタッチ済みのお写真はGoogle Photo、映像はギガファイル便にて納品いたします。</p></div>
+    </div>
+  </div>
+  <div class="dv-wrap"><div class="dv-dots"><span></span><span></span><span></span></div></div>
+  <div class="sec">
+    <div class="est-heading"><h2>見積り依頼</h2><p class="sub">Estimate Request</p></div>
+    <div class="est-list">
+      <div class="est-item"><span class="est-num">1</span><span class="est-label">お名前</span><span class="est-line"></span></div>
+      <div class="est-item"><span class="est-num">2</span><span class="est-label">ご希望撮影地</span><span class="est-line"></span></div>
+      <div class="est-item"><span class="est-num">3</span><span class="est-label">日程（第3希望日まで）</span><span class="est-line"></span></div>
+      <div class="est-item"><span class="est-num">4</span><span class="est-label">オプション（後から追加可能）</span><span class="est-line"></span></div>
+    </div>
+    <div class="ig-area">
+      <p class="dm-note">上記の内容をInstagram DMにてお送りいただけますと<br>スムーズにお見積りを作成いたします。</p>
+      <a href="#" class="ig-link"><span class="li"></span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg> ukigumo_films <span class="ar">→</span></a>
+    </div>
+  </div>
+  <div class="dv-wrap"><div class="dv-dots"><span></span><span></span><span></span></div></div>
+  <div class="sec">
+    <div class="faq-area">
+      <p>よくあるご質問はこちらをご覧ください</p>
+      <a href="#" class="faq-link"><span class="li"></span>Q & A</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PATTERN 4 ============ -->
+<div class="pattern-header">
+  <h2>Pattern 4</h2>
+  <p>広い余白のみ（ミニマル）</p>
+</div>
+<div class="bg-main">
+  <div class="sec">
+    <div class="fake-step">
+      <div><h3>納品</h3><p>レタッチ済みのお写真はGoogle Photo、映像はギガファイル便にて納品いたします。</p></div>
+    </div>
+  </div>
+  <div class="dv-wrap-lg"></div>
+  <div class="sec">
+    <div class="est-heading"><h2>見積り依頼</h2><p class="sub">Estimate Request</p></div>
+    <div class="est-list">
+      <div class="est-item"><span class="est-num">1</span><span class="est-label">お名前</span><span class="est-line"></span></div>
+      <div class="est-item"><span class="est-num">2</span><span class="est-label">ご希望撮影地</span><span class="est-line"></span></div>
+      <div class="est-item"><span class="est-num">3</span><span class="est-label">日程（第3希望日まで）</span><span class="est-line"></span></div>
+      <div class="est-item"><span class="est-num">4</span><span class="est-label">オプション（後から追加可能）</span><span class="est-line"></span></div>
+    </div>
+    <div class="ig-area">
+      <p class="dm-note">上記の内容をInstagram DMにてお送りいただけますと<br>スムーズにお見積りを作成いたします。</p>
+      <a href="#" class="ig-link"><span class="li"></span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg> ukigumo_films <span class="ar">→</span></a>
+    </div>
+  </div>
+  <div class="dv-wrap-lg"></div>
+  <div class="sec">
+    <div class="faq-area">
+      <p>よくあるご質問はこちらをご覧ください</p>
+      <a href="#" class="faq-link"><span class="li"></span>Q & A</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PATTERN 5 ============ -->
+<div class="pattern-header">
+  <h2>Pattern 5</h2>
+  <p>ショートライン中央</p>
+</div>
+<div class="bg-main">
+  <div class="sec">
+    <div class="fake-step">
+      <div><h3>納品</h3><p>レタッチ済みのお写真はGoogle Photo、映像はギガファイル便にて納品いたします。</p></div>
+    </div>
+  </div>
+  <div class="dv-wrap"><div class="dv-short"><span></span></div></div>
+  <div class="sec">
+    <div class="est-heading"><h2>見積り依頼</h2><p class="sub">Estimate Request</p></div>
+    <div class="est-list">
+      <div class="est-item"><span class="est-num">1</span><span class="est-label">お名前</span><span class="est-line"></span></div>
+      <div class="est-item"><span class="est-num">2</span><span class="est-label">ご希望撮影地</span><span class="est-line"></span></div>
+      <div class="est-item"><span class="est-num">3</span><span class="est-label">日程（第3希望日まで）</span><span class="est-line"></span></div>
+      <div class="est-item"><span class="est-num">4</span><span class="est-label">オプション（後から追加可能）</span><span class="est-line"></span></div>
+    </div>
+    <div class="ig-area">
+      <p class="dm-note">上記の内容をInstagram DMにてお送りいただけますと<br>スムーズにお見積りを作成いたします。</p>
+      <a href="#" class="ig-link"><span class="li"></span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg> ukigumo_films <span class="ar">→</span></a>
+    </div>
+  </div>
+  <div class="dv-wrap"><div class="dv-short"><span></span></div></div>
+  <div class="sec">
+    <div class="faq-area">
+      <p>よくあるご質問はこちらをご覧ください</p>
+      <a href="#" class="faq-link"><span class="li"></span>Q & A</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PATTERN 6 ============ -->
+<div class="pattern-header">
+  <h2>Pattern 6</h2>
+  <p>背景色の切り替え</p>
+</div>
+<div class="bg-main">
+  <div class="sec">
+    <div class="fake-step">
+      <div><h3>納品</h3><p>レタッチ済みのお写真はGoogle Photo、映像はギガファイル便にて納品いたします。</p></div>
+    </div>
+  </div>
+</div>
+<div class="bg-alt">
+  <div class="sec">
+    <div class="est-heading"><h2>見積り依頼</h2><p class="sub">Estimate Request</p></div>
+    <div class="est-list">
+      <div class="est-item"><span class="est-num">1</span><span class="est-label">お名前</span><span class="est-line"></span></div>
+      <div class="est-item"><span class="est-num">2</span><span class="est-label">ご希望撮影地</span><span class="est-line"></span></div>
+      <div class="est-item"><span class="est-num">3</span><span class="est-label">日程（第3希望日まで）</span><span class="est-line"></span></div>
+      <div class="est-item"><span class="est-num">4</span><span class="est-label">オプション（後から追加可能）</span><span class="est-line"></span></div>
+    </div>
+    <div class="ig-area">
+      <p class="dm-note">上記の内容をInstagram DMにてお送りいただけますと<br>スムーズにお見積りを作成いたします。</p>
+      <a href="#" class="ig-link"><span class="li"></span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg> ukigumo_films <span class="ar">→</span></a>
+    </div>
+  </div>
+</div>
+<div class="bg-main">
+  <div class="sec">
+    <div class="faq-area">
+      <p>よくあるご質問はこちらをご覧ください</p>
+      <a href="#" class="faq-link"><span class="li"></span>Q & A</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PATTERN 7 ============ -->
+<div class="pattern-header">
+  <h2>Pattern 7</h2>
+  <p>ドット＋左右ライン</p>
+</div>
+<div class="bg-main">
+  <div class="sec">
+    <div class="fake-step">
+      <div><h3>納品</h3><p>レタッチ済みのお写真はGoogle Photo、映像はギガファイル便にて納品いたします。</p></div>
+    </div>
+  </div>
+  <div class="dv-wrap"><div class="dv-dot-lines"><span class="ln"></span><span class="dt"></span><span class="ln"></span></div></div>
+  <div class="sec">
+    <div class="est-heading"><h2>見積り依頼</h2><p class="sub">Estimate Request</p></div>
+    <div class="est-list">
+      <div class="est-item"><span class="est-num">1</span><span class="est-label">お名前</span><span class="est-line"></span></div>
+      <div class="est-item"><span class="est-num">2</span><span class="est-label">ご希望撮影地</span><span class="est-line"></span></div>
+      <div class="est-item"><span class="est-num">3</span><span class="est-label">日程（第3希望日まで）</span><span class="est-line"></span></div>
+      <div class="est-item"><span class="est-num">4</span><span class="est-label">オプション（後から追加可能）</span><span class="est-line"></span></div>
+    </div>
+    <div class="ig-area">
+      <p class="dm-note">上記の内容をInstagram DMにてお送りいただけますと<br>スムーズにお見積りを作成いたします。</p>
+      <a href="#" class="ig-link"><span class="li"></span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg> ukigumo_films <span class="ar">→</span></a>
+    </div>
+  </div>
+  <div class="dv-wrap"><div class="dv-dot-lines"><span class="ln"></span><span class="dt"></span><span class="ln"></span></div></div>
+  <div class="sec">
+    <div class="faq-area">
+      <p>よくあるご質問はこちらをご覧ください</p>
+      <a href="#" class="faq-link"><span class="li"></span>Q & A</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PATTERN 8 ============ -->
+<div class="pattern-header">
+  <h2>Pattern 8</h2>
+  <p>ダブルライン</p>
+</div>
+<div class="bg-main">
+  <div class="sec">
+    <div class="fake-step">
+      <div><h3>納品</h3><p>レタッチ済みのお写真はGoogle Photo、映像はギガファイル便にて納品いたします。</p></div>
+    </div>
+  </div>
+  <div class="dv-wrap"><div class="dv-double"><span></span><span></span></div></div>
+  <div class="sec">
+    <div class="est-heading"><h2>見積り依頼</h2><p class="sub">Estimate Request</p></div>
+    <div class="est-list">
+      <div class="est-item"><span class="est-num">1</span><span class="est-label">お名前</span><span class="est-line"></span></div>
+      <div class="est-item"><span class="est-num">2</span><span class="est-label">ご希望撮影地</span><span class="est-line"></span></div>
+      <div class="est-item"><span class="est-num">3</span><span class="est-label">日程（第3希望日まで）</span><span class="est-line"></span></div>
+      <div class="est-item"><span class="est-num">4</span><span class="est-label">オプション（後から追加可能）</span><span class="est-line"></span></div>
+    </div>
+    <div class="ig-area">
+      <p class="dm-note">上記の内容をInstagram DMにてお送りいただけますと<br>スムーズにお見積りを作成いたします。</p>
+      <a href="#" class="ig-link"><span class="li"></span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg> ukigumo_films <span class="ar">→</span></a>
+    </div>
+  </div>
+  <div class="dv-wrap"><div class="dv-double"><span></span><span></span></div></div>
+  <div class="sec">
+    <div class="faq-area">
+      <p>よくあるご質問はこちらをご覧ください</p>
+      <a href="#" class="faq-link"><span class="li"></span>Q & A</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PATTERN 9 ============ -->
+<div class="pattern-header">
+  <h2>Pattern 9</h2>
+  <p>菱形（ダイヤモンド）</p>
+</div>
+<div class="bg-main">
+  <div class="sec">
+    <div class="fake-step">
+      <div><h3>納品</h3><p>レタッチ済みのお写真はGoogle Photo、映像はギガファイル便にて納品いたします。</p></div>
+    </div>
+  </div>
+  <div class="dv-wrap"><div class="dv-diamond"><span></span></div></div>
+  <div class="sec">
+    <div class="est-heading"><h2>見積り依頼</h2><p class="sub">Estimate Request</p></div>
+    <div class="est-list">
+      <div class="est-item"><span class="est-num">1</span><span class="est-label">お名前</span><span class="est-line"></span></div>
+      <div class="est-item"><span class="est-num">2</span><span class="est-label">ご希望撮影地</span><span class="est-line"></span></div>
+      <div class="est-item"><span class="est-num">3</span><span class="est-label">日程（第3希望日まで）</span><span class="est-line"></span></div>
+      <div class="est-item"><span class="est-num">4</span><span class="est-label">オプション（後から追加可能）</span><span class="est-line"></span></div>
+    </div>
+    <div class="ig-area">
+      <p class="dm-note">上記の内容をInstagram DMにてお送りいただけますと<br>スムーズにお見積りを作成いたします。</p>
+      <a href="#" class="ig-link"><span class="li"></span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg> ukigumo_films <span class="ar">→</span></a>
+    </div>
+  </div>
+  <div class="dv-wrap"><div class="dv-diamond"><span></span></div></div>
+  <div class="sec">
+    <div class="faq-area">
+      <p>よくあるご質問はこちらをご覧ください</p>
+      <a href="#" class="faq-link"><span class="li"></span>Q & A</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PATTERN 10 ============ -->
+<div class="pattern-header">
+  <h2>Pattern 10</h2>
+  <p>極薄フル幅ライン</p>
+</div>
+<div class="bg-main">
+  <div class="sec">
+    <div class="fake-step">
+      <div><h3>納品</h3><p>レタッチ済みのお写真はGoogle Photo、映像はギガファイル便にて納品いたします。</p></div>
+    </div>
+  </div>
+  <div class="dv-wrap"><div class="dv-fullwidth"></div></div>
+  <div class="sec">
+    <div class="est-heading"><h2>見積り依頼</h2><p class="sub">Estimate Request</p></div>
+    <div class="est-list">
+      <div class="est-item"><span class="est-num">1</span><span class="est-label">お名前</span><span class="est-line"></span></div>
+      <div class="est-item"><span class="est-num">2</span><span class="est-label">ご希望撮影地</span><span class="est-line"></span></div>
+      <div class="est-item"><span class="est-num">3</span><span class="est-label">日程（第3希望日まで）</span><span class="est-line"></span></div>
+      <div class="est-item"><span class="est-num">4</span><span class="est-label">オプション（後から追加可能）</span><span class="est-line"></span></div>
+    </div>
+    <div class="ig-area">
+      <p class="dm-note">上記の内容をInstagram DMにてお送りいただけますと<br>スムーズにお見積りを作成いたします。</p>
+      <a href="#" class="ig-link"><span class="li"></span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg> ukigumo_films <span class="ar">→</span></a>
+    </div>
+  </div>
+  <div class="dv-wrap"><div class="dv-fullwidth"></div></div>
+  <div class="sec">
+    <div class="faq-area">
+      <p>よくあるご質問はこちらをご覧ください</p>
+      <a href="#" class="faq-link"><span class="li"></span>Q & A</a>
+    </div>
+  </div>
+</div>
+
+<div style="height:80px;"></div>
+</body>
+</html>

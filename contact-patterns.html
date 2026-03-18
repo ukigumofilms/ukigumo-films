@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Section — 10 Patterns</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #e8e5e0; font-family: "Cormorant Garamond", serif; }
+  .pattern-label {
+    text-align: center; padding: 60px 0 20px;
+    font-family: "Cormorant Garamond", serif; font-size: 0.75rem;
+    letter-spacing: 0.4em; color: rgba(61,53,48,0.4); text-transform: uppercase;
+  }
+  .pattern-label span { font-size: 1.4rem; display: block; margin-bottom: 6px; color: #2a2420; letter-spacing: 0.1em; }
+  .divider { width: 60px; height: 1px; background: rgba(61,53,48,0.15); margin: 0 auto 80px; }
+
+  /* ====== PATTERN 1: ミニマルセンター ====== */
+  .c1 {
+    background: #f5f3ef; padding: 120px 8%; text-align: center;
+  }
+  .c1 h2 {
+    font-weight: 300; font-size: clamp(2rem, 5vw, 3.2rem);
+    letter-spacing: 0.3em; color: #2a2420; margin-bottom: 16px;
+  }
+  .c1 .sub {
+    font-family: "Noto Serif JP", serif; font-size: 0.65rem; font-weight: 300;
+    color: rgba(61,53,48,0.4); letter-spacing: 0.3em; margin-bottom: 48px;
+  }
+  .c1 p {
+    font-family: "Noto Serif JP", serif; font-size: 0.85rem; font-weight: 300;
+    color: rgba(61,53,48,0.7); line-height: 2.2; max-width: 520px; margin: 0 auto 48px;
+    letter-spacing: 0.05em;
+  }
+  .c1 .cta {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 14px 42px; border: 1px solid #2a2420; border-radius: 8px;
+    color: #2a2420; font-size: 0.9rem; letter-spacing: 0.25em;
+    text-decoration: none; transition: all 0.4s ease;
+  }
+  .c1 .cta:hover { border-radius: 40px; background: rgba(61,53,48,0.06); }
+  .c1 .cta .arrow { transition: transform 0.3s ease; }
+  .c1 .cta:hover .arrow { transform: translateX(5px); }
+
+  /* ====== PATTERN 2: 左寄せ＋連絡先プレビュー ====== */
+  .c2 {
+    background: #f5f3ef; padding: 120px 8%; display: flex; align-items: flex-start; gap: 60px;
+  }
+  .c2-left {}
+  .c2 h2 {
+    font-weight: 300; font-size: clamp(1.8rem, 4vw, 2.8rem);
+    letter-spacing: 0.25em; color: #2a2420; margin-bottom: 10px;
+  }
+  .c2 .label {
+    font-size: 0.6rem; letter-spacing: 0.4em; color: rgba(61,53,48,0.3);
+    text-transform: uppercase; margin-bottom: 36px;
+  }
+  .c2 p {
+    font-family: "Noto Serif JP", serif; font-size: 0.82rem; font-weight: 300;
+    color: rgba(61,53,48,0.6); line-height: 2; max-width: 380px; margin-bottom: 40px;
+  }
+  .c2 .cta {
+    display: inline-flex; align-items: center; gap: 12px;
+    padding: 12px 36px; border: 1px solid rgba(42,36,32,0.3); border-radius: 6px;
+    color: #2a2420; font-size: 0.85rem; letter-spacing: 0.2em;
+    text-decoration: none; transition: all 0.4s ease;
+  }
+  .c2 .cta:hover { background: rgba(61,53,48,0.04); border-radius: 30px; }
+  .c2-right {
+    padding-top: 8px;
+  }
+  .c2-info {
+    font-family: "Noto Serif JP", serif; font-size: 0.72rem; font-weight: 300;
+    color: rgba(61,53,48,0.4); line-height: 2.4; letter-spacing: 0.04em;
+  }
+  .c2-info .info-label {
+    font-family: "Cormorant Garamond", serif; font-size: 0.65rem;
+    letter-spacing: 0.3em; color: rgba(61,53,48,0.2); text-transform: uppercase;
+    display: block; margin-top: 16px;
+  }
+
+  /* ====== PATTERN 3: ダーク背景 ====== */
+  .c3 {
+    background: #2a2420; padding: 120px 8%; text-align: center;
+  }
+  .c3 h2 {
+    font-weight: 300; font-size: clamp(2rem, 5vw, 3.2rem);
+    letter-spacing: 0.35em; color: rgba(245,243,239,0.9); margin-bottom: 14px;
+  }
+  .c3 .sub {
+    font-size: 0.6rem; letter-spacing: 0.4em; color: rgba(245,243,239,0.3);
+    margin-bottom: 40px;
+  }
+  .c3 p {
+    font-family: "Noto Serif JP", serif; font-size: 0.82rem; font-weight: 300;
+    color: rgba(245,243,239,0.45); line-height: 2.2; max-width: 480px;
+    margin: 0 auto 44px;
+  }
+  .c3 .cta {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 14px 42px; border: 1px solid rgba(245,243,239,0.3); border-radius: 8px;
+    color: rgba(245,243,239,0.85); font-size: 0.88rem; letter-spacing: 0.25em;
+    text-decoration: none; transition: all 0.4s ease;
+  }
+  .c3 .cta:hover { border-radius: 40px; border-color: rgba(245,243,239,0.6); background: rgba(245,243,239,0.05); }
+
+  /* ====== PATTERN 4: 2カラム（写真+テキスト） ====== */
+  .c4 {
+    background: #f5f3ef; display: grid; grid-template-columns: 1fr 1fr; min-height: 50vh;
+  }
+  .c4-img {
+    background: linear-gradient(135deg, #d8cfc2, #c5b8a8);
+  }
+  .c4-content {
+    padding: 60px 50px; display: flex; flex-direction: column; justify-content: center;
+    background: #ede9e3;
+  }
+  .c4 h2 {
+    font-weight: 300; font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    letter-spacing: 0.3em; color: #2a2420; margin-bottom: 10px;
+  }
+  .c4 .label {
+    font-size: 0.6rem; letter-spacing: 0.35em; color: rgba(61,53,48,0.3);
+    text-transform: uppercase; margin-bottom: 32px;
+  }
+  .c4 p {
+    font-family: "Noto Serif JP", serif; font-size: 0.8rem; font-weight: 300;
+    color: rgba(61,53,48,0.6); line-height: 2; margin-bottom: 36px;
+  }
+  .c4 .cta {
+    display: inline-flex; align-items: center; gap: 12px; align-self: flex-start;
+    padding: 13px 36px; border: 1px solid #2a2420; border-radius: 8px;
+    color: #2a2420; font-size: 0.85rem; letter-spacing: 0.2em;
+    text-decoration: none; transition: all 0.4s ease;
+  }
+  .c4 .cta:hover { border-radius: 40px; background: rgba(61,53,48,0.05); }
+
+  /* ====== PATTERN 5: フォーム風プレビュー ====== */
+  .c5 {
+    background: #f5f3ef; padding: 100px 8%; text-align: center;
+  }
+  .c5 h2 {
+    font-weight: 300; font-size: clamp(1.6rem, 4vw, 2.6rem);
+    letter-spacing: 0.3em; color: #2a2420; margin-bottom: 10px;
+  }
+  .c5 .sub {
+    font-size: 0.6rem; letter-spacing: 0.35em; color: rgba(61,53,48,0.3);
+    margin-bottom: 40px;
+  }
+  .c5-form-preview {
+    max-width: 400px; margin: 0 auto 44px; text-align: left;
+  }
+  .c5-field {
+    padding: 14px 0; border-bottom: 1px solid rgba(61,53,48,0.08);
+    font-family: "Noto Serif JP", serif; font-size: 0.75rem; font-weight: 300;
+    color: rgba(61,53,48,0.35); letter-spacing: 0.05em;
+  }
+  .c5 .cta {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 14px 42px; border: 1px solid #2a2420; border-radius: 8px;
+    color: #2a2420; font-size: 0.88rem; letter-spacing: 0.22em;
+    text-decoration: none; transition: all 0.4s ease;
+  }
+  .c5 .cta:hover { border-radius: 40px; background: rgba(61,53,48,0.05); }
+
+  /* ====== PATTERN 6: 数字アクセント ====== */
+  .c6 {
+    background: #f5f3ef; padding: 120px 8%; text-align: center;
+  }
+  .c6 .num {
+    font-size: 5rem; font-weight: 300; color: rgba(61,53,48,0.05);
+    line-height: 1; margin-bottom: -18px;
+  }
+  .c6 h2 {
+    font-weight: 300; font-size: clamp(1.6rem, 4vw, 2.6rem);
+    letter-spacing: 0.3em; color: #2a2420; margin-bottom: 10px;
+  }
+  .c6 .line { width: 40px; height: 1px; background: rgba(61,53,48,0.15); margin: 0 auto 32px; }
+  .c6 p {
+    font-family: "Noto Serif JP", serif; font-size: 0.82rem; font-weight: 300;
+    color: rgba(61,53,48,0.6); line-height: 2.2; max-width: 480px; margin: 0 auto 44px;
+  }
+  .c6 .cta {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 14px 40px; border: 1px solid #2a2420; border-radius: 8px;
+    color: #2a2420; font-size: 0.88rem; letter-spacing: 0.22em;
+    text-decoration: none; transition: all 0.4s ease;
+  }
+  .c6 .cta:hover { border-radius: 40px; background: rgba(61,53,48,0.05); }
+
+  /* ====== PATTERN 7: 右寄せ＋ライン ====== */
+  .c7 {
+    background: #f5f3ef; padding: 120px 8%; text-align: right;
+  }
+  .c7 h2 {
+    font-weight: 300; font-size: clamp(1.8rem, 4.5vw, 3rem);
+    letter-spacing: 0.3em; color: #2a2420; margin-bottom: 10px;
+  }
+  .c7 .sub {
+    font-size: 0.6rem; letter-spacing: 0.4em; color: rgba(61,53,48,0.3);
+    margin-bottom: 12px;
+  }
+  .c7 .line { width: 80px; height: 1px; background: rgba(61,53,48,0.12); margin-left: auto; margin-bottom: 36px; }
+  .c7 p {
+    font-family: "Noto Serif JP", serif; font-size: 0.82rem; font-weight: 300;
+    color: rgba(61,53,48,0.6); line-height: 2.2; max-width: 440px; margin-left: auto; margin-bottom: 44px;
+  }
+  .c7 .cta {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 14px 42px; border: 1px solid rgba(42,36,32,0.4); border-radius: 8px;
+    color: #2a2420; font-size: 0.88rem; letter-spacing: 0.22em;
+    text-decoration: none; transition: all 0.4s ease;
+  }
+  .c7 .cta:hover { border-radius: 40px; background: rgba(61,53,48,0.04); }
+
+  /* ====== PATTERN 8: カプセルカード ====== */
+  .c8 {
+    background: #f5f3ef; padding: 100px 8%; display: flex; justify-content: center;
+  }
+  .c8-card {
+    background: #ede9e3; border-radius: 20px; padding: 60px 50px;
+    max-width: 520px; text-align: center;
+  }
+  .c8 h2 {
+    font-weight: 300; font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    letter-spacing: 0.3em; color: #2a2420; margin-bottom: 10px;
+  }
+  .c8 .sub {
+    font-size: 0.6rem; letter-spacing: 0.35em; color: rgba(61,53,48,0.3);
+    margin-bottom: 32px;
+  }
+  .c8 p {
+    font-family: "Noto Serif JP", serif; font-size: 0.8rem; font-weight: 300;
+    color: rgba(61,53,48,0.55); line-height: 2.2; margin-bottom: 36px;
+  }
+  .c8 .cta {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 14px 42px; border: 1px solid #2a2420; border-radius: 40px;
+    color: #2a2420; font-size: 0.88rem; letter-spacing: 0.22em;
+    text-decoration: none; transition: all 0.4s ease;
+  }
+  .c8 .cta:hover { background: #2a2420; color: #f5f3ef; }
+
+  /* ====== PATTERN 9: 筆記体＋ミニマル ====== */
+  .c9 {
+    background: #f5f3ef; padding: 120px 8%; text-align: center;
+  }
+  .c9 .script {
+    font-style: italic; font-weight: 300;
+    font-size: clamp(2.5rem, 6vw, 4.5rem); color: rgba(61,53,48,0.08);
+    letter-spacing: 0.05em; margin-bottom: -15px;
+  }
+  .c9 h2 {
+    font-weight: 300; font-size: clamp(1.4rem, 3vw, 2rem);
+    letter-spacing: 0.35em; color: #2a2420; margin-bottom: 12px;
+  }
+  .c9 .sub {
+    font-family: "Noto Serif JP", serif; font-size: 0.6rem; font-weight: 300;
+    color: rgba(61,53,48,0.35); letter-spacing: 0.3em; margin-bottom: 40px;
+  }
+  .c9 p {
+    font-family: "Noto Serif JP", serif; font-size: 0.82rem; font-weight: 300;
+    color: rgba(61,53,48,0.6); line-height: 2.2; max-width: 500px; margin: 0 auto 44px;
+  }
+  .c9 .cta {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 14px 42px; border: 1px solid #2a2420; border-radius: 8px;
+    color: #2a2420; font-size: 0.88rem; letter-spacing: 0.25em;
+    text-decoration: none; transition: all 0.4s ease;
+  }
+  .c9 .cta:hover { border-radius: 40px; background: rgba(61,53,48,0.05); }
+
+  /* ====== PATTERN 10: SNS風＋メールリンク ====== */
+  .c10 {
+    background: #f5f3ef; padding: 120px 8%; text-align: center;
+  }
+  .c10 h2 {
+    font-weight: 300; font-size: clamp(1.8rem, 4.5vw, 3rem);
+    letter-spacing: 0.3em; color: #2a2420; margin-bottom: 10px;
+  }
+  .c10 .sub {
+    font-size: 0.6rem; letter-spacing: 0.35em; color: rgba(61,53,48,0.3);
+    margin-bottom: 40px;
+  }
+  .c10-links {
+    display: flex; justify-content: center; gap: 24px; margin-bottom: 48px;
+    flex-wrap: wrap;
+  }
+  .c10-links a {
+    display: flex; align-items: center; gap: 8px;
+    font-family: "Cormorant Garamond", serif; font-size: 0.8rem;
+    letter-spacing: 0.15em; color: rgba(61,53,48,0.5);
+    text-decoration: none; padding: 10px 20px;
+    border: 1px solid rgba(61,53,48,0.1); border-radius: 30px;
+    transition: all 0.3s ease;
+  }
+  .c10-links a:hover {
+    border-color: rgba(61,53,48,0.3); color: #2a2420;
+  }
+  .c10 .cta {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 14px 42px; border: 1px solid #2a2420; border-radius: 8px;
+    color: #2a2420; font-size: 0.88rem; letter-spacing: 0.22em;
+    text-decoration: none; transition: all 0.4s ease;
+  }
+  .c10 .cta:hover { border-radius: 40px; background: rgba(61,53,48,0.05); }
+
+  @media (max-width: 768px) {
+    .c2 { flex-direction: column; }
+    .c4 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- PATTERN 1 -->
+<div class="pattern-label"><span>01</span>ミニマルセンター</div>
+<div class="divider"></div>
+<section class="c1">
+  <h2>Contact</h2>
+  <div class="sub">お問い合わせ</div>
+  <p>撮影のご相談・お見積もりなど、<br>お気軽にお問い合わせください。</p>
+  <a href="contact.html" class="cta">Contact <span class="arrow">→</span></a>
+</section>
+
+<!-- PATTERN 2 -->
+<div class="pattern-label"><span>02</span>左寄せ＋連絡先</div>
+<div class="divider"></div>
+<section class="c2">
+  <div class="c2-left">
+    <h2>Contact</h2>
+    <div class="label">Get in Touch</div>
+    <p>撮影のご相談やお見積もりなど<br>お気軽にご連絡ください。</p>
+    <a href="contact.html" class="cta">Contact Us <span>→</span></a>
+  </div>
+  <div class="c2-right">
+    <div class="c2-info">
+      <span class="info-label">Email</span>
+      info@ukigumo-wedding.com
+      <span class="info-label">Instagram</span>
+      @ukigumo_wedding
+      <span class="info-label">Hours</span>
+      10:00 – 19:00（不定休）
+    </div>
+  </div>
+</section>
+
+<!-- PATTERN 3 -->
+<div class="pattern-label"><span>03</span>ダーク背景</div>
+<div class="divider"></div>
+<section class="c3">
+  <h2>Contact</h2>
+  <div class="sub">お問い合わせ</div>
+  <p>撮影のご相談はこちらから。<br>お気軽にご連絡ください。</p>
+  <a href="contact.html" class="cta">Contact <span>→</span></a>
+</section>
+
+<!-- PATTERN 4 -->
+<div class="pattern-label"><span>04</span>2カラムカード</div>
+<div class="divider"></div>
+<section class="c4">
+  <div class="c4-img"></div>
+  <div class="c4-content">
+    <h2>Contact</h2>
+    <div class="label">Get in Touch</div>
+    <p>ご質問・ご相談は<br>お気軽にどうぞ。</p>
+    <a href="contact.html" class="cta">Contact <span>→</span></a>
+  </div>
+</section>
+
+<!-- PATTERN 5 -->
+<div class="pattern-label"><span>05</span>フォームプレビュー</div>
+<div class="divider"></div>
+<section class="c5">
+  <h2>Contact</h2>
+  <div class="sub">お問い合わせ</div>
+  <div class="c5-form-preview">
+    <div class="c5-field">お名前</div>
+    <div class="c5-field">メールアドレス</div>
+    <div class="c5-field">撮影希望日</div>
+    <div class="c5-field">ご希望のロケーション</div>
+  </div>
+  <a href="contact.html" class="cta">Contact Form <span>→</span></a>
+</section>
+
+<!-- PATTERN 6 -->
+<div class="pattern-label"><span>06</span>数字アクセント</div>
+<div class="divider"></div>
+<section class="c6">
+  <div class="num">06</div>
+  <h2>Contact</h2>
+  <div class="line"></div>
+  <p>撮影のご相談・お見積もりは<br>こちらからお問い合わせください。</p>
+  <a href="contact.html" class="cta">Contact <span>→</span></a>
+</section>
+
+<!-- PATTERN 7 -->
+<div class="pattern-label"><span>07</span>右寄せ</div>
+<div class="divider"></div>
+<section class="c7">
+  <h2>Contact</h2>
+  <div class="sub">Get in Touch</div>
+  <div class="line"></div>
+  <p>ご相談やお見積もりなど、<br>お気軽にお問い合わせください。</p>
+  <a href="contact.html" class="cta">Contact <span>→</span></a>
+</section>
+
+<!-- PATTERN 8 -->
+<div class="pattern-label"><span>08</span>カプセルカード</div>
+<div class="divider"></div>
+<section class="c8">
+  <div class="c8-card">
+    <h2>Contact</h2>
+    <div class="sub">お問い合わせ</div>
+    <p>撮影のご相談はお気軽にどうぞ。</p>
+    <a href="contact.html" class="cta">Contact <span>→</span></a>
+  </div>
+</section>
+
+<!-- PATTERN 9 -->
+<div class="pattern-label"><span>09</span>筆記体アクセント</div>
+<div class="divider"></div>
+<section class="c9">
+  <div class="script">Contact</div>
+  <h2>Get in Touch</h2>
+  <div class="sub">お問い合わせ</div>
+  <p>撮影についてのご質問やご相談は<br>こちらからお気軽にどうぞ。</p>
+  <a href="contact.html" class="cta">Contact <span>→</span></a>
+</section>
+
+<!-- PATTERN 10 -->
+<div class="pattern-label"><span>10</span>SNS＋メールリンク</div>
+<div class="divider"></div>
+<section class="c10">
+  <h2>Contact</h2>
+  <div class="sub">お問い合わせ</div>
+  <div class="c10-links">
+    <a href="#">Email</a>
+    <a href="#">Instagram</a>
+    <a href="#">LINE</a>
+  </div>
+  <a href="contact.html" class="cta">Contact Form <span>→</span></a>
+</section>
+
+<div style="height: 100px;"></div>
+</body>
+</html>

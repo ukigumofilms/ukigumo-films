@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dress Shop — ukigumo wedding</title>
+  <meta name="description" content="浮雲ウェディング — 提携ドレスショップのご紹介。Bee's Knees、Beacon、Befits You、Lumiere Wedding Dress、Chez Robe。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Page Hero */
+    .page-hero {
+      position: relative;
+      height: 65vh;
+      min-height: 450px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0 !important;
+    }
+    .page-hero__image {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transform: scale(1);
+      transition: transform 12s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      will-change: transform;
+    }
+    .page-hero.active .page-hero__image {
+      transform: scale(1.1);
+    }
+    .page-hero__overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.55) 100%);
+      z-index: 1;
+    }
+    .page-hero__content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      color: white;
+    }
+    .page-hero__title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(2.5rem, 8vw, 4rem);
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      color: #fff;
+      opacity: 0;
+      filter: blur(3px);
+      transition: opacity 0.8s ease, filter 0.6s ease;
+    }
+    .page-hero__title.show {
+      opacity: 1;
+      filter: blur(0);
+      transition: opacity 1.5s cubic-bezier(0.19, 1, 0.22, 1), filter 1.2s ease;
+    }
+    .page-hero__subtitle {
+      font-family: "Noto Serif JP", serif;
+      font-size: clamp(0.75rem, 2vw, 0.9rem);
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      margin-top: 1rem;
+      color: rgba(255,255,255,0.55);
+      opacity: 0;
+      filter: blur(3px);
+      transition: opacity 0.8s ease, filter 0.6s ease;
+    }
+    .page-hero__subtitle.show {
+      opacity: 0.55;
+      filter: blur(0);
+      transition: opacity 1.5s cubic-bezier(0.19, 1, 0.22, 1), filter 1.2s ease;
+    }
+
+    /* ── New Design Variables ── */
+    :root {
+      --d-bg: #ffffff;
+      --d-bg-light: #F7F5F3;
+      --d-card-bg: #F7F5F3;
+      --d-text: #2E2519;
+      --d-text-muted: #5A4E42;
+      --d-text-dim: #8A7E70;
+      --d-divider: rgba(61,53,48,0.12);
+      --d-accent-bg: #B5A99A;
+      --d-serif: 'Cormorant Garamond', 'Georgia', serif;
+      --d-sans: 'Noto Sans JP', 'Hiragino Sans', sans-serif;
+    }
+
+    /* ── Dress Intro ── */
+    .dress-intro-section {
+      background: #fff !important;
+      text-align: center;
+      padding: 220px 24px 52px !important;
+      color: #3D3530;
+      margin-top: -1px;
+    }
+    .dress-intro-section .di-sub {
+      font-family: var(--d-serif);
+      font-size: 12px;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: rgba(61,53,48,0.5);
+      margin-bottom: 18px;
+    }
+    .dress-intro-section .di-title {
+      font-family: var(--d-serif);
+      font-size: clamp(28px, 6vw, 44px);
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      margin-bottom: 10px;
+      color: #2a2420;
+    }
+    .dress-intro-section .di-brand {
+      font-family: var(--d-serif);
+      font-size: 12px;
+      letter-spacing: 0.4em;
+      color: rgba(61,53,48,0.35);
+      margin-bottom: 28px;
+    }
+    .dress-intro-section .di-line {
+      width: 36px;
+      height: 1px;
+      background: rgba(61,53,48,0.15);
+      margin: 0 auto 28px;
+    }
+    .dress-intro-section .di-desc {
+      font-size: 12px;
+      line-height: 2.4;
+      letter-spacing: 0.04em;
+      color: rgba(61,53,48,0.5);
+      max-width: 480px;
+      margin: 0 auto;
+      font-family: var(--d-sans);
+    }
+
+    /* ── Cards Container ── */
+    .dress-cards-section {
+      background: #fff !important;
+      padding: 0 !important;
+    }
+    .dress-container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+
+    /* ── Shop Card ── */
+    .d-card {
+      position: relative;
+      background: var(--d-card-bg) !important;
+      border-radius: 16px !important;
+      padding: 28px 18px 16px;
+      margin-bottom: 88px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.04) !important;
+      overflow: visible;
+    }
+    .d-card:hover {
+      transform: none !important;
+    }
+    .d-card-name {
+      font-family: var(--d-serif);
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      margin-bottom: 14px;
+      color: var(--d-text);
+    }
+    .d-card-tag {
+      display: inline-block;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      color: var(--d-text-dim);
+      border: 1px solid var(--d-divider);
+      border-radius: 20px;
+      padding: 2px 10px;
+      margin-bottom: 16px;
+      font-family: var(--d-sans);
+    }
+    .d-card-points {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+    .d-card-points span {
+      font-size: 11px;
+      color: var(--d-text-muted);
+      background: rgba(181,169,154,0.12);
+      border-radius: 20px;
+      padding: 3px 10px;
+      letter-spacing: 0.02em;
+      line-height: 1.4;
+      white-space: nowrap;
+      font-family: var(--d-sans);
+    }
+
+    /* ── Price Block ── */
+    .d-price-head {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #6B5E50;
+      margin-bottom: 4px;
+      padding-bottom: 3px;
+      border-bottom: 1px solid rgba(61,53,48,0.1);
+      font-family: var(--d-sans);
+    }
+    .d-price-block {
+      margin-bottom: 5px;
+      background: #F0EDE9;
+      border-radius: 8px;
+      padding: 8px 14px 6px;
+    }
+    .d-price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 3px 0;
+      font-size: 12px;
+    }
+    .d-price-row + .d-price-row {
+      border-top: 1px solid rgba(61,53,41,0.08);
+    }
+    .d-price-item {
+      color: var(--d-text-muted);
+      font-size: 11px;
+      font-family: var(--d-sans);
+    }
+    .d-price-val {
+      font-family: var(--d-sans);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      color: #3D2E1E;
+      white-space: nowrap;
+    }
+    .d-price-note {
+      font-size: 10px;
+      color: var(--d-text-dim);
+      margin: 3px 0 0;
+      padding: 0;
+      line-height: 1.4;
+      font-family: var(--d-sans);
+    }
+    .d-price-sub-note {
+      font-size: 9px;
+      color: var(--d-text-dim);
+      margin: 2px 0 0;
+      padding: 0 0 0 12px;
+      line-height: 1.4;
+      position: relative;
+      font-family: var(--d-sans);
+    }
+    .d-price-sub-note::before {
+      content: '·';
+      position: absolute;
+      left: 2px;
+      color: #A89880;
+      font-weight: 700;
+    }
+    .d-dress-list-link {
+      display: inline-block;
+      margin-top: 4px;
+      font-size: 11px;
+      color: #6B5E50;
+      text-decoration: none;
+      background: transparent;
+      padding: 5px 14px;
+      border: 1px solid rgba(107,94,80,0.2);
+      border-radius: 40px;
+      letter-spacing: 0.05em;
+      font-family: var(--d-sans);
+      transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .d-dress-list-link:hover {
+      border-color: rgba(201,169,110,0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(201,169,110,0.1);
+    }
+
+    /* ── Collection ── */
+    .d-collection {
+      margin-bottom: 5px;
+      background: #F0EDE9;
+      border-radius: 8px;
+      padding: 8px 14px 6px;
+    }
+    .d-collection-title {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #6B5E50;
+      margin-bottom: 4px;
+      padding-bottom: 3px;
+      border-bottom: 1px solid rgba(61,53,41,0.15);
+      font-family: var(--d-sans);
+    }
+    .d-collection-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 3px 0;
+      font-size: 12px;
+      border-bottom: 1px solid rgba(61,53,41,0.08);
+    }
+    .d-collection-item:last-of-type {
+      border-bottom: none;
+    }
+    .d-collection-label {
+      color: var(--d-text-muted);
+      font-size: 11px;
+      font-family: var(--d-sans);
+    }
+    .d-collection-label strong {
+      font-weight: 500;
+      color: var(--d-text);
+      margin-right: 3px;
+    }
+    .d-collection-price {
+      font-family: var(--d-sans);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+      color: #3D2E1E;
+    }
+    .d-collection-sub {
+      font-size: 10px;
+      color: var(--d-text-dim);
+      padding-left: 14px;
+      margin-top: -2px;
+      margin-bottom: 1px;
+      font-family: var(--d-sans);
+    }
+
+    /* ── Plan Group ── */
+    .d-plan {
+      margin-bottom: 6px;
+      background: #F0EDE9;
+      border-radius: 8px;
+      padding: 10px 14px 8px;
+    }
+    .d-plan-name {
+      font-family: var(--d-sans);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      margin-bottom: 1px;
+      color: var(--d-text);
+    }
+    .d-plan-badge {
+      display: inline-block;
+      font-size: 9px;
+      background: rgba(168,148,120,0.22);
+      color: #6B5E50;
+      border-radius: 10px;
+      padding: 1px 8px;
+      margin-left: 4px;
+      vertical-align: middle;
+      font-family: var(--d-sans);
+    }
+    .d-plan-desc {
+      font-size: 11px;
+      color: var(--d-text-dim);
+      margin-bottom: 4px;
+      line-height: 1.5;
+      font-family: var(--d-sans);
+    }
+
+    /* ── Accordion ── */
+    .d-accordion {
+      margin-bottom: 12px;
+    }
+    .d-accordion-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--d-accent-bg);
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      cursor: pointer;
+      list-style: none;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    .d-accordion-toggle::-webkit-details-marker {
+      display: none;
+    }
+    .d-accordion-toggle:hover {
+      background: #A69888;
+    }
+    details.d-accordion[open] .d-accordion-toggle {
+      border-radius: 8px 8px 0 0;
+    }
+    .d-accordion-label {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+    }
+    .d-accordion-label-sub {
+      font-family: var(--d-serif);
+      font-size: 8px;
+      letter-spacing: 0.35em;
+      color: rgba(255,255,255,0.65);
+    }
+    .d-accordion-label-main {
+      font-family: var(--d-serif);
+      font-size: 16px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      color: #FFFFFF;
+    }
+    .d-accordion-label-credit {
+      font-size: 8px;
+      letter-spacing: 0.04em;
+      color: rgba(255,255,255,0.5);
+      margin-top: 1px;
+      font-family: var(--d-sans);
+    }
+    .d-accordion-arrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      font-size: 11px;
+      color: #fff;
+      font-style: normal;
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+    }
+    details.d-accordion[open] .d-accordion-arrow {
+      transform: rotate(180deg);
+    }
+    .d-accordion-body {
+      padding-top: 20px;
+    }
+
+    /* ── Canva Embed ── */
+    .d-canva-embed {
+      margin: 24px 0;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #F0EDE9;
+    }
+
+    /* ── Instagram Link ── */
+    .d-ig {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--d-accent-bg);
+      border: none;
+      border-radius: 24px;
+      padding: 7px 16px;
+      color: #FFFFFF;
+      text-decoration: none;
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      transition: all 0.3s ease;
+      margin-top: 6px;
+      font-family: var(--d-sans);
+    }
+    .d-ig:hover {
+      background: #A69888;
+      transform: translateY(-1px);
+    }
+    .d-ig svg {
+      width: 16px;
+      height: 16px;
+      opacity: 0.9;
+    }
+    .d-ig-top {
+      position: absolute;
+      top: 26px;
+      right: 14px;
+      margin-top: 0;
+      padding: 4px 10px;
+      font-size: 9px;
+      gap: 4px;
+    }
+    .d-ig-top svg {
+      width: 12px;
+      height: 12px;
+    }
+    .d-ig-top-group {
+      position: absolute;
+      top: 26px;
+      right: 14px;
+      display: flex;
+      flex-direction: row;
+      gap: 4px;
+      align-items: center;
+    }
+    .d-ig-top-group .d-ig {
+      margin-top: 0;
+      padding: 4px 8px;
+      font-size: 8px;
+      gap: 3px;
+    }
+    .d-ig-top-group .d-ig svg {
+      width: 11px;
+      height: 11px;
+    }
+
+    /* ── Footer on white bg ── */
+    .dress-footer-section {
+      background: #fff !important;
+      padding-top: 10px !important;
+      padding-bottom: 100px !important;
+    }
+    .dress-footer-section .footer__logo {
+      margin-bottom: 16px;
+    }
+    .dress-footer-section .footer__links {
+      margin-bottom: 12px !important;
+    }
+    .dress-footer-section .footer__logo img {
+      height: 3.5rem;
+    }
+    .dress-footer-section .footer__links a,
+    .dress-footer-section .footer__copy {
+      color: rgba(61,53,48,0.5) !important;
+    }
+    .dress-footer-section .footer__links a:hover {
+      color: #2a2420 !important;
+    }
+
+    /* ── SP brタグ制御 ── */
+    .sp-hide { display: inline; }
+
+    /* ── Responsive ── */
+    @media (max-width: 480px) {
+      .sp-hide { display: none; }
+      .dress-intro-section {
+        padding: 180px 16px 160px !important;
+      }
+      .dress-intro-section .di-sub {
+        font-size: 13px;
+        letter-spacing: 0.25em;
+      }
+      .dress-intro-section .di-desc {
+        font-size: 10px;
+        line-height: 2.6;
+      }
+      .dress-intro-section .di-brand {
+        font-size: 11px;
+        letter-spacing: 0.3em;
+      }
+      .dress-container {
+        padding: 0 10px 60px;
+      }
+      .d-card {
+        padding: 24px 14px 14px;
+        margin-bottom: 72px;
+      }
+      .d-card-name {
+        letter-spacing: 0.03em;
+        font-size: 18px;
+        margin-bottom: 12px;
+      }
+      .d-card-points {
+        gap: 5px;
+        margin-bottom: 18px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+      }
+      .d-card-points span {
+        font-size: 9px;
+        padding: 2px 7px;
+        flex-shrink: 0;
+      }
+      .d-card-tag {
+        font-size: 9px;
+        letter-spacing: 0.04em;
+        padding: 2px 8px;
+        margin-bottom: 14px;
+      }
+      .d-price-block {
+        padding: 6px 10px 5px;
+        margin-bottom: 4px;
+      }
+      .d-plan {
+        padding: 6px 10px 5px;
+        margin-bottom: 4px;
+      }
+      .d-collection {
+        padding: 6px 10px 5px;
+        margin-bottom: 4px;
+      }
+      .d-price-head {
+        font-size: 9px;
+        letter-spacing: 0.06em;
+        margin-bottom: 4px;
+        padding-bottom: 3px;
+      }
+      .d-collection-title {
+        font-size: 9px;
+        letter-spacing: 0.06em;
+        margin-bottom: 4px;
+        padding-bottom: 3px;
+      }
+      .d-price-row {
+        padding: 2px 0;
+        font-size: 11px;
+      }
+      .d-price-item {
+        font-size: 10px;
+        flex-shrink: 1;
+        min-width: 0;
+      }
+      .d-price-val {
+        font-size: 11px;
+        white-space: nowrap;
+      }
+      .d-collection-item {
+        padding: 3px 0;
+        font-size: 11px;
+      }
+      .d-collection-label {
+        font-size: 10px;
+      }
+      .d-collection-price {
+        font-size: 11px;
+      }
+      .d-collection-sub {
+        font-size: 9px;
+        padding-left: 12px;
+      }
+      .d-plan-name {
+        font-size: 12px;
+      }
+      .d-plan-desc {
+        font-size: 10px;
+      }
+      .d-plan-badge {
+        font-size: 8px;
+      }
+      .d-price-note {
+        font-size: 9px;
+        line-height: 1.4;
+        margin-top: 3px;
+        margin-bottom: 0;
+      }
+      .d-price-sub-note {
+        font-size: 9px;
+        line-height: 1.4;
+        margin-top: 2px;
+        margin-bottom: 0;
+      }
+      .d-accordion-toggle {
+        padding: 8px 12px;
+      }
+      .d-accordion-label-main {
+        font-size: 14px;
+        letter-spacing: 0.08em;
+      }
+      .d-accordion-label-sub {
+        font-size: 7px;
+        letter-spacing: 0.25em;
+      }
+      .d-accordion-label-credit {
+        font-size: 7px;
+      }
+      .d-dress-list-link {
+        font-size: 10px;
+        padding: 3px 10px;
+        margin-top: 3px;
+      }
+      .d-ig {
+        padding: 6px 12px;
+        font-size: 10px;
+      }
+      /* Chez Robe compact */
+      .d-card-compact .d-price-row {
+        padding: 2px 0;
+        font-size: 9px;
+      }
+      .d-card-compact .d-price-head {
+        font-size: 9px;
+        margin-bottom: 3px;
+        padding-bottom: 2px;
+      }
+      .d-card-compact .d-plan-desc {
+        font-size: 9px;
+      }
+      .d-card-compact .d-price-val {
+        font-size: 9px;
+      }
+      .d-card-compact .d-price-item {
+        font-size: 8px;
+      }
+      .d-card-compact .d-price-sub-note {
+        font-size: 8px;
+        margin-top: 1px;
+      }
+    }
+
+    @media (max-width: 375px) {
+      .d-card {
+        padding: 22px 14px 20px;
+      }
+      .d-price-block {
+        padding: 12px 12px 8px;
+      }
+      .d-plan {
+        padding: 12px 12px 8px;
+      }
+      .d-collection {
+        padding: 12px 12px 8px;
+      }
+      .d-price-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+      }
+      .d-collection-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+      }
+      .d-card-name {
+        font-size: 20px;
+        letter-spacing: 0.02em;
+      }
+      .d-card-tag {
+        font-size: 9px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Side Labels -->
+  <span class="side-text side-text--left side-text--dark">dress</span>
+  <span class="side-text side-text--right side-text--dark">ukigumo wedding &mdash; all rights reserved.</span>
+
+  <!-- Navigation -->
+  <nav class="nav nav--light">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">
+        <img src="images/logo/logo-white.png" alt="ukigumo" class="nav__logo-light">
+        <img src="images/logo/logo-black.png" alt="ukigumo" class="nav__logo-dark">
+      </a>
+      <div class="nav__links">
+        <a href="plan.html">Plan / Price</a>
+        <a href="dress.html">Dress</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="qa.html">Q&A</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <button class="nav__hamburger" aria-label="メニュー">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="nav__menu">
+    <a href="index.html">Home</a>
+    <a href="plan.html">Plan / Price</a>
+    <div class="nav__menu-subs">
+      <a href="plan-japan.html">Japan</a>
+      <a href="plan-paris.html">Paris</a>
+      <a href="plan-europa.html">Europa</a>
+    </div>
+    <a href="gallery.html">Gallery</a>
+    <a href="dress.html">Dress</a>
+    <a href="qa.html">Q&A</a>
+    <a href="contact.html">Contact</a>
+    <a href="https://www.instagram.com/ukigumo_films/" target="_blank" rel="noopener" class="nav-instagram"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+    <span class="nav__menu-brand">ukigumo films — Tokyo</span>
+  </div>
+
+  <!-- Page Hero with Image -->
+  <div class="page-hero" data-nav-dark>
+    <img src="images/hero-dress.jpg" alt="Dress Shop" class="page-hero__image">
+    <div class="page-hero__overlay"></div>
+    <div class="page-hero__content">
+      <h1 class="page-hero__title">Dress</h1>
+      <p class="page-hero__subtitle">提 携 先 の ご 紹 介</p>
+    </div>
+  </div>
+
+  <!-- ══ Dress Intro ══ -->
+  <section class="dress-intro-section">
+    <p class="di-sub">Partner Dress Shops</p>
+    <h2 class="di-title">Dress Guide</h2>
+    <p class="di-brand">u k i g u m o&ensp;w e d d i n g</p>
+    <div class="di-line"></div>
+    <p class="di-desc">
+      ukigumo weddingが提携する4つのドレスショップをご紹介いたします。<br>
+      各ブランドのInstagramよりお気軽にお問い合わせください。
+    </p>
+  </section>
+
+  <!-- ══ Dress Shop Cards ══ -->
+  <section class="dress-cards-section">
+    <div class="dress-container">
+
+      <!-- ══ 01 Bee's Knees ══ -->
+      <div class="d-card">
+        <a href="https://www.instagram.com/beesknees_dress/" target="_blank" rel="noopener" class="d-ig d-ig-top">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          @beesknees_dress
+        </a>
+
+        <h2 class="d-card-name">Bee's Knees</h2>
+        <span class="d-card-tag">ukigumo films 特別価格｜東京・赤坂</span>
+
+        <div class="d-card-points">
+          <span>豊富なラインナップ</span>
+          <span>国内・海外 同一価格</span>
+          <span>タキシード込み</span>
+        </div>
+
+        <!-- Base Price -->
+        <div class="d-price-block">
+          <p class="d-price-head">Base Price（ドレス＋タキシード込み）</p>
+          <div class="d-price-row">
+            <span class="d-price-item">国内・海外共通</span>
+            <span class="d-price-val">¥98,000（税込）</span>
+          </div>
+        </div>
+
+        <!-- 国内 Dress Collection -->
+        <div class="d-collection">
+          <p class="d-collection-title">国内 — Dress Collection</p>
+          <div class="d-collection-item">
+            <span class="d-collection-label"><strong>A</strong> プラン内 — 31着</span>
+            <span class="d-collection-price">プラン内</span>
+          </div>
+          <a href="https://photos.app.goo.gl/EEyaVbEQZQeTWHbe8" target="_blank" rel="noopener" class="d-dress-list-link">▶ ドレス一覧を見る</a>
+
+          <div class="d-collection-item" style="margin-top:4px;">
+            <span class="d-collection-label"><strong>B</strong> オプション — 29着</span>
+            <span class="d-collection-price">+ ¥55,000</span>
+          </div>
+          <a href="https://photos.app.goo.gl/PXDm8bfVzmedKHtA8" target="_blank" rel="noopener" class="d-dress-list-link">▶ ドレス一覧を見る</a>
+
+          <div class="d-collection-item" style="margin-top:4px;">
+            <span class="d-collection-label"><strong>C</strong> オプション</span>
+            <span class="d-collection-price">+ ¥242,000</span>
+          </div>
+          <p class="d-collection-sub">Milia London &amp; 韓国ドレス LEMERE</p>
+        </div>
+
+        <!-- 海外撮影の場合 -->
+        <div class="d-price-block">
+          <p class="d-price-head">海外撮影の場合</p>
+          <div class="d-price-row">
+            <span class="d-price-item">セレクト可能数</span>
+            <span class="d-price-val">13型（全てプラン内）</span>
+          </div>
+          <div class="d-price-row">
+            <span class="d-price-item">アクセサリー</span>
+            <span class="d-price-val">1点追加（料金内）</span>
+          </div>
+          <a href="https://photos.app.goo.gl/HbF7sycxsduY5eCp8" target="_blank" rel="noopener" class="d-dress-list-link">▶ ドレス一覧を見る</a>
+          <p class="d-price-note">※ 試着2回必須（難しい場合は要相談）</p>
+        </div>
+      </div>
+
+      <!-- ══ 02 Beacon / Befits You ══ -->
+      <div class="d-card">
+        <div class="d-ig-top-group">
+          <a href="https://www.instagram.com/beacondress/" target="_blank" rel="noopener" class="d-ig">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            @beacondress
+          </a>
+          <a href="https://www.instagram.com/befitsyou/" target="_blank" rel="noopener" class="d-ig">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            @befitsyou
+          </a>
+        </div>
+
+        <h2 class="d-card-name">Beacon / Befits You</h2>
+        <span class="d-card-tag">ukigumo films 特別価格｜東京・麻布十番 / 大阪</span>
+
+        <div class="d-card-points">
+          <span>海外ブランドセレクト</span>
+          <span>大人の洗練スタイル</span>
+          <span>オンライン試着OK</span>
+        </div>
+
+        <!-- Accordion: Plan List -->
+        <details class="d-accordion">
+          <summary class="d-accordion-toggle">
+            <span class="d-accordion-label">
+              <span class="d-accordion-label-sub">SPECIAL PRICE</span>
+              <span class="d-accordion-label-main">PLAN LIST</span>
+              <span class="d-accordion-label-credit">ukigumo films × Beacon &amp; Befits You</span>
+            </span>
+            <span class="d-accordion-arrow">↓</span>
+          </summary>
+          <div class="d-accordion-body">
+            <div class="d-canva-embed">
+              <div style="position:relative;width:100%;height:0;padding-top:141.4%;overflow:hidden;border-radius:10px;">
+                <iframe loading="lazy" style="position:absolute;width:100%;height:100%;top:0;left:0;border:none;" src="https://www.canva.com/design/DAG-08YG5hA/Mb9pZnf_M5UvTw4jT_Axpg/view?embed" allowfullscreen="allowfullscreen" allow="fullscreen">
+                </iframe>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <!-- 1. Standard Plan -->
+        <div class="d-plan">
+          <p class="d-plan-name">1. Standard Plan <span class="d-plan-badge">人気 No.1</span></p>
+          <p class="d-plan-desc">厳選13着・最大40万円相当のドレスも選べる</p>
+          <a href="https://www.canva.com/design/DAG-8KLBOl4/L9Sppo_PX7M7u6RwhH0hcA/view?utm_content=DAG-8KLBOl4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hc741c39732" target="_blank" rel="noopener" class="d-dress-list-link">▶ ドレス一覧を見る</a>
+          <div class="d-price-row">
+            <span class="d-price-item">国内（4泊5日）</span>
+            <span class="d-price-val">¥126,500（税込）</span>
+          </div>
+          <div class="d-price-row">
+            <span class="d-price-item">海外（9泊10日）</span>
+            <span class="d-price-val">¥181,500（税込）</span>
+          </div>
+        </div>
+
+        <!-- 2. Casual Plan -->
+        <div class="d-plan">
+          <p class="d-plan-name">2. Casual Plan <span class="d-plan-badge">価格重視</span></p>
+          <p class="d-plan-desc">ミニマルで洗練されたカジュアルプラン</p>
+          <a href="https://www.canva.com/design/DAG-7VU7YrY/wHkfpksaH3Y9NHr_EMC-Ig/view?utm_content=DAG-7VU7YrY&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=he7e8d854dc#1" target="_blank" rel="noopener" class="d-dress-list-link">▶ ドレス一覧を見る</a>
+          <div class="d-price-row">
+            <span class="d-price-item">国内（4泊5日）</span>
+            <span class="d-price-val">¥82,500（税込）</span>
+          </div>
+          <div class="d-price-row">
+            <span class="d-price-item">海外（9泊10日）</span>
+            <span class="d-price-val">¥104,500（税込）</span>
+          </div>
+        </div>
+
+        <!-- 3. Another Plan -->
+        <div class="d-plan">
+          <p class="d-plan-name">3. Another Plan <span class="d-plan-badge">こだわり派</span></p>
+          <p class="d-plan-desc">ご希望に合わせて200着以上からご提案。<br>Standard・Casual以外も20%OFFでレンタル可</p>
+        </div>
+
+        <!-- Tuxedo Option -->
+        <div class="d-price-block">
+          <p class="d-price-head">Tuxedo Option</p>
+          <div class="d-price-row">
+            <span class="d-price-item">国内（4泊5日）</span>
+            <span class="d-price-val">¥55,000（税込）</span>
+          </div>
+          <div class="d-price-row">
+            <span class="d-price-item">海外（9泊10日）</span>
+            <span class="d-price-val">¥88,000（税込）</span>
+          </div>
+          <p class="d-price-note">※ クリーニング込み／ドレスレンタルの方のみ</p>
+        </div>
+      </div>
+
+      <!-- ══ 03 Lumiere Wedding Dress ══ -->
+      <div class="d-card">
+        <a href="https://www.instagram.com/lumierewedding_dress/" target="_blank" rel="noopener" class="d-ig d-ig-top" style="font-size:8px;padding:4px 8px;gap:3px;">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          @lumierewedding_dress
+        </a>
+
+        <h2 class="d-card-name">Lumiere Wedding Dress</h2>
+        <span class="d-card-tag">ukigumo films 特別価格｜東京・新宿</span>
+
+        <div class="d-card-points">
+          <span>繊細で上品</span>
+          <span>50着以上</span>
+          <span>カラードレス充実</span>
+          <span>タキシードあり</span>
+        </div>
+
+        <!-- Dress + Tuxedo セット -->
+        <div class="d-price-block">
+          <p class="d-price-head">Dress + Tuxedo セット</p>
+          <div class="d-price-row">
+            <span class="d-price-item">セット価格</span>
+            <span class="d-price-val">¥85,000〜¥165,000（税別）</span>
+          </div>
+          <p class="d-price-sub-note">クリーニング代込み／セット割適用</p>
+          <p class="d-price-sub-note">ukigumo特別価格：さらに10%OFF</p>
+          <p class="d-price-sub-note">4泊5日／延泊 +¥5,000/着（1日あたり）</p>
+        </div>
+
+        <!-- Dress のみ -->
+        <div class="d-price-block">
+          <p class="d-price-head">Dress のみ</p>
+          <div class="d-price-row">
+            <span class="d-price-item">ドレスレンタル</span>
+            <span class="d-price-val">¥40,000〜¥120,000（税別）</span>
+          </div>
+          <p class="d-price-sub-note">クリーニング代込み</p>
+          <p class="d-price-sub-note">ukigumo特別価格：さらに10%OFF</p>
+          <p class="d-price-sub-note">4泊5日／延泊 +¥5,000/着（1日あたり）</p>
+          <a href="https://dress.lumiere.tokyo.jp/categories/2879741" target="_blank" rel="noopener" class="d-dress-list-link">▶ ドレス一覧を見る</a>
+        </div>
+
+        <!-- Tuxedo のみ -->
+        <div class="d-price-block">
+          <p class="d-price-head">Tuxedo のみ</p>
+          <div class="d-price-row">
+            <span class="d-price-item">セット価格</span>
+            <span class="d-price-val">¥60,000（税別）</span>
+          </div>
+          <p class="d-price-sub-note">クリーニング代込み</p>
+          <p class="d-price-sub-note">ukigumo特別価格：さらに10%OFF</p>
+          <p class="d-price-sub-note">4泊5日／延泊 +¥5,000/着（1日あたり）</p>
+          <a href="https://dress.lumiere.tokyo.jp/categories/4481971" target="_blank" rel="noopener" class="d-dress-list-link">▶ タキシード一覧を見る</a>
+        </div>
+
+        <!-- 試着について -->
+        <div class="d-collection">
+          <p class="d-price-head">試着について</p>
+          <p class="d-price-sub-note">本番日の5ヶ月前より受付</p>
+          <p class="d-price-sub-note">5ヶ月前以前は試着料¥3,000（成約時返金）</p>
+        </div>
+      </div>
+
+      <!-- ══ 04 Chez Robe ══ -->
+      <div class="d-card d-card-compact">
+        <a href="https://www.instagram.com/chezrobe/" target="_blank" rel="noopener" class="d-ig d-ig-top">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          @chezrobe
+        </a>
+
+        <h2 class="d-card-name">Chez Robe</h2>
+        <span class="d-card-tag">東京・芝浦</span>
+
+        <div class="d-card-points">
+          <span>Vera Wang取扱</span>
+          <span>ハイブランド</span>
+          <span>国内・海外対応</span>
+        </div>
+
+        <!-- 国内 Dress Plan -->
+        <div class="d-price-block">
+          <p class="d-price-head">国内 — Dress Plan</p>
+          <p class="d-plan-desc">ドレス1着・ブライダルインナー・アクセサリー・ブーケ&ブートニア付き</p>
+          <div class="d-price-row">
+            <span class="d-price-item">01 スタイリッシュプラン</span>
+            <span class="d-price-val">¥71,500（税込）</span>
+          </div>
+          <div class="d-price-row">
+            <span class="d-price-item">02 クラッシープラン</span>
+            <span class="d-price-val">¥110,000（税込）</span>
+          </div>
+          <div class="d-price-row">
+            <span class="d-price-item">03 ハイウェディングプラン</span>
+            <span class="d-price-val">¥154,000（税込）</span>
+          </div>
+          <div class="d-price-row">
+            <span class="d-price-item">04 ラグジュアリープラン</span>
+            <span class="d-price-val">¥231,000（税込）</span>
+          </div>
+          <div class="d-price-row">
+            <span class="d-price-item">05 プラチナプラン</span>
+            <span class="d-price-val">¥319,000（税込）</span>
+          </div>
+          <p class="d-price-sub-note">送料別途（往復¥4,400・関東近郊の場合）</p>
+        </div>
+
+        <!-- 海外 World Photo Plan -->
+        <div class="d-price-block">
+          <p class="d-price-head">海外 — World Photo Plan</p>
+          <p class="d-plan-desc">ドレス1着・ブライダルインナー・アクセサリー付き（国内発送のみ）</p>
+          <div class="d-price-row">
+            <span class="d-price-item">01 スタイリッシュプラン</span>
+            <span class="d-price-val">¥93,500（税込）</span>
+          </div>
+          <div class="d-price-row">
+            <span class="d-price-item">02 クラッシープラン</span>
+            <span class="d-price-val">¥132,000（税込）</span>
+          </div>
+          <div class="d-price-row">
+            <span class="d-price-item">03 ハイウェディングプラン</span>
+            <span class="d-price-val">¥176,000（税込）</span>
+          </div>
+          <div class="d-price-row">
+            <span class="d-price-item">04 ラグジュアリープラン</span>
+            <span class="d-price-val">¥253,000（税込）</span>
+          </div>
+          <div class="d-price-row">
+            <span class="d-price-item">05 プラチナプラン</span>
+            <span class="d-price-val">¥341,000（税込）</span>
+          </div>
+          <p class="d-price-sub-note">送料別途（往復¥7,150・関東近郊の場合）</p>
+        </div>
+
+        <!-- Tuxedo Option -->
+        <div class="d-price-block">
+          <p class="d-price-head">Tuxedo Option</p>
+          <div class="d-price-row">
+            <span class="d-price-item">国内</span>
+            <span class="d-price-val">¥22,000（税込）</span>
+          </div>
+          <div class="d-price-row">
+            <span class="d-price-item">海外</span>
+            <span class="d-price-val">¥33,000（税込）</span>
+          </div>
+          <p class="d-price-sub-note">送料別途（往復¥4,400・関東近郊の場合）</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer dress-footer-section">
+    <div class="footer__logo">
+      <a href="index.html"><img src="images/logo/logo-black.png" alt="ukigumo"></a>
+    </div>
+    <div class="footer__links">
+      <a href="plan.html">Plan & Price</a>
+      <a href="dress.html">Dress</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="qa.html">Q&A / Policy</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <p class="footer__copy">&copy; 2026 ukigumo wedding. All rights reserved.</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    window.addEventListener('load', function() {
+      var hero = document.querySelector('.page-hero');
+      if (hero) {
+        setTimeout(function() { hero.classList.add('active'); }, 100);
+      }
+      var heroTitle = document.querySelector('.page-hero__title');
+      var heroSub = document.querySelector('.page-hero__subtitle');
+      setTimeout(function() { if (heroTitle) heroTitle.classList.add('show'); }, 300);
+      setTimeout(function() { if (heroSub) heroSub.classList.add('show'); }, 300);
+    });
+  </script>
+</body>
+</html>

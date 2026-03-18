@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dress CTA Link — 10 Patterns</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #f5f3ef; color: #2a2420; padding: 3rem 1.5rem; }
+
+    h1 { font-family: "Cormorant Garamond", serif; font-weight: 300; font-size: 1.8rem; text-align: center; letter-spacing: 0.15em; margin-bottom: 0.5rem; }
+    .page-sub { text-align: center; font-family: "Noto Serif JP", serif; font-size: 0.7rem; color: rgba(61,53,48,0.4); letter-spacing: 0.1em; margin-bottom: 3rem; }
+
+    .pattern-wrap { max-width: 500px; margin: 0 auto 3rem; }
+    .pattern-label { font-family: "Cormorant Garamond", serif; font-size: 0.65rem; color: rgba(61,53,48,0.3); letter-spacing: 0.2em; margin-bottom: 0.3rem; }
+    .pattern-name { font-family: "Cormorant Garamond", serif; font-weight: 300; font-size: 0.9rem; color: #2a2420; margin-bottom: 1.2rem; }
+
+    /* Context: tag sample (rounded) */
+    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.2rem; }
+    .tag {
+      font-family: "Noto Serif JP", serif; font-size: 0.6rem; font-weight: 300;
+      color: rgba(61,53,48,0.55); padding: 0.25rem 0.7rem;
+      border: 1px solid rgba(61,53,48,0.12); border-radius: 20px;
+    }
+
+    /* Price context */
+    .price-row {
+      display: flex; justify-content: space-between; align-items: baseline; padding: 0.3rem 0;
+      font-family: "Noto Serif JP", serif; font-size: 0.7rem; font-weight: 300; color: rgba(61,53,48,0.7);
+    }
+    .price-val { font-family: "Cormorant Garamond", serif; font-size: 0.85rem; font-weight: 400; color: #2a2420; }
+
+    .demo { padding: 1.5rem; background: #fff; border: 1px solid rgba(61,53,48,0.06); margin-bottom: 0.5rem; }
+
+    .sep { width: 1px; height: 30px; background: rgba(61,53,48,0.12); margin: 2rem auto; }
+
+    /* ===== CTA PATTERNS ===== */
+
+    /* 01 — Line + Arrow (index.html style) */
+    .cta-01 {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: "Cormorant Garamond", serif; font-size: 0.78rem; font-weight: 400;
+      letter-spacing: 0.12em; color: #2a2420; text-decoration: none; margin-top: 0.5rem;
+    }
+    .cta-01 .line { width: 30px; height: 1px; background: #2a2420; transition: width 0.4s ease; }
+    .cta-01:hover .line { width: 50px; }
+    .cta-01 .arrow { transition: transform 0.3s ease; }
+    .cta-01:hover .arrow { transform: translateX(4px); }
+
+    /* 02 — Underline Expand */
+    .cta-02 {
+      display: inline-block; position: relative;
+      font-family: "Cormorant Garamond", serif; font-size: 0.78rem; font-weight: 400;
+      letter-spacing: 0.1em; color: #2a2420; text-decoration: none; margin-top: 0.5rem;
+      padding-bottom: 3px;
+    }
+    .cta-02::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 20px; height: 1px; background: #2a2420;
+      transition: width 0.4s cubic-bezier(0.25,1,0.5,1);
+    }
+    .cta-02:hover::after { width: 100%; }
+
+    /* 03 — Pill Button (outlined) */
+    .cta-03 {
+      display: inline-block;
+      font-family: "Noto Serif JP", serif; font-size: 0.65rem; font-weight: 300;
+      letter-spacing: 0.08em; color: #2a2420; text-decoration: none;
+      padding: 0.5rem 1.5rem; border: 1px solid rgba(61,53,48,0.2);
+      border-radius: 30px; margin-top: 0.5rem;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    .cta-03:hover { background: #2a2420; color: #f5f3ef; }
+
+    /* 04 — Circle Arrow + Text */
+    .cta-04 {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      font-family: "Cormorant Garamond", serif; font-size: 0.78rem; font-weight: 400;
+      letter-spacing: 0.08em; color: #2a2420; text-decoration: none; margin-top: 0.5rem;
+    }
+    .cta-04 .circle {
+      width: 2rem; height: 2rem; border: 1px solid rgba(61,53,48,0.2);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      transition: background 0.3s ease;
+    }
+    .cta-04 .circle .arr { font-size: 0.7rem; transition: transform 0.3s ease; }
+    .cta-04:hover .circle { background: rgba(61,53,48,0.05); }
+    .cta-04:hover .circle .arr { transform: translateX(2px); }
+
+    /* 05 — Minimal Arrow Only */
+    .cta-05 {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: "Noto Serif JP", serif; font-size: 0.68rem; font-weight: 300;
+      letter-spacing: 0.05em; color: rgba(61,53,48,0.6); text-decoration: none; margin-top: 0.5rem;
+      transition: color 0.3s ease;
+    }
+    .cta-05 .arr { transition: transform 0.3s ease; }
+    .cta-05:hover { color: #2a2420; }
+    .cta-05:hover .arr { transform: translateX(4px); }
+
+    /* 06 — Bracket Style */
+    .cta-06 {
+      display: inline-block;
+      font-family: "Cormorant Garamond", serif; font-size: 0.78rem; font-weight: 400;
+      letter-spacing: 0.1em; color: #2a2420; text-decoration: none; margin-top: 0.5rem;
+    }
+    .cta-06 .bracket { color: rgba(61,53,48,0.25); transition: color 0.3s ease; }
+    .cta-06:hover .bracket { color: #2a2420; }
+
+    /* 07 — Dot + Text */
+    .cta-07 {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: "Noto Serif JP", serif; font-size: 0.68rem; font-weight: 300;
+      letter-spacing: 0.05em; color: #2a2420; text-decoration: none; margin-top: 0.5rem;
+    }
+    .cta-07 .dot {
+      width: 5px; height: 5px; border-radius: 50%; background: rgba(61,53,48,0.3);
+      transition: background 0.3s ease;
+    }
+    .cta-07:hover .dot { background: #2a2420; }
+
+    /* 08 — Full-width Bar */
+    .cta-08 {
+      display: flex; align-items: center; justify-content: space-between;
+      width: 100%; padding: 0.6rem 0; margin-top: 0.5rem;
+      border-top: 1px solid rgba(61,53,48,0.08);
+      font-family: "Cormorant Garamond", serif; font-size: 0.75rem; font-weight: 400;
+      letter-spacing: 0.1em; color: #2a2420; text-decoration: none;
+      transition: border-color 0.3s ease;
+    }
+    .cta-08:hover { border-color: rgba(61,53,48,0.3); }
+    .cta-08 .arr { transition: transform 0.3s ease; }
+    .cta-08:hover .arr { transform: translateX(4px); }
+
+    /* 09 — Filled Pill (dark) */
+    .cta-09 {
+      display: inline-block;
+      font-family: "Noto Serif JP", serif; font-size: 0.62rem; font-weight: 300;
+      letter-spacing: 0.1em; color: rgba(255,255,255,0.85); text-decoration: none;
+      background: #2a2420; padding: 0.45rem 1.5rem; border-radius: 30px;
+      margin-top: 0.5rem; transition: opacity 0.3s ease;
+    }
+    .cta-09:hover { opacity: 0.8; }
+
+    /* 10 — Line Before + Italic */
+    .cta-10 {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: "Cormorant Garamond", serif; font-size: 0.78rem; font-weight: 400;
+      font-style: italic; letter-spacing: 0.08em; color: #2a2420;
+      text-decoration: none; margin-top: 0.5rem;
+    }
+    .cta-10 .line { width: 20px; height: 1px; background: rgba(61,53,48,0.3); transition: width 0.4s ease, background 0.3s ease; }
+    .cta-10:hover .line { width: 40px; background: #2a2420; }
+  </style>
+</head>
+<body>
+
+<h1>Dress Link CTA</h1>
+<p class="page-sub">「ドレス一覧を見る」リンク — 10パターン（タグは角丸統一済み）</p>
+
+<!-- 01 -->
+<div class="pattern-wrap">
+  <p class="pattern-label">PATTERN 01</p>
+  <p class="pattern-name">Line + Arrow — index.htmlプランと同じスタイル</p>
+  <div class="demo">
+    <div class="tags"><span class="tag">豊富なラインナップ</span><span class="tag">国内・海外 同一価格</span></div>
+    <div class="price-row"><span>A プラン内 — 31着</span><span class="price-val">プラン内</span></div>
+    <a href="#" class="cta-01"><span class="line"></span>ドレス一覧を見る <span class="arrow">→</span></a>
+  </div>
+</div>
+
+<!-- 02 -->
+<div class="pattern-wrap">
+  <p class="pattern-label">PATTERN 02</p>
+  <p class="pattern-name">Underline Expand — ホバーで下線が伸びる</p>
+  <div class="demo">
+    <div class="tags"><span class="tag">豊富なラインナップ</span><span class="tag">国内・海外 同一価格</span></div>
+    <div class="price-row"><span>A プラン内 — 31着</span><span class="price-val">プラン内</span></div>
+    <a href="#" class="cta-02">ドレス一覧を見る →</a>
+  </div>
+</div>
+
+<!-- 03 -->
+<div class="pattern-wrap">
+  <p class="pattern-label">PATTERN 03</p>
+  <p class="pattern-name">Pill Button — 角丸ボタン（タグと統一感）</p>
+  <div class="demo">
+    <div class="tags"><span class="tag">豊富なラインナップ</span><span class="tag">国内・海外 同一価格</span></div>
+    <div class="price-row"><span>A プラン内 — 31着</span><span class="price-val">プラン内</span></div>
+    <a href="#" class="cta-03">ドレス一覧を見る</a>
+  </div>
+</div>
+
+<!-- 04 -->
+<div class="pattern-wrap">
+  <p class="pattern-label">PATTERN 04</p>
+  <p class="pattern-name">Circle Arrow — 丸ボタン＋テキスト（index.htmlプランのview planと同じ）</p>
+  <div class="demo">
+    <div class="tags"><span class="tag">豊富なラインナップ</span><span class="tag">国内・海外 同一価格</span></div>
+    <div class="price-row"><span>A プラン内 — 31着</span><span class="price-val">プラン内</span></div>
+    <a href="#" class="cta-04"><span>ドレス一覧を見る</span><span class="circle"><span class="arr">→</span></span></a>
+  </div>
+</div>
+
+<!-- 05 -->
+<div class="pattern-wrap">
+  <p class="pattern-label">PATTERN 05</p>
+  <p class="pattern-name">Minimal Arrow — 控えめなテキスト＋矢印</p>
+  <div class="demo">
+    <div class="tags"><span class="tag">豊富なラインナップ</span><span class="tag">国内・海外 同一価格</span></div>
+    <div class="price-row"><span>A プラン内 — 31着</span><span class="price-val">プラン内</span></div>
+    <a href="#" class="cta-05">ドレス一覧を見る <span class="arr">→</span></a>
+  </div>
+</div>
+
+<!-- 06 -->
+<div class="pattern-wrap">
+  <p class="pattern-label">PATTERN 06</p>
+  <p class="pattern-name">Bracket Style — ブラケットで囲む</p>
+  <div class="demo">
+    <div class="tags"><span class="tag">豊富なラインナップ</span><span class="tag">国内・海外 同一価格</span></div>
+    <div class="price-row"><span>A プラン内 — 31着</span><span class="price-val">プラン内</span></div>
+    <a href="#" class="cta-06"><span class="bracket">[ </span>ドレス一覧を見る<span class="bracket"> ]</span></a>
+  </div>
+</div>
+
+<!-- 07 -->
+<div class="pattern-wrap">
+  <p class="pattern-label">PATTERN 07</p>
+  <p class="pattern-name">Dot + Text — ドット＋テキスト</p>
+  <div class="demo">
+    <div class="tags"><span class="tag">豊富なラインナップ</span><span class="tag">国内・海外 同一価格</span></div>
+    <div class="price-row"><span>A プラン内 — 31着</span><span class="price-val">プラン内</span></div>
+    <a href="#" class="cta-07"><span class="dot"></span>ドレス一覧を見る</a>
+  </div>
+</div>
+
+<!-- 08 -->
+<div class="pattern-wrap">
+  <p class="pattern-label">PATTERN 08</p>
+  <p class="pattern-name">Full-width Bar — 全幅バー（上線区切り）</p>
+  <div class="demo">
+    <div class="tags"><span class="tag">豊富なラインナップ</span><span class="tag">国内・海外 同一価格</span></div>
+    <div class="price-row"><span>A プラン内 — 31着</span><span class="price-val">プラン内</span></div>
+    <a href="#" class="cta-08"><span>ドレス一覧を見る</span><span class="arr">→</span></a>
+  </div>
+</div>
+
+<!-- 09 -->
+<div class="pattern-wrap">
+  <p class="pattern-label">PATTERN 09</p>
+  <p class="pattern-name">Filled Pill — ダーク角丸ボタン</p>
+  <div class="demo">
+    <div class="tags"><span class="tag">豊富なラインナップ</span><span class="tag">国内・海外 同一価格</span></div>
+    <div class="price-row"><span>A プラン内 — 31着</span><span class="price-val">プラン内</span></div>
+    <a href="#" class="cta-09">ドレス一覧を見る</a>
+  </div>
+</div>
+
+<!-- 10 -->
+<div class="pattern-wrap">
+  <p class="pattern-label">PATTERN 10</p>
+  <p class="pattern-name">Line Before + Italic — イタリック＋左線</p>
+  <div class="demo">
+    <div class="tags"><span class="tag">豊富なラインナップ</span><span class="tag">国内・海外 同一価格</span></div>
+    <div class="price-row"><span>A プラン内 — 31着</span><span class="price-val">プラン内</span></div>
+    <a href="#" class="cta-10"><span class="line"></span>view dress list →</a>
+  </div>
+</div>
+
+</body>
+</html>

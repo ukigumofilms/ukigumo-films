@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voice — Pattern 07 Final</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #f5f3ef; font-family: 'Noto Sans JP', sans-serif; color: #3D3530; }
+
+    .voice-split-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 6rem 0;
+    }
+
+    .voice-split-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    .voice-split-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      color: #3D3530;
+      margin-bottom: 0.5rem;
+    }
+    .voice-split-header p {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.82rem;
+      font-weight: 300;
+      color: #8a7e74;
+      letter-spacing: 0.08em;
+    }
+
+    /* ===== Card List ===== */
+    .voice-split-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    /* ===== Each Card ===== */
+    .voice-split-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 420px;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .voice-split-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Alternate direction */
+    .voice-split-card:nth-child(even) { direction: rtl; }
+    .voice-split-card:nth-child(even) > * { direction: ltr; }
+
+    /* Stagger animation delay */
+    .voice-split-card:nth-child(1) { transition-delay: 0s; }
+    .voice-split-card:nth-child(2) { transition-delay: 0.15s; }
+    .voice-split-card:nth-child(3) { transition-delay: 0.3s; }
+
+    /* ===== Image Side ===== */
+    .voice-split-card__img-wrap {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .voice-split-card__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .voice-split-card__img-wrap:hover .voice-split-card__img {
+      transform: scale(1.04);
+    }
+
+    /* ===== Location Overlay (hover) ===== */
+    .voice-split-card__location {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: rgba(42, 36, 32, 0);
+      transition: background 0.5s ease;
+      pointer-events: none;
+    }
+    .voice-split-card__img-wrap:hover .voice-split-card__location {
+      background: rgba(42, 36, 32, 0.55);
+    }
+
+    .voice-split-card__loc-area {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      color: #fff;
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.5s ease 0.05s, transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.05s;
+    }
+    .voice-split-card__img-wrap:hover .voice-split-card__loc-area {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .voice-split-card__loc-line {
+      width: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(201,169,110,0.7), transparent);
+      margin: 0.7rem 0;
+      transition: width 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.15s;
+    }
+    .voice-split-card__img-wrap:hover .voice-split-card__loc-line {
+      width: 80px;
+    }
+
+    .voice-split-card__loc-coords {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.82rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.7);
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.5s ease 0.2s, transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s;
+    }
+    .voice-split-card__img-wrap:hover .voice-split-card__loc-coords {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== Text Side ===== */
+    .voice-split-card__body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 2.5rem 3rem;
+      background: #fff;
+    }
+    .voice-split-card:nth-child(even) .voice-split-card__body {
+      background: #faf8f5;
+    }
+
+    .voice-split-card__name {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.92rem;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      color: #a0917f;
+      margin-bottom: 0.3rem;
+    }
+    .voice-split-card__name-line {
+      width: 24px;
+      height: 1px;
+      background: #c9a96e;
+      margin-bottom: 1rem;
+      transition: width 0.6s ease;
+    }
+    .voice-split-card:hover .voice-split-card__name-line {
+      width: 48px;
+    }
+    .voice-split-card__text {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.72rem;
+      line-height: 2.2;
+      font-weight: 300;
+      color: #666;
+    }
+
+    /* ===== Mobile ===== */
+    @media (max-width: 768px) {
+      .voice-split-card {
+        grid-template-columns: 1fr;
+      }
+      .voice-split-card:nth-child(even) { direction: ltr; }
+      .voice-split-card__img-wrap {
+        aspect-ratio: 4/3;
+      }
+      .voice-split-card__body {
+        padding: 1.8rem 1.5rem;
+      }
+      /* Mobile: show location always (no hover) */
+      .voice-split-card__location {
+        background: rgba(42, 36, 32, 0.4);
+      }
+      .voice-split-card__loc-area {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .voice-split-card__loc-line {
+        width: 60px;
+      }
+      .voice-split-card__loc-coords {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="voice-split-section">
+    <div class="voice-split-header">
+      <h2>Voice</h2>
+      <p>お客様の声</p>
+    </div>
+
+    <div class="voice-split-list">
+
+      <!-- Card 1 — aya_wd_614 -->
+      <div class="voice-split-card">
+        <div class="voice-split-card__img-wrap">
+          <img class="voice-split-card__img" src="images/paris/04.jpg" alt="">
+          <div class="voice-split-card__location">
+            <span class="voice-split-card__loc-area">Paris</span>
+            <div class="voice-split-card__loc-line"></div>
+            <span class="voice-split-card__loc-coords">48.8566° N, 2.3522° E</span>
+          </div>
+        </div>
+        <div class="voice-split-card__body">
+          <p class="voice-split-card__name">aya_wd_614 様</p>
+          <div class="voice-split-card__name-line"></div>
+          <p class="voice-split-card__text">オープニングムービーは浮雲さんに撮影いただきました<br>@ukigumo_films<br>もう本当に世界観が最高！<br>惚れ込んだ画質、編集も最高！<br>映画の一コマみたいでうっとりしちゃう…<br><br>浮雲さんチームはお会いした瞬間からそりゃ〜もうテンションを爆あげてくださり笑<br>終始めっちゃ笑いあり、褒め言葉が飛び交う現場で。<br><br>この日は寒かったはずなのにずーーっと笑顔が絶えない撮影で<br>本当に本当に楽しかった…<br>目の端っこで浮雲さんと旦那が楽しそうに<br>追いかけっこしてるところが1番面白かったな<br><br>今も思い出してはクスッと笑ってしまうくらい<br>楽しい撮影でした<br>また浮雲さんチームに会いたいなあ…</p>
+        </div>
+      </div>
+
+      <!-- Card 2 — hrk_92.wedding -->
+      <div class="voice-split-card">
+        <div class="voice-split-card__img-wrap">
+          <img class="voice-split-card__img" src="images/firenze/03.jpg" alt="">
+          <div class="voice-split-card__location">
+            <span class="voice-split-card__loc-area">Tokyo</span>
+            <div class="voice-split-card__loc-line"></div>
+            <span class="voice-split-card__loc-coords">35.6762° N, 139.6503° E</span>
+          </div>
+        </div>
+        <div class="voice-split-card__body">
+          <p class="voice-split-card__name">hrk_92.wedding 様</p>
+          <div class="voice-split-card__name-line"></div>
+          <p class="voice-split-card__text">My favorite shot..<br><br>お気に入りすぎます<br><br>念願の東京駅でのお写真<br>ロック画面に設定してます<br><br>何度見返しても本当に本当に<br>楽しすぎて前撮りから3週間<br>経っているのですが余韻から<br>全然抜け出せていないです。<br><br>とても素敵な時間を過ごすことが<br>でき幸せな気持ちでいっぱいです。</p>
+        </div>
+      </div>
+
+      <!-- Card 3 — ri____sO22 -->
+      <div class="voice-split-card">
+        <div class="voice-split-card__img-wrap">
+          <img class="voice-split-card__img" src="images/malta/02.jpg" alt="">
+          <div class="voice-split-card__location">
+            <span class="voice-split-card__loc-area">Malta</span>
+            <div class="voice-split-card__loc-line"></div>
+            <span class="voice-split-card__loc-coords">35.9375° N, 14.3754° E</span>
+          </div>
+        </div>
+        <div class="voice-split-card__body">
+          <p class="voice-split-card__name">ri____sO22 様</p>
+          <div class="voice-split-card__name-line"></div>
+          <p class="voice-split-card__text">@ukigumo_films さんマジックで<br>こんなに素敵な作品が<br>出来上がりました<br><br>お気に入りすぎて毎日見てます<br><br>会場の大きなスクリーンに<br>映し出させると思うとドキドキするけど、<br>大切な友達や親族にも早く見てもらいたい</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+    // Scroll reveal
+    (function() {
+      var cards = document.querySelectorAll('.voice-split-card');
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      cards.forEach(function(card) { observer.observe(card); });
+    })();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scroll Parallax Demo — Bird&Insect Style</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: #f5f3ef;
+    font-family: 'Inter', sans-serif;
+    color: #333;
+  }
+
+  .spacer {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 1.4rem;
+    color: rgba(0,0,0,0.08);
+    letter-spacing: 0.2em;
+  }
+
+  /* ── ギャラリーセクション ── */
+  .gallery {
+    background: #f5f3ef;
+    padding-top: clamp(4rem, 8vw, 8rem);
+    overflow: hidden;
+  }
+
+  .gallery__header {
+    text-align: center;
+    margin-bottom: clamp(3rem, 6vw, 5rem);
+    padding: 0 clamp(1rem, 4vw, 4rem);
+  }
+  .gallery__label {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(0.65rem, 1vw, 0.8rem);
+    letter-spacing: 0.35em;
+    color: rgba(61, 53, 48, 0.35);
+    margin-bottom: 1.2rem;
+    text-transform: lowercase;
+  }
+  .gallery__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    line-height: 1.15;
+    color: #1a1a1a;
+    margin-bottom: 1.8rem;
+  }
+  .gallery__desc {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 300;
+    font-size: clamp(0.72rem, 1vw, 0.85rem);
+    line-height: 2.2;
+    color: #999;
+    max-width: 540px;
+    margin: 0 auto 1.2rem;
+  }
+  .gallery__desc-en {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: clamp(0.62rem, 0.8vw, 0.75rem);
+    line-height: 2;
+    color: #bbb;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+
+  /* ── スクロールゾーン（長い領域を確保して写真が動く空間を作る） ── */
+  .gallery__zone {
+    position: relative;
+    /* 写真が動く余白を含めた全体の高さ */
+    min-height: 300vh;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 3vw, 3rem);
+  }
+
+  /* ── 各写真 ── */
+  .gp {
+    position: absolute;
+    overflow: hidden;
+    opacity: 0;
+    will-change: transform, opacity, filter;
+  }
+  .gp img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /*
+    配置 — #9ベースだがもう少し広げて重なりを減らした
+    top はスクロールゾーン内での「静止位置」
+    パララックスで上下に動くので実際の表示位置は変わる
+  */
+  .gp--1 {
+    width: clamp(260px, 36%, 430px);
+    aspect-ratio: 4/3;
+    top: 5%;
+    left: 5%;
+    z-index: 2;
+  }
+  .gp--2 {
+    width: clamp(240px, 33%, 400px);
+    aspect-ratio: 4/3;
+    top: 8%;
+    right: 3%;
+    z-index: 1;
+  }
+  .gp--3 {
+    width: clamp(220px, 30%, 360px);
+    aspect-ratio: 3/4;
+    top: 28%;
+    left: 38%;
+    z-index: 4;
+  }
+  .gp--4 {
+    width: clamp(230px, 32%, 380px);
+    aspect-ratio: 4/3;
+    top: 35%;
+    left: 2%;
+    z-index: 3;
+  }
+  .gp--5 {
+    width: clamp(190px, 26%, 310px);
+    aspect-ratio: 1/1;
+    top: 55%;
+    right: 8%;
+    z-index: 5;
+  }
+  .gp--6 {
+    width: clamp(300px, 48%, 580px);
+    aspect-ratio: 16/9;
+    top: 72%;
+    left: 8%;
+    z-index: 6;
+  }
+
+  /* ── ボタン＆カテゴリ（スクロールゾーンの外に配置） ── */
+  .gallery__footer {
+    position: relative;
+    z-index: 10;
+    padding: clamp(3rem, 5vw, 5rem) 0 clamp(4rem, 6vw, 6rem);
+  }
+  .gallery__btn-wrap {
+    text-align: center;
+    margin-bottom: clamp(2.5rem, 4vw, 4rem);
+  }
+  .gallery__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: #1a1a1a;
+    transition: gap 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .gallery__btn:hover { gap: 1.5rem; }
+  .gallery__btn-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: clamp(0.85rem, 1.4vw, 1.05rem);
+    letter-spacing: 0.18em;
+  }
+  .gallery__btn-circle {
+    width: 3.2rem; height: 3.2rem;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.5s, transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .gallery__btn:hover .gallery__btn-circle {
+    border-color: rgba(0, 0, 0, 0.45);
+    transform: scale(1.1);
+  }
+  .gallery__btn-arrow {
+    width: 14px; height: 14px;
+    position: relative; margin-left: -2px;
+  }
+  .gallery__btn-arrow::before {
+    content: '';
+    position: absolute; top: 50%; left: 2px;
+    width: 10px; height: 1px;
+    background: #1a1a1a;
+    transition: width 0.5s;
+  }
+  .gallery__btn:hover .gallery__btn-arrow::before { width: 14px; }
+  .gallery__btn-arrow::after {
+    content: '';
+    position: absolute; top: 50%; right: 1px;
+    width: 6px; height: 6px;
+    border-right: 1px solid #1a1a1a;
+    border-top: 1px solid #1a1a1a;
+    transform: translateY(-50%) rotate(45deg);
+  }
+  .gallery-categories {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .gallery-cat {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    padding: 0 clamp(1rem, 2.5vw, 2.5rem);
+    position: relative;
+  }
+  .gallery-cat::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 50%;
+    transform: translateY(-50%);
+    width: 1px; height: 1.2em;
+    background: rgba(0, 0, 0, 0.12);
+  }
+  .gallery-cat:last-child::after { display: none; }
+  .gallery-cat__num {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 0.55rem;
+    color: rgba(0, 0, 0, 0.2);
+  }
+  .gallery-cat__name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(1.1rem, 2.8vw, 2rem);
+    letter-spacing: 0.06em;
+    color: rgba(0, 0, 0, 0.2);
+  }
+
+  @media (max-width: 768px) {
+    .gallery__zone { min-height: 260vh; }
+    .gp--1 { width: 55%; left: 2%; }
+    .gp--2 { width: 50%; }
+    .gp--3 { width: 48%; left: 30%; }
+    .gp--4 { width: 50%; }
+    .gp--5 { width: 40%; right: 3%; }
+    .gp--6 { width: 70%; left: 2%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="spacer">scroll down</div>
+
+<section class="gallery">
+
+  <div class="gallery__header">
+    <p class="gallery__label">gallery</p>
+    <h2 class="gallery__title">Gallery</h2>
+    <p class="gallery__desc">
+      ふたりの空気感をそのままに。<br>
+      映画のような一瞬を、永遠のものに。<br>
+      世界観や物語性のある撮影を大切にしながら、<br>
+      日々ベストなクリエイティブを提案します。
+    </p>
+    <p class="gallery__desc-en">
+      We seek to capture the emotion and atmosphere between two people,<br>
+      turning fleeting moments into timeless stories through our lens.
+    </p>
+  </div>
+
+  <div class="gallery__zone">
+    <!--
+      data-parallax-speed: パララックスの速さ（大きいほど速く動く。正=上方向に速い、負=遅い）
+      data-fade-start: 画面のどの位置で出現し始めるか（0=上端、1=下端）
+      data-fade-peak:  完全に出現する位置
+      data-fade-end:   消え始める位置
+      各写真でバラバラにすることでランダム感を出す
+    -->
+    <div class="gp gp--1"
+         data-parallax-speed="0.15"
+         data-fade-start="0.85"
+         data-fade-peak="0.6"
+         data-fade-end="0.08">
+      <img src="images/paris/01.jpg" alt="Paris">
+    </div>
+
+    <div class="gp gp--2"
+         data-parallax-speed="-0.1"
+         data-fade-start="0.9"
+         data-fade-peak="0.65"
+         data-fade-end="0.05">
+      <img src="images/firenze/02.jpg" alt="Firenze">
+    </div>
+
+    <div class="gp gp--3"
+         data-parallax-speed="0.22"
+         data-fade-start="0.88"
+         data-fade-peak="0.55"
+         data-fade-end="0.1">
+      <img src="images/london/03.jpg" alt="London">
+    </div>
+
+    <div class="gp gp--4"
+         data-parallax-speed="-0.18"
+         data-fade-start="0.82"
+         data-fade-peak="0.5"
+         data-fade-end="0.12">
+      <img src="images/malta/02.jpg" alt="Malta">
+    </div>
+
+    <div class="gp gp--5"
+         data-parallax-speed="0.25"
+         data-fade-start="0.92"
+         data-fade-peak="0.6"
+         data-fade-end="0.06">
+      <img src="images/firenze/06.jpg" alt="Firenze">
+    </div>
+
+    <div class="gp gp--6"
+         data-parallax-speed="-0.12"
+         data-fade-start="0.86"
+         data-fade-peak="0.52"
+         data-fade-end="0.15">
+      <img src="images/firenze/04.jpg" alt="Firenze">
+    </div>
+  </div>
+
+  <div class="gallery__footer">
+    <div class="gallery__btn-wrap">
+      <a href="#" class="gallery__btn">
+        <span class="gallery__btn-text">gallery</span>
+        <span class="gallery__btn-circle">
+          <span class="gallery__btn-arrow"></span>
+        </span>
+      </a>
+    </div>
+    <div class="gallery-categories">
+      <div class="gallery-cat">
+        <span class="gallery-cat__num">01</span>
+        <span class="gallery-cat__name">japan</span>
+      </div>
+      <div class="gallery-cat">
+        <span class="gallery-cat__num">02</span>
+        <span class="gallery-cat__name">paris</span>
+      </div>
+      <div class="gallery-cat">
+        <span class="gallery-cat__num">03</span>
+        <span class="gallery-cat__name">firenze</span>
+      </div>
+      <div class="gallery-cat">
+        <span class="gallery-cat__num">04</span>
+        <span class="gallery-cat__name">london</span>
+      </div>
+      <div class="gallery-cat">
+        <span class="gallery-cat__num">05</span>
+        <span class="gallery-cat__name">malta</span>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<div class="spacer">scroll back up</div>
+
+<script>
+(function() {
+  /* =============================================
+     Bird & Insect スタイル — スクロール連動パララックス
+
+     各写真が:
+     1. スクロールに合わせて上下に動く（パララックス速度バラバラ）
+     2. 画面に入るとシネマティックに浮き出る（blur→clear, scale, brightness）
+     3. 画面上部に抜けるとじわーっと消える
+     4. 全てスクロール位置に直結（一定速度じゃない）
+     ============================================= */
+
+  var photos = document.querySelectorAll('.gp');
+  var zone = document.querySelector('.gallery__zone');
+
+  // 各写真のパラメータ読み取り
+  var items = [];
+  photos.forEach(function(el) {
+    items.push({
+      el: el,
+      speed:     parseFloat(el.dataset.parallaxSpeed) || 0,
+      fadeStart:  parseFloat(el.dataset.fadeStart) || 0.85,
+      fadePeak:   parseFloat(el.dataset.fadePeak) || 0.55,
+      fadeEnd:    parseFloat(el.dataset.fadeEnd) || 0.1,
+      // ランダムなシネマティック個性
+      blurMax:       5 + Math.random() * 7,         // 最大ブラー 5~12px
+      scaleMin:      0.88 + Math.random() * 0.06,   // 最小スケール 0.88~0.94
+      brightnessMax: 1.06 + Math.random() * 0.12,   // 最大明度 1.06~1.18
+      rotateMax:     (Math.random() - 0.5) * 2.5,   // 微回転 -1.25~1.25deg
+    });
+  });
+
+  // 現在の補間値（lerp用）
+  var current = items.map(function() {
+    return { opacity: 0, y: 0, blur: 10, scale: 0.9, brightness: 1.15, rotate: 0 };
+  });
+
+  var ticking = false;
+
+  function update() {
+    var vh = window.innerHeight;
+    var scrollY = window.pageYOffset;
+    var zoneRect = zone.getBoundingClientRect();
+
+    items.forEach(function(item, i) {
+      var el = item.el;
+      var rect = el.getBoundingClientRect();
+      var centerY = rect.top + rect.height * 0.5;
+
+      // ── 画面内位置 (0=上端 1=下端) ──
+      var screenPos = centerY / vh;
+
+      // ── パララックス移動量 ──
+      // スクロール量に対して速度係数をかける
+      var zoneTop = zone.offsetTop;
+      var scrollInZone = scrollY - zoneTop + vh;
+      var parallaxY = scrollInZone * item.speed;
+
+      // ── フェード計算 ──
+      var opacity = 0;
+
+      if (screenPos > item.fadeStart) {
+        // まだ画面下のほう → 見えない
+        opacity = 0;
+      } else if (screenPos > item.fadePeak) {
+        // 出現フェーズ: fadeStart → fadePeak でじわっと出る
+        var t = (item.fadeStart - screenPos) / (item.fadeStart - item.fadePeak);
+        // ease-out cubic
+        opacity = 1 - Math.pow(1 - t, 3);
+      } else if (screenPos > item.fadeEnd) {
+        // 完全表示ゾーン
+        opacity = 1;
+      } else if (screenPos > item.fadeEnd - 0.15) {
+        // 退出フェーズ: fadeEnd → fadeEnd-0.15 でじわっと消える
+        var t2 = (screenPos - (item.fadeEnd - 0.15)) / 0.15;
+        // ease-in cubic
+        opacity = t2 * t2 * t2;
+      } else {
+        opacity = 0;
+      }
+
+      // ── シネマティック効果（opacityに連動） ──
+      var invOp = 1 - opacity;
+      var targetBlur = item.blurMax * invOp;
+      var targetScale = item.scaleMin + (1 - item.scaleMin) * opacity;
+      var targetBrightness = item.brightnessMax - (item.brightnessMax - 1) * opacity;
+      var targetRotate = item.rotateMax * invOp;
+
+      // ── lerp で滑らかに補間 ──
+      var lf = 0.12; // 補間係数（小さいほどぬるっと）
+      var c = current[i];
+      c.opacity    += (opacity - c.opacity) * lf;
+      c.y          += (parallaxY - c.y) * lf;
+      c.blur       += (targetBlur - c.blur) * lf;
+      c.scale      += (targetScale - c.scale) * lf;
+      c.brightness += (targetBrightness - c.brightness) * lf;
+      c.rotate     += (targetRotate - c.rotate) * lf;
+
+      // ── DOM 反映 ──
+      el.style.opacity = c.opacity.toFixed(3);
+      el.style.transform =
+        'translateY(' + c.y.toFixed(1) + 'px) ' +
+        'scale(' + c.scale.toFixed(3) + ') ' +
+        'rotate(' + c.rotate.toFixed(2) + 'deg)';
+      el.style.filter =
+        'blur(' + c.blur.toFixed(1) + 'px) ' +
+        'brightness(' + c.brightness.toFixed(3) + ')';
+    });
+
+    ticking = false;
+    // 常時アニメーションループ（lerpが追従するように）
+    requestAnimationFrame(loop);
+  }
+
+  function loop() {
+    update();
+  }
+
+  function onScroll() {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // 初回起動
+  requestAnimationFrame(update);
+})();
+</script>
+
+</body>
+</html>

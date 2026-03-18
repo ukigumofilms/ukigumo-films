@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CTA Button Design Patterns</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #e8e5e0; font-family: 'Cormorant Garamond', serif; color: #2a2420; }
+
+.pattern {
+  background: #f5f3ef; margin: 30px auto; max-width: 700px; padding: 60px 40px;
+  text-align: center; position: relative;
+}
+.pattern-label {
+  position: absolute; top: 16px; left: 20px;
+  font-size: 0.75rem; letter-spacing: 0.15em; color: #8a8278;
+}
+.pattern-label span { font-weight: 600; color: #2a2420; }
+.pattern-desc {
+  font-size: 0.8rem; color: #8a8278; margin-bottom: 30px; letter-spacing: 0.08em;
+}
+
+/* ===== Pattern 1: 下線のみ + 矢印 ===== */
+.cta1 {
+  display: inline-flex; align-items: center; gap: 12px;
+  color: #2a2420; font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem; letter-spacing: 0.2em; text-decoration: none;
+  padding: 8px 0; position: relative;
+}
+.cta1::after {
+  content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 1px;
+  background: #2a2420; transform: scaleX(0.3); transform-origin: left;
+  transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.cta1:hover::after { transform: scaleX(1); }
+.cta1 .arrow { transition: transform 0.4s ease; }
+.cta1:hover .arrow { transform: translateX(6px); }
+
+/* ===== Pattern 2: 丸ボタン + アイコン ===== */
+.cta2-wrap { display: inline-flex; align-items: center; gap: 18px; text-decoration: none; color: #2a2420; }
+.cta2-circle {
+  width: 52px; height: 52px; border-radius: 50%; border: 1px solid #2a2420;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.4s ease, transform 0.4s ease;
+}
+.cta2-circle svg { width: 16px; height: 16px; transition: transform 0.3s ease; }
+.cta2-label {
+  font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; letter-spacing: 0.2em;
+}
+.cta2-wrap:hover .cta2-circle { background: #2a2420; transform: scale(1.08); }
+.cta2-wrap:hover .cta2-circle svg { stroke: #f5f3ef; transform: translateX(2px); }
+
+/* ===== Pattern 3: 角丸ピル + 展開 ===== */
+.cta3 {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 36px; border: 1px solid rgba(42,36,32,0.3); border-radius: 50px;
+  color: #2a2420; font-family: 'Cormorant Garamond', serif;
+  font-size: 0.9rem; letter-spacing: 0.2em; text-decoration: none;
+  transition: padding 0.5s ease, background 0.4s ease, border-color 0.4s ease;
+}
+.cta3 .arrow { transition: transform 0.3s ease; }
+.cta3:hover { padding: 14px 48px; background: rgba(42,36,32,0.04); border-color: #2a2420; }
+.cta3:hover .arrow { transform: translateX(4px); }
+
+/* ===== Pattern 4: 左ライン + テキスト ===== */
+.cta4 {
+  display: inline-flex; align-items: center; gap: 16px;
+  color: #2a2420; text-decoration: none; font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem; letter-spacing: 0.2em;
+}
+.cta4 .line4 {
+  width: 40px; height: 1px; background: #2a2420;
+  transition: width 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.cta4:hover .line4 { width: 65px; }
+.cta4 .arrow { transition: transform 0.3s ease; }
+.cta4:hover .arrow { transform: translateX(5px); }
+
+/* ===== Pattern 5: 背景スライドイン ===== */
+.cta5 {
+  display: inline-flex; align-items: center; gap: 12px;
+  padding: 14px 40px; border: 1px solid #2a2420; border-radius: 4px;
+  color: #2a2420; font-family: 'Cormorant Garamond', serif;
+  font-size: 0.9rem; letter-spacing: 0.2em; text-decoration: none;
+  position: relative; overflow: hidden; z-index: 1;
+  transition: color 0.4s ease;
+}
+.cta5::before {
+  content: ''; position: absolute; top: 0; left: 0; width: 0; height: 100%;
+  background: #2a2420; z-index: -1;
+  transition: width 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.cta5:hover { color: #f5f3ef; }
+.cta5:hover::before { width: 100%; }
+.cta5 .arrow { transition: transform 0.3s ease; }
+.cta5:hover .arrow { transform: translateX(5px); }
+
+/* ===== Pattern 6: ミニマル テキストのみ ===== */
+.cta6 {
+  display: inline-flex; align-items: center; gap: 8px;
+  color: rgba(42,36,32,0.6); text-decoration: none; font-family: 'Cormorant Garamond', serif;
+  font-size: 0.85rem; letter-spacing: 0.25em; text-transform: uppercase;
+  transition: color 0.4s ease, letter-spacing 0.4s ease;
+}
+.cta6 .arrow { font-size: 0.7rem; transition: transform 0.4s ease; }
+.cta6:hover { color: #2a2420; letter-spacing: 0.35em; }
+.cta6:hover .arrow { transform: translateX(6px); }
+
+/* ===== Pattern 7: 四角アウトライン + ホバー塗り ===== */
+.cta7 {
+  display: inline-flex; align-items: center; gap: 12px;
+  padding: 16px 44px; border: 1px solid #2a2420;
+  color: #2a2420; font-family: 'Cormorant Garamond', serif;
+  font-size: 0.9rem; letter-spacing: 0.2em; text-decoration: none;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+.cta7 .arrow { transition: transform 0.3s ease; }
+.cta7:hover { background: #2a2420; color: #f5f3ef; }
+.cta7:hover .arrow { transform: translateX(5px); }
+
+/* ===== Pattern 8: 上下ライン挟み ===== */
+.cta8 {
+  display: inline-flex; flex-direction: column; align-items: center; gap: 0;
+  text-decoration: none; color: #2a2420;
+}
+.cta8 .line8 {
+  width: 30px; height: 1px; background: rgba(42,36,32,0.25);
+  transition: width 0.5s ease;
+}
+.cta8 .label8 {
+  font-family: 'Cormorant Garamond', serif; font-size: 0.9rem;
+  letter-spacing: 0.2em; padding: 12px 0;
+  display: flex; align-items: center; gap: 10px;
+}
+.cta8 .arrow { transition: transform 0.3s ease; }
+.cta8:hover .line8 { width: 80px; }
+.cta8:hover .arrow { transform: translateX(5px); }
+
+/* ===== Pattern 9: ドット + テキスト ===== */
+.cta9 {
+  display: inline-flex; align-items: center; gap: 14px;
+  text-decoration: none; color: #2a2420; font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem; letter-spacing: 0.2em;
+}
+.cta9 .dot9 {
+  width: 8px; height: 8px; border-radius: 50%; border: 1px solid #2a2420;
+  transition: background 0.3s ease, transform 0.4s ease;
+}
+.cta9 .arrow { transition: transform 0.3s ease; }
+.cta9:hover .dot9 { background: #2a2420; transform: scale(1.3); }
+.cta9:hover .arrow { transform: translateX(5px); }
+
+/* ===== Pattern 10: 括弧 + テキスト ===== */
+.cta10 {
+  display: inline-flex; align-items: center; gap: 6px;
+  text-decoration: none; color: #2a2420; font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem; letter-spacing: 0.15em;
+  transition: gap 0.4s ease;
+}
+.cta10 .bracket {
+  font-weight: 300; font-size: 1.3rem; color: rgba(42,36,32,0.3);
+  transition: color 0.4s ease;
+}
+.cta10:hover { gap: 12px; }
+.cta10:hover .bracket { color: #2a2420; }
+</style>
+</head>
+<body>
+
+<div style="text-align:center; padding: 50px 20px 10px;">
+  <h1 style="font-weight:300; font-size:2rem; letter-spacing:0.2em;">CTA Button Patterns</h1>
+  <p style="font-size:0.85rem; color:#8a8278; margin-top:8px;">ホバーで変化を確認してください</p>
+</div>
+
+<!-- 1 -->
+<div class="pattern">
+  <div class="pattern-label"><span>1</span> — 下線展開 + 矢印</div>
+  <div class="pattern-desc">アンダーラインが伸びるミニマルスタイル</div>
+  <a href="#" class="cta1">Dress Shop <span class="arrow">→</span></a>
+</div>
+
+<!-- 2 -->
+<div class="pattern">
+  <div class="pattern-label"><span>2</span> — 丸ボタン + テキスト</div>
+  <div class="pattern-desc">円形アイコンが反転するスタイル</div>
+  <a href="#" class="cta2-wrap">
+    <span class="cta2-label">Dress Shop</span>
+    <span class="cta2-circle">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#2a2420" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </span>
+  </a>
+</div>
+
+<!-- 3 -->
+<div class="pattern">
+  <div class="pattern-label"><span>3</span> — ピル型 展開</div>
+  <div class="pattern-desc">角丸ボタンがホバーで横に広がる</div>
+  <a href="#" class="cta3">Dress Shop <span class="arrow">→</span></a>
+</div>
+
+<!-- 4 -->
+<div class="pattern">
+  <div class="pattern-label"><span>4</span> — 左ライン + テキスト</div>
+  <div class="pattern-desc">ラインが伸びて誘導するスタイル</div>
+  <a href="#" class="cta4"><span class="line4"></span>Dress Shop <span class="arrow">→</span></a>
+</div>
+
+<!-- 5 -->
+<div class="pattern">
+  <div class="pattern-label"><span>5</span> — 背景スライドイン</div>
+  <div class="pattern-desc">背景色が左からスライドして文字色が反転</div>
+  <a href="#" class="cta5">Dress Shop <span class="arrow">→</span></a>
+</div>
+
+<!-- 6 -->
+<div class="pattern">
+  <div class="pattern-label"><span>6</span> — ミニマルテキスト</div>
+  <div class="pattern-desc">ボーダーなし、レタースペーシングで変化</div>
+  <a href="#" class="cta6">Dress Shop <span class="arrow">→</span></a>
+</div>
+
+<!-- 7 -->
+<div class="pattern">
+  <div class="pattern-label"><span>7</span> — 四角 ホバー塗り</div>
+  <div class="pattern-desc">シャープな四角、ホバーで反転</div>
+  <a href="#" class="cta7">Dress Shop <span class="arrow">→</span></a>
+</div>
+
+<!-- 8 -->
+<div class="pattern">
+  <div class="pattern-label"><span>8</span> — 上下ライン挟み</div>
+  <div class="pattern-desc">上下のラインが広がるスタイル</div>
+  <a href="#" class="cta8">
+    <span class="line8"></span>
+    <span class="label8">Dress Shop <span class="arrow">→</span></span>
+    <span class="line8"></span>
+  </a>
+</div>
+
+<!-- 9 -->
+<div class="pattern">
+  <div class="pattern-label"><span>9</span> — ドット + テキスト</div>
+  <div class="pattern-desc">小さなドットがアクセントになるスタイル</div>
+  <a href="#" class="cta9"><span class="dot9"></span>Dress Shop <span class="arrow">→</span></a>
+</div>
+
+<!-- 10 -->
+<div class="pattern">
+  <div class="pattern-label"><span>10</span> — 括弧スタイル</div>
+  <div class="pattern-desc">括弧が広がるタイポグラフィ的アプローチ</div>
+  <a href="#" class="cta10"><span class="bracket">[</span> Dress Shop <span class="bracket">]</span></a>
+</div>
+
+<div style="height:60px;"></div>
+</body>
+</html>

@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Location | ukigumo wedding</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .page-hero {
+      position: relative;
+      height: 50vh;
+      min-height: 350px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .page-hero__image {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      animation: heroZoom 15s ease-out forwards;
+    }
+    @keyframes heroZoom {
+      from { transform: scale(1.08); }
+      to { transform: scale(1); }
+    }
+    .page-hero__overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.35) 100%);
+      z-index: 1;
+    }
+    .page-hero__content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      color: white;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.8s ease 0.3s forwards;
+    }
+    @keyframes fadeInUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .location-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      padding: 3rem 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    @media (min-width: 768px) {
+      .location-grid {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 4rem 2rem;
+      }
+    }
+
+    .location-category {
+      margin-bottom: 2rem;
+    }
+
+    .location-category h2 {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      font-weight: 300;
+      margin-bottom: 2rem;
+      color: #2c2c2c;
+      letter-spacing: 0.08em;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: revealUp 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+
+    @keyframes revealUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (min-width: 768px) {
+      .location-category h2 {
+        font-size: 2.5rem;
+      }
+    }
+
+    .locations-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .locations-container.stagger-children > * {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: revealUp 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+
+    .locations-container.stagger-children > *:nth-child(1) { animation-delay: 0.1s; }
+    .locations-container.stagger-children > *:nth-child(2) { animation-delay: 0.2s; }
+    .locations-container.stagger-children > *:nth-child(3) { animation-delay: 0.3s; }
+    .locations-container.stagger-children > *:nth-child(4) { animation-delay: 0.4s; }
+    .locations-container.stagger-children > *:nth-child(5) { animation-delay: 0.5s; }
+    .locations-container.stagger-children > *:nth-child(6) { animation-delay: 0.6s; }
+
+    @media (min-width: 768px) {
+      .locations-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* ========================================
+       LOCATION CARD — Overlay #02: Center + Divider
+       ======================================== */
+
+    .location-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    .location-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .location-card__image {
+      position: relative;
+      aspect-ratio: 3 / 2;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .location-card__image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      opacity: 0;
+      transform: scale(0.95);
+      transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    .location-card__image img.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .location-card:hover .location-card__image img {
+      transform: scale(1.05);
+    }
+
+    /* Dark overlay */
+    .location-card__overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.25);
+      transition: background 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+      z-index: 2;
+    }
+
+    .location-card:hover .location-card__overlay {
+      background: rgba(0, 0, 0, 0.45);
+    }
+
+    /* Center + Divider text overlay */
+    .location-card__text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: white;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .location-card__text h3 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 300;
+      margin: 0;
+      line-height: 1;
+      letter-spacing: 0.12em;
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Thin horizontal divider */
+    .location-card__divider {
+      width: 30px;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.7);
+      margin: 0.6rem auto;
+      transition: width 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    .location-card:hover .location-card__divider {
+      width: 50px;
+    }
+
+    .location-card__text p {
+      font-family: var(--font-jp-serif, 'Noto Serif JP', serif);
+      font-size: 0.85rem;
+      font-weight: 300;
+      margin: 0;
+      letter-spacing: 0.15em;
+      opacity: 0.85;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Description — shown on hover */
+    .location-card__desc {
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      font-weight: 300;
+      display: block;
+      letter-spacing: 0.05em;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.5s cubic-bezier(0.19, 1, 0.22, 1) 0.1s,
+                  transform 0.5s cubic-bezier(0.19, 1, 0.22, 1) 0.1s;
+      margin-top: 0.6rem;
+      color: rgba(255, 255, 255, 0.85);
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .location-card:hover .location-card__desc {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Coords at bottom center */
+    .location-card__coords {
+      position: absolute;
+      bottom: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-sans);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: rgba(255, 255, 255, 0);
+      transition: color 0.5s ease 0.15s;
+      z-index: 3;
+      white-space: nowrap;
+    }
+
+    .location-card:hover .location-card__coords {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .location-note {
+      text-align: center;
+      padding: 3rem 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      font-family: var(--font-jp-sans, 'Noto Sans JP', sans-serif);
+      font-size: 1rem;
+      color: #666;
+      line-height: 1.8;
+      letter-spacing: 0.05em;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: revealUp 0.8s cubic-bezier(0.19, 1, 0.22, 1) 0.3s forwards;
+    }
+
+    @media (min-width: 768px) {
+      .location-note {
+        padding: 4rem 2rem;
+        font-size: 1.125rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Side Labels -->
+  <span class="side-text side-text--left">location</span>
+  <span class="side-text side-text--right">ukigumo wedding &mdash; all rights reserved.</span>
+
+  <!-- Navigation -->
+  <nav class="nav nav--light">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">
+        <img src="images/logo/logo-white.png" alt="ukigumo" class="nav__logo-light">
+        <img src="images/logo/logo-black.png" alt="ukigumo" class="nav__logo-dark">
+      </a>
+      <div class="nav__links">
+        <a href="about.html">About</a>
+        <a href="plan.html">Plan / Price</a>
+        <a href="dress.html">Dress</a>
+        <a href="location.html">Location</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="qa.html">Q&A</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <button class="nav__hamburger" aria-label="メニュー">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="nav__menu">
+    <a href="about.html">About</a>
+    <a href="plan.html">Plan / Price</a>
+    <a href="dress.html">Dress</a>
+    <a href="location.html">Location</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="qa.html">Q&A</a>
+    <a href="contact.html">Contact</a>
+    <a href="https://www.instagram.com/ukigumo_films/" target="_blank" rel="noopener">Instagram</a>
+  </div>
+
+  <section class="page-hero" data-nav-dark>
+    <img src="images/firenze/03.jpg" alt="Location" class="page-hero__image">
+    <div class="page-hero__overlay"></div>
+    <div class="page-hero__content">
+      <h1 style="font-family: var(--font-serif); font-size: clamp(2.5rem, 8vw, 4rem); font-weight: 300; margin: 0; letter-spacing: 0.05em;">Location</h1>
+    </div>
+  </section>
+
+  <div class="location-grid">
+    <!-- Japan Category -->
+    <div class="location-category" style="grid-column: 1 / -1;">
+      <h2>Japan</h2>
+      <div class="locations-container stagger-children">
+        <div class="location-card reveal">
+          <div class="location-card__image">
+            <img src="images/hero/hero-01.jpg" alt="Tokyo" loading="lazy">
+            <div class="location-card__overlay"></div>
+            <div class="location-card__text">
+              <h3>Tokyo</h3>
+              <div class="location-card__divider"></div>
+              <p>東京</p>
+              <span class="location-card__desc">都会の洗練と四季の彩り</span>
+            </div>
+            <span class="location-card__coords">35.6762° N  139.6503° E</span>
+          </div>
+        </div>
+
+        <div class="location-card reveal">
+          <div class="location-card__image">
+            <img src="images/firenze/01.jpg" alt="Karuizawa" loading="lazy">
+            <div class="location-card__overlay"></div>
+            <div class="location-card__text">
+              <h3>Karuizawa</h3>
+              <div class="location-card__divider"></div>
+              <p>軽井沢</p>
+              <span class="location-card__desc">新緑と紅葉の避暑地ウェディング</span>
+            </div>
+            <span class="location-card__coords">36.7413° N  138.1641° E</span>
+          </div>
+        </div>
+
+        <div class="location-card reveal">
+          <div class="location-card__image">
+            <img src="images/malta/03.jpg" alt="Jogashima" loading="lazy">
+            <div class="location-card__overlay"></div>
+            <div class="location-card__text">
+              <h3>Jogashima</h3>
+              <div class="location-card__divider"></div>
+              <p>城ヶ島</p>
+              <span class="location-card__desc">海と岩の自然美ロケーション</span>
+            </div>
+            <span class="location-card__coords">34.9706° N  139.6054° E</span>
+          </div>
+        </div>
+
+        <div class="location-card reveal">
+          <div class="location-card__image">
+            <img src="images/london/02.jpg" alt="Night Garden" loading="lazy">
+            <div class="location-card__overlay"></div>
+            <div class="location-card__text">
+              <h3>Night Garden</h3>
+              <div class="location-card__divider"></div>
+              <p>城ヶ島</p>
+              <span class="location-card__desc">城ヶ島の夜に灯る装飾撮影</span>
+            </div>
+            <span class="location-card__coords">34.9706° N  139.6054° E</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- International Locations Category -->
+    <div class="location-category" style="grid-column: 1 / -1;">
+      <h2>Europa</h2>
+      <div class="locations-container stagger-children">
+        <div class="location-card reveal">
+          <div class="location-card__image">
+            <img src="images/paris/03.jpg" alt="Paris" loading="lazy">
+            <div class="location-card__overlay"></div>
+            <div class="location-card__text">
+              <h3>Paris</h3>
+              <div class="location-card__divider"></div>
+              <p>パリ</p>
+              <span class="location-card__desc">映画の一場面のような街並み</span>
+            </div>
+            <span class="location-card__coords">48.8566° N  2.3522° E</span>
+          </div>
+        </div>
+
+        <div class="location-card reveal">
+          <div class="location-card__image">
+            <img src="images/london/01.jpg" alt="London" loading="lazy">
+            <div class="location-card__overlay"></div>
+            <div class="location-card__text">
+              <h3>London</h3>
+              <div class="location-card__divider"></div>
+              <p>ロンドン</p>
+              <span class="location-card__desc">格調高いクラシカルな世界観</span>
+            </div>
+            <span class="location-card__coords">51.5074° N  0.1278° W</span>
+          </div>
+        </div>
+
+        <div class="location-card reveal">
+          <div class="location-card__image">
+            <img src="images/firenze/02.jpg" alt="Suisse" loading="lazy">
+            <div class="location-card__overlay"></div>
+            <div class="location-card__text">
+              <h3>Suisse</h3>
+              <div class="location-card__divider"></div>
+              <p>スイス</p>
+              <span class="location-card__desc">アルプスの絶景をバックに</span>
+            </div>
+            <span class="location-card__coords">46.8182° N  8.2275° E</span>
+          </div>
+        </div>
+
+        <div class="location-card reveal">
+          <div class="location-card__image">
+            <img src="images/paris/02.jpg" alt="Nice" loading="lazy">
+            <div class="location-card__overlay"></div>
+            <div class="location-card__text">
+              <h3>Nice</h3>
+              <div class="location-card__divider"></div>
+              <p>ニース</p>
+              <span class="location-card__desc">南仏コート・ダジュールの光</span>
+            </div>
+            <span class="location-card__coords">43.7102° N  7.2620° E</span>
+          </div>
+        </div>
+
+        <div class="location-card reveal">
+          <div class="location-card__image">
+            <img src="images/firenze/03.jpg" alt="Firenze" loading="lazy">
+            <div class="location-card__overlay"></div>
+            <div class="location-card__text">
+              <h3>Firenze</h3>
+              <div class="location-card__divider"></div>
+              <p>フィレンツェ</p>
+              <span class="location-card__desc">ルネッサンスの歴史が薫る街</span>
+            </div>
+            <span class="location-card__coords">43.7696° N  11.2558° E</span>
+          </div>
+        </div>
+
+        <div class="location-card reveal">
+          <div class="location-card__image">
+            <img src="images/malta/04.jpg" alt="Malta" loading="lazy">
+            <div class="location-card__overlay"></div>
+            <div class="location-card__text">
+              <h3>Malta</h3>
+              <div class="location-card__divider"></div>
+              <p>マルタ</p>
+              <span class="location-card__desc">地中海の宝石、青と白の楽園</span>
+            </div>
+            <span class="location-card__coords">35.8989° N  14.5146° E</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__logo">
+      <a href="index.html"><img src="images/logo/logo-black.png" alt="ukigumo"></a>
+    </div>
+    <div class="footer__links">
+      <a href="about.html">About</a>
+      <a href="plan.html">Plan & Price</a>
+      <a href="dress.html">Dress</a>
+      <a href="location.html">Location</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="qa.html">Q&A / Policy</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <p class="footer__copy">&copy; 2026 ukigumo wedding. All rights reserved.</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    // Add lazy-reveal animation to location card images
+    document.querySelectorAll('.location-card__image img').forEach((img) => {
+      const observerOptions = {
+        threshold: 0.15,
+        rootMargin: '0px 0px -50px 0px'
+      };
+
+      const lazyRevealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            lazyRevealObserver.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      lazyRevealObserver.observe(img);
+    });
+  </script>
+</body>
+</html>

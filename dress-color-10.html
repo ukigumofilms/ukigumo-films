@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dress Page Color Patterns — 10案</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Noto Sans JP',sans-serif; background:#f5f5f5; color:#333; }
+h1 { text-align:center; font-family:'Cormorant Garamond',serif; font-weight:300; font-size:28px; letter-spacing:0.15em; padding:40px 0 10px; color:#2a2420; }
+.subtitle { text-align:center; font-size:11px; color:#999; margin-bottom:40px; letter-spacing:0.1em; }
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; max-width:860px; margin:0 auto; padding:0 20px 60px; }
+@media(max-width:600px){ .grid{grid-template-columns:1fr; max-width:400px;} }
+
+.pattern { border-radius:12px; overflow:hidden; box-shadow:0 2px 16px rgba(0,0,0,0.06); }
+.pattern-label { font-family:'Cormorant Garamond',serif; font-size:13px; letter-spacing:0.2em; padding:10px 16px; font-weight:400; }
+
+/* Intro section mock */
+.intro { text-align:center; padding:40px 16px 30px; }
+.intro-sub { font-family:'Cormorant Garamond',serif; font-size:9px; letter-spacing:0.3em; text-transform:uppercase; margin-bottom:6px; }
+.intro-title { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:300; letter-spacing:0.15em; margin-bottom:4px; }
+.intro-brand { font-family:'Cormorant Garamond',serif; font-size:8px; letter-spacing:0.35em; margin-bottom:12px; }
+.intro-line { width:24px; height:1px; margin:0 auto 12px; }
+.intro-desc { font-size:8px; line-height:2; max-width:260px; margin:0 auto; }
+
+/* Card mock */
+.card-area { padding:16px 14px 20px; }
+.card { border-radius:12px; padding:14px 12px 10px; margin-bottom:8px; }
+.card-name { font-family:'Cormorant Garamond',serif; font-size:14px; font-weight:400; letter-spacing:0.05em; margin-bottom:6px; }
+.card-tag { display:inline-block; font-size:7px; letter-spacing:0.06em; border-radius:20px; padding:2px 8px; margin-bottom:6px; }
+.card-points { display:flex; gap:4px; margin-bottom:8px; flex-wrap:wrap; }
+.card-points span { font-size:7px; border-radius:20px; padding:2px 6px; }
+.price-block { border-radius:6px; padding:6px 10px 5px; margin-bottom:4px; }
+.price-head { font-size:7px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; padding-bottom:3px; margin-bottom:3px; }
+.price-row { display:flex; justify-content:space-between; font-size:8px; padding:2px 0; }
+.price-val { font-weight:700; white-space:nowrap; }
+.price-note { font-size:7px; margin-top:2px; }
+
+/* ====== PATTERN A: Pure White + Warm Gray ====== */
+.pa .intro { background:#fff; color:#3D3530; }
+.pa .intro-sub { color:rgba(61,53,48,0.5); }
+.pa .intro-title { color:#2a2420; }
+.pa .intro-brand { color:rgba(61,53,48,0.35); }
+.pa .intro-line { background:rgba(61,53,48,0.15); }
+.pa .intro-desc { color:rgba(61,53,48,0.5); }
+.pa .card-area { background:#fff; }
+.pa .card { background:#F7F5F3; }
+.pa .card-name { color:#2a2420; }
+.pa .card-tag { color:#8A7E70; border:1px solid rgba(61,53,48,0.12); }
+.pa .card-points span { color:#5A4E42; background:rgba(181,169,154,0.12); }
+.pa .price-block { background:#F0EDE9; }
+.pa .price-head { color:#6B5E50; border-bottom:1px solid rgba(61,53,48,0.1); }
+.pa .price-val { color:#3D2E1E; }
+.pa .price-note { color:#8A7E70; }
+.pa .pattern-label { background:#fff; color:#2a2420; }
+
+/* ====== PATTERN B: White + Gold Accent ====== */
+.pb .intro { background:#fff; color:#3D3530; }
+.pb .intro-sub { color:#C9A96E; }
+.pb .intro-title { color:#2a2420; }
+.pb .intro-brand { color:rgba(201,169,110,0.5); }
+.pb .intro-line { background:#C9A96E; }
+.pb .intro-desc { color:rgba(61,53,48,0.5); }
+.pb .card-area { background:#fff; }
+.pb .card { background:#FDFBF8; border:1px solid rgba(201,169,110,0.12); }
+.pb .card-name { color:#2a2420; }
+.pb .card-tag { color:#C9A96E; border:1px solid rgba(201,169,110,0.25); }
+.pb .card-points span { color:#7A6B55; background:rgba(201,169,110,0.1); }
+.pb .price-block { background:#FBF8F3; }
+.pb .price-head { color:#B89A5E; border-bottom:1px solid rgba(201,169,110,0.2); }
+.pb .price-val { color:#3D2E1E; }
+.pb .price-note { color:#A89880; }
+.pb .pattern-label { background:#fff; color:#C9A96E; }
+
+/* ====== PATTERN C: Off-White + Olive ====== */
+.pc .intro { background:#FAFAF7; color:#3D3530; }
+.pc .intro-sub { color:#7A8060; }
+.pc .intro-title { color:#3D3530; }
+.pc .intro-brand { color:rgba(122,128,96,0.4); }
+.pc .intro-line { background:#7A8060; }
+.pc .intro-desc { color:rgba(61,53,48,0.5); }
+.pc .card-area { background:#FAFAF7; }
+.pc .card { background:#fff; border:1px solid rgba(122,128,96,0.08); }
+.pc .card-name { color:#3D3530; }
+.pc .card-tag { color:#7A8060; border:1px solid rgba(122,128,96,0.2); }
+.pc .card-points span { color:#5A5E42; background:rgba(122,128,96,0.08); }
+.pc .price-block { background:#F5F5F0; }
+.pc .price-head { color:#6B7050; border-bottom:1px solid rgba(122,128,96,0.15); }
+.pc .price-val { color:#3D3530; }
+.pc .price-note { color:#8A8E70; }
+.pc .pattern-label { background:#FAFAF7; color:#7A8060; }
+
+/* ====== PATTERN D: White + Soft Pink ====== */
+.pd .intro { background:#fff; color:#3D3530; }
+.pd .intro-sub { color:#C4A0A0; }
+.pd .intro-title { color:#3D3530; }
+.pd .intro-brand { color:rgba(196,160,160,0.4); }
+.pd .intro-line { background:#C4A0A0; }
+.pd .intro-desc { color:rgba(61,53,48,0.45); }
+.pd .card-area { background:#fff; }
+.pd .card { background:#FDF9F9; border:1px solid rgba(196,160,160,0.1); }
+.pd .card-name { color:#3D3530; }
+.pd .card-tag { color:#B08888; border:1px solid rgba(196,160,160,0.2); }
+.pd .card-points span { color:#8A6E6E; background:rgba(196,160,160,0.08); }
+.pd .price-block { background:#FAF5F5; }
+.pd .price-head { color:#B08888; border-bottom:1px solid rgba(196,160,160,0.15); }
+.pd .price-val { color:#3D2E2E; }
+.pd .price-note { color:#B09898; }
+.pd .pattern-label { background:#fff; color:#C4A0A0; }
+
+/* ====== PATTERN E: White + Charcoal Minimal ====== */
+.pe .intro { background:#fff; color:#333; }
+.pe .intro-sub { color:rgba(51,51,51,0.4); }
+.pe .intro-title { color:#222; }
+.pe .intro-brand { color:rgba(51,51,51,0.25); }
+.pe .intro-line { background:rgba(51,51,51,0.15); }
+.pe .intro-desc { color:rgba(51,51,51,0.45); }
+.pe .card-area { background:#fff; }
+.pe .card { background:#fff; border:1px solid rgba(0,0,0,0.06); }
+.pe .card-name { color:#222; }
+.pe .card-tag { color:#666; border:1px solid rgba(0,0,0,0.1); }
+.pe .card-points span { color:#555; background:rgba(0,0,0,0.04); }
+.pe .price-block { background:#F8F8F8; }
+.pe .price-head { color:#555; border-bottom:1px solid rgba(0,0,0,0.08); }
+.pe .price-val { color:#222; }
+.pe .price-note { color:#999; }
+.pe .pattern-label { background:#fff; color:#333; }
+
+/* ====== PATTERN F: Ivory + Warm Brown ====== */
+.pf .intro { background:#FAF8F5; color:#4A3F35; }
+.pf .intro-sub { color:rgba(74,63,53,0.5); }
+.pf .intro-title { color:#3D3228; }
+.pf .intro-brand { color:rgba(74,63,53,0.3); }
+.pf .intro-line { background:rgba(74,63,53,0.2); }
+.pf .intro-desc { color:rgba(74,63,53,0.45); }
+.pf .card-area { background:#FAF8F5; }
+.pf .card { background:#fff; }
+.pf .card-name { color:#3D3228; }
+.pf .card-tag { color:#8A7E70; border:1px solid rgba(74,63,53,0.12); }
+.pf .card-points span { color:#6B5E50; background:rgba(74,63,53,0.06); }
+.pf .price-block { background:#F5F2EE; }
+.pf .price-head { color:#6B5E50; border-bottom:1px solid rgba(74,63,53,0.1); }
+.pf .price-val { color:#3D2E1E; }
+.pf .price-note { color:#A09080; }
+.pf .pattern-label { background:#FAF8F5; color:#4A3F35; }
+
+/* ====== PATTERN G: White + Slate Blue ====== */
+.pg .intro { background:#FBFBFC; color:#3A3D45; }
+.pg .intro-sub { color:#8090A0; }
+.pg .intro-title { color:#2E3340; }
+.pg .intro-brand { color:rgba(128,144,160,0.4); }
+.pg .intro-line { background:#8090A0; }
+.pg .intro-desc { color:rgba(58,61,69,0.45); }
+.pg .card-area { background:#FBFBFC; }
+.pg .card { background:#fff; border:1px solid rgba(128,144,160,0.08); }
+.pg .card-name { color:#2E3340; }
+.pg .card-tag { color:#8090A0; border:1px solid rgba(128,144,160,0.2); }
+.pg .card-points span { color:#5A6070; background:rgba(128,144,160,0.08); }
+.pg .price-block { background:#F5F6F8; }
+.pg .price-head { color:#6B7585; border-bottom:1px solid rgba(128,144,160,0.15); }
+.pg .price-val { color:#2E3340; }
+.pg .price-note { color:#8A90A0; }
+.pg .pattern-label { background:#FBFBFC; color:#8090A0; }
+
+/* ====== PATTERN H: White + Sage Green ====== */
+.ph .intro { background:#FAFCFA; color:#3D4038; }
+.ph .intro-sub { color:#8CA88C; }
+.ph .intro-title { color:#2E3528; }
+.ph .intro-brand { color:rgba(140,168,140,0.4); }
+.ph .intro-line { background:#8CA88C; }
+.ph .intro-desc { color:rgba(61,64,56,0.45); }
+.ph .card-area { background:#FAFCFA; }
+.ph .card { background:#fff; border:1px solid rgba(140,168,140,0.08); }
+.ph .card-name { color:#2E3528; }
+.ph .card-tag { color:#6B8060; border:1px solid rgba(140,168,140,0.18); }
+.ph .card-points span { color:#5A6B50; background:rgba(140,168,140,0.08); }
+.ph .price-block { background:#F3F6F2; }
+.ph .price-head { color:#6B8060; border-bottom:1px solid rgba(140,168,140,0.15); }
+.ph .price-val { color:#2E3528; }
+.ph .price-note { color:#8AA080; }
+.ph .pattern-label { background:#FAFCFA; color:#8CA88C; }
+
+/* ====== PATTERN I: White + Taupe ====== */
+.pi .intro { background:#FDFCFB; color:#4A4540; }
+.pi .intro-sub { color:#A09890; }
+.pi .intro-title { color:#3D3835; }
+.pi .intro-brand { color:rgba(160,152,144,0.4); }
+.pi .intro-line { background:#A09890; }
+.pi .intro-desc { color:rgba(74,69,64,0.45); }
+.pi .card-area { background:#FDFCFB; }
+.pi .card { background:#fff; border:1px solid rgba(160,152,144,0.08); }
+.pi .card-name { color:#3D3835; }
+.pi .card-tag { color:#8A8078; border:1px solid rgba(160,152,144,0.18); }
+.pi .card-points span { color:#6B6560; background:rgba(160,152,144,0.08); }
+.pi .price-block { background:#F5F3F1; }
+.pi .price-head { color:#7A7268; border-bottom:1px solid rgba(160,152,144,0.12); }
+.pi .price-val { color:#3D3530; }
+.pi .price-note { color:#A09890; }
+.pi .pattern-label { background:#FDFCFB; color:#A09890; }
+
+/* ====== PATTERN J: Pure White + Light Border ====== */
+.pj .intro { background:#fff; color:#3D3530; }
+.pj .intro-sub { color:rgba(61,53,48,0.4); }
+.pj .intro-title { color:#2a2420; }
+.pj .intro-brand { color:rgba(61,53,48,0.25); }
+.pj .intro-line { background:rgba(201,169,110,0.3); }
+.pj .intro-desc { color:rgba(61,53,48,0.45); }
+.pj .card-area { background:#fff; }
+.pj .card { background:#fff; box-shadow:0 1px 12px rgba(0,0,0,0.04); border:1px solid rgba(0,0,0,0.04); }
+.pj .card-name { color:#2a2420; }
+.pj .card-tag { color:#8A7E70; border:1px solid rgba(61,53,48,0.1); }
+.pj .card-points span { color:#6B5E50; background:rgba(201,169,110,0.06); }
+.pj .price-block { background:#FAFAF8; }
+.pj .price-head { color:#8A7E70; border-bottom:1px solid rgba(61,53,48,0.08); }
+.pj .price-val { color:#2a2420; }
+.pj .price-note { color:#A09880; }
+.pj .pattern-label { background:#fff; color:#2a2420; border-top:1px solid rgba(0,0,0,0.04); }
+</style>
+</head>
+<body>
+
+<h1>Dress Page — Color Patterns</h1>
+<p class="subtitle">白ベース × カード構造維持 — 10パターン</p>
+
+<div class="grid">
+
+<!-- Pattern A -->
+<div class="pattern pa">
+  <div class="pattern-label">A — Pure White + Warm Gray</div>
+  <div class="intro">
+    <p class="intro-sub">Partner Dress Shops</p>
+    <h2 class="intro-title">Dress Guide</h2>
+    <p class="intro-brand">u k i g u m o&ensp;w e d d i n g</p>
+    <div class="intro-line"></div>
+    <p class="intro-desc">ukigumo weddingが提携する4つのドレスショップをご紹介いたします。<br>各ブランドのInstagramよりお気軽にお問い合わせください。</p>
+  </div>
+  <div class="card-area">
+    <div class="card">
+      <div class="card-name">Bee's Knees</div>
+      <span class="card-tag">ukigumo films 特別価格｜東京・赤坂</span>
+      <div class="card-points"><span>豊富なラインナップ</span><span>国内・海外 同一価格</span><span>タキシード込み</span></div>
+      <div class="price-block">
+        <p class="price-head">Base Price（ドレス＋タキシード込み）</p>
+        <div class="price-row"><span>国内・海外共通</span><span class="price-val">¥98,000（税込）</span></div>
+      </div>
+      <p class="price-note">・ ukigumo特別価格：さらに10%OFF</p>
+    </div>
+  </div>
+</div>
+
+<!-- Pattern B -->
+<div class="pattern pb">
+  <div class="pattern-label">B — White + Gold Accent</div>
+  <div class="intro">
+    <p class="intro-sub">Partner Dress Shops</p>
+    <h2 class="intro-title">Dress Guide</h2>
+    <p class="intro-brand">u k i g u m o&ensp;w e d d i n g</p>
+    <div class="intro-line"></div>
+    <p class="intro-desc">ukigumo weddingが提携する4つのドレスショップをご紹介いたします。<br>各ブランドのInstagramよりお気軽にお問い合わせください。</p>
+  </div>
+  <div class="card-area">
+    <div class="card">
+      <div class="card-name">Bee's Knees</div>
+      <span class="card-tag">ukigumo films 特別価格｜東京・赤坂</span>
+      <div class="card-points"><span>豊富なラインナップ</span><span>国内・海外 同一価格</span><span>タキシード込み</span></div>
+      <div class="price-block">
+        <p class="price-head">Base Price（ドレス＋タキシード込み）</p>
+        <div class="price-row"><span>国内・海外共通</span><span class="price-val">¥98,000（税込）</span></div>
+      </div>
+      <p class="price-note">・ ukigumo特別価格：さらに10%OFF</p>
+    </div>
+  </div>
+</div>
+
+<!-- Pattern C -->
+<div class="pattern pc">
+  <div class="pattern-label">C — Off-White + Olive</div>
+  <div class="intro">
+    <p class="intro-sub">Partner Dress Shops</p>
+    <h2 class="intro-title">Dress Guide</h2>
+    <p class="intro-brand">u k i g u m o&ensp;w e d d i n g</p>
+    <div class="intro-line"></div>
+    <p class="intro-desc">ukigumo weddingが提携する4つのドレスショップをご紹介いたします。<br>各ブランドのInstagramよりお気軽にお問い合わせください。</p>
+  </div>
+  <div class="card-area">
+    <div class="card">
+      <div class="card-name">Bee's Knees</div>
+      <span class="card-tag">ukigumo films 特別価格｜東京・赤坂</span>
+      <div class="card-points"><span>豊富なラインナップ</span><span>国内・海外 同一価格</span><span>タキシード込み</span></div>
+      <div class="price-block">
+        <p class="price-head">Base Price（ドレス＋タキシード込み）</p>
+        <div class="price-row"><span>国内・海外共通</span><span class="price-val">¥98,000（税込）</span></div>
+      </div>
+      <p class="price-note">・ ukigumo特別価格：さらに10%OFF</p>
+    </div>
+  </div>
+</div>
+
+<!-- Pattern D -->
+<div class="pattern pd">
+  <div class="pattern-label">D — White + Soft Pink</div>
+  <div class="intro">
+    <p class="intro-sub">Partner Dress Shops</p>
+    <h2 class="intro-title">Dress Guide</h2>
+    <p class="intro-brand">u k i g u m o&ensp;w e d d i n g</p>
+    <div class="intro-line"></div>
+    <p class="intro-desc">ukigumo weddingが提携する4つのドレスショップをご紹介いたします。<br>各ブランドのInstagramよりお気軽にお問い合わせください。</p>
+  </div>
+  <div class="card-area">
+    <div class="card">
+      <div class="card-name">Bee's Knees</div>
+      <span class="card-tag">ukigumo films 特別価格｜東京・赤坂</span>
+      <div class="card-points"><span>豊富なラインナップ</span><span>国内・海外 同一価格</span><span>タキシード込み</span></div>
+      <div class="price-block">
+        <p class="price-head">Base Price（ドレス＋タキシード込み）</p>
+        <div class="price-row"><span>国内・海外共通</span><span class="price-val">¥98,000（税込）</span></div>
+      </div>
+      <p class="price-note">・ ukigumo特別価格：さらに10%OFF</p>
+    </div>
+  </div>
+</div>
+
+<!-- Pattern E -->
+<div class="pattern pe">
+  <div class="pattern-label">E — White + Charcoal Minimal</div>
+  <div class="intro">
+    <p class="intro-sub">Partner Dress Shops</p>
+    <h2 class="intro-title">Dress Guide</h2>
+    <p class="intro-brand">u k i g u m o&ensp;w e d d i n g</p>
+    <div class="intro-line"></div>
+    <p class="intro-desc">ukigumo weddingが提携する4つのドレスショップをご紹介いたします。<br>各ブランドのInstagramよりお気軽にお問い合わせください。</p>
+  </div>
+  <div class="card-area">
+    <div class="card">
+      <div class="card-name">Bee's Knees</div>
+      <span class="card-tag">ukigumo films 特別価格｜東京・赤坂</span>
+      <div class="card-points"><span>豊富なラインナップ</span><span>国内・海外 同一価格</span><span>タキシード込み</span></div>
+      <div class="price-block">
+        <p class="price-head">Base Price（ドレス＋タキシード込み）</p>
+        <div class="price-row"><span>国内・海外共通</span><span class="price-val">¥98,000（税込）</span></div>
+      </div>
+      <p class="price-note">・ ukigumo特別価格：さらに10%OFF</p>
+    </div>
+  </div>
+</div>
+
+<!-- Pattern F -->
+<div class="pattern pf">
+  <div class="pattern-label">F — Ivory + Warm Brown</div>
+  <div class="intro">
+    <p class="intro-sub">Partner Dress Shops</p>
+    <h2 class="intro-title">Dress Guide</h2>
+    <p class="intro-brand">u k i g u m o&ensp;w e d d i n g</p>
+    <div class="intro-line"></div>
+    <p class="intro-desc">ukigumo weddingが提携する4つのドレスショップをご紹介いたします。<br>各ブランドのInstagramよりお気軽にお問い合わせください。</p>
+  </div>
+  <div class="card-area">
+    <div class="card">
+      <div class="card-name">Bee's Knees</div>
+      <span class="card-tag">ukigumo films 特別価格｜東京・赤坂</span>
+      <div class="card-points"><span>豊富なラインナップ</span><span>国内・海外 同一価格</span><span>タキシード込み</span></div>
+      <div class="price-block">
+        <p class="price-head">Base Price（ドレス＋タキシード込み）</p>
+        <div class="price-row"><span>国内・海外共通</span><span class="price-val">¥98,000（税込）</span></div>
+      </div>
+      <p class="price-note">・ ukigumo特別価格：さらに10%OFF</p>
+    </div>
+  </div>
+</div>
+
+<!-- Pattern G -->
+<div class="pattern pg">
+  <div class="pattern-label">G — White + Slate Blue</div>
+  <div class="intro">
+    <p class="intro-sub">Partner Dress Shops</p>
+    <h2 class="intro-title">Dress Guide</h2>
+    <p class="intro-brand">u k i g u m o&ensp;w e d d i n g</p>
+    <div class="intro-line"></div>
+    <p class="intro-desc">ukigumo weddingが提携する4つのドレスショップをご紹介いたします。<br>各ブランドのInstagramよりお気軽にお問い合わせください。</p>
+  </div>
+  <div class="card-area">
+    <div class="card">
+      <div class="card-name">Bee's Knees</div>
+      <span class="card-tag">ukigumo films 特別価格｜東京・赤坂</span>
+      <div class="card-points"><span>豊富なラインナップ</span><span>国内・海外 同一価格</span><span>タキシード込み</span></div>
+      <div class="price-block">
+        <p class="price-head">Base Price（ドレス＋タキシード込み）</p>
+        <div class="price-row"><span>国内・海外共通</span><span class="price-val">¥98,000（税込）</span></div>
+      </div>
+      <p class="price-note">・ ukigumo特別価格：さらに10%OFF</p>
+    </div>
+  </div>
+</div>
+
+<!-- Pattern H -->
+<div class="pattern ph">
+  <div class="pattern-label">H — White + Sage Green</div>
+  <div class="intro">
+    <p class="intro-sub">Partner Dress Shops</p>
+    <h2 class="intro-title">Dress Guide</h2>
+    <p class="intro-brand">u k i g u m o&ensp;w e d d i n g</p>
+    <div class="intro-line"></div>
+    <p class="intro-desc">ukigumo weddingが提携する4つのドレスショップをご紹介いたします。<br>各ブランドのInstagramよりお気軽にお問い合わせください。</p>
+  </div>
+  <div class="card-area">
+    <div class="card">
+      <div class="card-name">Bee's Knees</div>
+      <span class="card-tag">ukigumo films 特別価格｜東京・赤坂</span>
+      <div class="card-points"><span>豊富なラインナップ</span><span>国内・海外 同一価格</span><span>タキシード込み</span></div>
+      <div class="price-block">
+        <p class="price-head">Base Price（ドレス＋タキシード込み）</p>
+        <div class="price-row"><span>国内・海外共通</span><span class="price-val">¥98,000（税込）</span></div>
+      </div>
+      <p class="price-note">・ ukigumo特別価格：さらに10%OFF</p>
+    </div>
+  </div>
+</div>
+
+<!-- Pattern I -->
+<div class="pattern pi">
+  <div class="pattern-label">I — White + Taupe</div>
+  <div class="intro">
+    <p class="intro-sub">Partner Dress Shops</p>
+    <h2 class="intro-title">Dress Guide</h2>
+    <p class="intro-brand">u k i g u m o&ensp;w e d d i n g</p>
+    <div class="intro-line"></div>
+    <p class="intro-desc">ukigumo weddingが提携する4つのドレスショップをご紹介いたします。<br>各ブランドのInstagramよりお気軽にお問い合わせください。</p>
+  </div>
+  <div class="card-area">
+    <div class="card">
+      <div class="card-name">Bee's Knees</div>
+      <span class="card-tag">ukigumo films 特別価格｜東京・赤坂</span>
+      <div class="card-points"><span>豊富なラインナップ</span><span>国内・海外 同一価格</span><span>タキシード込み</span></div>
+      <div class="price-block">
+        <p class="price-head">Base Price（ドレス＋タキシード込み）</p>
+        <div class="price-row"><span>国内・海外共通</span><span class="price-val">¥98,000（税込）</span></div>
+      </div>
+      <p class="price-note">・ ukigumo特別価格：さらに10%OFF</p>
+    </div>
+  </div>
+</div>
+
+<!-- Pattern J -->
+<div class="pattern pj">
+  <div class="pattern-label">J — Pure White + Shadow Card</div>
+  <div class="intro">
+    <p class="intro-sub">Partner Dress Shops</p>
+    <h2 class="intro-title">Dress Guide</h2>
+    <p class="intro-brand">u k i g u m o&ensp;w e d d i n g</p>
+    <div class="intro-line"></div>
+    <p class="intro-desc">ukigumo weddingが提携する4つのドレスショップをご紹介いたします。<br>各ブランドのInstagramよりお気軽にお問い合わせください。</p>
+  </div>
+  <div class="card-area">
+    <div class="card">
+      <div class="card-name">Bee's Knees</div>
+      <span class="card-tag">ukigumo films 特別価格｜東京・赤坂</span>
+      <div class="card-points"><span>豊富なラインナップ</span><span>国内・海外 同一価格</span><span>タキシード込み</span></div>
+      <div class="price-block">
+        <p class="price-head">Base Price（ドレス＋タキシード込み）</p>
+        <div class="price-row"><span>国内・海外共通</span><span class="price-val">¥98,000（税込）</span></div>
+      </div>
+      <p class="price-note">・ ukigumo特別価格：さらに10%OFF</p>
+    </div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

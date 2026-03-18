@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Badge Design — 10 Patterns</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #fff; font-family: 'Noto Sans JP', sans-serif; font-weight: 300; }
+  .label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px; letter-spacing: 0.3em; color: #aaa;
+    text-align: center; padding: 50px 0 14px; text-transform: uppercase;
+  }
+  .label span { font-size: 22px; display: block; margin-bottom: 3px; color: #888; }
+  .wrap {
+    max-width: 380px; margin: 0 auto 10px; padding: 0 20px;
+  }
+  /* 撮影プランの見出し行を再現 */
+  .header-row {
+    font-family: "Noto Serif JP", serif;
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    color: #7d7269;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid rgba(155,145,135,0.22);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ===== P1: Taupe Outline — トープの細線枠 ===== */
+  .p1 .badge {
+    display: inline-block;
+    font-family: "Noto Serif JP", serif;
+    font-size: 0.55rem; font-weight: 300;
+    letter-spacing: 0.04em;
+    padding: 0.15rem 0.55rem;
+    border: 1px solid rgba(155,145,135,0.4);
+    border-radius: 10px;
+    color: #9a9088;
+    background: transparent;
+  }
+
+  /* ===== P2: Subtle Fill — 薄いトープ塗り ===== */
+  .p2 .badge {
+    display: inline-block;
+    font-family: "Noto Serif JP", serif;
+    font-size: 0.55rem; font-weight: 300;
+    letter-spacing: 0.04em;
+    padding: 0.18rem 0.6rem;
+    border: none; border-radius: 10px;
+    color: #8a8078;
+    background: rgba(155,145,135,0.12);
+  }
+
+  /* ===== P3: Text Only — テキストだけ・色で差別化 ===== */
+  .p3 .badge {
+    display: inline-block;
+    font-family: "Noto Serif JP", serif;
+    font-size: 0.58rem; font-weight: 400;
+    letter-spacing: 0.06em;
+    color: #B5A89A;
+    background: none; border: none; padding: 0;
+  }
+
+  /* ===== P4: Warm Gold Outline — ゴールド系の細枠 ===== */
+  .p4 .badge {
+    display: inline-block;
+    font-family: "Noto Serif JP", serif;
+    font-size: 0.55rem; font-weight: 300;
+    letter-spacing: 0.04em;
+    padding: 0.15rem 0.55rem;
+    border: 1px solid rgba(190,170,130,0.4);
+    border-radius: 10px;
+    color: #a89870;
+    background: transparent;
+  }
+
+  /* ===== P5: Left Bar — 左に小さな縦線 ===== */
+  .p5 .badge {
+    display: inline-block;
+    font-family: "Noto Serif JP", serif;
+    font-size: 0.55rem; font-weight: 300;
+    letter-spacing: 0.04em;
+    padding-left: 8px;
+    border-left: 2px solid rgba(155,145,135,0.35);
+    color: #9a9088;
+    background: none;
+  }
+
+  /* ===== P6: Italic Serif — イタリックのセリフ体 ===== */
+  .p6 .badge {
+    display: inline-block;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 0.7rem; font-weight: 400;
+    font-style: italic;
+    letter-spacing: 0.06em;
+    color: #a09888;
+    background: none; border: none; padding: 0;
+  }
+
+  /* ===== P7: Dot Prefix — ドット付きテキスト ===== */
+  .p7 .badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-family: "Noto Serif JP", serif;
+    font-size: 0.55rem; font-weight: 300;
+    letter-spacing: 0.04em;
+    color: #9a9088;
+    background: none; border: none; padding: 0;
+  }
+  .p7 .badge::before {
+    content: '';
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: rgba(155,145,135,0.5);
+  }
+
+  /* ===== P8: Underline Accent — 下線アクセント ===== */
+  .p8 .badge {
+    display: inline-block;
+    font-family: "Noto Serif JP", serif;
+    font-size: 0.55rem; font-weight: 300;
+    letter-spacing: 0.06em;
+    color: #9a9088;
+    background: none; border: none; padding: 0 0 2px;
+    border-bottom: 1px solid rgba(155,145,135,0.35);
+  }
+
+  /* ===== P9: Soft Pill — 薄いピル型・やや丸み ===== */
+  .p9 .badge {
+    display: inline-block;
+    font-family: "Noto Serif JP", serif;
+    font-size: 0.52rem; font-weight: 300;
+    letter-spacing: 0.06em;
+    padding: 0.2rem 0.7rem;
+    border-radius: 20px;
+    color: #8a8078;
+    background: rgba(155,145,135,0.08);
+    border: 1px solid rgba(155,145,135,0.15);
+  }
+
+  /* ===== P10: Parentheses — カッコで囲むだけ ===== */
+  .p10 .badge {
+    display: inline-block;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 0.65rem; font-weight: 300;
+    letter-spacing: 0.05em;
+    color: #a09888;
+    background: none; border: none; padding: 0;
+  }
+  .p10 .badge::before { content: '— '; color: rgba(155,145,135,0.4); }
+</style>
+</head>
+<body>
+
+<div style="text-align:center; padding: 45px 20px 0;">
+  <span style="font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:300; letter-spacing:0.15em; color:#888;">Badge Design Patterns</span><br>
+  <span style="font-size:10px; color:#bbb; letter-spacing:0.08em;">「人気 No.1」「月3組限定」の表示デザイン</span>
+</div>
+
+<!-- P1 -->
+<div class="label"><span>P1</span>Taupe Outline</div>
+<div class="wrap p1">
+  <div class="header-row">撮影プラン <span class="badge">人気 No.1</span></div>
+  <div class="header-row" style="margin-top:12px;">撮影プラン <span class="badge">月3組限定</span></div>
+</div>
+
+<!-- P2 -->
+<div class="label"><span>P2</span>Subtle Fill</div>
+<div class="wrap p2">
+  <div class="header-row">撮影プラン <span class="badge">人気 No.1</span></div>
+  <div class="header-row" style="margin-top:12px;">撮影プラン <span class="badge">月3組限定</span></div>
+</div>
+
+<!-- P3 -->
+<div class="label"><span>P3</span>Text Only</div>
+<div class="wrap p3">
+  <div class="header-row">撮影プラン <span class="badge">人気 No.1</span></div>
+  <div class="header-row" style="margin-top:12px;">撮影プラン <span class="badge">月3組限定</span></div>
+</div>
+
+<!-- P4 -->
+<div class="label"><span>P4</span>Warm Gold Outline</div>
+<div class="wrap p4">
+  <div class="header-row">撮影プラン <span class="badge">人気 No.1</span></div>
+  <div class="header-row" style="margin-top:12px;">撮影プラン <span class="badge">月3組限定</span></div>
+</div>
+
+<!-- P5 -->
+<div class="label"><span>P5</span>Left Bar</div>
+<div class="wrap p5">
+  <div class="header-row">撮影プラン <span class="badge">人気 No.1</span></div>
+  <div class="header-row" style="margin-top:12px;">撮影プラン <span class="badge">月3組限定</span></div>
+</div>
+
+<!-- P6 -->
+<div class="label"><span>P6</span>Italic Serif</div>
+<div class="wrap p6">
+  <div class="header-row">撮影プラン <span class="badge">人気 No.1</span></div>
+  <div class="header-row" style="margin-top:12px;">撮影プラン <span class="badge">月3組限定</span></div>
+</div>
+
+<!-- P7 -->
+<div class="label"><span>P7</span>Dot Prefix</div>
+<div class="wrap p7">
+  <div class="header-row">撮影プラン <span class="badge">人気 No.1</span></div>
+  <div class="header-row" style="margin-top:12px;">撮影プラン <span class="badge">月3組限定</span></div>
+</div>
+
+<!-- P8 -->
+<div class="label"><span>P8</span>Underline Accent</div>
+<div class="wrap p8">
+  <div class="header-row">撮影プラン <span class="badge">人気 No.1</span></div>
+  <div class="header-row" style="margin-top:12px;">撮影プラン <span class="badge">月3組限定</span></div>
+</div>
+
+<!-- P9 -->
+<div class="label"><span>P9</span>Soft Pill</div>
+<div class="wrap p9">
+  <div class="header-row">撮影プラン <span class="badge">人気 No.1</span></div>
+  <div class="header-row" style="margin-top:12px;">撮影プラン <span class="badge">月3組限定</span></div>
+</div>
+
+<!-- P10 -->
+<div class="label"><span>P10</span>Dash Prefix</div>
+<div class="wrap p10">
+  <div class="header-row">撮影プラン <span class="badge">人気 No.1</span></div>
+  <div class="header-row" style="margin-top:12px;">撮影プラン <span class="badge">月3組限定</span></div>
+</div>
+
+<div style="height: 60px;"></div>
+</body>
+</html>

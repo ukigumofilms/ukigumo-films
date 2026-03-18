@@ -1,0 +1,2096 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ukigumo wedding</title>
+  <meta name="description" content="ukigumo wedding — ヨーロッパ・国内の前撮り撮影。パリ、フィレンツェ、マルタ、ロンドンなど、映画のようなウェディングフォト&ムービー。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400&family=Lavishly+Yours&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Hero Slideshow Styles */
+    .hero-slideshow {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 600px;
+      overflow: hidden;
+      margin-bottom: -1px;
+    }
+
+    .hero-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 1.8s ease;
+      z-index: 1;
+      will-change: opacity;
+    }
+
+    .hero-slide.active {
+      opacity: 1;
+      z-index: 2;
+    }
+
+    .hero-slide__image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1);
+      transition: transform 12s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      will-change: transform;
+    }
+
+    .hero-slide.active .hero-slide__image {
+      transform: scale(1.08);
+    }
+
+    .hero-slide__overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.2) 0%,
+        rgba(0, 0, 0, 0.3) 40%,
+        rgba(0, 0, 0, 0.5) 100%
+      );
+    }
+
+    .hero__coords {
+      position: absolute;
+      bottom: 33%;
+      left: 50%;
+      transform: translate(-50%, 50%);
+      text-align: center;
+      z-index: 10;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .hero__coords-city {
+      font-family: var(--font-serif);
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      text-align: center;
+      margin-bottom: 0.5rem;
+      white-space: nowrap;
+      opacity: 0;
+      filter: blur(3px);
+      /* フェードアウト */
+      transition: opacity 0.8s ease, filter 0.6s ease;
+    }
+
+    .hero__coords-city.show {
+      opacity: 1;
+      filter: blur(0);
+      /* フェードイン: じわっと */
+      transition: opacity 1.8s cubic-bezier(0.19, 1, 0.22, 1), filter 1.4s ease;
+    }
+
+    .hero__coords-latlng {
+      font-family: var(--font-sans);
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      opacity: 0;
+      filter: blur(3px);
+      /* フェードアウト */
+      transition: opacity 0.8s ease, filter 0.6s ease;
+    }
+
+    .hero__coords-latlng.show {
+      opacity: 0.7;
+      filter: blur(0);
+      /* フェードイン: じわっと */
+      transition: opacity 1.8s cubic-bezier(0.19, 1, 0.22, 1), filter 1.4s ease;
+    }
+
+    /* Progress dots */
+    .hero__dots {
+      position: absolute;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 10;
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .hero__dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transition: all 0.4s ease;
+      cursor: pointer;
+      border: none;
+      padding: 0;
+    }
+
+    .hero__dot.active {
+      background: rgba(255, 255, 255, 0.9);
+      transform: scale(1.3);
+    }
+
+    /* Scroll indicator */
+    .hero__scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      animation: pulse 2s infinite;
+    }
+
+    .hero__scroll-line {
+      width: 1px;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+
+
+    /* Preview Cards - Stagger animation */
+    .preview-grid {
+      display: grid;
+      gap: 2rem;
+      margin: 0 auto;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+
+    .preview-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 2px;
+      opacity: 0;
+      animation: fadeInItem 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .preview-grid.stagger-children .preview-card:nth-child(1) { animation-delay: 0.1s; }
+    .preview-grid.stagger-children .preview-card:nth-child(2) { animation-delay: 0.3s; }
+    .preview-grid.stagger-children .preview-card:nth-child(3) { animation-delay: 0.5s; }
+    .preview-grid.stagger-children .preview-card:nth-child(4) { animation-delay: 0.7s; }
+
+    .preview-card-image {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 1;
+      width: 100%;
+    }
+
+    .preview-card__image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    .preview-card:hover .preview-card__image {
+      transform: scale(1.05);
+    }
+
+    /* Hover effect for full-width preview cards */
+    .preview-card--fullwidth:hover img {
+      transform: scale(1.05);
+    }
+    .preview-card--fullwidth:hover .preview-card__overlay {
+      background: rgba(0, 0, 0, 0.5);
+    }
+    .preview-card--fullwidth:hover .preview-card__coords {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .preview-card__label {
+      padding: 1.5rem;
+      background: white;
+      text-align: center;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .preview-card__label h3 {
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      font-weight: 400;
+      letter-spacing: -0.5px;
+    }
+
+    /* Gallery Grid - Lazy reveal */
+    .gallery-grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .gallery-grid__item {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 1;
+    }
+
+    .gallery-grid__item--tall {
+      grid-row: span 2;
+    }
+
+    .gallery-grid__item.lazy-reveal {
+      opacity: 0;
+      animation: lazyReveal 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+
+    .gallery-grid.stagger-children .gallery-grid__item:nth-child(1) { animation-delay: 0.1s; }
+    .gallery-grid.stagger-children .gallery-grid__item:nth-child(2) { animation-delay: 0.3s; }
+    .gallery-grid.stagger-children .gallery-grid__item:nth-child(3) { animation-delay: 0.5s; }
+    .gallery-grid.stagger-children .gallery-grid__item:nth-child(4) { animation-delay: 0.7s; }
+    .gallery-grid.stagger-children .gallery-grid__item:nth-child(5) { animation-delay: 0.9s; }
+    .gallery-grid.stagger-children .gallery-grid__item:nth-child(6) { animation-delay: 1.1s; }
+
+    .gallery-grid__item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .gallery-grid__item:hover img {
+      transform: scale(1.05);
+    }
+
+    @keyframes lazyReveal {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes fadeInItem {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-slideshow {
+        height: 90vh;
+        min-height: 550px;
+      }
+
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .gallery-grid__item--tall {
+        grid-row: span 1;
+      }
+      .hero__scroll-indicator {
+        display: none;
+      }
+    }
+
+    /* ========================================
+       WORKS SECTION (Bird and Insect style)
+       ======================================== */
+    .works-header {
+      text-align: center;
+      padding: clamp(8rem, 12vw, 10rem) 2rem clamp(5rem, 8vw, 7rem);
+      background: #fff;
+    }
+
+    .works-header__title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      letter-spacing: 0.3em;
+      color: #3D3530;
+      white-space: nowrap;
+    }
+
+    .works-item {
+      display: grid;
+      grid-template-columns: 48% 52%;
+      min-height: 50vh;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .works-item:nth-child(even) {
+      grid-template-columns: 52% 48%;
+    }
+    .works-item:nth-child(even) .works-item__image {
+      order: 2;
+    }
+    .works-item:nth-child(even) .works-item__content {
+      order: 1;
+    }
+
+    .works-item__image {
+      position: relative;
+      overflow: hidden;
+      min-height: 100%;
+      cursor: pointer;
+    }
+
+    .works-item__image img {
+      width: 100%;
+      height: 115%;
+      object-fit: cover;
+      display: block;
+      position: absolute;
+      top: -7%;
+      left: 0;
+      will-change: transform;
+      transition: filter 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .works-item__image:hover img {
+      filter: brightness(0.45);
+    }
+
+    /* Hover overlay text */
+    .works-item__overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      pointer-events: none;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .works-item__overlay-location {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(0.5rem, 0.8vw, 0.65rem);
+      line-height: 1.8;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 0.5rem;
+      opacity: 0;
+      transform: translateY(15px);
+      transition: opacity 0.5s ease 0.05s, transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.05s;
+    }
+
+    .works-item__overlay-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+      line-height: 1.4;
+      letter-spacing: 0.06em;
+      color: rgba(255, 255, 255, 0.95);
+      margin-bottom: 0.6rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease 0.12s, transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.12s;
+    }
+
+    .works-item__overlay-coords {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(0.45rem, 0.7vw, 0.6rem);
+      letter-spacing: 0.2em;
+      color: rgba(255, 255, 255, 0.45);
+      margin-bottom: 0.5rem;
+      opacity: 0;
+      transform: translateY(15px);
+      transition: opacity 0.5s ease 0.2s, transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.2s;
+    }
+
+    .works-item__overlay-plan {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 300;
+      font-size: clamp(0.6rem, 0.85vw, 0.72rem);
+      letter-spacing: 0.2em;
+      color: rgba(255, 255, 255, 0.7);
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.5s ease 0.28s, transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.28s;
+    }
+
+    .works-item__image:hover .works-item__overlay-location,
+    .works-item__image:hover .works-item__overlay-title,
+    .works-item__image:hover .works-item__overlay-coords,
+    .works-item__image:hover .works-item__overlay-plan {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .works-item__content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(3rem, 7vw, 6rem) clamp(2.5rem, 6vw, 5rem);
+    }
+
+    .works-item__location {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(0.6rem, 1vw, 0.75rem);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 1.8rem;
+      line-height: 1.8;
+    }
+
+    /* パターン10: 英語地名を大きく */
+    .works-item__title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      line-height: 1.2;
+      letter-spacing: 0.06em;
+      color: #1a1a1a;
+      margin-bottom: 0.5rem;
+    }
+
+    /* パターン10: 日本語プラン名を小さく添える */
+    .works-item__plan-jp {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 300;
+      font-size: clamp(0.65rem, 0.9vw, 0.78rem);
+      letter-spacing: 0.2em;
+      color: #888;
+      margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+    }
+
+    .works-item__desc {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 300;
+      font-size: clamp(0.78rem, 1.1vw, 0.9rem);
+      line-height: 2.2;
+      color: #5a5a5a;
+      max-width: 460px;
+      margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
+    }
+
+    /* ボタン — 線 + テキスト + 矢印 */
+    .works-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: #2a2420;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.2em;
+      cursor: pointer;
+    }
+
+    .works-more__line {
+      display: inline-block;
+      width: 35px;
+      height: 1px;
+      background: #2a2420;
+      transition: width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .works-more:hover .works-more__line { width: 60px; }
+
+    .works-more__text {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: clamp(0.88rem, 1.4vw, 1.05rem);
+      letter-spacing: 0.18em;
+    }
+
+    .works-more__arrow {
+      transition: transform 0.3s ease;
+    }
+    .works-more:hover .works-more__arrow { transform: translateX(5px); }
+
+    /* Light variant for dark backgrounds */
+    .works-more--light { color: rgba(255,255,255,0.85); }
+    .works-more--light .works-more__line { background: rgba(255,255,255,0.5); }
+    .works-more--light:hover .works-more__line { background: rgba(255,255,255,0.8); }
+    .works-more--light:hover { color: #fff; }
+
+    .works-reveal {
+      opacity: 0;
+      filter: blur(3px);
+      transform: translateY(12px);
+      transition: opacity 0.8s ease, filter 0.6s ease, transform 0.8s ease;
+    }
+    .works-reveal.visible {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateY(0);
+      transition: opacity 1.8s cubic-bezier(0.19, 1, 0.22, 1),
+                  filter 1.4s ease,
+                  transform 1.6s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    .works-reveal--image {
+      opacity: 1;
+    }
+
+    /* ========================================
+       GALLERY SECTION — Bird & Insect パラックス方式
+       ======================================== */
+    /* ---- Gallery header (Pattern 3: 左寄せ雑誌風) ---- */
+    .gallery-header-w3 {
+      padding: 140px 5% 120px;
+      background: #fff;
+      display: flex;
+      align-items: flex-end;
+      gap: 24px;
+    }
+    .gallery-header-w3 h2 {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 300;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      letter-spacing: 0.02em;
+      color: #2a2420;
+      line-height: 1;
+      margin: 0;
+    }
+    .gallery-header-w3 .gh-line {
+      flex: 1;
+      height: 1px;
+      background: rgba(61,53,48,0.12);
+      margin-bottom: 8px;
+      transform: scaleX(0);
+      transform-origin: left center;
+    }
+    .gallery-header-w3 .gh-line.is-visible {
+      animation: lineBreath 4.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+    }
+    @keyframes lineBreath {
+      0%   { transform: scaleX(0); transform-origin: left center; }
+      40%  { transform: scaleX(1); transform-origin: left center; }
+      50%  { transform: scaleX(1); transform-origin: right center; }
+      90%  { transform: scaleX(0); transform-origin: right center; }
+      100% { transform: scaleX(0); transform-origin: left center; }
+    }
+    .gallery-header-w3 p {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: rgba(61,53,48,0.3);
+      margin-bottom: 6px;
+      white-space: nowrap;
+    }
+
+    .gallery-parallax {
+      position: relative;
+      height: 220vh;
+      overflow: visible;
+      background: #fff;
+    }
+
+    .gp-grid-mobile {
+      display: none;
+    }
+
+    .gp-photo {
+      position: absolute;
+      z-index: 1;
+      will-change: transform, opacity, filter;
+      opacity: 0;
+      transform: translateY(20px) scale(0.97);
+      filter: blur(5px) brightness(1.05);
+      transition: none;
+    }
+
+    .gp-photo img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 2px;
+      filter: brightness(0.88);
+    }
+
+    .gp-photo--1 {
+      width: 42vw; height: 56vw;
+      top: 28%; left: 5%; z-index: 2;
+    }
+    .gp-photo--2 {
+      width: 38vw; height: 50vw;
+      top: 20%; right: 5%; z-index: 1;
+    }
+    .gp-photo--3 {
+      width: 36vw; height: 48vw;
+      top: 50%; left: 10%; z-index: 3;
+    }
+    .gp-photo--4 {
+      width: 40vw; height: 52vw;
+      top: 55%; right: 8%; z-index: 2;
+    }
+
+    /* ---- Gallery text block ---- */
+    .gp-text {
+      position: absolute;
+      z-index: 10;
+      top: 0.5%; left: 5%;
+      max-width: 520px;
+      opacity: 0;
+      transform: translateY(30px);
+      filter: blur(6px);
+      transition: none;
+    }
+
+    .gp-text .gp-label {
+      display: none;
+    }
+
+    .gp-text .gp-heading {
+      font-size: clamp(1.8rem, 3.5vw, 3rem);
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      line-height: 1.6;
+      margin-bottom: 32px;
+      font-family: "Noto Serif JP", serif;
+      color: #2a2420;
+    }
+
+    .gp-text .gp-desc-ja {
+      font-size: 0.9rem;
+      line-height: 2.2;
+      color: #666;
+      margin-bottom: 28px;
+      font-family: "Noto Serif JP", serif;
+      letter-spacing: 0.03em;
+    }
+
+    .gp-text .gp-desc-en {
+      font-size: 0.78rem;
+      line-height: 2;
+      color: #aaa;
+      margin-bottom: 40px;
+      font-family: "Cormorant Garamond", serif;
+      letter-spacing: 0.05em;
+    }
+
+    .gp-cta-pill {
+      display: inline-block;
+      text-decoration: none;
+      color: #2a2420;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.25em;
+      border: 1px solid rgba(42,36,32,0.3);
+      padding: 12px 36px;
+      border-radius: 30px;
+      transition: all 0.4s;
+    }
+    .gp-cta-pill:hover {
+      border-color: #c9a96e;
+      color: #c9a96e;
+      background: rgba(201,169,110,0.05);
+    }
+
+    @media (max-width: 768px) {
+      .gp-text .gp-heading {
+        font-size: 1.2rem;
+        margin-bottom: 18px;
+      }
+      .gp-text .gp-desc-ja {
+        font-size: 0.72rem;
+        line-height: 1.9;
+        margin-bottom: 16px;
+      }
+      .gp-text .gp-desc-en {
+        font-size: 0.65rem;
+        margin-bottom: 24px;
+      }
+    }
+
+    @keyframes worksKenBurns {
+      0% { transform: scale(1.05) translate(0, 0); }
+      100% { transform: scale(1.08) translate(-1.5%, -1%); }
+    }
+
+    @media (max-width: 768px) {
+      /* Works section: 横並びカード on mobile */
+      .works-item {
+        display: flex;
+        min-height: auto;
+        margin-bottom: 1.5rem;
+      }
+      /* 1番目(Japan)：テキスト左・画像右 */
+      .works-item:nth-child(odd) {
+        flex-direction: row;
+      }
+      .works-item:nth-child(odd) .works-item__content {
+        order: 1;
+      }
+      .works-item:nth-child(odd) .works-item__image {
+        order: 2;
+      }
+      /* 2番目(Paris)：画像左・テキスト右 */
+      .works-item:nth-child(even) {
+        flex-direction: row;
+      }
+      .works-item:nth-child(even) .works-item__image {
+        order: 1;
+      }
+      .works-item:nth-child(even) .works-item__content {
+        order: 2;
+      }
+      .works-item__image {
+        width: 42%;
+        flex-shrink: 0;
+        aspect-ratio: 3 / 4;
+        position: relative;
+        overflow: hidden;
+      }
+      .works-item__image img {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .works-item__overlay {
+        display: none;
+      }
+      .works-item__content {
+        width: 58%;
+        padding: 0.8rem 0.6rem;
+        justify-content: center;
+      }
+      /* Paris：テキストブロックを右（画像側）に寄せる、左揃えのまま */
+      .works-item--paris .works-item__content {
+        padding: 0.8rem 0.6rem 0.8rem 25% !important;
+        align-items: flex-start !important;
+        text-align: left !important;
+      }
+      .works-item__location {
+        font-size: 0.48rem;
+        letter-spacing: 0.08em;
+        margin-bottom: 0.3rem;
+        line-height: 1.5;
+      }
+      .works-item__title {
+        font-size: 1.2rem;
+        margin-bottom: 0.15rem;
+      }
+      .works-item__plan-jp {
+        font-size: 0.55rem;
+        margin-bottom: 0.4rem;
+      }
+      .works-item__desc {
+        font-size: 0.55rem;
+        line-height: 1.7;
+        margin-bottom: 1rem;
+      }
+      /* view plan button — smaller on mobile */
+      .works-more {
+        gap: 10px;
+      }
+      .works-more__line {
+        width: 25px;
+      }
+      .works-more:hover .works-more__line { width: 40px; }
+      .works-more__text {
+        font-size: 0.72rem !important;
+        letter-spacing: 0.1em;
+      }
+      .works-more__arrow {
+        font-size: 0.8rem;
+      }
+
+      /* Gallery — mobile: テキスト上 → 写真2枚下 の縦並び */
+      .gallery-header-w3 {
+        padding: 80px 6% 30px;
+      }
+      .gallery-parallax {
+        position: relative;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0 6% 60px;
+        gap: 20px;
+      }
+      .gp-text {
+        position: static;
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+        max-width: 100%;
+        text-align: left;
+        order: -1;
+        margin-top: 0.5rem;
+      }
+      .gp-text > * {
+        opacity: 0;
+        transform: translateY(12px);
+        filter: blur(3px);
+        transition: opacity 0.8s ease, transform 0.8s ease, filter 0.6s ease;
+      }
+      .gp-text.visible > *:nth-child(1) { opacity: 1; transform: translateY(0); filter: blur(0); transition-delay: 0.2s; transition-duration: 1.8s, 1.6s, 1.4s; transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1); }
+      .gp-text.visible > *:nth-child(2) { opacity: 1; transform: translateY(0); filter: blur(0); transition-delay: 0.5s; transition-duration: 1.8s, 1.6s, 1.4s; transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1); }
+      .gp-text.visible > *:nth-child(3) { opacity: 1; transform: translateY(0); filter: blur(0); transition-delay: 0.8s; transition-duration: 1.8s, 1.6s, 1.4s; transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1); }
+      .gp-text.visible > *:nth-child(4) { opacity: 1; transform: translateY(0); filter: blur(0); transition-delay: 1.1s; transition-duration: 1.8s, 1.6s, 1.4s; transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1); }
+      .gp-text.visible > *:nth-child(5) { opacity: 1; transform: translateY(0); filter: blur(0); transition-delay: 1.4s; transition-duration: 1.8s, 1.6s, 1.4s; transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1); }
+      .gp-text .gp-heading {
+        margin-top: 0.8rem;
+      }
+      .gp-photo {
+        display: none !important;
+      }
+      .gp-grid-mobile {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 3px;
+        width: 100%;
+        order: 1;
+        margin-top: 1.5rem;
+      }
+      .gp-grid-mobile div {
+        display: block;
+        overflow: hidden;
+        aspect-ratio: 3/4;
+        opacity: 0;
+      }
+      .gp-grid-mobile div img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        filter: saturate(0) brightness(0.3);
+      }
+      /* C2 夜明けアニメーション */
+      @keyframes gp-c2-fade {
+        0%   { opacity: 0; }
+        20%  { opacity: 1; }
+        100% { opacity: 1; }
+      }
+      @keyframes gp-c2-color {
+        0%   { filter: saturate(0) brightness(0.3); }
+        20%  { filter: saturate(0) brightness(0.7); }
+        100% { filter: saturate(1) brightness(1); }
+      }
+      .gp-grid-mobile.go div {
+        animation: gp-c2-fade 2.4s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+      }
+      .gp-grid-mobile.go div img {
+        animation: gp-c2-color 2.4s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+      }
+
+      /* Footer: handled by style.css F10 mobile rules */
+
+      /* Dress photos: 3x3 grid collage */
+      .dress-photos {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 3px;
+        margin-top: 30px;
+        max-width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .dress-photos__item {
+        max-width: 100%;
+        height: 0;
+        padding-bottom: 100%;
+        position: relative;
+      }
+      .dress-photos__item img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 1;
+      }
+      /* モバイルでは9枚全表示 */
+      .dress-photos__item:nth-child(n+4) {
+        display: block;
+      }
+
+      /* PLAN/PRICE header: Keep breathing room */
+      .works-header {
+        padding: 7rem 1.5rem 5rem;
+      }
+    }
+    /* ========================================
+       DRESS / QA / CONTACT SECTIONS
+       ======================================== */
+    .sec-dress, .sec-qa {
+      background: #fff; padding: 110px 8% 70px; text-align: center; overflow: hidden;
+    }
+    @media (max-width: 768px) {
+      .sec-dress, .sec-qa {
+        padding: 70px 6% 40px;
+      }
+      .sec-dress h2, .sec-qa h2 {
+        font-size: 1.6rem !important;
+        letter-spacing: 0.2em;
+        margin-bottom: 10px;
+      }
+      .sec-dress .sec-sub, .sec-qa .sec-sub {
+        font-size: 0.55rem !important;
+        margin-bottom: 28px;
+      }
+      .sec-dress p, .sec-qa p {
+        font-size: 0.72rem !important;
+        line-height: 2;
+        margin-bottom: 28px;
+      }
+      .footer__ig {
+        display: none !important;
+      }
+    }
+    .sec-dress {
+      padding-bottom: 50px;
+    }
+    .sec-qa {
+      padding-top: 110px;
+      padding-bottom: 100px;
+    }
+    .sec-divider {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      background: #fff;
+      padding: 0 8%;
+    }
+    .sec-divider__line {
+      width: 120px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(61,53,48,0.18) 20%, rgba(61,53,48,0.18) 80%, transparent);
+    }
+    .sec-dress h2, .sec-qa h2 {
+      font-family: "Cormorant Garamond", serif; font-weight: 300;
+      font-size: clamp(2rem, 5vw, 3.2rem); letter-spacing: 0.3em;
+      color: #2a2420; margin-bottom: 16px;
+    }
+    .sec-dress .sec-sub, .sec-qa .sec-sub {
+      font-family: "Noto Serif JP", serif; font-size: 0.65rem; font-weight: 300;
+      color: rgba(61,53,48,0.4); letter-spacing: 0.3em; margin-bottom: 28px;
+    }
+    .sec-dress p, .sec-qa p {
+      font-family: "Noto Serif JP", serif; font-size: 0.85rem; font-weight: 300;
+      color: rgba(61,53,48,0.7); line-height: 2.2; max-width: 520px; margin: 0 auto 28px;
+      letter-spacing: 0.05em;
+    }
+
+    /* --- Dress Anim 7: ライン展開＋フェード --- */
+    .sec-dress .line-anim {
+      width: 0; height: 1px; background: rgba(61,53,48,0.15);
+      margin: 0 auto 24px;
+      transition: width 1.4s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+    .sec-dress h2, .sec-dress .sec-sub, .sec-dress p, .sec-dress .cta-pill {
+      opacity: 0; transform: translateY(12px); filter: blur(3px);
+      transition: opacity 0.8s ease, transform 0.8s ease, filter 0.6s ease;
+    }
+    .sec-dress.visible h2 { opacity: 1; transform: translateY(0); filter: blur(0); transition: opacity 1.8s cubic-bezier(0.19, 1, 0.22, 1), transform 1.6s cubic-bezier(0.19, 1, 0.22, 1), filter 1.4s ease; }
+    .sec-dress.visible .line-anim { width: 80px; transition-delay: 0.3s; }
+    .sec-dress.visible .sec-sub { opacity: 1; transform: translateY(0); filter: blur(0); transition: opacity 1.8s cubic-bezier(0.19, 1, 0.22, 1) 0.4s, transform 1.6s cubic-bezier(0.19, 1, 0.22, 1) 0.4s, filter 1.4s ease 0.4s; }
+    .sec-dress.visible p { opacity: 1; transform: translateY(0); filter: blur(0); transition: opacity 1.8s cubic-bezier(0.19, 1, 0.22, 1) 0.7s, transform 1.6s cubic-bezier(0.19, 1, 0.22, 1) 0.7s, filter 1.4s ease 0.7s; }
+    .sec-dress.visible .cta-pill { opacity: 1; transform: translateY(0); filter: blur(0); transition: opacity 1.8s cubic-bezier(0.19, 1, 0.22, 1) 1s, transform 1.6s cubic-bezier(0.19, 1, 0.22, 1) 1s, filter 1.4s ease 1s; }
+
+    /* --- Dress photos --- */
+    .dress-photos {
+      display: flex; gap: 15px; justify-content: center; margin-top: 30px;
+    }
+    .dress-photos__item {
+      flex: 1; max-width: 28vw; height: 40vh; overflow: hidden;
+      position: relative; cursor: pointer;
+    }
+    .dress-photos__item img {
+      width: 100%; height: 115%; object-fit: cover; display: block;
+      position: absolute; top: -7%; left: 0;
+      will-change: transform;
+      opacity: 0;
+      transition: opacity 1.8s cubic-bezier(0.19, 1, 0.22, 1), filter 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    /* デスクトップでは3枚だけ表示 */
+    .dress-photos__item:nth-child(n+4) { display: none; }
+    .dress-photos__item:nth-child(1) img { transition-delay: 0.8s; }
+    .dress-photos__item:nth-child(2) img { transition-delay: 1.1s; }
+    .dress-photos__item:nth-child(3) img { transition-delay: 1.4s; }
+    .sec-dress.visible .dress-photos__item img {
+      opacity: 1;
+    }
+    .dress-photos__item:hover img {
+      filter: brightness(0.85);
+    }
+
+    /* --- QA Anim 2: フェード＋ブラー --- */
+    .sec-qa h2, .sec-qa .sec-sub, .sec-qa p, .sec-qa .cta-pill {
+      opacity: 0; filter: blur(8px);
+      transition: opacity 0.8s ease, filter 0.6s ease;
+    }
+    .sec-qa.visible h2 { opacity: 1; filter: blur(0); transition: opacity 1.8s cubic-bezier(0.19, 1, 0.22, 1), filter 1.4s ease; }
+    .sec-qa.visible .sec-sub { opacity: 1; filter: blur(0); transition: opacity 1.8s cubic-bezier(0.19, 1, 0.22, 1) 0.3s, filter 1.4s ease 0.3s; }
+    .sec-qa.visible p { opacity: 1; filter: blur(0); transition: opacity 1.8s cubic-bezier(0.19, 1, 0.22, 1) 0.6s, filter 1.4s ease 0.6s; }
+    .sec-qa.visible .cta-pill { opacity: 1; filter: blur(0); transition: opacity 1.8s cubic-bezier(0.19, 1, 0.22, 1) 0.9s, filter 1.4s ease 0.9s; }
+
+    /* --- Contact: centered + fade up --- */
+
+  </style>
+</head>
+<body>
+
+  <!-- Side Labels (fixed left & right) -->
+  <span class="side-text side-text--left">index</span>
+  <span class="side-text side-text--right">ukigumo wedding &mdash; all rights reserved.</span>
+
+  <!-- Navigation -->
+  <nav class="nav nav--light" id="main-nav">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">
+        <img src="images/logo/logo-white.png" alt="ukigumo" class="nav__logo-light">
+        <img src="images/logo/logo-black.png" alt="ukigumo" class="nav__logo-dark">
+      </a>
+      <div class="nav__links">
+        <a href="plan.html">Plan / Price</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="dress.html">Dress</a>
+        <a href="qa.html">Q&A</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <button class="nav__hamburger" aria-label="メニュー">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="nav__menu">
+    <a href="index.html">Home</a>
+    <a href="plan.html">Plan / Price</a>
+    <div class="nav__menu-subs">
+      <a href="plan-japan.html">Japan</a>
+      <a href="plan-paris.html">Paris</a>
+      <a href="plan-europa.html">Europa</a>
+    </div>
+    <a href="gallery.html">Gallery</a>
+    <a href="dress.html">Dress</a>
+    <a href="qa.html">Q&A</a>
+    <a href="contact.html">Contact</a>
+    <a href="https://www.instagram.com/ukigumo_films/" target="_blank" rel="noopener" class="nav-instagram"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+    <span class="nav__menu-brand">ukigumo films — Tokyo</span>
+  </div>
+
+  <!-- Hero Slideshow -->
+  <section class="hero-slideshow" data-nav-dark>
+    <!-- Slide 1: Paris -->
+    <div class="hero-slide active">
+      <img src="images/slides/slide-01.jpg" alt="Paris" class="hero-slide__image">
+      <div class="hero-slide__overlay"></div>
+    </div>
+
+    <!-- Slide 2: Switzerland -->
+    <div class="hero-slide">
+      <img src="images/slides/slide-02.jpg" alt="Switzerland" class="hero-slide__image">
+      <div class="hero-slide__overlay"></div>
+    </div>
+
+    <!-- Slide 3: Firenze -->
+    <div class="hero-slide">
+      <img src="images/slides/slide-03.jpg" alt="Firenze" class="hero-slide__image">
+      <div class="hero-slide__overlay"></div>
+    </div>
+
+    <!-- Slide 4: London -->
+    <div class="hero-slide">
+      <img src="images/slides/slide-04.jpg" alt="London" class="hero-slide__image">
+      <div class="hero-slide__overlay"></div>
+    </div>
+
+    <!-- Slide 5: Nice -->
+    <div class="hero-slide">
+      <img src="images/slides/slide-05.jpg" alt="Nice" class="hero-slide__image">
+      <div class="hero-slide__overlay"></div>
+    </div>
+
+    <!-- Slide 6: Malta -->
+    <div class="hero-slide">
+      <img src="images/slides/slide-06.jpg" alt="Malta" class="hero-slide__image" style="object-position: center 20%;">
+      <div class="hero-slide__overlay"></div>
+    </div>
+
+    <!-- Slide 7: Jeju -->
+    <div class="hero-slide">
+      <img src="images/slides/slide-07.jpg" alt="Jeju" class="hero-slide__image">
+      <div class="hero-slide__overlay"></div>
+    </div>
+
+    <!-- Slide 8: Tokyo -->
+    <div class="hero-slide">
+      <img src="images/slides/slide-08.jpg" alt="Tokyo" class="hero-slide__image">
+      <div class="hero-slide__overlay"></div>
+    </div>
+
+    <!-- Slide 9: Karuizawa -->
+    <div class="hero-slide">
+      <img src="images/slides/slide-09.jpg" alt="Karuizawa" class="hero-slide__image">
+      <div class="hero-slide__overlay"></div>
+    </div>
+
+    <!-- Slide 10: Fuji / Yamanashi -->
+    <div class="hero-slide">
+      <img src="images/slides/slide-10.jpg" alt="Fuji" class="hero-slide__image">
+      <div class="hero-slide__overlay"></div>
+    </div>
+
+    <!-- Slide 11: Jogashima -->
+    <div class="hero-slide">
+      <img src="images/slides/slide-11.jpg" alt="Jogashima" class="hero-slide__image">
+      <div class="hero-slide__overlay"></div>
+    </div>
+
+    <!-- Slide 12: Night Garden -->
+    <div class="hero-slide">
+      <img src="images/slides/slide-12.jpg" alt="Night Garden" class="hero-slide__image">
+      <div class="hero-slide__overlay"></div>
+    </div>
+
+    <!-- Slide 13: Yokohama -->
+    <div class="hero-slide">
+      <img src="images/slides/slide-13.jpg" alt="Yokohama" class="hero-slide__image">
+      <div class="hero-slide__overlay"></div>
+    </div>
+
+    <!-- Slide 14: Miyakojima -->
+    <div class="hero-slide">
+      <img src="images/slides/slide-14.jpg" alt="Miyakojima" class="hero-slide__image">
+      <div class="hero-slide__overlay"></div>
+    </div>
+
+    <!-- Slide 15: Benoit -->
+    <div class="hero-slide">
+      <img src="images/slides/slide-15.jpg" alt="Benoit" class="hero-slide__image">
+      <div class="hero-slide__overlay"></div>
+    </div>
+
+    <!-- Coordinates (bottom-left) -->
+    <div class="hero__coords">
+      <div class="hero__coords-city"></div>
+      <div class="hero__coords-latlng"></div>
+    </div>
+
+    <!-- Progress dots (bottom-right) -->
+    <div class="hero__dots">
+      <button class="hero__dot active" aria-label="Slide 1"></button>
+      <button class="hero__dot" aria-label="Slide 2"></button>
+      <button class="hero__dot" aria-label="Slide 3"></button>
+      <button class="hero__dot" aria-label="Slide 4"></button>
+      <button class="hero__dot" aria-label="Slide 5"></button>
+      <button class="hero__dot" aria-label="Slide 6"></button>
+      <button class="hero__dot" aria-label="Slide 7"></button>
+      <button class="hero__dot" aria-label="Slide 8"></button>
+      <button class="hero__dot" aria-label="Slide 9"></button>
+      <button class="hero__dot" aria-label="Slide 10"></button>
+      <button class="hero__dot" aria-label="Slide 11"></button>
+      <button class="hero__dot" aria-label="Slide 12"></button>
+      <button class="hero__dot" aria-label="Slide 13"></button>
+      <button class="hero__dot" aria-label="Slide 14"></button>
+      <button class="hero__dot" aria-label="Slide 15"></button>
+    </div>
+
+    <!-- Scroll indicator (bottom-center) -->
+    <div class="hero__scroll-indicator">
+      <span>Scroll</span>
+      <div class="hero__scroll-line"></div>
+    </div>
+  </section>
+
+
+  <!-- About -->
+  <section class="about-cinematic" data-nav-dark>
+    <!-- 背景画像＋暗めオーバーレイ -->
+    <div class="about-cinematic__bg">
+      <img src="images/about-bg.jpg" alt="" class="about-cinematic__bg-img">
+      <div class="about-cinematic__overlay"></div>
+    </div>
+
+    <!-- デスクトップ用マーキー（section直下、absolute配置） -->
+    <div class="about-split__marquee" aria-hidden="true">
+      <div class="about-location-marquee__track">
+        <div class="marquee-loc"><span class="marquee-loc__name">Switzerland</span><span class="marquee-loc__coords">46.8182° N, 8.2275° E</span></div>
+        <div class="marquee-loc"><span class="marquee-loc__name">Paris</span><span class="marquee-loc__coords">48.8566° N, 2.3522° E</span></div>
+        <div class="marquee-loc"><span class="marquee-loc__name">Firenze</span><span class="marquee-loc__coords">43.7696° N, 11.2558° E</span></div>
+        <div class="marquee-loc"><span class="marquee-loc__name">London</span><span class="marquee-loc__coords">51.5074° N, 0.1278° W</span></div>
+        <div class="marquee-loc"><span class="marquee-loc__name">Nice</span><span class="marquee-loc__coords">43.7102° N, 7.2620° E</span></div>
+        <div class="marquee-loc"><span class="marquee-loc__name">Malta</span><span class="marquee-loc__coords">35.9375° N, 14.3754° E</span></div>
+        <div class="marquee-loc"><span class="marquee-loc__name">Tokyo</span><span class="marquee-loc__coords">35.6762° N, 139.6503° E</span></div>
+        <div class="marquee-loc"><span class="marquee-loc__name">Karuizawa</span><span class="marquee-loc__coords">36.3486° N, 138.5970° E</span></div>
+        <div class="marquee-loc"><span class="marquee-loc__name">Fuji</span><span class="marquee-loc__coords">35.3606° N, 138.7274° E</span></div>
+        <div class="marquee-loc"><span class="marquee-loc__name">Jogashima</span><span class="marquee-loc__coords">35.1292° N, 139.6108° E</span></div>
+        <div class="marquee-loc"><span class="marquee-loc__name">Night Garden</span><span class="marquee-loc__coords">35.6595° N, 139.7006° E</span></div>
+        <!-- duplicate -->
+        <div class="marquee-loc"><span class="marquee-loc__name">Switzerland</span><span class="marquee-loc__coords">46.8182° N, 8.2275° E</span></div>
+        <div class="marquee-loc"><span class="marquee-loc__name">Paris</span><span class="marquee-loc__coords">48.8566° N, 2.3522° E</span></div>
+        <div class="marquee-loc"><span class="marquee-loc__name">Firenze</span><span class="marquee-loc__coords">43.7696° N, 11.2558° E</span></div>
+        <div class="marquee-loc"><span class="marquee-loc__name">London</span><span class="marquee-loc__coords">51.5074° N, 0.1278° W</span></div>
+        <div class="marquee-loc"><span class="marquee-loc__name">Nice</span><span class="marquee-loc__coords">43.7102° N, 7.2620° E</span></div>
+        <div class="marquee-loc"><span class="marquee-loc__name">Malta</span><span class="marquee-loc__coords">35.9375° N, 14.3754° E</span></div>
+        <div class="marquee-loc"><span class="marquee-loc__name">Tokyo</span><span class="marquee-loc__coords">35.6762° N, 139.6503° E</span></div>
+        <div class="marquee-loc"><span class="marquee-loc__name">Karuizawa</span><span class="marquee-loc__coords">36.3486° N, 138.5970° E</span></div>
+        <div class="marquee-loc"><span class="marquee-loc__name">Fuji</span><span class="marquee-loc__coords">35.3606° N, 138.7274° E</span></div>
+        <div class="marquee-loc"><span class="marquee-loc__name">Jogashima</span><span class="marquee-loc__coords">35.1292° N, 139.6108° E</span></div>
+        <div class="marquee-loc"><span class="marquee-loc__name">Night Garden</span><span class="marquee-loc__coords">35.6595° N, 139.7006° E</span></div>
+      </div>
+    </div>
+
+    <!-- 前景レイアウト -->
+    <div class="about-cinematic__content about-split-layout">
+      <!-- 上2行（デスクトップ用） -->
+      <div class="about-split__top">
+        <p class="about-cursive__line">
+          Weaving each moment into the future
+        </p>
+        <p class="about-cursive__line">
+          one frame, one second at a time
+        </p>
+      </div>
+
+      <!-- 下2行（デスクトップ用） -->
+      <div class="about-split__bottom">
+        <p class="about-cursive__line about-cursive__line--sub">
+          A brand delivering works that become
+        </p>
+        <p class="about-cursive__line about-cursive__line--sub">
+          a gentle staff for your life
+        </p>
+      </div>
+
+      <!-- モバイル用：Pattern H + Animation 8 -->
+      <div class="about-cine-jp" id="aboutCineJp">
+        <p class="about-cine-jp__heading">光と記憶を、映像にする。</p>
+        <p class="about-cine-jp__body">浮雲 ── ukigumo films は、<br>写真と映像をひとつのチームで届ける<br>ウェディングフィルムブランドです。</p>
+        <p class="about-cine-jp__body">日本全国、そして世界へ。<br>その作品が時間と距離を飛び越えて、<br>あなたの人生を支える"杖"のような<br>存在となりますように。</p>
+        <p class="about-cine-jp__closing">ふたりの物語を、一枚、一秒に。</p>
+
+        <!-- マーキー（締めと英文の間） -->
+        <div class="about-cine-marquee" aria-hidden="true">
+          <div class="about-location-marquee__track">
+            <div class="marquee-loc"><span class="marquee-loc__name">Switzerland</span><span class="marquee-loc__coords">46.8182° N, 8.2275° E</span></div>
+            <div class="marquee-loc"><span class="marquee-loc__name">Paris</span><span class="marquee-loc__coords">48.8566° N, 2.3522° E</span></div>
+            <div class="marquee-loc"><span class="marquee-loc__name">Firenze</span><span class="marquee-loc__coords">43.7696° N, 11.2558° E</span></div>
+            <div class="marquee-loc"><span class="marquee-loc__name">London</span><span class="marquee-loc__coords">51.5074° N, 0.1278° W</span></div>
+            <div class="marquee-loc"><span class="marquee-loc__name">Nice</span><span class="marquee-loc__coords">43.7102° N, 7.2620° E</span></div>
+            <div class="marquee-loc"><span class="marquee-loc__name">Malta</span><span class="marquee-loc__coords">35.9375° N, 14.3754° E</span></div>
+            <div class="marquee-loc"><span class="marquee-loc__name">Tokyo</span><span class="marquee-loc__coords">35.6762° N, 139.6503° E</span></div>
+            <div class="marquee-loc"><span class="marquee-loc__name">Karuizawa</span><span class="marquee-loc__coords">36.3486° N, 138.5970° E</span></div>
+            <div class="marquee-loc"><span class="marquee-loc__name">Fuji</span><span class="marquee-loc__coords">35.3606° N, 138.7274° E</span></div>
+            <div class="marquee-loc"><span class="marquee-loc__name">Jogashima</span><span class="marquee-loc__coords">35.1292° N, 139.6108° E</span></div>
+            <div class="marquee-loc"><span class="marquee-loc__name">Night Garden</span><span class="marquee-loc__coords">35.6595° N, 139.7006° E</span></div>
+            <!-- duplicate -->
+            <div class="marquee-loc"><span class="marquee-loc__name">Switzerland</span><span class="marquee-loc__coords">46.8182° N, 8.2275° E</span></div>
+            <div class="marquee-loc"><span class="marquee-loc__name">Paris</span><span class="marquee-loc__coords">48.8566° N, 2.3522° E</span></div>
+            <div class="marquee-loc"><span class="marquee-loc__name">Firenze</span><span class="marquee-loc__coords">43.7696° N, 11.2558° E</span></div>
+            <div class="marquee-loc"><span class="marquee-loc__name">London</span><span class="marquee-loc__coords">51.5074° N, 0.1278° W</span></div>
+            <div class="marquee-loc"><span class="marquee-loc__name">Nice</span><span class="marquee-loc__coords">43.7102° N, 7.2620° E</span></div>
+            <div class="marquee-loc"><span class="marquee-loc__name">Malta</span><span class="marquee-loc__coords">35.9375° N, 14.3754° E</span></div>
+            <div class="marquee-loc"><span class="marquee-loc__name">Tokyo</span><span class="marquee-loc__coords">35.6762° N, 139.6503° E</span></div>
+            <div class="marquee-loc"><span class="marquee-loc__name">Karuizawa</span><span class="marquee-loc__coords">36.3486° N, 138.5970° E</span></div>
+            <div class="marquee-loc"><span class="marquee-loc__name">Fuji</span><span class="marquee-loc__coords">35.3606° N, 138.7274° E</span></div>
+            <div class="marquee-loc"><span class="marquee-loc__name">Jogashima</span><span class="marquee-loc__coords">35.1292° N, 139.6108° E</span></div>
+            <div class="marquee-loc"><span class="marquee-loc__name">Night Garden</span><span class="marquee-loc__coords">35.6595° N, 139.7006° E</span></div>
+          </div>
+        </div>
+
+        <p class="about-cine-jp__en">Light and memory,</p>
+        <p class="about-cine-jp__en">captured in motion.</p>
+        <p class="about-cine-jp__en">Photo and cinema — delivered as one.</p>
+        <p class="about-cine-jp__en">From Japan to the world, beyond time.</p>
+        <p class="about-cine-jp__en">A gentle staff for your journey ahead.</p>
+        <p class="about-cine-jp__en">Your story — every frame,</p>
+        <p class="about-cine-jp__en">every second.</p>
+        <p class="about-cine-jp__en about-cine-jp__sign">— ukigumo ryo</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PLAN / PRICE (Pattern 10) -->
+  <div class="works-header">
+    <h2 class="works-header__title">PLAN / PRICE</h2>
+  </div>
+
+  <!-- 01 JAPAN（画像左） -->
+  <article class="works-item">
+    <a href="plan-japan.html" class="works-item__image works-reveal--image" style="display:block;">
+      <img src="images/plan-japan.jpg" alt="Japan wedding photo" data-parallax>
+      <div class="works-item__overlay">
+        <span class="works-item__overlay-location">Tokyo<br>Karuizawa<br>Fuji<br>Jogashima<br>— Japan</span>
+        <h3 class="works-item__overlay-title">Japan</h3>
+        <span class="works-item__overlay-coords">35.6762° N, 139.6503° E</span>
+      </div>
+    </a>
+    <div class="works-item__content">
+      <span class="works-item__location works-reveal" style="transition-delay:0.2s;">Tokyo · Karuizawa · Fuji · Jogashima<br>— Japan</span>
+      <h3 class="works-item__title works-reveal" style="transition-delay:0.5s;">Japan</h3>
+      <p class="works-item__plan-jp works-reveal" style="transition-delay:0.7s;">国内プラン</p>
+      <div class="works-reveal" style="transition-delay:0.95s;">
+        <a href="plan-japan.html" class="works-more">
+          <span class="works-more__line"></span>
+          <span class="works-more__text">view plan</span>
+          <span class="works-more__arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 02 PARIS（画像右） -->
+  <article class="works-item works-item--paris">
+    <a href="plan-paris.html" class="works-item__image works-reveal--image" style="display:block;">
+      <img src="images/plan-paris.jpg" alt="Paris wedding photo" data-parallax>
+      <div class="works-item__overlay">
+        <span class="works-item__overlay-location">Paris, France</span>
+        <h3 class="works-item__overlay-title">Paris</h3>
+        <span class="works-item__overlay-coords">48.8566° N, 2.3522° E</span>
+      </div>
+    </a>
+    <div class="works-item__content">
+      <span class="works-item__location works-reveal" style="transition-delay:0.5s;">Paris, France</span>
+      <h3 class="works-item__title works-reveal" style="transition-delay:0.5s;">Paris</h3>
+      <p class="works-item__plan-jp works-reveal" style="transition-delay:0.7s;">パリプラン</p>
+      <div class="works-reveal" style="transition-delay:0.95s;">
+        <a href="plan-paris.html" class="works-more">
+          <span class="works-more__line"></span>
+          <span class="works-more__text">view plan</span>
+          <span class="works-more__arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 03 EUROPA（画像左） -->
+  <article class="works-item">
+    <a href="plan-europa.html" class="works-item__image works-reveal--image" style="display:block;">
+      <img src="images/plan-europa.jpg" alt="Europa wedding photo" data-parallax>
+      <div class="works-item__overlay">
+        <span class="works-item__overlay-location">Switzerland<br>Firenze<br>London<br>Malta<br>Nice<br>Barcelona</span>
+        <h3 class="works-item__overlay-title">Europa</h3>
+        <span class="works-item__overlay-coords">46.8182° N, 8.2275° E</span>
+      </div>
+    </a>
+    <div class="works-item__content">
+      <span class="works-item__location works-reveal" style="transition-delay:0.2s;">Switzerland · Firenze · London · Malta · Nice · Barcelona</span>
+      <h3 class="works-item__title works-reveal" style="transition-delay:0.5s;">Europa</h3>
+      <p class="works-item__plan-jp works-reveal" style="transition-delay:0.7s;">ヨーロッパプラン</p>
+      <div class="works-reveal" style="transition-delay:0.95s;">
+        <a href="plan-europa.html" class="works-more">
+          <span class="works-more__line"></span>
+          <span class="works-more__text">view plan</span>
+          <span class="works-more__arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </article>
+
+  <!-- Gallery — Bird & Insect パラックス方式 -->
+  <div class="gallery-header-w3">
+    <h2>Gallery</h2>
+    <div class="gh-line"></div>
+    <p>04</p>
+  </div>
+  <section class="gallery-parallax" id="galleryParallax">
+
+    <!-- Mobile 18-photo grid (hidden on desktop) -->
+    <div class="gp-grid-mobile">
+      <div><img src="images/gallery-index/g01.jpg" alt="" loading="lazy"></div>
+      <div><img src="images/gallery-index/g02.jpg" alt="" loading="lazy"></div>
+      <div><img src="images/gallery-index/g03.jpg" alt="" loading="lazy"></div>
+      <div><img src="images/gallery-index/g04.jpg" alt="" loading="lazy"></div>
+      <div><img src="images/gallery-index/g05.jpg" alt="" loading="lazy"></div>
+      <div><img src="images/gallery-index/g06.jpg" alt="" loading="lazy"></div>
+
+      <div><img src="images/gallery-index/g10.jpg" alt="" loading="lazy"></div>
+      <div><img src="images/gallery-index/g11.jpg" alt="" loading="lazy"></div>
+      <div><img src="images/gallery-index/g12.jpg" alt="" loading="lazy"></div>
+      <div><img src="images/gallery-index/g13.jpg" alt="" loading="lazy"></div>
+      <div><img src="images/gallery-index/g14.jpg" alt="" loading="lazy"></div>
+      <div><img src="images/gallery-index/g15.jpg" alt="" loading="lazy"></div>
+      <div><img src="images/gallery-index/g16.jpg" alt="" loading="lazy"></div>
+      <div><img src="images/gallery-index/g17.jpg" alt="" loading="lazy"></div>
+      <div><img src="images/gallery-index/g18.jpg" alt="" loading="lazy"></div>
+    </div>
+
+    <!-- Text block — randomly chosen on each page load -->
+    <div class="gp-text" id="gpText" data-parallax-speed="0.08">
+      <p class="gp-label">Gallery</p>
+      <h2 class="gp-heading" id="gpHeading"></h2>
+      <p class="gp-desc-ja" id="gpDescJa"></p>
+      <p class="gp-desc-en" id="gpDescEn"></p>
+      <a href="gallery.html" class="gp-cta-pill">Gallery →</a>
+    </div>
+
+  </section>
+
+  <!-- Dress Section -->
+  <section class="sec-dress" id="dress">
+    <h2>Dress</h2>
+    <div class="line-anim"></div>
+    <div class="sec-sub">ドレスショップ</div>
+    <p>厳選したドレスショップをご紹介いたします。<br>撮影にふさわしいスタイリングをご提案します。</p>
+    <a href="dress.html" class="cta-pill">dress shop</a>
+    <div class="dress-photos">
+      <div class="dress-photos__item"><img src="images/dress-3.jpg" alt="dress" data-dress-parallax></div>
+      <div class="dress-photos__item"><img src="images/dress-2.jpg" alt="dress" data-dress-parallax data-reverse></div>
+      <div class="dress-photos__item"><img src="images/dress-1.jpg" alt="dress" data-dress-parallax></div>
+      <div class="dress-photos__item"><img src="images/malta/04.jpg" alt="dress" data-dress-parallax></div>
+      <div class="dress-photos__item"><img src="images/london/05.jpg" alt="dress" data-dress-parallax data-reverse></div>
+      <div class="dress-photos__item"><img src="images/paris/06.jpg" alt="dress" data-dress-parallax></div>
+      <div class="dress-photos__item"><img src="images/firenze/07.jpg" alt="dress" data-dress-parallax></div>
+      <div class="dress-photos__item"><img src="images/malta/02.jpg" alt="dress" data-dress-parallax data-reverse></div>
+      <div class="dress-photos__item"><img src="images/london/08.jpg" alt="dress" data-dress-parallax></div>
+    </div>
+  </section>
+
+  <div class="sec-divider"><div class="sec-divider__line"></div></div>
+
+  <!-- Q&A Section -->
+  <section class="sec-qa" id="qa">
+    <h2>Q & A</h2>
+    <div class="sec-sub">よくあるご質問</div>
+    <p>撮影に関するよくあるご質問をまとめております。</p>
+    <a href="qa.html" class="cta-pill">view questions</a>
+  </section>
+
+  <div class="sec-divider"><div class="sec-divider__line"></div></div>
+
+  <!-- Contact Section -->
+  <!-- Footer -->
+  <footer class="footer" style="background: #fff;">
+    <div class="footer__logo">
+      <a href="index.html"><img src="images/logo/logo-black.png" alt="ukigumo"></a>
+    </div>
+    <div class="footer__links">
+      <a href="plan.html">Plan / Price</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="dress.html">Dress</a>
+      <a href="qa.html">Q&A</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <p class="footer__copy">&copy; 2026 ukigumo films. All rights reserved.</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+
+  <script>
+    // About-cinematic slow zoom on scroll
+    (function(){
+      var aboutSec = document.querySelector('.about-cinematic');
+      if (aboutSec) {
+        var aboutIO = new IntersectionObserver(function(entries){
+          entries.forEach(function(e){
+            if (e.isIntersecting) {
+              aboutSec.classList.add('active');
+              aboutIO.unobserve(aboutSec);
+            }
+          });
+        }, { threshold: 0.15 });
+        aboutIO.observe(aboutSec);
+      }
+    })();
+
+    // Hero Slideshow
+    const slides = document.querySelectorAll('.hero-slide');
+    const dots = document.querySelectorAll('.hero__dot');
+    const cityEl = document.querySelector('.hero__coords-city');
+    const latlngEl = document.querySelector('.hero__coords-latlng');
+
+    const cities = [
+      { name: 'Paris', lat: '48.8566° N', lng: '2.3522° E' },
+      { name: 'Switzerland', lat: '46.8182° N', lng: '8.2275° E' },
+      { name: 'Firenze', lat: '43.7696° N', lng: '11.2558° E' },
+      { name: 'London', lat: '51.5074° N', lng: '0.1278° W' },
+      { name: 'Nice', lat: '43.7102° N', lng: '7.2620° E' },
+      { name: 'Malta', lat: '35.8989° N', lng: '14.5146° E' },
+      { name: 'Jeju', lat: '33.4890° N', lng: '126.4983° E' },
+      { name: 'Tokyo', lat: '35.6762° N', lng: '139.6503° E' },
+      { name: 'Karuizawa', lat: '36.3489° N', lng: '138.5974° E' },
+      { name: 'Fuji', lat: '35.3606° N', lng: '138.7274° E' },
+      { name: 'Jogashima', lat: '35.1317° N', lng: '139.6133° E' },
+      { name: 'Night Garden', lat: '35.6762° N', lng: '139.6503° E' },
+      { name: 'Yokohama', lat: '35.4437° N', lng: '139.6380° E' },
+      { name: 'Miyakojima', lat: '24.7939° N', lng: '125.2786° E' },
+      { name: 'Benoit', lat: '35.6654° N', lng: '139.7100° E' }
+    ];
+
+    let currentSlide = 0;
+
+    function goToSlide(next) {
+      if (next === currentSlide) return;
+      const current = slides[currentSlide];
+      const nextSlide = slides[next];
+      const nextImg = nextSlide.querySelector('.hero-slide__image');
+
+      // 1. 次スライドの画像をズーム前の状態にリセット（transitionなしで瞬時に）
+      nextImg.style.transition = 'none';
+      nextImg.style.transform = 'scale(1)';
+
+      // 2. 現在のスライドをフェードアウト、次をフェードイン
+      current.classList.remove('active');
+      nextSlide.classList.add('active');
+      nextSlide.style.zIndex = 2;
+      dots.forEach((d, i) => d.classList.toggle('active', i === next));
+
+      // 3. 次フレームでズーム開始（transitionを戻してからscale適用）
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          nextImg.style.transition = 'transform 12s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+          nextImg.style.transform = 'scale(1.1)';
+        });
+      });
+
+      // 4. 文字をブラーで消す→差し替え→じわっとフェードイン
+      cityEl.classList.remove('show');
+      latlngEl.classList.remove('show');
+      setTimeout(() => {
+        cityEl.textContent = cities[next].name;
+        latlngEl.textContent = cities[next].lat + '  ' + cities[next].lng;
+        requestAnimationFrame(() => {
+          cityEl.classList.add('show');
+          latlngEl.classList.add('show');
+        });
+      }, 1000);
+
+      setTimeout(() => {
+        current.style.zIndex = 1;
+        currentSlide = next;
+      }, 2500);
+    }
+
+    // Auto advance
+    let autoPlay = setInterval(() => {
+      const next = (currentSlide + 1) % slides.length;
+      goToSlide(next);
+    }, 3500);
+
+    // Dot clicks
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        clearInterval(autoPlay);
+        goToSlide(i);
+        autoPlay = setInterval(() => {
+          const next = (currentSlide + 1) % slides.length;
+          goToSlide(next);
+        }, 3500);
+      });
+    });
+
+    // Init — 最初のスライドは少し早めのテンポでじわっと登場
+    slides[0].classList.add('active');
+    dots[0].classList.add('active');
+    cityEl.textContent = cities[0].name;
+    latlngEl.textContent = cities[0].lat + '  ' + cities[0].lng;
+    // 最初のスライドもズーム開始
+    const firstImg = slides[0].querySelector('.hero-slide__image');
+    firstImg.style.transition = 'none';
+    firstImg.style.transform = 'scale(1)';
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        firstImg.style.transition = 'transform 12s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        firstImg.style.transform = 'scale(1.1)';
+      });
+    });
+    cityEl.style.transition = 'opacity 1.2s cubic-bezier(0.19, 1, 0.22, 1), filter 1.2s ease';
+    latlngEl.style.transition = 'opacity 1.2s cubic-bezier(0.19, 1, 0.22, 1), filter 1.2s ease';
+    setTimeout(() => {
+      cityEl.classList.add('show');
+      latlngEl.classList.add('show');
+    }, 300);
+    // 初回アニメ完了後、通常のtransitionに戻す
+    setTimeout(() => {
+      cityEl.style.transition = '';
+      latlngEl.style.transition = '';
+    }, 2000);
+  </script>
+
+  <script>
+    // Gallery header line animation
+    (function() {
+      var line = document.querySelector('.gallery-header-w3 .gh-line');
+      if (!line) return;
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            setTimeout(function() { line.classList.add('is-visible'); }, 200);
+            observer.unobserve(line);
+          }
+        });
+      }, { threshold: 0.3 });
+      observer.observe(line);
+    })();
+
+  </script>
+
+  <script>
+    // ========================================
+    // Gallery — Bird & Insect Parallax
+    // ========================================
+    (function() {
+      'use strict';
+
+      // ===== RANDOM TEXT SELECTION =====
+      var textVariants = [
+        {
+          heading: '飾らないふたりが、<br>いちばん美しい。',
+          ja: '完璧じゃなくていい。<br>笑い合う顔も、少し緊張した横顔も、<br>全部がふたりらしくて、全部が愛おしい。',
+          en: "You don't need to be perfect.<br>The laughter, the nervous glances —<br>every unpolished moment is what makes it beautiful."
+        },
+        {
+          heading: '迷いながらでも、<br>ふたりなら歩ける。',
+          ja: '地図のない道を選んだ。<br>間違えても、遠回りしても、<br>隣に君がいるから、それでよかった。',
+          en: 'We chose the road without a map.<br>Wrong turns, detours — none of it mattered,<br>because you were right there beside me.'
+        },
+        {
+          heading: 'ここまで来たんだ、<br>ふたりで。',
+          ja: '振り返ればいろんなことがあった。<br>でも気づけば、いつも隣にいてくれた。<br>だから次の一歩も、一緒に踏み出せる。',
+          en: "Looking back, we've been through so much.<br>But somehow, you were always there.<br>That's why we can take the next step — together."
+        }
+      ];
+
+      var chosen = textVariants[Math.floor(Math.random() * textVariants.length)];
+      var gpHeading = document.getElementById('gpHeading');
+      var gpDescJa = document.getElementById('gpDescJa');
+      var gpDescEn = document.getElementById('gpDescEn');
+      if (gpHeading) gpHeading.innerHTML = chosen.heading;
+      if (gpDescJa) gpDescJa.innerHTML = chosen.ja;
+      if (gpDescEn) gpDescEn.innerHTML = chosen.en;
+
+      // ===== PARALLAX SETUP =====
+      var photos = document.querySelectorAll('.gp-photo');
+      var gpText = document.getElementById('gpText');
+      var gallery = document.getElementById('galleryParallax');
+      if (!gallery) return;
+
+      var photoParams = [];
+      for (var i = 0; i < photos.length; i++) {
+        var speed = parseFloat(photos[i].getAttribute('data-parallax-speed')) || 0.15;
+        photoParams.push({
+          el: photos[i],
+          speed: speed,
+          blurMax: 3 + Math.random() * 4,
+          scaleMin: 0.96 + Math.random() * 0.02,
+          brightnessMax: 1.03 + Math.random() * 0.08,
+          fadeInStart: 0.85 + Math.random() * 0.1,
+          fadeInEnd: 0.65 + Math.random() * 0.1,
+          fadeOutStart: 0.15 + Math.random() * 0.1,
+          fadeOutEnd: -0.05 - Math.random() * 0.1,
+          currentOpacity: 0,
+          currentTranslateY: 20,
+          currentBlur: 6,
+          currentScale: 0.97,
+          currentBrightness: 1.05,
+          targetOpacity: 0,
+          targetTranslateY: 20,
+          targetBlur: 6,
+          targetScale: 0.97,
+          targetBrightness: 1.05,
+          lerpSpeed: 0.05 + Math.random() * 0.04
+        });
+      }
+
+      function lerp2(a, b, t) { return a + (b - a) * t; }
+      function clamp2(val, min, max) { return Math.max(min, Math.min(max, val)); }
+      function mapRange2(value, inMin, inMax, outMin, outMax) {
+        var t = (value - inMin) / (inMax - inMin);
+        t = clamp2(t, 0, 1);
+        return outMin + t * (outMax - outMin);
+      }
+
+      function updateGalleryPhotos() {
+        var viewH = window.innerHeight;
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+        var galleryRect = gallery.getBoundingClientRect();
+
+        for (var i = 0; i < photoParams.length; i++) {
+          var p = photoParams[i];
+          var el = p.el;
+          var rect = el.getBoundingClientRect();
+          var screenPos = rect.top / viewH;
+          var galleryScrolled = scrollY - (scrollY + galleryRect.top);
+          var parallaxY = galleryScrolled * p.speed;
+
+          var opacity;
+          if (screenPos > p.fadeInStart) { opacity = 0; }
+          else if (screenPos > p.fadeInEnd) { opacity = mapRange2(screenPos, p.fadeInStart, p.fadeInEnd, 0, 1); }
+          else if (screenPos > p.fadeOutStart) { opacity = 1; }
+          else if (screenPos > p.fadeOutEnd) { opacity = mapRange2(screenPos, p.fadeOutStart, p.fadeOutEnd, 1, 0); }
+          else { opacity = 0; }
+
+          var visibility = opacity;
+          p.targetOpacity = opacity;
+          p.targetTranslateY = parallaxY + (1 - visibility) * 15;
+          p.targetBlur = (1 - visibility) * p.blurMax;
+          p.targetScale = lerp2(p.scaleMin, 1, visibility);
+          p.targetBrightness = lerp2(p.brightnessMax, 1, visibility);
+
+          p.currentOpacity = lerp2(p.currentOpacity, p.targetOpacity, p.lerpSpeed);
+          p.currentTranslateY = lerp2(p.currentTranslateY, p.targetTranslateY, p.lerpSpeed);
+          p.currentBlur = lerp2(p.currentBlur, p.targetBlur, p.lerpSpeed);
+          p.currentScale = lerp2(p.currentScale, p.targetScale, p.lerpSpeed);
+          p.currentBrightness = lerp2(p.currentBrightness, p.targetBrightness, p.lerpSpeed);
+
+          el.style.opacity = p.currentOpacity.toFixed(4);
+          el.style.transform = 'translateY(' + p.currentTranslateY.toFixed(1) + 'px) scale(' + p.currentScale.toFixed(4) + ')';
+          el.style.filter = 'blur(' + p.currentBlur.toFixed(1) + 'px) brightness(' + p.currentBrightness.toFixed(3) + ')';
+        }
+
+        // Text block parallax + fade (desktop only)
+        if (gpText && window.innerWidth > 768) {
+          var tRect = gpText.getBoundingClientRect();
+          var tPos = tRect.top / viewH;
+          var tOpacity;
+          if (tPos > 0.9) { tOpacity = 0; }
+          else if (tPos > 0.65) { tOpacity = (0.9 - tPos) / 0.25; }
+          else if (tPos > 0.1) { tOpacity = 1; }
+          else if (tPos > -0.1) { tOpacity = (tPos + 0.1) / 0.2; }
+          else { tOpacity = 0; }
+
+          var galleryScrolled2 = scrollY - (scrollY + galleryRect.top);
+          var tParallax = galleryScrolled2 * 0.15;
+          var tBlur = (1 - tOpacity) * 6;
+          var tScale = 0.96 + tOpacity * 0.04;
+
+          gpText.style.opacity = tOpacity.toFixed(4);
+          gpText.style.transform = 'translateY(' + (tParallax + (1 - tOpacity) * 20).toFixed(1) + 'px) scale(' + tScale.toFixed(4) + ')';
+          gpText.style.filter = 'blur(' + tBlur.toFixed(1) + 'px)';
+        }
+
+        requestAnimationFrame(updateGalleryPhotos);
+      }
+
+      requestAnimationFrame(updateGalleryPhotos);
+    })();
+
+    // Mobile: gp-grid-mobile C2アニメーション（ランダム順）
+    (function() {
+      var grid = document.querySelector('.gp-grid-mobile');
+      if (!grid) return;
+      var items = grid.querySelectorAll('div');
+      var n = items.length;
+      var order = Array.from({length: n}, function(_, i){ return i; });
+      order.sort(function(){ return Math.random() - 0.5; });
+      items.forEach(function(el, i) {
+        var d = (order.indexOf(i) * 0.1) + 's';
+        el.style.animationDelay = d;
+        var img = el.querySelector('img');
+        if (img) img.style.animationDelay = d;
+      });
+      var gridObs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            grid.classList.add('go');
+            gridObs.unobserve(grid);
+          }
+        });
+      }, { threshold: 0.1 });
+      gridObs.observe(grid);
+    })();
+
+    // Mobile: gp-text simple fade-in on scroll
+    (function() {
+      if (window.innerWidth > 768) return;
+      var gpText = document.getElementById('gpText');
+      if (!gpText) return;
+      var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      obs.observe(gpText);
+    })();
+
+    // Works section — Scroll Reveal
+    (function() {
+      var reveals = document.querySelectorAll('.works-reveal, .works-reveal--image');
+      var revealObs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            revealObs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+      reveals.forEach(function(el) { revealObs.observe(el); });
+    })();
+
+    // Works section — Slow Zoom Out + Parallax (lerp-based)
+    (function() {
+      var images = document.querySelectorAll('[data-parallax]');
+      if (!images.length) return;
+
+      // Mobile: CSS animation only, no JS parallax
+      var isMobile = window.innerWidth <= 768;
+      if (isMobile) {
+        images.forEach(function(img) {
+          img.style.transform = 'scale(1.05)';
+          img.style.animation = 'worksKenBurns 12s ease-in-out infinite alternate';
+        });
+        return;
+      }
+
+      // Desktop: gentle parallax
+      var scale = 1.08;
+      var parallaxSpeed = 0.06;
+      var parallaxLerp = 0.04;
+
+      var state = [];
+      images.forEach(function(img) {
+        state.push({
+          img: img,
+          container: img.closest('.works-item__image'),
+          currentY: 0,
+          targetY: 0
+        });
+      });
+
+      function lerp(a, b, t) { return a + (b - a) * t; }
+
+      function update() {
+        var winH = window.innerHeight;
+
+        state.forEach(function(s) {
+          var rect = s.container.getBoundingClientRect();
+          if (rect.bottom < -200 || rect.top > winH + 200) return;
+
+          var center = rect.top + rect.height / 2;
+          s.targetY = (center - winH / 2) * parallaxSpeed;
+          s.currentY = lerp(s.currentY, s.targetY, parallaxLerp);
+
+          s.img.style.transform = 'translateY(' + s.currentY.toFixed(2) + 'px) scale(' + scale + ')';
+        });
+
+        requestAnimationFrame(update);
+      }
+      update();
+    })();
+  </script>
+
+  <script>
+    // Scroll-linked Marquee (About section)
+    (function() {
+      const track = document.querySelector('.about-location-marquee__track');
+      if (!track) return;
+
+      let marqueeX = 0;
+      let lastScrollY = window.scrollY;
+      let currentSpeed = -0.6;      // smoothly interpolated speed
+      let baseSpeed = -0.6;         // normal drift speed (2x)
+      let scrollInput = 0;          // raw scroll impulse
+      let scrollMultiplier = 0.04;  // scroll response strength
+      let smoothing = 0.04;         // how smoothly speed transitions (lower = smoother)
+
+      function getHalfWidth() {
+        return track.scrollWidth / 2;
+      }
+
+      window.addEventListener('scroll', function() {
+        var currentY = window.scrollY;
+        var delta = currentY - lastScrollY;
+        scrollInput += -delta * scrollMultiplier;
+        lastScrollY = currentY;
+      }, { passive: true });
+
+      function animate() {
+        // Target speed = base drift + scroll impulse
+        var targetSpeed = baseSpeed + scrollInput;
+
+        // Smoothly interpolate current speed toward target
+        currentSpeed += (targetSpeed - currentSpeed) * smoothing;
+
+        // Decay scroll input toward zero
+        scrollInput *= 0.92;
+        if (Math.abs(scrollInput) < 0.001) scrollInput = 0;
+
+        marqueeX += currentSpeed;
+
+        // Seamless loop
+        var half = getHalfWidth();
+        if (marqueeX < -half) marqueeX += half;
+        else if (marqueeX > 0) marqueeX -= half;
+
+        track.style.transform = 'translateX(' + marqueeX + 'px)';
+        requestAnimationFrame(animate);
+      }
+
+      animate();
+    })();
+  </script>
+
+  <script>
+    // Dress / QA / Contact scroll animations
+    (function() {
+      var sections = document.querySelectorAll('.sec-dress, .sec-qa');
+      if (!sections.length) return;
+      var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.25 });
+      sections.forEach(function(s) { obs.observe(s); });
+    })();
+  </script>
+
+  <script>
+    // Side-text color auto-switch based on background
+    (function() {
+      var sideTexts = document.querySelectorAll('.side-text');
+      if (!sideTexts.length) return;
+
+      function getLuminance(r, g, b) {
+        var a = [r, g, b].map(function(v) {
+          v /= 255;
+          return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+        });
+        return 0.2126 * a[0] + 0.7152 * a[1] + 0.0722 * a[2];
+      }
+
+      function checkBackground() {
+        sideTexts.forEach(function(st) {
+          var rect = st.getBoundingClientRect();
+          var x = st.classList.contains('side-text--left') ? 20 : window.innerWidth - 20;
+          var y = rect.top + rect.height / 2;
+          var el = document.elementFromPoint(x, y);
+          if (!el || el === st) return;
+
+          var bg = window.getComputedStyle(el).backgroundColor;
+          var match = bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+          if (match) {
+            var lum = getLuminance(parseInt(match[1]), parseInt(match[2]), parseInt(match[3]));
+            if (lum > 0.5) {
+              st.classList.add('on-light');
+            } else {
+              st.classList.remove('on-light');
+            }
+          } else {
+            st.classList.remove('on-light');
+          }
+        });
+      }
+
+      var ticking = false;
+      window.addEventListener('scroll', function() {
+        if (!ticking) {
+          requestAnimationFrame(function() { checkBackground(); ticking = false; });
+          ticking = true;
+        }
+      });
+      checkBackground();
+    })();
+  </script>
+
+  <script>
+    // Dress photos — parallax + slow zoom out (same feel as plan section)
+    (function() {
+      var imgs = document.querySelectorAll('[data-dress-parallax]');
+      if (!imgs.length) return;
+
+      var zoomStart = 1.15;
+      var zoomEnd = 1.0;
+      var zoomLerp = 0.008;
+      var parallaxSpeed = 0.12;
+      var parallaxLerp = 0.06;
+
+      var state = [];
+      imgs.forEach(function(img) {
+        state.push({
+          img: img,
+          container: img.closest('.dress-photos__item'),
+          reverse: img.hasAttribute('data-reverse'),
+          currentY: 0,
+          targetY: 0,
+          currentScale: zoomStart,
+          triggered: false
+        });
+      });
+
+      var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            state.forEach(function(s) {
+              if (s.container === entry.target) s.triggered = true;
+            });
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+      state.forEach(function(s) { obs.observe(s.container); });
+
+      function lerp(a, b, t) { return a + (b - a) * t; }
+
+      function dressUpdate() {
+        var winH = window.innerHeight;
+        state.forEach(function(s) {
+          var rect = s.container.getBoundingClientRect();
+          if (rect.bottom < -200 || rect.top > winH + 200) return;
+
+          var center = rect.top + rect.height / 2;
+          var dir = s.reverse ? -1 : 1;
+          s.targetY = (center - winH / 2) * parallaxSpeed * dir;
+          s.currentY = lerp(s.currentY, s.targetY, parallaxLerp);
+
+          if (s.triggered) {
+            s.currentScale = lerp(s.currentScale, zoomEnd, zoomLerp);
+          }
+
+          s.img.style.transform = 'translateY(' + s.currentY.toFixed(2) + 'px) scale(' + s.currentScale.toFixed(4) + ')';
+        });
+        requestAnimationFrame(dressUpdate);
+      }
+      dressUpdate();
+    })();
+
+    // ===== About Cinematic JP text — Animation 8 trigger =====
+    (function() {
+      var jpBlock = document.getElementById('aboutCineJp');
+      if (!jpBlock || window.innerWidth > 768) return;
+      var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            obs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.2 });
+      obs.observe(jpBlock);
+    })();
+  </script>
+</body>
+</html>

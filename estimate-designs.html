@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>見積り依頼セクション — デザイン10案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Noto Serif JP', serif;
+      background: #f5f3f0;
+      color: #2a2420;
+    }
+    .page-header {
+      text-align: center;
+      padding: 60px 20px 40px;
+      background: #2a2420;
+      color: #fff;
+    }
+    .page-header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1.8rem;
+      letter-spacing: 0.2em;
+      margin-bottom: 8px;
+    }
+    .page-header p {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.1em;
+    }
+    .pattern-label {
+      text-align: center;
+      padding: 40px 20px 12px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      letter-spacing: 0.15em;
+      color: rgba(42,36,32,0.4);
+    }
+    .pattern-label span {
+      font-size: 0.65rem;
+      display: block;
+      margin-top: 4px;
+      color: rgba(42,36,32,0.3);
+      font-family: 'Noto Sans JP', sans-serif;
+      letter-spacing: 0.05em;
+    }
+    section {
+      max-width: 520px;
+      margin: 0 auto 50px;
+      padding: 0 20px;
+    }
+
+    /* IG button shared */
+    .ig-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: #2a2420;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      transition: color 0.3s;
+    }
+    .ig-link:hover { color: #c9a96e; }
+    .ig-link svg { opacity: 0.6; }
+  </style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Estimate Request</h1>
+  <p>見積り依頼セクション — デザイン10案</p>
+</div>
+
+<!-- ==================== Pattern 1 ==================== -->
+<div class="pattern-label">Pattern 1 <span>ミニマルカード — 番号＋縦線</span></div>
+<section>
+<style>
+  .est1 {
+    background: #fff;
+    border: 1px solid rgba(61,53,48,0.06);
+    border-radius: 16px;
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+  }
+  .est1__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 1.3rem;
+    letter-spacing: 0.2em;
+    color: #2a2420;
+    margin-bottom: 0.3rem;
+  }
+  .est1__sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.6rem;
+    color: rgba(61,53,48,0.35);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+  .est1__items {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 320px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  .est1__item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid rgba(61,53,48,0.06);
+  }
+  .est1__item:last-child { border-bottom: none; }
+  .est1__num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: rgba(61,53,48,0.3);
+    min-width: 1.2rem;
+    text-align: right;
+  }
+  .est1__divider {
+    width: 1px;
+    height: 16px;
+    background: rgba(61,53,48,0.12);
+  }
+  .est1__label {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.7rem;
+    font-weight: 300;
+    color: #2a2420;
+    letter-spacing: 0.04em;
+  }
+  .est1__footer {
+    margin-top: 1.8rem;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.6rem;
+    font-weight: 300;
+    color: rgba(61,53,48,0.5);
+    line-height: 1.9;
+    margin-bottom: 1.2rem;
+  }
+</style>
+<div class="est1">
+  <h2 class="est1__title">見積り依頼</h2>
+  <p class="est1__sub">Estimate Request</p>
+  <div class="est1__items">
+    <div class="est1__item"><span class="est1__num">1</span><span class="est1__divider"></span><span class="est1__label">お名前</span></div>
+    <div class="est1__item"><span class="est1__num">2</span><span class="est1__divider"></span><span class="est1__label">ご希望撮影地</span></div>
+    <div class="est1__item"><span class="est1__num">3</span><span class="est1__divider"></span><span class="est1__label">日程（第3希望日まで）</span></div>
+    <div class="est1__item"><span class="est1__num">4</span><span class="est1__divider"></span><span class="est1__label">オプション（後から追加可能）</span></div>
+  </div>
+  <p class="est1__footer">上記の内容をInstagram DMにてお送りいただけますと<br>スムーズにお見積りを作成いたします。</p>
+  <a href="https://www.instagram.com/ukigumo_films/" target="_blank" rel="noopener" class="ig-link">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+    ukigumo_films
+  </a>
+</div>
+</section>
+
+<!-- ==================== Pattern 2 ==================== -->
+<div class="pattern-label">Pattern 2 <span>ゴールドアクセント — 左揃え番号</span></div>
+<section>
+<style>
+  .est2 {
+    background: #fff;
+    border-radius: 16px;
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .est2::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #c9a96e 30%, #c9a96e 70%, transparent);
+  }
+  .est2__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 1.3rem;
+    letter-spacing: 0.2em;
+    color: #2a2420;
+    margin-bottom: 0.3rem;
+  }
+  .est2__sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.6rem;
+    color: rgba(61,53,48,0.35);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+  .est2__items {
+    max-width: 340px;
+    margin: 0 auto;
+  }
+  .est2__item {
+    display: flex;
+    align-items: baseline;
+    gap: 0.8rem;
+    padding: 0.65rem 0;
+  }
+  .est2__num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: #c9a96e;
+    min-width: 1.5rem;
+    opacity: 0.7;
+  }
+  .est2__label {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.7rem;
+    font-weight: 300;
+    color: #2a2420;
+    letter-spacing: 0.04em;
+  }
+  .est2__footer {
+    margin-top: 1.5rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid rgba(61,53,48,0.06);
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.6rem;
+    font-weight: 300;
+    color: rgba(61,53,48,0.5);
+    line-height: 1.9;
+    margin-bottom: 1.2rem;
+  }
+</style>
+<div class="est2">
+  <h2 class="est2__title">見積り依頼</h2>
+  <p class="est2__sub">Estimate Request</p>
+  <div class="est2__items">
+    <div class="est2__item"><span class="est2__num">01</span><span class="est2__label">お名前</span></div>
+    <div class="est2__item"><span class="est2__num">02</span><span class="est2__label">ご希望撮影地</span></div>
+    <div class="est2__item"><span class="est2__num">03</span><span class="est2__label">日程（第3希望日まで）</span></div>
+    <div class="est2__item"><span class="est2__num">04</span><span class="est2__label">オプション（後から追加可能）</span></div>
+  </div>
+  <p class="est2__footer">上記の内容をInstagram DMにてお送りいただけますと<br>スムーズにお見積りを作成いたします。</p>
+  <a href="https://www.instagram.com/ukigumo_films/" target="_blank" rel="noopener" class="ig-link">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+    ukigumo_films
+  </a>
+</div>
+</section>
+
+<!-- ==================== Pattern 3 ==================== -->
+<div class="pattern-label">Pattern 3 <span>テキストオンリー — 極シンプル</span></div>
+<section>
+<style>
+  .est3 {
+    text-align: center;
+    padding: 2rem 0;
+  }
+  .est3__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 1.3rem;
+    letter-spacing: 0.2em;
+    color: #2a2420;
+    margin-bottom: 0.3rem;
+  }
+  .est3__sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.6rem;
+    color: rgba(61,53,48,0.35);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .est3__line {
+    width: 40px;
+    height: 1px;
+    background: rgba(61,53,48,0.15);
+    margin: 0 auto 2rem;
+  }
+  .est3__body {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.72rem;
+    font-weight: 300;
+    line-height: 2.8;
+    color: #2a2420;
+    letter-spacing: 0.05em;
+    margin-bottom: 1.5rem;
+  }
+  .est3__body span {
+    color: rgba(61,53,48,0.35);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    margin-right: 0.5rem;
+  }
+  .est3__note {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.6rem;
+    font-weight: 300;
+    color: rgba(61,53,48,0.45);
+    line-height: 1.9;
+    margin-bottom: 1.2rem;
+  }
+</style>
+<div class="est3">
+  <h2 class="est3__title">見積り依頼</h2>
+  <p class="est3__sub">Estimate Request</p>
+  <div class="est3__line"></div>
+  <p class="est3__body">
+    <span>1.</span>お名前<br>
+    <span>2.</span>ご希望撮影地<br>
+    <span>3.</span>日程（第3希望日まで）<br>
+    <span>4.</span>オプション（後から追加可能）
+  </p>
+  <p class="est3__note">上記の内容をInstagram DMにてお送りいただけますと<br>スムーズにお見積りを作成いたします。</p>
+  <a href="https://www.instagram.com/ukigumo_films/" target="_blank" rel="noopener" class="ig-link">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+    ukigumo_films
+  </a>
+</div>
+</section>
+
+<!-- ==================== Pattern 4 ==================== -->
+<div class="pattern-label">Pattern 4 <span>横並びグリッド — 4カラム</span></div>
+<section style="max-width: 600px;">
+<style>
+  .est4 {
+    text-align: center;
+    padding: 2rem 0;
+  }
+  .est4__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 1.3rem;
+    letter-spacing: 0.2em;
+    color: #2a2420;
+    margin-bottom: 0.3rem;
+  }
+  .est4__sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.6rem;
+    color: rgba(61,53,48,0.35);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+  .est4__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+  .est4__cell {
+    padding: 1.2rem 0.5rem;
+    border-right: 1px solid rgba(61,53,48,0.06);
+  }
+  .est4__cell:last-child { border-right: none; }
+  .est4__num {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: rgba(61,53,48,0.15);
+    margin-bottom: 0.6rem;
+  }
+  .est4__label {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.6rem;
+    font-weight: 300;
+    color: #2a2420;
+    letter-spacing: 0.03em;
+    line-height: 1.6;
+  }
+  .est4__footer {
+    margin-top: 1.8rem;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.6rem;
+    font-weight: 300;
+    color: rgba(61,53,48,0.45);
+    line-height: 1.9;
+    margin-bottom: 1.2rem;
+  }
+</style>
+<div class="est4">
+  <h2 class="est4__title">見積り依頼</h2>
+  <p class="est4__sub">Estimate Request</p>
+  <div class="est4__grid">
+    <div class="est4__cell"><span class="est4__num">01</span><span class="est4__label">お名前</span></div>
+    <div class="est4__cell"><span class="est4__num">02</span><span class="est4__label">ご希望<br>撮影地</span></div>
+    <div class="est4__cell"><span class="est4__num">03</span><span class="est4__label">日程<br>（第3希望日まで）</span></div>
+    <div class="est4__cell"><span class="est4__num">04</span><span class="est4__label">オプション<br>（後から追加可能）</span></div>
+  </div>
+  <p class="est4__footer">上記の内容をInstagram DMにてお送りいただけますと<br>スムーズにお見積りを作成いたします。</p>
+  <a href="https://www.instagram.com/ukigumo_films/" target="_blank" rel="noopener" class="ig-link">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+    ukigumo_films
+  </a>
+</div>
+</section>
+
+<!-- ==================== Pattern 5 ==================== -->
+<div class="pattern-label">Pattern 5 <span>ドット区切り — コンパクト横一列</span></div>
+<section>
+<style>
+  .est5 {
+    text-align: center;
+    padding: 2rem 0;
+  }
+  .est5__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 1.3rem;
+    letter-spacing: 0.2em;
+    color: #2a2420;
+    margin-bottom: 0.3rem;
+  }
+  .est5__sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.6rem;
+    color: rgba(61,53,48,0.35);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+  .est5__row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1.8rem;
+  }
+  .est5__item {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.68rem;
+    font-weight: 300;
+    color: #2a2420;
+    letter-spacing: 0.04em;
+  }
+  .est5__dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgba(61,53,48,0.2);
+  }
+  .est5__note {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.6rem;
+    font-weight: 300;
+    color: rgba(61,53,48,0.45);
+    line-height: 1.9;
+    margin-bottom: 1.2rem;
+  }
+</style>
+<div class="est5">
+  <h2 class="est5__title">見積り依頼</h2>
+  <p class="est5__sub">Estimate Request</p>
+  <div class="est5__row">
+    <span class="est5__item">お名前</span>
+    <span class="est5__dot"></span>
+    <span class="est5__item">ご希望撮影地</span>
+    <span class="est5__dot"></span>
+    <span class="est5__item">日程</span>
+    <span class="est5__dot"></span>
+    <span class="est5__item">オプション</span>
+  </div>
+  <p class="est5__note">上記の内容をInstagram DMにてお送りください。<br>スムーズにお見積りを作成いたします。</p>
+  <a href="https://www.instagram.com/ukigumo_films/" target="_blank" rel="noopener" class="ig-link">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+    ukigumo_films
+  </a>
+</div>
+</section>
+
+<!-- ==================== Pattern 6 ==================== -->
+<div class="pattern-label">Pattern 6 <span>ボーダーカード — 番号サークル</span></div>
+<section>
+<style>
+  .est6 {
+    border: 1px solid rgba(61,53,48,0.1);
+    border-radius: 16px;
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    background: #fff;
+  }
+  .est6__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 1.3rem;
+    letter-spacing: 0.2em;
+    color: #2a2420;
+    margin-bottom: 0.3rem;
+  }
+  .est6__sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.6rem;
+    color: rgba(61,53,48,0.35);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+  .est6__items {
+    max-width: 340px;
+    margin: 0 auto;
+  }
+  .est6__item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.6rem 0;
+  }
+  .est6__num {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid rgba(61,53,48,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    font-weight: 400;
+    color: rgba(61,53,48,0.4);
+    flex-shrink: 0;
+  }
+  .est6__label {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.7rem;
+    font-weight: 300;
+    color: #2a2420;
+    letter-spacing: 0.04em;
+  }
+  .est6__footer {
+    margin-top: 1.5rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid rgba(61,53,48,0.06);
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.6rem;
+    font-weight: 300;
+    color: rgba(61,53,48,0.45);
+    line-height: 1.9;
+    margin-bottom: 1.2rem;
+  }
+</style>
+<div class="est6">
+  <h2 class="est6__title">見積り依頼</h2>
+  <p class="est6__sub">Estimate Request</p>
+  <div class="est6__items">
+    <div class="est6__item"><span class="est6__num">1</span><span class="est6__label">お名前</span></div>
+    <div class="est6__item"><span class="est6__num">2</span><span class="est6__label">ご希望撮影地</span></div>
+    <div class="est6__item"><span class="est6__num">3</span><span class="est6__label">日程（第3希望日まで）</span></div>
+    <div class="est6__item"><span class="est6__num">4</span><span class="est6__label">オプション（後から追加可能）</span></div>
+  </div>
+  <p class="est6__footer">上記の内容をInstagram DMにてお送りいただけますと<br>スムーズにお見積りを作成いたします。</p>
+  <a href="https://www.instagram.com/ukigumo_films/" target="_blank" rel="noopener" class="ig-link">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+    ukigumo_films
+  </a>
+</div>
+</section>
+
+<!-- ==================== Pattern 7 ==================== -->
+<div class="pattern-label">Pattern 7 <span>インデント階段 — ステップ感</span></div>
+<section>
+<style>
+  .est7 {
+    text-align: center;
+    padding: 2rem 0;
+  }
+  .est7__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 1.3rem;
+    letter-spacing: 0.2em;
+    color: #2a2420;
+    margin-bottom: 0.3rem;
+  }
+  .est7__sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.6rem;
+    color: rgba(61,53,48,0.35);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+  .est7__items {
+    max-width: 360px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  .est7__item {
+    display: flex;
+    align-items: baseline;
+    gap: 0.8rem;
+    padding: 0.55rem 0;
+  }
+  .est7__item:nth-child(1) { padding-left: 0; }
+  .est7__item:nth-child(2) { padding-left: 1rem; }
+  .est7__item:nth-child(3) { padding-left: 2rem; }
+  .est7__item:nth-child(4) { padding-left: 3rem; }
+  .est7__num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: rgba(61,53,48,0.2);
+    min-width: 1rem;
+  }
+  .est7__dash {
+    width: 12px;
+    height: 1px;
+    background: rgba(61,53,48,0.15);
+    flex-shrink: 0;
+  }
+  .est7__label {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.7rem;
+    font-weight: 300;
+    color: #2a2420;
+    letter-spacing: 0.04em;
+  }
+  .est7__note {
+    margin-top: 1.8rem;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.6rem;
+    font-weight: 300;
+    color: rgba(61,53,48,0.45);
+    line-height: 1.9;
+    margin-bottom: 1.2rem;
+    text-align: center;
+  }
+</style>
+<div class="est7">
+  <h2 class="est7__title">見積り依頼</h2>
+  <p class="est7__sub">Estimate Request</p>
+  <div class="est7__items">
+    <div class="est7__item"><span class="est7__num">01</span><span class="est7__dash"></span><span class="est7__label">お名前</span></div>
+    <div class="est7__item"><span class="est7__num">02</span><span class="est7__dash"></span><span class="est7__label">ご希望撮影地</span></div>
+    <div class="est7__item"><span class="est7__num">03</span><span class="est7__dash"></span><span class="est7__label">日程（第3希望日まで）</span></div>
+    <div class="est7__item"><span class="est7__num">04</span><span class="est7__dash"></span><span class="est7__label">オプション（後から追加可能）</span></div>
+  </div>
+  <p class="est7__note">上記の内容をInstagram DMにてお送りいただけますと<br>スムーズにお見積りを作成いたします。</p>
+  <a href="https://www.instagram.com/ukigumo_films/" target="_blank" rel="noopener" class="ig-link">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+    ukigumo_films
+  </a>
+</div>
+</section>
+
+<!-- ==================== Pattern 8 ==================== -->
+<div class="pattern-label">Pattern 8 <span>コピペ特化 — テキストブロック</span></div>
+<section>
+<style>
+  .est8 {
+    text-align: center;
+    padding: 2rem 0;
+  }
+  .est8__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 1.3rem;
+    letter-spacing: 0.2em;
+    color: #2a2420;
+    margin-bottom: 0.3rem;
+  }
+  .est8__sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.6rem;
+    color: rgba(61,53,48,0.35);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .est8__line {
+    width: 40px;
+    height: 1px;
+    background: rgba(61,53,48,0.15);
+    margin: 0 auto 1.5rem;
+  }
+  .est8__desc {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.65rem;
+    font-weight: 300;
+    color: rgba(61,53,48,0.6);
+    line-height: 1.9;
+    margin-bottom: 1.2rem;
+  }
+  .est8__copybox {
+    background: rgba(61,53,48,0.025);
+    border: 1px solid rgba(61,53,48,0.08);
+    border-radius: 10px;
+    padding: 1.2rem 1.5rem;
+    max-width: 360px;
+    margin: 0 auto 1.5rem;
+    text-align: left;
+    cursor: text;
+    user-select: all;
+  }
+  .est8__copybox p {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.68rem;
+    font-weight: 300;
+    color: #2a2420;
+    line-height: 2.4;
+    letter-spacing: 0.03em;
+  }
+  .est8__copylabel {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.5rem;
+    color: rgba(61,53,48,0.3);
+    letter-spacing: 0.1em;
+    text-align: center;
+    margin-bottom: 1.2rem;
+  }
+  .est8__note {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.6rem;
+    font-weight: 300;
+    color: rgba(61,53,48,0.45);
+    line-height: 1.9;
+    margin-bottom: 1.2rem;
+  }
+</style>
+<div class="est8">
+  <h2 class="est8__title">見積り依頼</h2>
+  <p class="est8__sub">Estimate Request</p>
+  <div class="est8__line"></div>
+  <p class="est8__desc">以下のテンプレートをコピーしてDMにお送りください。</p>
+  <div class="est8__copybox">
+    <p>
+      1. お名前：<br>
+      2. ご希望撮影地：<br>
+      3. 日程（第3希望日まで）：<br>
+      4. オプション（後から追加可能）：
+    </p>
+  </div>
+  <p class="est8__copylabel">▲ タップで選択 → コピー</p>
+  <p class="est8__note">Instagram DMにてお送りいただけますと<br>スムーズにお見積りを作成いたします。</p>
+  <a href="https://www.instagram.com/ukigumo_films/" target="_blank" rel="noopener" class="ig-link">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+    ukigumo_films
+  </a>
+</div>
+</section>
+
+<!-- ==================== Pattern 9 ==================== -->
+<div class="pattern-label">Pattern 9 <span>ダークカード — 高級感リッチ</span></div>
+<section>
+<style>
+  .est9 {
+    background: #2a2420;
+    border-radius: 16px;
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    color: #fff;
+  }
+  .est9__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 1.3rem;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 0.3rem;
+  }
+  .est9__sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.6rem;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+  .est9__items {
+    max-width: 320px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  .est9__item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .est9__item:last-child { border-bottom: none; }
+  .est9__num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: #c9a96e;
+    min-width: 1.2rem;
+    text-align: right;
+    opacity: 0.7;
+  }
+  .est9__label {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.7rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.8);
+    letter-spacing: 0.04em;
+  }
+  .est9__footer {
+    margin-top: 1.5rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.6rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.35);
+    line-height: 1.9;
+    margin-bottom: 1.2rem;
+  }
+  .est9 .ig-link {
+    color: rgba(255,255,255,0.7);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    transition: all 0.3s;
+  }
+  .est9 .ig-link:hover {
+    color: #c9a96e;
+    border-color: rgba(201,169,110,0.3);
+  }
+  .est9 .ig-link svg { opacity: 0.5; }
+</style>
+<div class="est9">
+  <h2 class="est9__title">見積り依頼</h2>
+  <p class="est9__sub">Estimate Request</p>
+  <div class="est9__items">
+    <div class="est9__item"><span class="est9__num">1</span><span class="est9__label">お名前</span></div>
+    <div class="est9__item"><span class="est9__num">2</span><span class="est9__label">ご希望撮影地</span></div>
+    <div class="est9__item"><span class="est9__num">3</span><span class="est9__label">日程（第3希望日まで）</span></div>
+    <div class="est9__item"><span class="est9__num">4</span><span class="est9__label">オプション（後から追加可能）</span></div>
+  </div>
+  <p class="est9__footer">上記の内容をInstagram DMにてお送りいただけますと<br>スムーズにお見積りを作成いたします。</p>
+  <a href="https://www.instagram.com/ukigumo_films/" target="_blank" rel="noopener" class="ig-link">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+    ukigumo_films
+  </a>
+</div>
+</section>
+
+<!-- ==================== Pattern 10 ==================== -->
+<div class="pattern-label">Pattern 10 <span>コピペ＋ダーク — 実用×高級</span></div>
+<section>
+<style>
+  .est10 {
+    background: #2a2420;
+    border-radius: 16px;
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    color: #fff;
+  }
+  .est10__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 1.3rem;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 0.3rem;
+  }
+  .est10__sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.6rem;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .est10__line {
+    width: 40px;
+    height: 1px;
+    background: rgba(255,255,255,0.12);
+    margin: 0 auto 1.5rem;
+  }
+  .est10__desc {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.62rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.4);
+    line-height: 1.8;
+    margin-bottom: 1.2rem;
+  }
+  .est10__copybox {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 1.2rem 1.5rem;
+    max-width: 360px;
+    margin: 0 auto 0.6rem;
+    text-align: left;
+    cursor: text;
+    user-select: all;
+  }
+  .est10__copybox p {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.68rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.8);
+    line-height: 2.4;
+    letter-spacing: 0.03em;
+  }
+  .est10__copylabel {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.5rem;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 0.1em;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  .est10__footer {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.6rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.35);
+    line-height: 1.9;
+    margin-bottom: 1.2rem;
+  }
+  .est10 .ig-link {
+    color: #c9a96e;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+  }
+  .est10 .ig-link:hover { opacity: 1; color: #c9a96e; }
+  .est10 .ig-link svg { opacity: 0.6; stroke: #c9a96e; }
+</style>
+<div class="est10">
+  <h2 class="est10__title">見積り依頼</h2>
+  <p class="est10__sub">Estimate Request</p>
+  <div class="est10__line"></div>
+  <p class="est10__desc">以下のテンプレートをコピーして<br>Instagram DMにお送りください。</p>
+  <div class="est10__copybox">
+    <p>
+      1. お名前：<br>
+      2. ご希望撮影地：<br>
+      3. 日程（第3希望日まで）：<br>
+      4. オプション（後から追加可能）：
+    </p>
+  </div>
+  <p class="est10__copylabel">▲ タップで選択 → コピー</p>
+  <p class="est10__footer">スムーズにお見積りを作成いたします。</p>
+  <a href="https://www.instagram.com/ukigumo_films/" target="_blank" rel="noopener" class="ig-link">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c9a96e" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.2" fill="#c9a96e" stroke="none"/></svg>
+    ukigumo_films
+  </a>
+</div>
+</section>
+
+<div style="height: 80px;"></div>
+
+</body>
+</html>

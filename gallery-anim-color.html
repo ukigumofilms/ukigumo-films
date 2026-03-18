@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Bloom — 5 Patterns</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0d0d0d; color: #fff; font-family: 'Georgia', serif; }
+
+    h1 {
+      text-align: center;
+      padding: 3rem 1rem 1rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: #444;
+    }
+    h1 span {
+      display: block;
+      font-size: 1.2rem;
+      color: #bbb;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.2em;
+      font-weight: 300;
+    }
+
+    .section { padding: 4.5rem 1.5rem 3rem; border-bottom: 1px solid #181818; }
+    .label { text-align: center; margin-bottom: 2rem; }
+    .label span {
+      display: block;
+      font-size: 0.95rem;
+      color: #ccc;
+      letter-spacing: 0.2em;
+      margin-bottom: 0.4rem;
+      font-weight: 300;
+    }
+    .label p { font-size: 0.65rem; color: #555; letter-spacing: 0.25em; line-height: 1.8; }
+
+    .btn {
+      display: block;
+      margin: 1.8rem auto 0;
+      padding: 0.45rem 1.5rem;
+      background: transparent;
+      border: 1px solid #2a2a2a;
+      color: #444;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      cursor: pointer;
+      transition: all 0.4s;
+    }
+    .btn:hover { border-color: #666; color: #999; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+    .grid div {
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      background: #0d0d0d;
+    }
+    .grid div img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+
+    /* ==========================================
+       C1: 純 — シンプルにモノクロ→カラー
+       透明度なし、彩度だけが静かに戻る
+       ========================================== */
+    .c1 .grid div img {
+      filter: saturate(0) brightness(0.95);
+      transition: none;
+    }
+    .c1.go .grid div img {
+      animation: c1 2.2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+    @keyframes c1 {
+      0%   { filter: saturate(0) brightness(0.95); }
+      100% { filter: saturate(1) brightness(1); }
+    }
+
+    /* ==========================================
+       C2: 夜明け — 暗いモノクロから光とともに色づく
+       暗→明るさ増しながら彩度も戻る
+       ========================================== */
+    .c2 .grid div { opacity: 0; }
+    .c2 .grid div img { filter: saturate(0) brightness(0.3); }
+    .c2.go .grid div {
+      animation: c2-fade 2.4s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+    .c2.go .grid div img {
+      animation: c2-color 2.4s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+    @keyframes c2-fade {
+      0%   { opacity: 0; }
+      20%  { opacity: 1; }
+      100% { opacity: 1; }
+    }
+    @keyframes c2-color {
+      0%   { filter: saturate(0) brightness(0.3); }
+      20%  { filter: saturate(0) brightness(0.7); }
+      100% { filter: saturate(1) brightness(1); }
+    }
+
+    /* ==========================================
+       C3: 記憶 — ぼんやりしたモノクロからピントが合い色づく
+       blur + saturate + わずかなズームアウト
+       ========================================== */
+    .c3 .grid div { opacity: 0; }
+    .c3 .grid div img { filter: saturate(0) blur(5px) brightness(1.05); transform: scale(1.06); }
+    .c3.go .grid div {
+      animation: c3-fade 2.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+    .c3.go .grid div img {
+      animation: c3-color 2.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+    @keyframes c3-fade {
+      0%   { opacity: 0; }
+      15%  { opacity: 1; }
+      100% { opacity: 1; }
+    }
+    @keyframes c3-color {
+      0%   { filter: saturate(0) blur(5px) brightness(1.05); transform: scale(1.06); }
+      100% { filter: saturate(1) blur(0)  brightness(1);    transform: scale(1); }
+    }
+
+    /* ==========================================
+       C4: 息 — フェードと同時にモノクロが解けていく
+       opacity と saturate が完全に連動
+       ========================================== */
+    .c4 .grid div { opacity: 0; }
+    .c4 .grid div img { filter: saturate(0); }
+    .c4.go .grid div {
+      animation: c4-fade 2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+    .c4.go .grid div img {
+      animation: c4-color 2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+    @keyframes c4-fade {
+      0%   { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    @keyframes c4-color {
+      0%   { filter: saturate(0); }
+      100% { filter: saturate(1); }
+    }
+
+    /* ==========================================
+       C5: フィルム — セピア調から現代のカラーへ
+       warm vintage tone → natural color
+       ========================================== */
+    .c5 .grid div { opacity: 0; }
+    .c5 .grid div img { filter: sepia(0.9) saturate(0.4) brightness(0.85); }
+    .c5.go .grid div {
+      animation: c5-fade 2.6s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+    .c5.go .grid div img {
+      animation: c5-color 2.6s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+    @keyframes c5-fade {
+      0%   { opacity: 0; }
+      18%  { opacity: 1; }
+      100% { opacity: 1; }
+    }
+    @keyframes c5-color {
+      0%   { filter: sepia(0.9) saturate(0.4) brightness(0.85); }
+      100% { filter: sepia(0)   saturate(1)   brightness(1); }
+    }
+
+  </style>
+</head>
+<body>
+
+<h1><span>Color Bloom — 5 Patterns</span>モノクロから色づく × 5バリエーション</h1>
+
+<!-- C1 -->
+<div class="section c1" id="c1">
+  <div class="label">
+    <span>C1 — 純</span>
+    <p>透明度はそのまま<br>彩度だけが静かにじわりと戻る</p>
+  </div>
+  <div class="grid" id="g1"></div>
+  <button class="btn" onclick="replay('c1')">↺ replay</button>
+</div>
+
+<!-- C2 -->
+<div class="section c2" id="c2">
+  <div class="label">
+    <span>C2 — 夜明け</span>
+    <p>暗い闇の中から光が差し込み<br>明るさとともに色が戻ってくる</p>
+  </div>
+  <div class="grid" id="g2"></div>
+  <button class="btn" onclick="replay('c2')">↺ replay</button>
+</div>
+
+<!-- C3 -->
+<div class="section c3" id="c3">
+  <div class="label">
+    <span>C3 — 記憶</span>
+    <p>ぼんやりしたモノクロの像に<br>ゆっくりピントが合い、色が宿る</p>
+  </div>
+  <div class="grid" id="g3"></div>
+  <button class="btn" onclick="replay('c3')">↺ replay</button>
+</div>
+
+<!-- C4 -->
+<div class="section c4" id="c4">
+  <div class="label">
+    <span>C4 — 息</span>
+    <p>現れる瞬間と色づく瞬間が<br>ぴったり重なって溶け込む</p>
+  </div>
+  <div class="grid" id="g4"></div>
+  <button class="btn" onclick="replay('c4')">↺ replay</button>
+</div>
+
+<!-- C5 -->
+<div class="section c5" id="c5">
+  <div class="label">
+    <span>C5 — フィルム</span>
+    <p>古いセピアのフィルムが<br>現代の色彩へと蘇る</p>
+  </div>
+  <div class="grid" id="g5"></div>
+  <button class="btn" onclick="replay('c5')">↺ replay</button>
+</div>
+
+<script>
+  const imgs = Array.from({length: 18}, (_, i) =>
+    `images/gallery-index/g${String(i+1).padStart(2,'0')}.jpg`
+  );
+
+  for (let i = 1; i <= 5; i++) {
+    const grid = document.getElementById('g' + i);
+    imgs.forEach(src => {
+      const div = document.createElement('div');
+      div.innerHTML = `<img src="${src}" alt="" loading="lazy">`;
+      grid.appendChild(div);
+    });
+  }
+
+  function setDelays(sec, interval = 0.1) {
+    const n = 18;
+    const order = Array.from({length: n}, (_, i) => i);
+    order.sort(() => Math.random() - 0.5);
+    sec.querySelectorAll('.grid div').forEach((el, i) => {
+      const d = (order.indexOf(i) * interval) + 's';
+      el.style.animationDelay = d;
+      const img = el.querySelector('img');
+      if (img) img.style.animationDelay = d;
+    });
+  }
+
+  for (let i = 1; i <= 5; i++) setDelays(document.getElementById('c' + i));
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !e.target.classList.contains('played')) {
+        e.target.classList.add('go', 'played');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  for (let i = 1; i <= 5; i++) io.observe(document.getElementById('c' + i));
+
+  function replay(id) {
+    const sec = document.getElementById(id);
+    sec.classList.remove('go');
+    sec.querySelectorAll('.grid div, .grid div img').forEach(el => {
+      el.style.animationName = 'none';
+    });
+    setDelays(sec);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      sec.querySelectorAll('.grid div, .grid div img').forEach(el => {
+        el.style.animationName = '';
+      });
+      sec.classList.add('go');
+    }));
+  }
+</script>
+</body>
+</html>

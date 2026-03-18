@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery Mobile — 10 Patterns (bird-and-insect style)</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #f5f5f3;
+    color: #333;
+    max-width: 430px;
+    margin: 0 auto;
+  }
+
+  .page-header {
+    text-align: center;
+    padding: 2.5rem 1.5rem 1rem;
+    background: #fff;
+  }
+
+  .page-header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    color: #1a1a1a;
+  }
+
+  .page-header p {
+    font-size: 0.6rem;
+    color: #999;
+    margin-top: 0.4rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* Pattern section */
+  .pattern-section {
+    margin-bottom: 2rem;
+    background: #fff;
+    border-top: 1px solid #eee;
+  }
+
+  .pattern-title {
+    padding: 1rem 1rem 0.5rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: #999;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .pattern-title span {
+    color: #c9a96e;
+    font-weight: 400;
+  }
+
+  .pattern-desc {
+    padding: 0 1rem 0.8rem;
+    font-size: 0.55rem;
+    color: #bbb;
+  }
+
+  /* Gallery frame — mobile viewport simulation */
+  .gallery-frame {
+    width: 100%;
+    background: #fff;
+    overflow: hidden;
+    padding: 0 3vw;
+    padding-bottom: 2rem;
+  }
+
+  .gallery-frame img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Shared grid row */
+  .g-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .g-item {
+    overflow: hidden;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  /* ============================
+     PATTERN 1: Classic Asymmetric
+     大小交互 — bird-and-insect基本形
+     ============================ */
+  .p1 .g-row-full { margin-bottom: 8px; }
+  .p1 .g-row-full .g-item { width: 100%; aspect-ratio: 16/10; }
+  .p1 .g-row-half .g-item { width: calc(50% - 4px); aspect-ratio: 4/5; }
+  .p1 .g-row-lr .g-item:first-child { width: 38%; aspect-ratio: 3/4; }
+  .p1 .g-row-lr .g-item:last-child { width: calc(62% - 8px); aspect-ratio: 4/3; }
+
+  /* ============================
+     PATTERN 2: Staggered Duo
+     左右ずらし2列
+     ============================ */
+  .p2 .g-row-left { justify-content: flex-start; }
+  .p2 .g-row-left .g-item { width: 55%; aspect-ratio: 3/4; }
+  .p2 .g-row-right { justify-content: flex-end; }
+  .p2 .g-row-right .g-item { width: 55%; aspect-ratio: 3/4; }
+  .p2 .g-row-wide .g-item { width: 100%; aspect-ratio: 16/9; }
+
+  /* ============================
+     PATTERN 3: Magazine Grid
+     雑誌風 — 大1+小2の組み合わせ
+     ============================ */
+  .p3 .g-row-hero .g-item { width: 100%; aspect-ratio: 4/3; }
+  .p3 .g-row-duo .g-item:first-child { width: 42%; aspect-ratio: 1/1; }
+  .p3 .g-row-duo .g-item:last-child { width: calc(58% - 8px); aspect-ratio: 3/4; }
+  .p3 .g-row-duo-rev .g-item:first-child { width: calc(58% - 8px); aspect-ratio: 3/4; }
+  .p3 .g-row-duo-rev .g-item:last-child { width: 42%; aspect-ratio: 1/1; }
+
+  /* ============================
+     PATTERN 4: Vertical Rhythm
+     縦長中心 — ポートレート向き
+     ============================ */
+  .p4 .g-row-tall .g-item { width: calc(50% - 4px); aspect-ratio: 2/3; }
+  .p4 .g-row-single .g-item { width: 65%; aspect-ratio: 3/4; margin: 0 auto; }
+  .p4 .g-row-single { justify-content: center; }
+
+  /* ============================
+     PATTERN 5: Wide & Narrow
+     横幅ワイド＋縦長ナロー交互
+     ============================ */
+  .p5 .g-row-cinema .g-item { width: 100%; aspect-ratio: 21/9; }
+  .p5 .g-row-narrow .g-item:first-child { width: 35%; aspect-ratio: 2/3; }
+  .p5 .g-row-narrow .g-item:last-child { width: calc(65% - 8px); aspect-ratio: 16/10; }
+
+  /* ============================
+     PATTERN 6: Offset Grid
+     オフセット — 段差をつけたグリッド
+     ============================ */
+  .p6 .g-row-offset { align-items: flex-start; }
+  .p6 .g-row-offset .g-item:first-child { width: calc(50% - 4px); aspect-ratio: 3/4; }
+  .p6 .g-row-offset .g-item:last-child { width: calc(50% - 4px); aspect-ratio: 3/4; margin-top: 30px; }
+  .p6 .g-row-wide .g-item { width: 80%; aspect-ratio: 16/10; }
+  .p6 .g-row-wide { justify-content: flex-end; }
+
+  /* ============================
+     PATTERN 7: Cascade Flow
+     カスケード — 3段の流れ
+     ============================ */
+  .p7 .g-row-l { justify-content: flex-start; }
+  .p7 .g-row-l .g-item { width: 70%; aspect-ratio: 4/3; }
+  .p7 .g-row-r { justify-content: flex-end; }
+  .p7 .g-row-r .g-item { width: 60%; aspect-ratio: 3/4; }
+  .p7 .g-row-c { justify-content: center; }
+  .p7 .g-row-c .g-item { width: 75%; aspect-ratio: 16/10; }
+
+  /* ============================
+     PATTERN 8: Mosaic Tight
+     モザイク — 隙間なし密接配置
+     ============================ */
+  .p8 .g-row { gap: 4px; margin-bottom: 4px; }
+  .p8 .g-row-3 .g-item { width: calc(33.33% - 3px); aspect-ratio: 1/1; }
+  .p8 .g-row-2w .g-item:first-child { width: calc(66.66% - 2px); aspect-ratio: 4/3; }
+  .p8 .g-row-2w .g-item:last-child { width: calc(33.33% - 2px); aspect-ratio: 2/3; }
+  .p8 .g-row-full .g-item { width: 100%; aspect-ratio: 16/9; }
+
+  /* ============================
+     PATTERN 9: Breathing Space
+     余白多め — ミニマル空気感
+     ============================ */
+  .p9 .gallery-frame { padding: 0 8vw; }
+  .p9 .g-row { margin-bottom: 20px; }
+  .p9 .g-row-single .g-item { width: 100%; aspect-ratio: 4/5; }
+  .p9 .g-row-pair .g-item { width: calc(50% - 6px); aspect-ratio: 3/4; }
+  .p9 .g-row-pair { gap: 12px; }
+
+  /* ============================
+     PATTERN 10: Dynamic Mix
+     ダイナミック — 全サイズミックス
+     ============================ */
+  .p10 .g-row-hero .g-item { width: 100%; aspect-ratio: 3/2; }
+  .p10 .g-row-tri .g-item:nth-child(1) { width: 30%; aspect-ratio: 2/3; }
+  .p10 .g-row-tri .g-item:nth-child(2) { width: calc(40% - 8px); aspect-ratio: 1/1; }
+  .p10 .g-row-tri .g-item:nth-child(3) { width: 30%; aspect-ratio: 2/3; }
+  .p10 .g-row-split .g-item:first-child { width: calc(60% - 4px); aspect-ratio: 4/3; }
+  .p10 .g-row-split .g-item:last-child { width: calc(40% - 4px); aspect-ratio: 3/4; }
+  .p10 .g-row-end .g-item { width: 100%; aspect-ratio: 21/9; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Gallery Mobile Patterns</h1>
+  <p>bird-and-insect style — 10 variations</p>
+</div>
+
+<!-- ======================== PATTERN 1 ======================== -->
+<div class="pattern-section p1">
+  <div class="pattern-title">P1 — Classic Asymmetric <span>6枚</span></div>
+  <div class="pattern-desc">大小交互の基本形。フル幅→2列→左右非対称</div>
+  <div class="gallery-frame">
+    <div class="g-row g-row-full"><div class="g-item"><img src="images/paris/03.jpg" alt=""></div></div>
+    <div class="g-row g-row-half">
+      <div class="g-item"><img src="images/malta/07.jpg" alt=""></div>
+      <div class="g-item"><img src="images/firenze/05.jpg" alt=""></div>
+    </div>
+    <div class="g-row g-row-lr">
+      <div class="g-item"><img src="images/london/02.jpg" alt=""></div>
+      <div class="g-item"><img src="images/paris/06.jpg" alt=""></div>
+    </div>
+    <div class="g-row g-row-full"><div class="g-item"><img src="images/firenze/01.jpg" alt=""></div></div>
+  </div>
+</div>
+
+<!-- ======================== PATTERN 2 ======================== -->
+<div class="pattern-section p2">
+  <div class="pattern-title">P2 — Staggered Duo <span>5枚</span></div>
+  <div class="pattern-desc">左右交互にずらす。リズム感のある配置</div>
+  <div class="gallery-frame">
+    <div class="g-row g-row-left"><div class="g-item"><img src="images/paris/01.jpg" alt=""></div></div>
+    <div class="g-row g-row-right"><div class="g-item"><img src="images/malta/03.jpg" alt=""></div></div>
+    <div class="g-row g-row-wide"><div class="g-item"><img src="images/london/08.jpg" alt=""></div></div>
+    <div class="g-row g-row-left"><div class="g-item"><img src="images/firenze/03.jpg" alt=""></div></div>
+    <div class="g-row g-row-right"><div class="g-item"><img src="images/paris/04.jpg" alt=""></div></div>
+  </div>
+</div>
+
+<!-- ======================== PATTERN 3 ======================== -->
+<div class="pattern-section p3">
+  <div class="pattern-title">P3 — Magazine Grid <span>6枚</span></div>
+  <div class="pattern-desc">雑誌風。大きな1枚+小さい2枚の組み合わせ</div>
+  <div class="gallery-frame">
+    <div class="g-row g-row-hero"><div class="g-item"><img src="images/paris/03.jpg" alt=""></div></div>
+    <div class="g-row g-row-duo">
+      <div class="g-item"><img src="images/malta/01.jpg" alt=""></div>
+      <div class="g-item"><img src="images/london/05.jpg" alt=""></div>
+    </div>
+    <div class="g-row g-row-duo-rev">
+      <div class="g-item"><img src="images/firenze/08.jpg" alt=""></div>
+      <div class="g-item"><img src="images/paris/02.jpg" alt=""></div>
+    </div>
+    <div class="g-row g-row-hero"><div class="g-item"><img src="images/malta/06.jpg" alt=""></div></div>
+  </div>
+</div>
+
+<!-- ======================== PATTERN 4 ======================== -->
+<div class="pattern-section p4">
+  <div class="pattern-title">P4 — Vertical Rhythm <span>5枚</span></div>
+  <div class="pattern-desc">縦長ポートレート中心。ウェディング向き</div>
+  <div class="gallery-frame">
+    <div class="g-row g-row-tall">
+      <div class="g-item"><img src="images/paris/04.jpg" alt=""></div>
+      <div class="g-item"><img src="images/malta/02.jpg" alt=""></div>
+    </div>
+    <div class="g-row g-row-single"><div class="g-item"><img src="images/firenze/01.jpg" alt=""></div></div>
+    <div class="g-row g-row-tall">
+      <div class="g-item"><img src="images/london/06.jpg" alt=""></div>
+      <div class="g-item"><img src="images/paris/08.jpg" alt=""></div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== PATTERN 5 ======================== -->
+<div class="pattern-section p5">
+  <div class="pattern-title">P5 — Wide & Narrow <span>5枚</span></div>
+  <div class="pattern-desc">シネマワイド＋縦長の対比。映像的</div>
+  <div class="gallery-frame">
+    <div class="g-row g-row-cinema"><div class="g-item"><img src="images/london/08.jpg" alt=""></div></div>
+    <div class="g-row g-row-narrow">
+      <div class="g-item"><img src="images/paris/04.jpg" alt=""></div>
+      <div class="g-item"><img src="images/malta/05.jpg" alt=""></div>
+    </div>
+    <div class="g-row g-row-cinema"><div class="g-item"><img src="images/firenze/04.jpg" alt=""></div></div>
+    <div class="g-row g-row-narrow">
+      <div class="g-item"><img src="images/london/01.jpg" alt=""></div>
+      <div class="g-item"><img src="images/paris/07.jpg" alt=""></div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== PATTERN 6 ======================== -->
+<div class="pattern-section p6">
+  <div class="pattern-title">P6 — Offset Grid <span>5枚</span></div>
+  <div class="pattern-desc">段差つきグリッド。2列で上下にずらす</div>
+  <div class="gallery-frame">
+    <div class="g-row g-row-offset">
+      <div class="g-item"><img src="images/paris/06.jpg" alt=""></div>
+      <div class="g-item"><img src="images/malta/07.jpg" alt=""></div>
+    </div>
+    <div class="g-row g-row-wide"><div class="g-item"><img src="images/firenze/03.jpg" alt=""></div></div>
+    <div class="g-row g-row-offset">
+      <div class="g-item"><img src="images/london/04.jpg" alt=""></div>
+      <div class="g-item"><img src="images/paris/02.jpg" alt=""></div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== PATTERN 7 ======================== -->
+<div class="pattern-section p7">
+  <div class="pattern-title">P7 — Cascade Flow <span>5枚</span></div>
+  <div class="pattern-desc">左→右→中央と流れるカスケード</div>
+  <div class="gallery-frame">
+    <div class="g-row g-row-l"><div class="g-item"><img src="images/paris/03.jpg" alt=""></div></div>
+    <div class="g-row g-row-r"><div class="g-item"><img src="images/malta/04.jpg" alt=""></div></div>
+    <div class="g-row g-row-c"><div class="g-item"><img src="images/firenze/08.jpg" alt=""></div></div>
+    <div class="g-row g-row-l"><div class="g-item"><img src="images/london/02.jpg" alt=""></div></div>
+    <div class="g-row g-row-r"><div class="g-item"><img src="images/paris/05.jpg" alt=""></div></div>
+  </div>
+</div>
+
+<!-- ======================== PATTERN 8 ======================== -->
+<div class="pattern-section p8">
+  <div class="pattern-title">P8 — Mosaic Tight <span>7枚</span></div>
+  <div class="pattern-desc">密接モザイク。隙間を最小にした詰め込み</div>
+  <div class="gallery-frame">
+    <div class="g-row g-row-full"><div class="g-item"><img src="images/paris/03.jpg" alt=""></div></div>
+    <div class="g-row g-row-3">
+      <div class="g-item"><img src="images/malta/01.jpg" alt=""></div>
+      <div class="g-item"><img src="images/firenze/05.jpg" alt=""></div>
+      <div class="g-item"><img src="images/london/03.jpg" alt=""></div>
+    </div>
+    <div class="g-row g-row-2w">
+      <div class="g-item"><img src="images/paris/08.jpg" alt=""></div>
+      <div class="g-item"><img src="images/malta/06.jpg" alt=""></div>
+    </div>
+    <div class="g-row g-row-full"><div class="g-item"><img src="images/firenze/02.jpg" alt=""></div></div>
+  </div>
+</div>
+
+<!-- ======================== PATTERN 9 ======================== -->
+<div class="pattern-section p9">
+  <div class="pattern-title">P9 — Breathing Space <span>4枚</span></div>
+  <div class="pattern-desc">余白たっぷり。ミニマルで上品な空気感</div>
+  <div class="gallery-frame">
+    <div class="g-row g-row-single"><div class="g-item"><img src="images/paris/01.jpg" alt=""></div></div>
+    <div class="g-row g-row-pair">
+      <div class="g-item"><img src="images/malta/04.jpg" alt=""></div>
+      <div class="g-item"><img src="images/firenze/01.jpg" alt=""></div>
+    </div>
+    <div class="g-row g-row-single"><div class="g-item"><img src="images/london/05.jpg" alt=""></div></div>
+  </div>
+</div>
+
+<!-- ======================== PATTERN 10 ======================== -->
+<div class="pattern-section p10">
+  <div class="pattern-title">P10 — Dynamic Mix <span>7枚</span></div>
+  <div class="pattern-desc">全サイズミックス。変化に富んだダイナミック構成</div>
+  <div class="gallery-frame">
+    <div class="g-row g-row-hero"><div class="g-item"><img src="images/paris/06.jpg" alt=""></div></div>
+    <div class="g-row g-row-tri">
+      <div class="g-item"><img src="images/malta/02.jpg" alt=""></div>
+      <div class="g-item"><img src="images/firenze/05.jpg" alt=""></div>
+      <div class="g-item"><img src="images/london/01.jpg" alt=""></div>
+    </div>
+    <div class="g-row g-row-split">
+      <div class="g-item"><img src="images/paris/07.jpg" alt=""></div>
+      <div class="g-item"><img src="images/malta/03.jpg" alt=""></div>
+    </div>
+    <div class="g-row g-row-end"><div class="g-item"><img src="images/firenze/04.jpg" alt=""></div></div>
+  </div>
+</div>
+
+</body>
+</html>

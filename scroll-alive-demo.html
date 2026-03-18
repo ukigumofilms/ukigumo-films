@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scroll Alive Demo — 生き物のようなスクロールアニメーション</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: #f5f3ef;
+    font-family: 'Inter', sans-serif;
+    color: #333;
+  }
+
+  /* ── スペーサー（前後にスクロール余白を確保） ── */
+  .spacer {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 1.4rem;
+    color: rgba(0,0,0,0.12);
+    letter-spacing: 0.2em;
+  }
+
+  /* ── ギャラリーセクション ── */
+  .gallery-scatter {
+    background: #f5f3ef;
+    padding: clamp(4rem, 8vw, 8rem) 0 0;
+    overflow: hidden;
+  }
+
+  .gallery-scatter__header {
+    text-align: center;
+    margin-bottom: clamp(3rem, 6vw, 6rem);
+    padding: 0 clamp(1rem, 4vw, 4rem);
+  }
+  .gallery-scatter__label {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(0.65rem, 1vw, 0.8rem);
+    letter-spacing: 0.35em;
+    color: rgba(61, 53, 48, 0.35);
+    margin-bottom: 1.2rem;
+    text-transform: lowercase;
+  }
+  .gallery-scatter__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    line-height: 1.15;
+    letter-spacing: 0.01em;
+    color: #1a1a1a;
+    margin-bottom: 1.8rem;
+  }
+  .gallery-scatter__desc {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 300;
+    font-size: clamp(0.72rem, 1vw, 0.85rem);
+    line-height: 2.2;
+    color: #999;
+    max-width: 540px;
+    margin: 0 auto 1.2rem;
+  }
+  .gallery-scatter__desc-en {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: clamp(0.62rem, 0.8vw, 0.75rem);
+    line-height: 2;
+    color: #bbb;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+
+  /* ── 散らばりフィールド（#9ベース） ── */
+  .gallery-scatter__field {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 3vw, 3rem);
+    height: 640px;
+  }
+
+  /* 各写真 — 共通 */
+  .gs-photo {
+    position: absolute;
+    overflow: hidden;
+    /* 初期状態: 透明 */
+    opacity: 0;
+    will-change: opacity, transform, filter;
+    transition: none; /* JSで直接制御 */
+  }
+  .gs-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* #9 配置 */
+  .gs-photo--1 { width: 36%; aspect-ratio:4/3; top: 0; left: 8%; z-index:2; }
+  .gs-photo--2 { width: 38%; aspect-ratio:4/3; top: 20px; right: 0; z-index:1; }
+  .gs-photo--3 { width: 32%; aspect-ratio:3/4; top: 140px; left: 40%; z-index:4; }
+  .gs-photo--4 { width: 30%; aspect-ratio:4/3; top: 200px; left: 0; z-index:3; }
+  .gs-photo--5 { width: 26%; aspect-ratio:1/1; top: 350px; right: 10%; z-index:5; }
+  .gs-photo--6 { width: 50%; aspect-ratio:16/9; bottom: 0; left: 5%; z-index:6; }
+
+  /* ── ボタン ── */
+  .gallery-scatter__btn-wrap {
+    text-align: center;
+    margin-top: clamp(3rem, 5vw, 5rem);
+    padding-bottom: clamp(2rem, 4vw, 4rem);
+  }
+  .gallery-scatter__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: #1a1a1a;
+    transition: gap 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .gallery-scatter__btn:hover { gap: 1.5rem; }
+  .gallery-scatter__btn-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: clamp(0.85rem, 1.4vw, 1.05rem);
+    letter-spacing: 0.18em;
+  }
+  .gallery-scatter__btn-circle {
+    width: 3.2rem; height: 3.2rem;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.5s, transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .gallery-scatter__btn:hover .gallery-scatter__btn-circle {
+    border-color: rgba(0, 0, 0, 0.45);
+    transform: scale(1.1);
+  }
+  .gallery-scatter__btn-arrow {
+    width: 14px; height: 14px;
+    position: relative; margin-left: -2px;
+  }
+  .gallery-scatter__btn-arrow::before {
+    content: '';
+    position: absolute; top: 50%; left: 2px;
+    width: 10px; height: 1px;
+    background: #1a1a1a;
+    transition: width 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .gallery-scatter__btn:hover .gallery-scatter__btn-arrow::before { width: 14px; }
+  .gallery-scatter__btn-arrow::after {
+    content: '';
+    position: absolute; top: 50%; right: 1px;
+    width: 6px; height: 6px;
+    border-right: 1px solid #1a1a1a;
+    border-top: 1px solid #1a1a1a;
+    transform: translateY(-50%) rotate(45deg);
+  }
+
+  /* ── カテゴリ ── */
+  .gallery-categories {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    padding-bottom: clamp(4rem, 6vw, 6rem);
+    flex-wrap: wrap;
+  }
+  .gallery-cat {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    padding: 0 clamp(1rem, 2.5vw, 2.5rem);
+    position: relative;
+  }
+  .gallery-cat::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 50%;
+    transform: translateY(-50%);
+    width: 1px; height: 1.2em;
+    background: rgba(0, 0, 0, 0.12);
+  }
+  .gallery-cat:last-child::after { display: none; }
+  .gallery-cat__num {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 0.55rem;
+    color: rgba(0, 0, 0, 0.2);
+  }
+  .gallery-cat__name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(1.1rem, 2.8vw, 2rem);
+    letter-spacing: 0.06em;
+    color: rgba(0, 0, 0, 0.2);
+  }
+
+  /* ── レスポンシブ ── */
+  @media (max-width: 768px) {
+    .gallery-scatter__field { height: 580px; }
+    .gs-photo--1 { width: 52%; left: 2%; }
+    .gs-photo--2 { width: 50%; top: 15px; }
+    .gs-photo--3 { width: 45%; left: 35%; top: 130px; }
+    .gs-photo--4 { width: 42%; top: 180px; }
+    .gs-photo--5 { width: 36%; top: 320px; right: 5%; }
+    .gs-photo--6 { width: 65%; left: 2%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="spacer">scroll down</div>
+
+<!-- ── Gallery ── -->
+<section class="gallery-scatter">
+
+  <div class="gallery-scatter__header">
+    <p class="gallery-scatter__label">gallery</p>
+    <h2 class="gallery-scatter__title">Gallery</h2>
+    <p class="gallery-scatter__desc">
+      ふたりの空気感をそのままに。<br>
+      映画のような一瞬を、永遠のものに。<br>
+      世界観や物語性のある撮影を大切にしながら、<br>
+      日々ベストなクリエイティブを提案します。
+    </p>
+    <p class="gallery-scatter__desc-en">
+      We seek to capture the emotion and atmosphere between two people,<br>
+      turning fleeting moments into timeless stories through our lens.
+    </p>
+  </div>
+
+  <div class="gallery-scatter__field">
+    <!-- 各写真にランダムなアニメパラメータを data属性で持たせる -->
+    <div class="gs-photo gs-photo--1" data-gs-origin="left" data-gs-delay="0">
+      <img src="images/paris/01.jpg" alt="Paris">
+    </div>
+    <div class="gs-photo gs-photo--2" data-gs-origin="right" data-gs-delay="0.15">
+      <img src="images/firenze/02.jpg" alt="Firenze">
+    </div>
+    <div class="gs-photo gs-photo--3" data-gs-origin="bottom" data-gs-delay="0.3">
+      <img src="images/london/03.jpg" alt="London">
+    </div>
+    <div class="gs-photo gs-photo--4" data-gs-origin="left" data-gs-delay="0.1">
+      <img src="images/malta/02.jpg" alt="Malta">
+    </div>
+    <div class="gs-photo gs-photo--5" data-gs-origin="right" data-gs-delay="0.25">
+      <img src="images/firenze/06.jpg" alt="Firenze">
+    </div>
+    <div class="gs-photo gs-photo--6" data-gs-origin="bottom" data-gs-delay="0.05">
+      <img src="images/firenze/04.jpg" alt="Firenze">
+    </div>
+  </div>
+
+  <div class="gallery-scatter__btn-wrap">
+    <a href="#" class="gallery-scatter__btn">
+      <span class="gallery-scatter__btn-text">gallery</span>
+      <span class="gallery-scatter__btn-circle">
+        <span class="gallery-scatter__btn-arrow"></span>
+      </span>
+    </a>
+  </div>
+
+  <div class="gallery-categories">
+    <div class="gallery-cat">
+      <span class="gallery-cat__num">01</span>
+      <span class="gallery-cat__name">japan</span>
+    </div>
+    <div class="gallery-cat">
+      <span class="gallery-cat__num">02</span>
+      <span class="gallery-cat__name">paris</span>
+    </div>
+    <div class="gallery-cat">
+      <span class="gallery-cat__num">03</span>
+      <span class="gallery-cat__name">firenze</span>
+    </div>
+    <div class="gallery-cat">
+      <span class="gallery-cat__num">04</span>
+      <span class="gallery-cat__name">london</span>
+    </div>
+    <div class="gallery-cat">
+      <span class="gallery-cat__num">05</span>
+      <span class="gallery-cat__name">malta</span>
+    </div>
+  </div>
+
+</section>
+
+<div class="spacer">scroll back up to replay</div>
+
+<script>
+(function() {
+  // =============================================
+  // 「生き物のような」スクロール連動アニメーション
+  //
+  // - スクロール位置に応じて opacity / transform / blur を連続制御
+  // - 各写真にランダムな「呼吸リズム」（速度差）を与える
+  // - 画面上部に行くと消え、下部に入ると現れる
+  // - 5番(Soft Float) + 7番(Zoom Fade) + 10番(Cinematic) を融合
+  // =============================================
+
+  var photos = document.querySelectorAll('.gs-photo');
+
+  // 各写真にランダムパラメータを割り当て
+  var photoData = [];
+  photos.forEach(function(el, i) {
+    var origin = el.getAttribute('data-gs-origin') || 'bottom';
+
+    // ランダムな「個性」パラメータ
+    var seed = {
+      // 出現の速さ（0に近いほどゆっくり）
+      speed: 0.6 + Math.random() * 0.8,
+      // 初期オフセット方向
+      originX: origin === 'left' ? -40 - Math.random() * 30 : origin === 'right' ? 40 + Math.random() * 30 : (Math.random() - 0.5) * 20,
+      originY: 30 + Math.random() * 40,
+      // 微回転量（浮遊感）
+      rotateMax: (Math.random() - 0.5) * 3,
+      // ブラー量
+      blurMax: 4 + Math.random() * 6,
+      // 明度ブースト
+      brightnessMax: 1.05 + Math.random() * 0.15,
+      // スケール
+      scaleMin: 0.88 + Math.random() * 0.06,
+      // 出現位置のオフセット（ランダム感を出す）
+      triggerOffset: Math.random() * 0.15,
+    };
+
+    photoData.push({ el: el, seed: seed });
+  });
+
+  // スムーズ補間用の現在値
+  var currentValues = photoData.map(function() {
+    return { opacity: 0, x: 0, y: 0, rotate: 0, scale: 1, blur: 0, brightness: 1 };
+  });
+  var targetValues = photoData.map(function() {
+    return { opacity: 0, x: 0, y: 0, rotate: 0, scale: 1, blur: 0, brightness: 1 };
+  });
+
+  // スクロールでターゲット値を計算
+  function updateTargets() {
+    var vh = window.innerHeight;
+
+    photoData.forEach(function(pd, i) {
+      var rect = pd.el.getBoundingClientRect();
+      var seed = pd.seed;
+
+      // 写真の中心位置
+      var center = rect.top + rect.height / 2;
+
+      // 画面内での進行度 (0 = 画面下端, 1 = 画面中央やや上)
+      // triggerOffset でランダムにずらす
+      var enterZone = vh * (0.9 - seed.triggerOffset);
+      var exitZone = vh * 0.1;
+      var raw = (enterZone - center) / (enterZone - exitZone);
+
+      // 0~1にクランプ、速度で調整
+      var t = Math.max(0, Math.min(1, raw * seed.speed));
+
+      // イージング（ease-out cubic）
+      var eased = 1 - Math.pow(1 - t, 3);
+
+      // 退出時のフェードアウト（画面上部に行くと消える）
+      var fadeOut = 1;
+      if (center < vh * 0.05) {
+        fadeOut = Math.max(0, center / (vh * 0.05));
+        fadeOut = fadeOut * fadeOut; // ease-in
+      }
+
+      // ターゲット値を計算
+      targetValues[i].opacity = eased * fadeOut;
+      targetValues[i].x = seed.originX * (1 - eased);
+      targetValues[i].y = seed.originY * (1 - eased);
+      targetValues[i].rotate = seed.rotateMax * (1 - eased);
+      targetValues[i].scale = seed.scaleMin + (1 - seed.scaleMin) * eased;
+      targetValues[i].blur = seed.blurMax * (1 - eased);
+      targetValues[i].brightness = seed.brightnessMax - (seed.brightnessMax - 1) * eased;
+    });
+  }
+
+  // スムーズ補間（lerp）+ DOM更新
+  var rafId = null;
+  var lerpFactor = 0.08; // 補間の滑らかさ（小さいほどゆったり）
+
+  function lerp(a, b, t) {
+    return a + (b - a) * t;
+  }
+
+  function animate() {
+    var needsUpdate = false;
+
+    photoData.forEach(function(pd, i) {
+      var cur = currentValues[i];
+      var tar = targetValues[i];
+
+      // lerp each value
+      cur.opacity = lerp(cur.opacity, tar.opacity, lerpFactor);
+      cur.x = lerp(cur.x, tar.x, lerpFactor);
+      cur.y = lerp(cur.y, tar.y, lerpFactor);
+      cur.rotate = lerp(cur.rotate, tar.rotate, lerpFactor);
+      cur.scale = lerp(cur.scale, tar.scale, lerpFactor);
+      cur.blur = lerp(cur.blur, tar.blur, lerpFactor);
+      cur.brightness = lerp(cur.brightness, tar.brightness, lerpFactor);
+
+      // 差がまだあればフラグ
+      if (Math.abs(cur.opacity - tar.opacity) > 0.002) needsUpdate = true;
+
+      // DOM更新
+      pd.el.style.opacity = cur.opacity;
+      pd.el.style.transform =
+        'translate(' + cur.x.toFixed(1) + 'px, ' + cur.y.toFixed(1) + 'px) ' +
+        'rotate(' + cur.rotate.toFixed(2) + 'deg) ' +
+        'scale(' + cur.scale.toFixed(3) + ')';
+      pd.el.style.filter =
+        'blur(' + cur.blur.toFixed(1) + 'px) ' +
+        'brightness(' + cur.brightness.toFixed(3) + ')';
+    });
+
+    if (needsUpdate) {
+      rafId = requestAnimationFrame(animate);
+    } else {
+      rafId = null;
+    }
+  }
+
+  function onScroll() {
+    updateTargets();
+    if (!rafId) {
+      rafId = requestAnimationFrame(animate);
+    }
+  }
+
+  // パッシブリスナーでスクロール監視
+  window.addEventListener('scroll', onScroll, { passive: true });
+  // 初回実行
+  updateTargets();
+  rafId = requestAnimationFrame(animate);
+})();
+</script>
+
+</body>
+</html>
