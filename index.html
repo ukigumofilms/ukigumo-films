@@ -303,6 +303,56 @@
       }
     }
 
+    /* Arrow Navigation */
+    .hero__arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 52px;
+      height: 52px;
+      background: none;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      padding: 0;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .hero__arrow--left { left: 1.8rem; }
+    .hero__arrow--right { right: 1.8rem; }
+    .hero__arrow svg {
+      width: 28px;
+      height: 28px;
+      stroke: rgba(255, 255, 255, 0.82);
+      stroke-width: 1.1;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: stroke 0.25s ease, transform 0.25s ease;
+    }
+    .hero__arrow:hover svg {
+      stroke: rgba(255, 255, 255, 1);
+    }
+    .hero__arrow--left:hover svg {
+      transform: translateX(-3px);
+    }
+    .hero__arrow--right:hover svg {
+      transform: translateX(3px);
+    }
+    /* クリック時のフラッシュ */
+    .hero__arrow.clicked {
+      transform: translateY(-50%) scale(0.78);
+      transition: transform 0.1s ease;
+    }
+
+    @media (max-width: 768px) {
+      .hero__arrow--left { left: 1rem; }
+      .hero__arrow--right { right: 1rem; }
+      .hero__arrow svg { width: 24px; height: 24px; }
+    }
+
     @media (max-width: 768px) {
       .hero-slideshow {
         height: 90vh;
@@ -1222,6 +1272,14 @@
       <button class="hero__dot" aria-label="Slide 15"></button>
     </div>
 
+    <!-- Arrow Navigation -->
+    <button class="hero__arrow hero__arrow--left" aria-label="前の写真">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <button class="hero__arrow hero__arrow--right" aria-label="次の写真">
+      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+
     <!-- Scroll indicator (bottom-center) -->
     <div class="hero__scroll-indicator">
       <span>Scroll</span>
@@ -1241,29 +1299,35 @@
     <!-- デスクトップ用マーキー（section直下、absolute配置） -->
     <div class="about-split__marquee" aria-hidden="true">
       <div class="about-location-marquee__track">
-        <div class="marquee-loc"><span class="marquee-loc__name">Switzerland</span><span class="marquee-loc__coords">46.8182° N, 8.2275° E</span></div>
         <div class="marquee-loc"><span class="marquee-loc__name">Paris</span><span class="marquee-loc__coords">48.8566° N, 2.3522° E</span></div>
+        <div class="marquee-loc"><span class="marquee-loc__name">Switzerland</span><span class="marquee-loc__coords">46.8182° N, 8.2275° E</span></div>
         <div class="marquee-loc"><span class="marquee-loc__name">Firenze</span><span class="marquee-loc__coords">43.7696° N, 11.2558° E</span></div>
         <div class="marquee-loc"><span class="marquee-loc__name">London</span><span class="marquee-loc__coords">51.5074° N, 0.1278° W</span></div>
         <div class="marquee-loc"><span class="marquee-loc__name">Nice</span><span class="marquee-loc__coords">43.7102° N, 7.2620° E</span></div>
         <div class="marquee-loc"><span class="marquee-loc__name">Malta</span><span class="marquee-loc__coords">35.9375° N, 14.3754° E</span></div>
+        <div class="marquee-loc"><span class="marquee-loc__name">Jeju</span><span class="marquee-loc__coords">33.4890° N, 126.4983° E</span></div>
         <div class="marquee-loc"><span class="marquee-loc__name">Tokyo</span><span class="marquee-loc__coords">35.6762° N, 139.6503° E</span></div>
         <div class="marquee-loc"><span class="marquee-loc__name">Karuizawa</span><span class="marquee-loc__coords">36.3486° N, 138.5970° E</span></div>
         <div class="marquee-loc"><span class="marquee-loc__name">Fuji</span><span class="marquee-loc__coords">35.3606° N, 138.7274° E</span></div>
         <div class="marquee-loc"><span class="marquee-loc__name">Jogashima</span><span class="marquee-loc__coords">35.1292° N, 139.6108° E</span></div>
         <div class="marquee-loc"><span class="marquee-loc__name">Night Garden</span><span class="marquee-loc__coords">35.6595° N, 139.7006° E</span></div>
+        <div class="marquee-loc"><span class="marquee-loc__name">Yokohama</span><span class="marquee-loc__coords">35.4437° N, 139.6380° E</span></div>
+        <div class="marquee-loc"><span class="marquee-loc__name">Miyakojima</span><span class="marquee-loc__coords">24.8056° N, 125.2812° E</span></div>
         <!-- duplicate -->
-        <div class="marquee-loc"><span class="marquee-loc__name">Switzerland</span><span class="marquee-loc__coords">46.8182° N, 8.2275° E</span></div>
         <div class="marquee-loc"><span class="marquee-loc__name">Paris</span><span class="marquee-loc__coords">48.8566° N, 2.3522° E</span></div>
+        <div class="marquee-loc"><span class="marquee-loc__name">Switzerland</span><span class="marquee-loc__coords">46.8182° N, 8.2275° E</span></div>
         <div class="marquee-loc"><span class="marquee-loc__name">Firenze</span><span class="marquee-loc__coords">43.7696° N, 11.2558° E</span></div>
         <div class="marquee-loc"><span class="marquee-loc__name">London</span><span class="marquee-loc__coords">51.5074° N, 0.1278° W</span></div>
         <div class="marquee-loc"><span class="marquee-loc__name">Nice</span><span class="marquee-loc__coords">43.7102° N, 7.2620° E</span></div>
         <div class="marquee-loc"><span class="marquee-loc__name">Malta</span><span class="marquee-loc__coords">35.9375° N, 14.3754° E</span></div>
+        <div class="marquee-loc"><span class="marquee-loc__name">Jeju</span><span class="marquee-loc__coords">33.4890° N, 126.4983° E</span></div>
         <div class="marquee-loc"><span class="marquee-loc__name">Tokyo</span><span class="marquee-loc__coords">35.6762° N, 139.6503° E</span></div>
         <div class="marquee-loc"><span class="marquee-loc__name">Karuizawa</span><span class="marquee-loc__coords">36.3486° N, 138.5970° E</span></div>
         <div class="marquee-loc"><span class="marquee-loc__name">Fuji</span><span class="marquee-loc__coords">35.3606° N, 138.7274° E</span></div>
         <div class="marquee-loc"><span class="marquee-loc__name">Jogashima</span><span class="marquee-loc__coords">35.1292° N, 139.6108° E</span></div>
         <div class="marquee-loc"><span class="marquee-loc__name">Night Garden</span><span class="marquee-loc__coords">35.6595° N, 139.7006° E</span></div>
+        <div class="marquee-loc"><span class="marquee-loc__name">Yokohama</span><span class="marquee-loc__coords">35.4437° N, 139.6380° E</span></div>
+        <div class="marquee-loc"><span class="marquee-loc__name">Miyakojima</span><span class="marquee-loc__coords">24.8056° N, 125.2812° E</span></div>
       </div>
     </div>
 
@@ -1291,7 +1355,7 @@
 
       <!-- モバイル用：Pattern H + Animation 8 -->
       <div class="about-cine-jp" id="aboutCineJp">
-        <p class="about-cine-jp__heading">光と記憶を、映像にする。</p>
+        <p class="about-cine-jp__heading">写真も映像も、ふたりだけのもの。</p>
         <p class="about-cine-jp__body">浮雲 ── ukigumo films は、<br>写真と映像をひとつのチームで届ける<br>ウェディングフィルムブランドです。</p>
         <p class="about-cine-jp__body">日本全国、そして世界へ。<br>その作品が時間と距離を飛び越えて、<br>あなたの人生を支える"杖"のような<br>存在となりますように。</p>
         <p class="about-cine-jp__closing">ふたりの物語を、一枚、一秒に。</p>
@@ -1299,29 +1363,35 @@
         <!-- マーキー（締めと英文の間） -->
         <div class="about-cine-marquee" aria-hidden="true">
           <div class="about-location-marquee__track">
-            <div class="marquee-loc"><span class="marquee-loc__name">Switzerland</span><span class="marquee-loc__coords">46.8182° N, 8.2275° E</span></div>
             <div class="marquee-loc"><span class="marquee-loc__name">Paris</span><span class="marquee-loc__coords">48.8566° N, 2.3522° E</span></div>
+            <div class="marquee-loc"><span class="marquee-loc__name">Switzerland</span><span class="marquee-loc__coords">46.8182° N, 8.2275° E</span></div>
             <div class="marquee-loc"><span class="marquee-loc__name">Firenze</span><span class="marquee-loc__coords">43.7696° N, 11.2558° E</span></div>
             <div class="marquee-loc"><span class="marquee-loc__name">London</span><span class="marquee-loc__coords">51.5074° N, 0.1278° W</span></div>
             <div class="marquee-loc"><span class="marquee-loc__name">Nice</span><span class="marquee-loc__coords">43.7102° N, 7.2620° E</span></div>
             <div class="marquee-loc"><span class="marquee-loc__name">Malta</span><span class="marquee-loc__coords">35.9375° N, 14.3754° E</span></div>
+            <div class="marquee-loc"><span class="marquee-loc__name">Jeju</span><span class="marquee-loc__coords">33.4890° N, 126.4983° E</span></div>
             <div class="marquee-loc"><span class="marquee-loc__name">Tokyo</span><span class="marquee-loc__coords">35.6762° N, 139.6503° E</span></div>
             <div class="marquee-loc"><span class="marquee-loc__name">Karuizawa</span><span class="marquee-loc__coords">36.3486° N, 138.5970° E</span></div>
             <div class="marquee-loc"><span class="marquee-loc__name">Fuji</span><span class="marquee-loc__coords">35.3606° N, 138.7274° E</span></div>
             <div class="marquee-loc"><span class="marquee-loc__name">Jogashima</span><span class="marquee-loc__coords">35.1292° N, 139.6108° E</span></div>
             <div class="marquee-loc"><span class="marquee-loc__name">Night Garden</span><span class="marquee-loc__coords">35.6595° N, 139.7006° E</span></div>
+            <div class="marquee-loc"><span class="marquee-loc__name">Yokohama</span><span class="marquee-loc__coords">35.4437° N, 139.6380° E</span></div>
+            <div class="marquee-loc"><span class="marquee-loc__name">Miyakojima</span><span class="marquee-loc__coords">24.8056° N, 125.2812° E</span></div>
             <!-- duplicate -->
-            <div class="marquee-loc"><span class="marquee-loc__name">Switzerland</span><span class="marquee-loc__coords">46.8182° N, 8.2275° E</span></div>
             <div class="marquee-loc"><span class="marquee-loc__name">Paris</span><span class="marquee-loc__coords">48.8566° N, 2.3522° E</span></div>
+            <div class="marquee-loc"><span class="marquee-loc__name">Switzerland</span><span class="marquee-loc__coords">46.8182° N, 8.2275° E</span></div>
             <div class="marquee-loc"><span class="marquee-loc__name">Firenze</span><span class="marquee-loc__coords">43.7696° N, 11.2558° E</span></div>
             <div class="marquee-loc"><span class="marquee-loc__name">London</span><span class="marquee-loc__coords">51.5074° N, 0.1278° W</span></div>
             <div class="marquee-loc"><span class="marquee-loc__name">Nice</span><span class="marquee-loc__coords">43.7102° N, 7.2620° E</span></div>
             <div class="marquee-loc"><span class="marquee-loc__name">Malta</span><span class="marquee-loc__coords">35.9375° N, 14.3754° E</span></div>
+            <div class="marquee-loc"><span class="marquee-loc__name">Jeju</span><span class="marquee-loc__coords">33.4890° N, 126.4983° E</span></div>
             <div class="marquee-loc"><span class="marquee-loc__name">Tokyo</span><span class="marquee-loc__coords">35.6762° N, 139.6503° E</span></div>
             <div class="marquee-loc"><span class="marquee-loc__name">Karuizawa</span><span class="marquee-loc__coords">36.3486° N, 138.5970° E</span></div>
             <div class="marquee-loc"><span class="marquee-loc__name">Fuji</span><span class="marquee-loc__coords">35.3606° N, 138.7274° E</span></div>
             <div class="marquee-loc"><span class="marquee-loc__name">Jogashima</span><span class="marquee-loc__coords">35.1292° N, 139.6108° E</span></div>
             <div class="marquee-loc"><span class="marquee-loc__name">Night Garden</span><span class="marquee-loc__coords">35.6595° N, 139.7006° E</span></div>
+            <div class="marquee-loc"><span class="marquee-loc__name">Yokohama</span><span class="marquee-loc__coords">35.4437° N, 139.6380° E</span></div>
+            <div class="marquee-loc"><span class="marquee-loc__name">Miyakojima</span><span class="marquee-loc__coords">24.8056° N, 125.2812° E</span></div>
           </div>
         </div>
 
@@ -1462,8 +1532,8 @@
     <p>厳選したドレスショップをご紹介いたします。<br>撮影にふさわしいスタイリングをご提案します。</p>
     <a href="dress.html" class="cta-pill">dress shop</a>
     <div class="dress-photos">
-      <div class="dress-photos__item"><img src="images/dress-3.jpg" alt="dress" data-dress-parallax></div>
-      <div class="dress-photos__item"><img src="images/dress-2.jpg" alt="dress" data-dress-parallax data-reverse></div>
+      <div class="dress-photos__item"><img src="images/dress-2.jpg" alt="dress" data-dress-parallax></div>
+      <div class="dress-photos__item"><img src="images/dress-3.jpg" alt="dress" data-dress-parallax data-reverse></div>
       <div class="dress-photos__item"><img src="images/dress-1.jpg" alt="dress" data-dress-parallax></div>
       <div class="dress-photos__item"><img src="images/malta/04.jpg" alt="dress" data-dress-parallax></div>
       <div class="dress-photos__item"><img src="images/london/05.jpg" alt="dress" data-dress-parallax data-reverse></div>
@@ -1583,9 +1653,11 @@
         });
       }, 1000);
 
+      // currentSlideを即時更新（矢印連打に対応）
+      currentSlide = next;
+
       setTimeout(() => {
         current.style.zIndex = 1;
-        currentSlide = next;
       }, 2500);
     }
 
@@ -1594,6 +1666,28 @@
       const next = (currentSlide + 1) % slides.length;
       goToSlide(next);
     }, 3500);
+
+    // Arrow clicks
+    const arrowLeft = document.querySelector('.hero__arrow--left');
+    const arrowRight = document.querySelector('.hero__arrow--right');
+
+    function triggerArrow(btn, direction) {
+      // クリックアニメーション
+      btn.classList.add('clicked');
+      setTimeout(() => btn.classList.remove('clicked'), 180);
+
+      // スライド移動
+      clearInterval(autoPlay);
+      const next = (currentSlide + direction + slides.length) % slides.length;
+      goToSlide(next);
+      autoPlay = setInterval(() => {
+        const n = (currentSlide + 1) % slides.length;
+        goToSlide(n);
+      }, 3500);
+    }
+
+    arrowLeft.addEventListener('click', () => triggerArrow(arrowLeft, -1));
+    arrowRight.addEventListener('click', () => triggerArrow(arrowRight, 1));
 
     // Dot clicks
     dots.forEach((dot, i) => {
@@ -2077,15 +2171,49 @@
       dressUpdate();
     })();
 
-    // ===== About Cinematic JP text — Animation 8 trigger =====
+    // ===== About Cinematic JP — visible trigger + Mobile Marquee =====
     (function() {
       var jpBlock = document.getElementById('aboutCineJp');
       if (!jpBlock || window.innerWidth > 768) return;
+
+      var container = jpBlock.querySelector('.about-cine-marquee');
+      var track = container ? container.querySelector('.about-location-marquee__track') : null;
+      var marqueeStarted = false;
+
       var obs = new IntersectionObserver(function(entries) {
         entries.forEach(function(e) {
           if (e.isIntersecting) {
             e.target.classList.add('visible');
             obs.unobserve(e.target);
+
+            // Start mobile marquee from viewport right edge
+            if (track && container && !marqueeStarted) {
+              marqueeStarted = true;
+              var rect = container.getBoundingClientRect();
+              // viewport right edge in container's local coords + pre-offset for 1.8s fade-in delay
+              var SPEED = 0.4;
+              var x = (window.innerWidth - rect.left) + (Math.round(1.8 * 60) * SPEED);
+              var scrollInput = 0;
+              var currentSpeed = SPEED;
+              var lastScrollY = window.scrollY;
+
+              window.addEventListener('scroll', function() {
+                var cy = window.scrollY;
+                scrollInput += -(cy - lastScrollY) * 0.02;
+                lastScrollY = cy;
+              }, { passive: true });
+
+              (function loop() {
+                currentSpeed += (SPEED + scrollInput - currentSpeed) * 0.04;
+                scrollInput *= 0.92;
+                if (Math.abs(scrollInput) < 0.001) scrollInput = 0;
+                x -= currentSpeed;
+                var half = track.scrollWidth / 2;
+                if (x < -half) x += half;
+                track.style.transform = 'translateX(' + x + 'px)';
+                requestAnimationFrame(loop);
+              })();
+            }
           }
         });
       }, { threshold: 0.2 });

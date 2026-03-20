@@ -1235,10 +1235,12 @@ footer {
     display: none !important;
   }
   /* マーキー — 締めと英文の間、全幅で流れる */
+  /* margin-left計算: split-layout padding(1.5rem) + about-cine-jp padding(7% of 100vw-3rem ≈ 7vw-0.21rem)
+     = 7vw + 1.29rem → vw単位で正確に相殺 */
   .about-cine-marquee {
     display: flex;
     width: 100vw;
-    margin-left: calc(-7% - 1.5rem);
+    margin-left: calc(-7vw - 1.29rem);
     height: clamp(3rem, 8vw, 4rem);
     overflow: hidden;
     pointer-events: none;
@@ -1248,7 +1250,7 @@ footer {
   }
   .about-cine-marquee .about-location-marquee__track {
     gap: 4rem;
-    animation: marqueeAutoScroll 60s linear infinite;
+    animation: none;
   }
   .about-cine-marquee .marquee-loc__name {
     font-size: clamp(2rem, 7vw, 2.8rem);
@@ -1262,15 +1264,17 @@ footer {
     position: relative;
     z-index: 3;
     text-align: center;
-    padding: 0 7%;
+    width: 100%;
+    padding: 4rem 7% 0;
     order: -1;
   }
   .about-cine-jp__heading {
     font-family: "Noto Serif JP", serif;
     font-weight: 200;
-    font-size: 1.15rem;
+    font-size: clamp(1rem, 4.3vw, 1.15rem);
     line-height: 1.8;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
     color: rgba(255, 255, 255, 0.92);
     margin-bottom: 22px;
   }
@@ -1315,6 +1319,10 @@ footer {
     opacity: 0;
     filter: blur(6px);
     transform: translateY(14px) scale(0.97);
+  }
+  /* マーキーはtransformなし → getBoundingClientRect()が正確なレイアウト位置を返す */
+  .about-cine-jp .about-cine-marquee {
+    transform: none;
   }
   .about-cine-jp.visible .about-cine-jp__heading {
     animation: cineIn 1.0s cubic-bezier(0.25,0.46,0.45,0.94) forwards 0.2s;
@@ -1433,6 +1441,11 @@ footer {
 
 @keyframes marqueeAutoScroll {
   0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marqueeFromRight {
+  0%   { transform: translateX(100vw); }
   100% { transform: translateX(-50%); }
 }
 
