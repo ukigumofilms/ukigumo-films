@@ -53,6 +53,17 @@
       transform: scale(1.08);
     }
 
+    /* Malta: デスクトップは上部20%表示 */
+    .malta-img { object-position: center 20%; }
+    /* Malta モバイル: 画像を上にずらして人物とテキストの被りを解消 */
+    @media (max-width: 768px) {
+      .malta-img {
+        top: -20% !important;
+        height: 120% !important;
+        object-position: center center !important;
+      }
+    }
+
     .hero-slide__overlay {
       position: absolute;
       top: 0;
@@ -1163,9 +1174,9 @@
       <div class="hero-slide__overlay"></div>
     </div>
 
-    <!-- Slide 2: Switzerland -->
+    <!-- Slide 2: Malta -->
     <div class="hero-slide">
-      <img src="images/slides/slide-02.jpg" alt="Switzerland" class="hero-slide__image">
+      <img src="images/slides/slide-06.jpg" alt="Malta" class="hero-slide__image malta-img">
       <div class="hero-slide__overlay"></div>
     </div>
 
@@ -1187,9 +1198,9 @@
       <div class="hero-slide__overlay"></div>
     </div>
 
-    <!-- Slide 6: Malta -->
+    <!-- Slide 6: Switzerland -->
     <div class="hero-slide">
-      <img src="images/slides/slide-06.jpg" alt="Malta" class="hero-slide__image" style="object-position: center 20%;">
+      <img src="images/slides/slide-02.jpg" alt="Switzerland" class="hero-slide__image">
       <div class="hero-slide__overlay"></div>
     </div>
 
@@ -1599,11 +1610,11 @@
 
     const cities = [
       { name: 'Paris', lat: '48.8566° N', lng: '2.3522° E' },
-      { name: 'Switzerland', lat: '46.8182° N', lng: '8.2275° E' },
+      { name: 'Malta', lat: '35.8989° N', lng: '14.5146° E' },
       { name: 'Firenze', lat: '43.7696° N', lng: '11.2558° E' },
       { name: 'London', lat: '51.5074° N', lng: '0.1278° W' },
       { name: 'Nice', lat: '43.7102° N', lng: '7.2620° E' },
-      { name: 'Malta', lat: '35.8989° N', lng: '14.5146° E' },
+      { name: 'Switzerland', lat: '46.8182° N', lng: '8.2275° E' },
       { name: 'Jeju', lat: '33.4890° N', lng: '126.4983° E' },
       { name: 'Tokyo', lat: '35.6762° N', lng: '139.6503° E' },
       { name: 'Karuizawa', lat: '36.3489° N', lng: '138.5974° E' },
@@ -2176,48 +2187,33 @@
       var jpBlock = document.getElementById('aboutCineJp');
       if (!jpBlock || window.innerWidth > 768) return;
 
-      var container = jpBlock.querySelector('.about-cine-marquee');
-      var track = container ? container.querySelector('.about-location-marquee__track') : null;
-      var marqueeStarted = false;
-
+      // テキストフェードイン用（visible クラス付与）
       var obs = new IntersectionObserver(function(entries) {
         entries.forEach(function(e) {
           if (e.isIntersecting) {
             e.target.classList.add('visible');
             obs.unobserve(e.target);
-
-            // Start mobile marquee from viewport right edge
-            if (track && container && !marqueeStarted) {
-              marqueeStarted = true;
-              var rect = container.getBoundingClientRect();
-              // viewport right edge in container's local coords + pre-offset for 1.8s fade-in delay
-              var SPEED = 0.4;
-              var x = (window.innerWidth - rect.left) + (Math.round(1.8 * 60) * SPEED);
-              var scrollInput = 0;
-              var currentSpeed = SPEED;
-              var lastScrollY = window.scrollY;
-
-              window.addEventListener('scroll', function() {
-                var cy = window.scrollY;
-                scrollInput += -(cy - lastScrollY) * 0.02;
-                lastScrollY = cy;
-              }, { passive: true });
-
-              (function loop() {
-                currentSpeed += (SPEED + scrollInput - currentSpeed) * 0.04;
-                scrollInput *= 0.92;
-                if (Math.abs(scrollInput) < 0.001) scrollInput = 0;
-                x -= currentSpeed;
-                var half = track.scrollWidth / 2;
-                if (x < -half) x += half;
-                track.style.transform = 'translateX(' + x + 'px)';
-                requestAnimationFrame(loop);
-              })();
-            }
           }
         });
-      }, { threshold: 0.2 });
+      }, { threshold: 0 });
       obs.observe(jpBlock);
+
+      // マーキーはページ読み込み時から即スタート・ずっと流し続ける
+      var container = jpBlock.querySelector('.about-cine-marquee');
+      var track = container ? container.querySelector('.about-location-marquee__track') : null;
+      if (!track) return;
+
+      // スクロールと無関係に一定速度でずっと流れ続ける
+      var SPEED = 0.4;
+      var x = window.innerWidth;
+
+      (function loop() {
+        x -= SPEED;
+        var half = track.scrollWidth / 2;
+        if (x < -half) x += half;
+        track.style.transform = 'translateX(' + x + 'px)';
+        requestAnimationFrame(loop);
+      })();
     })();
   </script>
 </body>
