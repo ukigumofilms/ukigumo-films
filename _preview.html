@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>サイトプレビュー | ukigumo films</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+      background: #1a1a1a;
+      color: #e8e4dd;
+      min-height: 100vh;
+      padding: 3rem 2rem;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 2.4rem;
+      letter-spacing: 0.15em;
+      text-align: center;
+      margin-bottom: 0.3rem;
+    }
+    .subtitle {
+      text-align: center;
+      color: rgba(232, 228, 221, 0.5);
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+    }
+    .note {
+      text-align: center;
+      color: rgba(232, 228, 221, 0.4);
+      font-size: 0.75rem;
+      margin-bottom: 3rem;
+    }
+    .section {
+      margin-bottom: 3rem;
+    }
+    .section-title {
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      color: rgba(232, 228, 221, 0.4);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(232, 228, 221, 0.1);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 1.2rem 1.4rem;
+      text-decoration: none;
+      color: #e8e4dd;
+      transition: all 0.25s ease;
+      display: block;
+    }
+    .card:hover {
+      background: rgba(201, 169, 110, 0.08);
+      border-color: rgba(201, 169, 110, 0.4);
+      transform: translateY(-2px);
+    }
+    .card-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.2rem;
+    }
+    .card-desc {
+      font-size: 0.7rem;
+      color: rgba(232, 228, 221, 0.5);
+      line-height: 1.4;
+    }
+    .card.updated {
+      border-color: rgba(201, 169, 110, 0.35);
+      background: rgba(201, 169, 110, 0.04);
+    }
+    .card.updated::before {
+      content: "● UPDATED";
+      display: inline-block;
+      font-size: 0.55rem;
+      color: #c9a96e;
+      letter-spacing: 0.2em;
+      margin-bottom: 0.4rem;
+    }
+    .live-link {
+      display: block;
+      text-align: center;
+      margin-top: 2rem;
+      padding: 1.2rem;
+      background: rgba(201, 169, 110, 0.1);
+      border: 1px solid rgba(201, 169, 110, 0.3);
+      border-radius: 8px;
+      color: #c9a96e;
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      transition: background 0.25s ease;
+    }
+    .live-link:hover {
+      background: rgba(201, 169, 110, 0.18);
+    }
+    .live-link small {
+      display: block;
+      color: rgba(232, 228, 221, 0.5);
+      font-size: 0.65rem;
+      margin-top: 0.3rem;
+      letter-spacing: 0.1em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>ukigumo films</h1>
+    <p class="subtitle">Site Preview</p>
+    <p class="note">ローカル版（PCに保存されている最新ファイル）の確認用ページです</p>
+
+    <div class="section">
+      <div class="section-title">Main Pages</div>
+      <div class="grid">
+        <a class="card" href="index.html">
+          <div class="card-name">Home</div>
+          <div class="card-desc">トップページ</div>
+        </a>
+        <a class="card" href="about.html">
+          <div class="card-name">About</div>
+          <div class="card-desc">私たちについて</div>
+        </a>
+        <a class="card" href="dress.html">
+          <div class="card-name">Dress</div>
+          <div class="card-desc">ドレス</div>
+        </a>
+        <a class="card" href="gallery.html">
+          <div class="card-name">Gallery</div>
+          <div class="card-desc">ギャラリー</div>
+        </a>
+        <a class="card" href="qa.html">
+          <div class="card-name">Q &amp; A</div>
+          <div class="card-desc">よくあるご質問</div>
+        </a>
+        <a class="card" href="contact.html">
+          <div class="card-name">Contact</div>
+          <div class="card-desc">お問い合わせ</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Plans</div>
+      <div class="grid">
+        <a class="card" href="plan.html">
+          <div class="card-name">Plan / Price</div>
+          <div class="card-desc">プラン一覧</div>
+        </a>
+        <a class="card" href="plan-japan.html">
+          <div class="card-name">Plan — Japan</div>
+          <div class="card-desc">日本国内プラン</div>
+        </a>
+        <a class="card updated" href="plan-paris.html">
+          <div class="card-name">Plan — Paris</div>
+          <div class="card-desc">パリプラン（価格更新済み）</div>
+        </a>
+        <a class="card" href="plan-europa.html">
+          <div class="card-name">Plan — Europa</div>
+          <div class="card-desc">ヨーロッパプラン</div>
+        </a>
+      </div>
+    </div>
+
+    <a class="live-link" href="https://ukigumo-films.com/" target="_blank">
+      公開中のサイトを開く（ukigumo-films.com）
+      <small>GITHUB PAGES — LIVE VERSION</small>
+    </a>
+  </div>
+</body>
+</html>
